@@ -291,75 +291,10 @@ export class Synchronizer extends EventEmitter {
     return this.unirepContract.attesterEpochRoot(attesterId, epoch)
   }
 
-  // async epochTreeProof(attesterId, epoch, leafIndex) {
-  //     const leaves = await this._db.findMany('EpochTreeLeaf', {
-  //         where: {
-  //             epoch,
-  //             attesterId: attesterId.toString(),
-  //         },
-  //     })
-  //     const tree = new SparseMerkleTree(
-  //         this.settings.epochTreeDepth,
-  //         this.defaultEpochTreeLeaf,
-  //         this.settings.epochTreeArity
-  //     )
-  //     for (const leaf of leaves) {
-  //         tree.update(leaf.index, leaf.hash)
-  //     }
-  //     const proof = tree.createProof(leafIndex)
-  //     return proof
-  // }
-
   async nullifierExist(nullifier) {
     const epochEmitted = await this.unirepContract.usedNullifiers(nullifier)
     return epochEmitted.gt(0)
   }
-
-  // async genStateTree(
-  //     attesterId,
-  //     _epoch
-  // ) {
-  //     const epoch = Number(_epoch)
-  //     const tree = new IncrementalMerkleTree(
-  //         this.settings.stateTreeDepth,
-  //         this.defaultStateTreeLeaf
-  //     )
-  //     const leaves = await this._db.findMany('StateTreeLeaf', {
-  //         where: {
-  //             epoch: Number(epoch),
-  //             attesterId: attesterId.toString(),
-  //         },
-  //         orderBy: {
-  //             index: 'asc',
-  //         },
-  //     })
-  //     for (const leaf of leaves) {
-  //         tree.insert(leaf.hash)
-  //     }
-  //     return tree
-  // }
-
-  // async genEpochTree(
-  //     attesterId,
-  //     _epoch
-  // ) {
-  //     const epoch = Number(_epoch)
-  //     const tree = new SparseMerkleTree(
-  //         this.settings.epochTreeDepth,
-  //         this.defaultEpochTreeLeaf,
-  //         this.settings.epochTreeArity
-  //     )
-  //     const leaves = await this._db.findMany('EpochTreeLeaf', {
-  //         where: {
-  //             epoch,
-  //             attesterId: attesterId.toString(),
-  //         },
-  //     })
-  //     for (const { index, hash } of leaves) {
-  //         tree.update(BigInt(index), BigInt(hash))
-  //     }
-  //     return tree
-  // }
 
   /**
    * Check if the global state tree root is stored in the database

@@ -35,3 +35,11 @@ for (const routeFile of routes) {
   const { default: route } = await import(path.join(routeDir, routeFile))
   route({ app, db, synchronizer })
 }
+
+// app.use((error, req, res) => {
+//   console.log(error, req, res)
+//   res.status(500).json({
+//     text: 'Uncaught error',
+//     error: JSON.stringify(error, null, 2),
+//   })
+// })
