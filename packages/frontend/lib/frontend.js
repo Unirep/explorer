@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
-module.exports = frontend;
+module.exports = frontend
 
 function frontend() {
-    return "Hello from frontend";
+  return 'Hello from frontend'
 }

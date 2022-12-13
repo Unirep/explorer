@@ -31,7 +31,7 @@ app.use(express.json())
 // import all non-index files from this folder
 const routeDir = path.join(__dirname, 'routes')
 const routes = await fs.promises.readdir(routeDir)
-for (const routeFile of routes)   {
+for (const routeFile of routes) {
   const { default: route } = await import(path.join(routeDir, routeFile))
-  route({ app, db, synchronizer})
+  route({ app, db, synchronizer })
 }
