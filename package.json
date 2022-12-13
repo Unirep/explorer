@@ -7,6 +7,8 @@
   ],
   "scripts": {
     "install": "lerna bootstrap",
+    "backend": "yarn workspace backend",
+    "frontend": "yarn workspace frontend",
     "lint": "prettier ."
   },
   "devDependencies": {
