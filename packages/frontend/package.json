@@ -1,0 +1,19 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "> TODO: description",
+  "author": "Chance <jchancehud@gmail.com>",
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/frontend.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "test": "node ./__tests__/frontend.test.js"
+  }
+}
