@@ -1,13 +1,16 @@
-import React from 'react'
-import './home.css'
+import React, { useContext } from 'react'
+import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
-import State from './contexts/state'
+import State from '../contexts/state'
+import './user.css'
 
 export default observer(() => {
-  const { info } = React.useContext(State)
+  const { info } = useContext(State)
+  const { id } = useParams()
+
   return (
     <>
-      <h3>Hello World!</h3>
+      <h3>User {id}</h3>
       <div>Connected to a server with the following info:</div>
       <ul>
         <li>Unirep Address: {info.UNIREP_ADDRESS}</li>
