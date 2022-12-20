@@ -10,13 +10,13 @@ export default observer(() => {
       
       <div className='left-container'>
         <h1>Terminal</h1>
-        <p>UniRep Terminal is utility site that help others to discover apps built on the protocol & inspect the Rep system we are building for all.</p>
+        <p style={{fontSize: '1.1em'}}>UniRep Terminal is utility site that help others to discover apps built on the protocol & inspect the Rep system we are building for all.</p>
         <p>Interested to build your own?</p>
         <a>Get started here.</a>
         <img src={require('../../public/hero_img.svg')} alt="bird image"/>
         <div className='info-card' style={{width: '100%'}}>
           <div className='card-item'>
-            <h3>Protocol Information</h3>
+            <h4>Protocol Information</h4>
             <h6>icon</h6>
           </div>
           <div className='card-item'>
@@ -39,11 +39,11 @@ export default observer(() => {
       </div>
 
       <div className='right-container'>
-        <h2>Overview</h2>
+        <h3>Overview</h3>
         <div className='card-container'>
           <div className='info-card'>
             <div className='card-item'>
-              <h5>Total attesters/apps</h5>
+              <h4>Total attesters/apps</h4>
               <h6>icon</h6>
             </div>
             <h2>21</h2>
@@ -51,7 +51,7 @@ export default observer(() => {
 
           <div className='info-card'>
             <div className='card-item'>
-              <h5>Total Users</h5>
+              <h4>Total Users</h4>
               <h6>icon</h6>
             </div>
             <h2>3,290,124</h2>
@@ -61,7 +61,7 @@ export default observer(() => {
         <div className='card-container'>
           <div className='info-card'>
             <div className='card-item'>
-              <h5>Total Rep Given</h5>
+              <h4>Total Rep Given</h4>
               <h6>icon</h6>
             </div>
             <h2>3,290,124</h2>
@@ -69,7 +69,7 @@ export default observer(() => {
 
           <div className='info-card'>
             <div className='card-item'>
-              <h5>Hashchains Completed</h5>
+              <h4>Hashchains Completed</h4>
               <h6>icon</h6>
             </div>
             <h2>292</h2>
@@ -79,7 +79,7 @@ export default observer(() => {
         <div className='card-container'>
           <div className='info-card'>
             <div className='card-item'>
-              <h5>Latest Attester</h5>
+              <h4>Latest Attester</h4>
               <h6>icon</h6>
             </div>
             <h6>App Name</h6>
@@ -87,14 +87,14 @@ export default observer(() => {
 
           <div className='info-card'>
             <div className='card-item'>
-              <h5>Last Attestation Submitted</h5>
+              <h4>Last Attestation Submitted</h4>
               <h6>icon</h6>
             </div>
             <h6>Attester Address</h6>
           </div>
         </div>
 
-        <h2>Stats</h2>
+        <h3>Stats</h3>
 
 
         <div>Connected to a server with the following info:</div>

@@ -3,6 +3,46 @@ body {
     font-weight: 200;
 }
 
+h1{
+    font-size: 3em;
+    font-weight: 700;
+    margin: 0.1em 0;
+    /* line-height: 0.5em; */
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: 700;
+    margin: 0.2em 0;
+    /* line-height: 0.5em; */
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin: 0.5em 0;
+    color: #494E53;
+}
+
+h4 {
+   font-size: 0.9em;
+    font-weight: 600;
+    margin: 0.4em 0;
+    color: #669294;
+}
+
+h5 {
+    font-size: 0.9em;
+    font-weight: 200;
+    margin: 0.4em 0;
+}
+
+h6 {
+    font-size: 0.9em;
+    font-weight: 600;
+    margin: 0.4em 0;
+}
+
 .container {
     display: flex;
     margin: 50px 80px;
