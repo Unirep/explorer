@@ -1,0 +1,39 @@
+body {
+    font-family: 'Azeret Mono';
+    font-weight: 200;
+}
+
+.container {
+    display: flex;
+    margin: 50px 80px;
+}
+
+.left-container {
+    width: 25%;
+    margin-right: 10%;
+}
+
+.right-container {
+    width: 70%;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.info-card {
+    width: 46%;
+    border-radius: 8px;
+    border: 1px solid black;
+    border-width: 1px;
+    padding: 10px;
+}
+
+.card-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+

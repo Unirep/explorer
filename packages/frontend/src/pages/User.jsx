@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import State from '../contexts/state'
-import './user.css'
+
 
 export default observer(() => {
   const { info } = useContext(State)
