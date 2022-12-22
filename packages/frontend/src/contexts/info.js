@@ -2,8 +2,8 @@ import { makeAutoObservable } from 'mobx'
 import { SERVER } from '../config'
 
 export default class Info {
-  UNIREP_ADDRESS = ''
-  ETH_PROVIDER_URL = ''
+  UNIREP_ADDRESS = '0x1F8d7d42b44d9570e5a23F356967A55D1FC8dA26'
+  ETH_PROVIDER_URL = 'https://arbitrum.goerli.unirep.io'
 
   constructor(state) {
     makeAutoObservable(this)

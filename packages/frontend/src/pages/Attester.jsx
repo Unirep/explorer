@@ -23,7 +23,7 @@ export default observer(() => {
           <div className='info-card'>
             <div className='card-item'>
               <h5>Epochs Processed</h5>
-              <h6>icon</h6>
+              <h6>i</h6>
             </div>
             <h2>61</h2>
           </div>
@@ -31,7 +31,7 @@ export default observer(() => {
           <div className='info-card'>
             <div className='card-item'>
               <h5>Total Rep Given</h5>
-              <h6>icon</h6>
+              <h6>i</h6>
             </div>
             <h2>2,109</h2>
           </div>
@@ -39,7 +39,7 @@ export default observer(() => {
           <div className='info-card'>
             <div className='card-item'>
               <h5>Total Users signed up</h5>
-              <h6>icon</h6>
+              <h6>i</h6>
             </div>
             <h2>2</h2>
           </div>
