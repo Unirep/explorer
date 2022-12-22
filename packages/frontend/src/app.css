@@ -43,6 +43,13 @@ h6 {
     margin: 0.4em 0;
 }
 
+button {
+    background-color: white;
+    border-radius: 24px;
+    padding: 6px 30px;
+    cursor: pointer;
+}
+
 .img {
     width: 100%;
     justify-content: left;

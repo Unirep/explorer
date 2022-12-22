@@ -11,14 +11,9 @@ a:visited {
 .header {
     display: flex;
     justify-content: space-between;
-    margin: 50px 80px 50px 80px;
+    padding: 2em 5em;
 }
 
-.links {
-    display: flex;
-    align-items: center;
-}
-
-.link-item {
-    padding-right: 35px;
+.link {
+    padding-right: 2.5em;
 }
