@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import State from '../contexts/state'
@@ -10,6 +10,8 @@ import Footer from '../components/Footer'
 export default observer(() => {
   // const { info } = useContext(State)
   const { id } = useParams()
+  const [Selected, setSelected] = useState(0)
+  const toggleSelected = (Id: number) => setSelected(Id)
 
   return (
     <>
@@ -50,38 +52,49 @@ export default observer(() => {
           </div> 
           <InfoCard heading='Hashchain Status' tooltip={<div>i</div>} value={'Processing'} valueIsNum={false}/>
 
-          <div style={{display: 'flex'}}>
-            <h3>Epoch</h3>
-            <h3>Users</h3>
-          </div>
-          <InfoCard heading='Current Epoch #' tooltip={<div>i</div>} value={'62'} valueIsNum={true}/>
-          <InfoCard heading='Epoch Transition In' tooltip={<div>i</div>} value={'hh:mm:ss'} valueIsNum={true}/>
+          {Selected === 0 ? (
+            <div>
+              <div style={{display: 'flex'}}>
+                <h3 onClick={() => toggleSelected(0)} className='selected' style={{marginRight: "30px"}}>Epoch</h3>
+                <h3 onClick={() => toggleSelected(1)} className='unselected'>Users</h3>
+              </div>
+              <InfoCard heading='Current Epoch #' tooltip={<div>i</div>} value={'62'} valueIsNum={true}/>
+              <InfoCard heading='Epoch Transition In' tooltip={<div>i</div>} value={'hh:mm:ss'} valueIsNum={true}/>
 
-          <div className='flex'>
-            <h3>Current Epoch Activities</h3>
-            <button>Jump to</button>
-          </div>
-          <div className='graph-container'></div>
-          <div className='flex'>
-            <h5>Epoch start</h5>
-            <h5>Epoch end</h5>
-          </div>
+              <div className='flex'>
+                <h3>Current Epoch Activities</h3>
+                <button>Jump to</button>
+              </div>
+              <div className='graph-container'></div>
+              <div className='flex'>
+                <h5>Epoch start</h5>
+                <h5>Epoch end</h5>
+              </div>
 
-          <div className='flex'>
-            <h3>Epoch Keys</h3>
-            <button>Jump to</button>
-          </div>
-          <div className='flex'>
-            <h4>Epoch key</h4>
-            <h4>Rep received</h4>
-          </div>
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
+              <div className='flex'>
+                <h3>Epoch Keys</h3>
+                <button>Jump to</button>
+              </div>
+              <div className='flex'>
+                <h4>Epoch key</h4>
+                <h4>Rep received</h4>
+              </div>
+              <EventCard />
+              <EventCard />
+              <EventCard />
+              <EventCard />
+              <EventCard />
+              <EventCard />
+              <EventCard />
+            </div>
+          ) : (
+            <div>
+              <div style={{display: 'flex'}}>
+                <h3 onClick={() => toggleSelected(0)} className='unselected' style={{marginRight: "30px"}}>Epoch</h3>
+                <h3 onClick={() => toggleSelected(1)} className='selected'>Users</h3>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

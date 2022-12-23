@@ -95,3 +95,13 @@ button {
     border-radius: 32px;
     background-color: #F0F0F0;
 }
+
+.selected {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.unselected {
+    color: #9EA3A7;
+    cursor: pointer;
+}
