@@ -81,12 +81,6 @@ button {
     margin-bottom: 12px;
 }
 
-.card-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .graph-container {
     width: 100%;
     height: 200px;
@@ -95,3 +89,9 @@ button {
     background-color: #A0D8DB;
 }
 
+.image-placeholder {
+    width: 100%;
+    height: 250px;
+    border-radius: 32px;
+    background-color: #F0F0F0;
+}

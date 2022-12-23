@@ -19,23 +19,23 @@ export default observer(() => {
           <a style={{color: '#669294'}}href="https://github.com/Unirep/create-unirep-app" target='blank'>Get started here.</a>
           <div className=''><img src={require('../../public/hero_img.svg')} alt="bird image"/></div>
           <div className='info-card' style={{width: '100%'}}>
-            <div className='card-item'>
+            <div className='flex'>
               <h4>Protocol Information</h4>
               <h6>i</h6>
             </div>
-            <div className='card-item'>
+            <div className='flex'>
               <h5>Current version</h5>
               <h6>v2</h6>
             </div>
-            <div className='card-item'>
+            <div className='flex'>
               <h5>Release</h5>
               <h6>Jan/20/2023</h6>
             </div>
-            <div className='card-item'>
+            <div className='flex'>
               <h5>Address</h5>
               <h6>0xdC9...Bc9</h6>
             </div>
-            <div className='card-item'>
+            <div className='flex'>
               <h5>Network</h5>
               <h6>Arbitrum/Goerli</h6>
             </div>
@@ -83,14 +83,10 @@ export default observer(() => {
           <EventCard />
           <EventCard />
           <EventCard />
-
         </div>
-
       </div>
 
-      <div>
-        <Footer />
-      </div>
+      <Footer />
     </>
   )
 })
