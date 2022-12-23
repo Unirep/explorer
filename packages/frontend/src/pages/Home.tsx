@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import InfoCard from '../components/InfoCard'
 import EventCard from '../components/EventCard'
 import Footer from '../components/Footer'
 
@@ -44,57 +45,16 @@ export default observer(() => {
         <div className='right-container'>
           <h3>Overview</h3>
           <div className='card-container'>
-            <div className='info-card'>
-              <div className='card-item'>
-                <h4>Total attesters/apps</h4>
-                <h6>i</h6>
-              </div>
-              <h2>21</h2>
-            </div>
-
-            <div className='info-card'>
-              <div className='card-item'>
-                <h4>Total Users</h4>
-                <h6>i</h6>
-              </div>
-              <h2>3,290,124</h2>
-            </div>
+            <InfoCard heading='Total Attesters' tooltip={<div>i</div>} value={'21'} valueIsNum={true}/>
+            <InfoCard heading='Total Users' tooltip={<div>i</div>} value={'3,290,124'} valueIsNum={true}/>
           </div>
-
           <div className='card-container'>
-            <div className='info-card'>
-              <div className='card-item'>
-                <h4>Total Rep Given</h4>
-                <h6>i</h6>
-              </div>
-              <h2>3,290,124</h2>
-            </div>
-
-            <div className='info-card'>
-              <div className='card-item'>
-                <h4>Hashchains Completed</h4>
-                <h6>i</h6>
-              </div>
-              <h2>292</h2>
-            </div>
+            <InfoCard heading='Total Rep Given' tooltip={<div>i</div>} value={'5,324,678'} valueIsNum={true}/>
+            <InfoCard heading='Hashchains Completed' tooltip={<div>i</div>} value={'292'} valueIsNum={true}/>
           </div>
-
           <div className='card-container'>
-            <div className='info-card'>
-              <div className='card-item'>
-                <h4>Latest Attester</h4>
-                <h6>i</h6>
-              </div>
-              <h6>App Name</h6>
-            </div>
-
-            <div className='info-card'>
-              <div className='card-item'>
-                <h4>Last Attestation Submitted</h4>
-                <h6>i</h6>
-              </div>
-              <h6>Attester Address</h6>
-            </div>
+            <InfoCard heading='Latest Attester' tooltip={<div>i</div>} value={'App Name Here'} valueIsNum={false}/>
+            <InfoCard heading='Latest Submitted Attestation' tooltip={<div>i</div>} value={'Attester Address'} valueIsNum={false}/>
           </div>
 
           <h3>Stats</h3>
