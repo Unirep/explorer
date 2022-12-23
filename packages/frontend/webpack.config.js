@@ -4,14 +4,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
 
 module.exports = (env) => ({
-  entry: ['./src/index.jsx'],
+  entry: ['./src/index.tsx'],
   mode: 'development',
   devServer: {
     port: 3000,
     historyApiFallback: true,
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   optimization: {
     splitChunks: {
@@ -26,12 +26,19 @@ module.exports = (env) => ({
   module: {
     rules: [
       {
-        test: /\.jsx$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          presets: ['@babel/preset-react'],
-        },
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-react'],
+            },
+          },
+          {
+            loader: 'ts-loader',
+          },
+        ],
       },
       {
         test: /\.(png|jpg|gif|svg|ico)$/i,

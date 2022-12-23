@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import EventCard from '../components/EventCard'
@@ -6,7 +6,7 @@ import Footer from '../components/Footer'
 
 
 export default observer(() => {
-  const { info } = useContext(state)
+  // const { info }: string = useContext(state)
   return (
     <>
       <div className='container'>
@@ -101,8 +101,8 @@ export default observer(() => {
           <div className='graph-container'>
             <div>Connected to a server with the following info:</div>
               <ul>
-                <li>Unirep Address: {info.UNIREP_ADDRESS}</li>
-                <li>Provider URL: {info.ETH_PROVIDER_URL}</li>
+                {/* <li>Unirep Address: {info.UNIREP_ADDRESS}</li> */}
+                {/* <li>Provider URL: {info.ETH_PROVIDER_URL}</li> */}
               </ul>
           </div>
 

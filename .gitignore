@@ -5,3 +5,4 @@ build
 dist
 *.swp
 *.tmp
+packages/frontend/yarn-error.log

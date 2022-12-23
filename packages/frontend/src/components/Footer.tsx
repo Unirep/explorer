@@ -1,10 +1,10 @@
-import React from "react";
 import './footer.css'
-import Background from '../../public/footer_bg.svg'
+// import Background from '../../public/footer_bg.svg'
 
 export default () => {
+    const background = require('../../public/footer_bg.svg')
     return (
-        <div className="footer flex" style={{backgroundImage: `url(${Background})`}}>
+        <div className="footer flex" style={{backgroundImage: `url(${background})`}}>
             <div className="flex">
                 <a href="https://developer.unirep.io/" target='blank' className="link">Docs</a>
                 <a href="https://discord.com/invite/VzMMDJmYc5" target='blank'>Support</a>
