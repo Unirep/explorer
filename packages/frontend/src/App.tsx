@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
-import Header from './components/Header'
+import Header from './components/layout/header'
 import Home from './pages/Home'
-import Attester from './pages/Attester'
-import User from './pages/User'
+import AttesterPage from './pages/AttesterPage'
+import UserPage from './pages/UserPage'
 import './app.css'
 
 
@@ -11,8 +11,8 @@ export default function App() {
     <Routes>
     <Route path="/" element={<Header />}>
         <Route index element={<Home />} />
-        <Route path="attester/:id" element={<Attester />} />
-        <Route path="user/:id" element={<User />} />
+        <Route path="attester/:id" element={<AttesterPage />} />
+        <Route path="user/:id" element={<UserPage />} />
     </Route>
     </Routes>
   )

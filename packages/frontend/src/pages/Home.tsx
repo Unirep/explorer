@@ -2,8 +2,8 @@ import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import InfoCard from '../components/InfoCard'
-import EventCard from '../components/EventCard'
-import Footer from '../components/Footer'
+import UnirepEvent from '../components/events/unirepEvents'
+import Footer from '../components/layout/footer'
 
 
 export default observer(() => {
@@ -77,12 +77,12 @@ export default observer(() => {
             <h4>User</h4>
             <h4>Rep Given</h4>
           </div>
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
-          <EventCard />
+          <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21' repGiven='120'/>
+          <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
+          <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
+          <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='30'/>
+          <UnirepEvent address='0x..345' appName='Attester Mno' epoch='5' user='25' repGiven='150'/>
+          <UnirepEvent address='0x..678' appName='Attester Pqr' epoch='5' user='26' repGiven='210'/>
         </div>
       </div>
 

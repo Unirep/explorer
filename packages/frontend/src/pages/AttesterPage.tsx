@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import State from '../contexts/state'
 import InfoCard from '../components/InfoCard'
-import EventCard from '../components/EventCard'
-import Footer from '../components/Footer'
+import AttestationCard from '../components/events/attesterEvents/AttestationCard'
+import UserCard from '../components/events/attesterEvents/UserCard'
+import Footer from '../components/layout/footer'
 
 
 export default observer(() => {
@@ -77,15 +78,17 @@ export default observer(() => {
               </div>
               <div className='flex'>
                 <h4>Epoch key</h4>
-                <h4>Rep received</h4>
+                <h4>Rep given</h4>
               </div>
-              <EventCard />
-              <EventCard />
-              <EventCard />
-              <EventCard />
-              <EventCard />
-              <EventCard />
-              <EventCard />
+              <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='100' />
+              <AttestationCard epochKey='dglkdrt[p0o298349309fkjw3q3jwefk2j' repGiven='60' />
+              <AttestationCard epochKey='sdkljrw983bnksrg79834rkjnv89qrkje9' repGiven='120' />
+              <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='200' />
+              <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='40' />
+              <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='100' />
+              <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='10' />
+              <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='150' />
+              <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='200' />
             </div>
           ) : (
             <div>
@@ -93,6 +96,24 @@ export default observer(() => {
                 <h3 onClick={() => toggleSelected(0)} className='unselected' style={{marginRight: "30px"}}>Epoch</h3>
                 <h3 onClick={() => toggleSelected(1)} className='selected'>Users</h3>
               </div>
+                <div className='flex'>
+                <h4>Semaphore ID</h4>
+                <h4>Signed up</h4>
+                <h4># of epochs</h4>
+                <h4>Last seen</h4>
+                <h4>Total Rep</h4>
+              </div>
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+              <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
             </div>
           )}
         </div>
