@@ -13,7 +13,7 @@ type Props = {
 const UserCard: FC<Props> = ({ id, signUp, epochsMade, lastSeen, totalRep })  => {
     return (
         <div className='event-card'>
-            <p>{id}</p>
+            <Link to='/user/1'><p>{id}</p></Link>
             <p>epoch # {signUp}</p>
             <p>{epochsMade}</p>
             <p>epoch # {lastSeen}</p>

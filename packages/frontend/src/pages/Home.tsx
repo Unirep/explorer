@@ -7,7 +7,7 @@ import Footer from '../components/layout/footer'
 
 
 export default observer(() => {
-  // const { info }: string = useContext(state)
+  // const { info } = useContext(state)
   return (
     <>
       <div className='container'>
@@ -15,10 +15,10 @@ export default observer(() => {
         <div className='left-container'>
           <h1>Terminal</h1>
           <p style={{fontSize: '1.1em'}}>UniRep Terminal is utility site that help others to discover apps built on the protocol & inspect the Rep system we are building for all.</p>
-          <p>Interested to build your own?</p>
+          <p style={{fontWeight: '500'}}>Ready to build your own?</p>
           <a style={{color: '#669294'}}href="https://github.com/Unirep/create-unirep-app" target='blank'>Get started here.</a>
           <div className=''><img src={require('../../public/hero_img.svg')} alt="bird image"/></div>
-          <div className='info-card' style={{width: '100%'}}>
+          <div className='info-card'>
             <div className='flex'>
               <h4>Protocol Information</h4>
               <h6>i</h6>
@@ -44,18 +44,14 @@ export default observer(() => {
 
         <div className='right-container'>
           <h3>Overview</h3>
-          <div className='card-container'>
-            <InfoCard heading='Total Attesters' tooltip={<div>i</div>} value={'21'} valueIsNum={true}/>
-            <InfoCard heading='Total Users' tooltip={<div>i</div>} value={'3,290,124'} valueIsNum={true}/>
-          </div>
-          <div className='card-container'>
-            <InfoCard heading='Total Rep Given' tooltip={<div>i</div>} value={'5,324,678'} valueIsNum={true}/>
-            <InfoCard heading='Hashchains Completed' tooltip={<div>i</div>} value={'292'} valueIsNum={true}/>
-          </div>
-          <div className='card-container'>
-            <InfoCard heading='Latest Attester' tooltip={<div>i</div>} value={'App Name Here'} valueIsNum={false}/>
-            <InfoCard heading='Latest Submitted Attestation' tooltip={<div>i</div>} value={'Attester Address'} valueIsNum={false}/>
-          </div>
+          <div className='info-grid'>            
+              <InfoCard heading='Total Attesters' tooltip={<div>i</div>} value={'21'} valueIsNum={true}/>
+              <InfoCard heading='Total Users' tooltip={<div>i</div>} value={'3,290,124'} valueIsNum={true}/>
+              <InfoCard heading='Total Rep Given' tooltip={<div>i</div>} value={'5,324,678'} valueIsNum={true}/>
+              <InfoCard heading='Hashchains Completed' tooltip={<div>i</div>} value={'292'} valueIsNum={true}/>
+              <InfoCard heading='Latest Attester' tooltip={<div>i</div>} value={'App Name Here'} valueIsNum={false}/>
+              <InfoCard heading='Latest Submitted Attestation' tooltip={<div>i</div>} value={'Attester Address'} valueIsNum={false}/>
+          </div>          
 
           <h3>Stats</h3>
           <div className='graph-container'>
@@ -66,7 +62,7 @@ export default observer(() => {
               </ul>
           </div>
 
-          <div className='flex'>
+          <div className='flex' style={{marginBottom: '2%'}}>
             <h3>Attester Activities</h3>
             <h6>i</h6>
           </div>
@@ -77,12 +73,20 @@ export default observer(() => {
             <h4>User</h4>
             <h4>Rep Given</h4>
           </div>
-          <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21' repGiven='120'/>
-          <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
-          <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
-          <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='30'/>
-          <UnirepEvent address='0x..345' appName='Attester Mno' epoch='5' user='25' repGiven='150'/>
-          <UnirepEvent address='0x..678' appName='Attester Pqr' epoch='5' user='26' repGiven='210'/>
+          <div className='scroll'>
+            <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21' repGiven='120'/>
+            <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
+            <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
+            <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='30'/>
+            <UnirepEvent address='0x..345' appName='Attester Mno' epoch='5' user='25' repGiven='150'/>
+            <UnirepEvent address='0x..678' appName='Attester Pqr' epoch='5' user='26' repGiven='210'/>
+            <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21' repGiven='120'/>
+            <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
+            <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
+            <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='30'/>
+            <UnirepEvent address='0x..345' appName='Attester Mno' epoch='5' user='25' repGiven='150'/>
+            <UnirepEvent address='0x..678' appName='Attester Pqr' epoch='5' user='26' repGiven='210'/>
+          </div>
         </div>
       </div>
 
