@@ -2,7 +2,8 @@ import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import State from '../contexts/state'
-import InfoCard from '../components/InfoCard'
+import Tooltip from '../components/info/Tooltip'
+import InfoCard from '../components/info/InfoCard'
 import AttestationCard from '../components/events/attesterEvents/AttestationCard'
 import UserCard from '../components/events/attesterEvents/UserCard'
 import Footer from '../components/layout/footer'
@@ -27,7 +28,7 @@ export default observer(() => {
           <div className='info-card'>
             <div className='flex'>
               <h4>Attester Information</h4>
-              <h6>i</h6>
+              <Tooltip text='Some info here.' maxWidth={500} />
             </div>
             <div className='flex'>
               <h5>ID</h5>
@@ -47,10 +48,10 @@ export default observer(() => {
         <div className='right-container'>
           <h3>Overview</h3>
           <div className='info-grid'>
-            <InfoCard heading='Epochs Processed' tooltip={<div>i</div>} value={'61'} valueIsNum={true}/>
-            <InfoCard heading='Total Rep Given' tooltip={<div>i</div>} value={'2,109'} valueIsNum={true}/>
-            <InfoCard heading='Total Users Signed Up' tooltip={<div>i</div>} value={'20'} valueIsNum={true}/>          
-            <InfoCard heading='Hashchain Status' tooltip={<div>i</div>} value={'Processing'} valueIsNum={false}/>
+            <InfoCard heading='Epochs Processed' value={'61'} valueIsNum={true}/>
+            <InfoCard heading='Total Rep Given' value={'2,109'} valueIsNum={true}/>
+            <InfoCard heading='Total Users Signed Up' value={'20'} valueIsNum={true}/>          
+            <InfoCard heading='Hashchain Status' value={'Processing'} valueIsNum={false}/>
           </div>
           {Selected === 0 ? (
             <>
@@ -59,8 +60,8 @@ export default observer(() => {
                 <h3 onClick={() => toggleSelected(1)} className='unselected'>Users</h3>
               </div>
               <div className='info-grid'>
-                <InfoCard heading='Current Epoch #' tooltip={<div>i</div>} value={'62'} valueIsNum={true}/>
-                <InfoCard heading='Epoch Transition In' tooltip={<div>i</div>} value={'hh:mm:ss'} valueIsNum={true}/>
+                <InfoCard heading='Current Epoch #' value={'62'} valueIsNum={true}/>
+                <InfoCard heading='Epoch Transition In' value={'hh:mm:ss'} valueIsNum={true}/>
               </div>
 
               <div className='flex'>

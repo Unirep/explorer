@@ -1,19 +1,20 @@
 import { FC } from 'react';
+import Tooltip from './Tooltip';
 import './infoCard.css'
+
 
 type Props = {
     heading: string;
-    tooltip: JSX.Element;
     value: string;
     valueIsNum: boolean
 }
 
-const InfoCard: FC<Props> = ({ heading, tooltip, value, valueIsNum })  => {
+const InfoCard: FC<Props> = ({ heading, value, valueIsNum })  => {
     return (
         <div className='info-card'>
             <div className='flex'>
                 <h4>{heading}</h4>
-                <h6>{tooltip}</h6>
+                <Tooltip text='Some info goes here' maxWidth={200}/>
             </div>
             {valueIsNum ? (
                 <h2>{value}</h2>

@@ -1,7 +1,8 @@
 import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import InfoCard from '../components/InfoCard'
+import Tooltip from '../components/info/Tooltip'
+import InfoCard from '../components/info/InfoCard'
 import UnirepEvent from '../components/events/unirepEvents'
 import Footer from '../components/layout/footer'
 
@@ -21,7 +22,7 @@ export default observer(() => {
           <div className='info-card'>
             <div className='flex'>
               <h4>Protocol Information</h4>
-              <h6>i</h6>
+              <Tooltip text='Some info here.' maxWidth={500} />
             </div>
             <div className='flex'>
               <h5>Current version</h5>
@@ -45,12 +46,12 @@ export default observer(() => {
         <div className='right-container'>
           <h3>Overview</h3>
           <div className='info-grid'>            
-              <InfoCard heading='Total Attesters' tooltip={<div>i</div>} value={'21'} valueIsNum={true}/>
-              <InfoCard heading='Total Users' tooltip={<div>i</div>} value={'3,290,124'} valueIsNum={true}/>
-              <InfoCard heading='Total Rep Given' tooltip={<div>i</div>} value={'5,324,678'} valueIsNum={true}/>
-              <InfoCard heading='Hashchains Completed' tooltip={<div>i</div>} value={'292'} valueIsNum={true}/>
-              <InfoCard heading='Latest Attester' tooltip={<div>i</div>} value={'App Name Here'} valueIsNum={false}/>
-              <InfoCard heading='Latest Submitted Attestation' tooltip={<div>i</div>} value={'Attester Address'} valueIsNum={false}/>
+              <InfoCard heading='Total Attesters' value={'21'} valueIsNum={true}/>
+              <InfoCard heading='Total Users' value={'3,290,124'} valueIsNum={true}/>
+              <InfoCard heading='Total Rep Given' value={'5,324,678'} valueIsNum={true}/>
+              <InfoCard heading='Hashchains Completed' value={'292'} valueIsNum={true}/>
+              <InfoCard heading='Latest Attester' value={'App Name Here'} valueIsNum={false}/>
+              <InfoCard heading='Latest Submitted Attestation' value={'Attester Address'} valueIsNum={false}/>
           </div>          
 
           <h3>Stats</h3>
@@ -64,7 +65,7 @@ export default observer(() => {
 
           <div className='flex' style={{marginBottom: '2%'}}>
             <h3>Attester Activities</h3>
-            <h6>i</h6>
+            <Tooltip text='Some info here.' maxWidth={500} />
           </div>
           <div className='flex'>
             <h4>Contract Add</h4>

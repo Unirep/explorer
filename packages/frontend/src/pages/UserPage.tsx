@@ -2,7 +2,8 @@ import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import State from '../contexts/state'
-import InfoCard from '../components/InfoCard'
+import Tooltip from '../components/info/Tooltip'
+import InfoCard from '../components/info/InfoCard'
 import UserEvent from '../components/events/userEvents'
 import Footer from '../components/layout/footer'
 
@@ -27,7 +28,7 @@ export default observer(() => {
           <div className='info-card'>
             <div className='flex'>
               <h4>User Information</h4>
-              <h6>i</h6>
+              <Tooltip text='Some info here.' maxWidth={500} />
             </div>
             <div className='flex'>
               <h5>Onboard to UniRep</h5>
@@ -39,8 +40,8 @@ export default observer(() => {
         <div className='right-container'>
           <h3>Overview</h3>
           <div className='info-grid'>
-            <InfoCard heading='Total Rep' tooltip={<div>i</div>} value={'591'} valueIsNum={true}/>
-            <InfoCard heading='Attesters joined' tooltip={<div>i</div>} value={'2'} valueIsNum={true}/>
+            <InfoCard heading='Total Rep' value={'591'} valueIsNum={true}/>
+            <InfoCard heading='Attesters joined' value={'2'} valueIsNum={true}/>
           </div>
 
           <h3 style={{marginBottom: '2%'}}>User History</h3>
