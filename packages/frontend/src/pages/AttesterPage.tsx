@@ -28,7 +28,7 @@ export default observer(() => {
           <div className='info-card'>
             <div className='flex'>
               <h4>Attester Information</h4>
-              <Tooltip text='Some info here.' maxWidth={500} />
+              <Tooltip text='Some info goes here' maxWidth={200} />
             </div>
             <div className='flex'>
               <h5>ID</h5>

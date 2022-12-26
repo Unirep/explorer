@@ -43,10 +43,10 @@ export default observer<Props>(({
           return
         }
         setShowingPopup(true)
-        // const _timer = setTimeout(() => {
-        //   setShowingPopup(false)
-        //   setTimer(null)
-        // }, 3000)
+        const _timer = setTimeout(() => {
+          setShowingPopup(false)
+          setTimer(null)
+        }, 3000)
         // setTimer(_timer)
       }}
       className="tooltip-outer"
@@ -54,8 +54,10 @@ export default observer<Props>(({
       {...props}
     >
       <div
-        onMouseEnter={() => !ui.isMobile && setShowingPopup.bind(null, true)}
-        onMouseLeave={() => !ui.isMobile && setShowingPopup.bind(null, false)}
+        // onMouseEnter={!ui.isMobile && setShowingPopup.bind(null, true)}
+        // onMouseLeave={!ui.isMobile && setShowingPopup.bind(null, false)}
+        onMouseEnter={() => !ui.isMobile && setShowingPopup(true)}
+        onMouseLeave={() => !ui.isMobile && setShowingPopup(false)}
       >
         <img src={require('../../../public/info_icon.svg')} alt="info icon"/>
       </div>

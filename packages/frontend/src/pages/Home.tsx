@@ -22,7 +22,7 @@ export default observer(() => {
           <div className='info-card'>
             <div className='flex'>
               <h4>Protocol Information</h4>
-              <Tooltip text='Some info here.' maxWidth={500} />
+              <Tooltip text='Some info goes here' maxWidth={200} />
             </div>
             <div className='flex'>
               <h5>Current version</h5>
@@ -65,7 +65,7 @@ export default observer(() => {
 
           <div className='flex' style={{marginBottom: '2%'}}>
             <h3>Attester Activities</h3>
-            <Tooltip text='Some info here.' maxWidth={500} />
+            <Tooltip text='Some info goes here' maxWidth={200} />
           </div>
           <div className='flex'>
             <h4>Contract Add</h4>
@@ -78,13 +78,13 @@ export default observer(() => {
             <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21' repGiven='120'/>
             <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
             <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
-            <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='30'/>
+            <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='300'/>
             <UnirepEvent address='0x..345' appName='Attester Mno' epoch='5' user='25' repGiven='150'/>
             <UnirepEvent address='0x..678' appName='Attester Pqr' epoch='5' user='26' repGiven='210'/>
             <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21' repGiven='120'/>
             <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
             <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
-            <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='30'/>
+            <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='300'/>
             <UnirepEvent address='0x..345' appName='Attester Mno' epoch='5' user='25' repGiven='150'/>
             <UnirepEvent address='0x..678' appName='Attester Pqr' epoch='5' user='26' repGiven='210'/>
           </div>
