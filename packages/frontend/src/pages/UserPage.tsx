@@ -9,7 +9,7 @@ import Footer from '../components/layout/footer'
 
 
 export default observer(() => {
-  // const { info } = useContext(State)
+  const { info } = useContext(State)
   const { id } = useParams()
 
   return (
@@ -22,8 +22,8 @@ export default observer(() => {
           <h3>User {id}</h3>
           <div>Connected to a server with the following info:</div>
           <ul>
-            {/* <li>Unirep Address: {info.UNIREP_ADDRESS}</li> */}
-            {/* <li>Provider URL: {info.ETH_PROVIDER_URL}</li> */}
+            <li>Unirep Address: {info.UNIREP_ADDRESS}</li>
+            <li>Provider URL: {info.ETH_PROVIDER_URL}</li>
           </ul>
           <div className='info-card'>
             <div className='flex'>

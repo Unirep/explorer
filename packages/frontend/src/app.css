@@ -50,6 +50,10 @@ button {
     cursor: pointer;
 }
 
+li {
+    word-break: break-all;
+}
+
 .img {
     width: 100%;
     justify-content: left;

@@ -13,10 +13,10 @@ type Props = {
 const UnirepEvent: FC<Props> = ({ address, appName, epoch, user, repGiven })  => {
     return (
         <div className="event-card">
-            <Link to='attester/1'><p>{address}</p></Link>
+            <Link to={`attester/${address}`}><p>{address}</p></Link>
             <p>{appName}</p>
             <p>{epoch}</p>
-            <Link to='user/1'><p>{user}</p></Link>
+            <Link to={`user/${user}`}><p>{user}</p></Link>
             <p>{repGiven}</p>
         </div>
     )

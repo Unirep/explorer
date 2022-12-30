@@ -10,7 +10,7 @@ import Footer from '../components/layout/footer'
 
 
 export default observer(() => {
-  // const { info } = useContext(State)
+  const { info } = useContext(State)
   const { id } = useParams()
   const [Selected, setSelected] = useState(0)
   const toggleSelected = (Id: number) => setSelected(Id)
@@ -25,6 +25,12 @@ export default observer(() => {
           <h1>project name</h1>
           <a style={{color: '#669294'}}href="https://github.com/Unirep/create-unirep-app" target='blank'>https://url-of-attester</a>
           <p style={{fontSize: '1.1em'}}>Lorem ipsum dolor sit amet consectetur. Molestie elit sit ut magna vel quis ultricies auctor porttitor. Mauris scelerisque tellus eleifend nunc id purus in. Tempus fames lacus feugiat lectus nibh morbi sapien et.</p>
+          <h3>Attester {id}</h3>
+          <div>Connected to a server with the following info:</div>
+          <ul>
+            <li>Unirep Address: {info.UNIREP_ADDRESS}</li>
+            <li>Provider URL: {info.ETH_PROVIDER_URL}</li>
+          </ul>
           <div className='info-card'>
             <div className='flex'>
               <h4>Attester Information</h4>

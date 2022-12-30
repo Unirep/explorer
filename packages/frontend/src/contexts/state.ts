@@ -1,4 +1,4 @@
-import React from 'react'
+import { createContext } from 'react'
 import Info from './info'
 
 const state = {}
@@ -9,4 +9,4 @@ Object.assign(state, {
   info,
 })
 
-export default React.createContext(state)
+export default createContext<any>(state)

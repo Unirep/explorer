@@ -10,13 +10,15 @@ import { Synchronizer } from './singletons/Synchronizer.mjs'
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
 const db = await SQLiteConnector.create(schema, DB_PATH ?? ':memory:')
-const synchronizer = new Synchronizer({
+export const synchronizer = new Synchronizer({
   db,
   provider,
   unirepAddress: UNIREP_ADDRESS,
 })
 console.log('Starting synchronizer...')
 await synchronizer.start()
+const currentEpoch = await synchronizer.readCurrentEpoch('attester_id')
+console.log(currentEpoch.number)
 
 const app = express()
 const port = process.env.PORT ?? 8000

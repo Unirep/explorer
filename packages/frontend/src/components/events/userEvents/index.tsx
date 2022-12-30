@@ -12,7 +12,7 @@ const UserEvent: FC<Props> = ({ repReceived, attester, epoch })  => {
     return (
         <div className='event-card'>
             <p>{repReceived}</p>
-            <Link to='/attester/1'><p>{attester}</p></Link>
+            <Link to={`/attester/${attester}`}><p>{attester}</p></Link>
             <p>{epoch}</p>
         </div>
     )

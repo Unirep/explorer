@@ -1,9 +1,10 @@
 import { makeAutoObservable } from 'mobx'
 import { SERVER } from '../config'
+// import { synchronizer } from '../../../backend/src/index.mjs'
 
 export default class Info {
-  UNIREP_ADDRESS = '0x1F8d7d42b44d9570e5a23F356967A55D1FC8dA26'
-  ETH_PROVIDER_URL = 'https://arbitrum.goerli.unirep.io'
+  UNIREP_ADDRESS = ''
+  ETH_PROVIDER_URL = ''
 
   constructor(state) {
     makeAutoObservable(this)
@@ -19,5 +20,12 @@ export default class Info {
     const { UNIREP_ADDRESS, ETH_PROVIDER_URL } = await response.json()
     this.UNIREP_ADDRESS = UNIREP_ADDRESS
     this.ETH_PROVIDER_URL = ETH_PROVIDER_URL
+    // this.synchronizer = synchronizer
   }
+
+  // async getCurrentEpoch() {
+  //   const url = new URL('api/info', SERVER)
+  //   const response = await fetch(url.toString())
+  //   const {}
+  // }
 }

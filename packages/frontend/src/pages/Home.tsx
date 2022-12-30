@@ -8,7 +8,8 @@ import Footer from '../components/layout/footer'
 
 
 export default observer(() => {
-  // const { info } = useContext(state)
+  const { info } = useContext(state)
+  console.log(info.UNIREP_ADDRESS)
   return (
     <>
       <div className='container'>
@@ -58,8 +59,9 @@ export default observer(() => {
           <div className='graph-container'>
             <div>Connected to a server with the following info:</div>
               <ul>
-                {/* <li>Unirep Address: {info.UNIREP_ADDRESS}</li> */}
-                {/* <li>Provider URL: {info.ETH_PROVIDER_URL}</li> */}
+                <li>Unirep Address: {info.UNIREP_ADDRESS}</li>
+                <li>Provider URL: {info.ETH_PROVIDER_URL}</li>
+                <li>Current Epoch: {info.CURRENT_EPOCH}</li>
               </ul>
           </div>
 
