@@ -17,8 +17,6 @@ export const synchronizer = new Synchronizer({
 })
 console.log('Starting synchronizer...')
 await synchronizer.start()
-const currentEpoch = await synchronizer.readCurrentEpoch('attester_id')
-console.log(currentEpoch.number)
 
 const app = express()
 const port = process.env.PORT ?? 8000
