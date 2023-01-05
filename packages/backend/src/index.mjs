@@ -7,10 +7,23 @@ import { schema } from '@unirep/core'
 import { SQLiteConnector } from 'anondb/node.js'
 import { Synchronizer } from './singletons/Synchronizer.mjs'
 
+const _schema = schema.map(row => {
+  if (row.name !== 'Epoch') return row
+  return {
+    name: 'Epoch',
+    indexes: [{ keys: ['number', 'attesterId'] }],
+    rows: [
+      ['number', 'Int'],
+      ['attesterId', 'String'],
+      ['sealed', 'Bool'],
+    ],
+  }
+})
+
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
-const db = await SQLiteConnector.create(schema, DB_PATH ?? ':memory:')
-export const synchronizer = new Synchronizer({
+const db = await SQLiteConnector.create(_schema, DB_PATH ?? ':memory:')
+const synchronizer = new Synchronizer({
   db,
   provider,
   unirepAddress: UNIREP_ADDRESS,
