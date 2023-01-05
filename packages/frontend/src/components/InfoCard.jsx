@@ -1,15 +1,9 @@
-import { FC } from 'react';
+import React from 'react';
 import Tooltip from './Tooltip';
 import './infoCard.css'
 
 
-type Props = {
-    heading: string;
-    value: string;
-    valueIsNum: boolean
-}
-
-const InfoCard: FC<Props> = ({ heading, value, valueIsNum })  => {
+const InfoCard = ({ heading, value, valueIsNum })  => {
     return (
         <div className='info-card'>
             <div className='flex'>

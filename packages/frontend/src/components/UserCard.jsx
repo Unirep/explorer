@@ -1,16 +1,9 @@
-import { FC } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import './eventCard.css'
 
-type Props = {
-    id: string;
-    signUp: string;
-    epochsMade: string;
-    lastSeen: string;
-    totalRep: string
-}
 
-const UserCard: FC<Props> = ({ id, signUp, epochsMade, lastSeen, totalRep })  => {
+const UserCard = ({ id, signUp, epochsMade, lastSeen, totalRep })  => {
     return (
         <div className='event-card'>
             <Link to={`/user/${id}`}><p>{id}</p></Link>

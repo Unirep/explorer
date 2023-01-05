@@ -1,13 +1,9 @@
-import { FC } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import './eventCard.css'
 
-type Props = {
-    epochKey: string;
-    repGiven: string
-}
 
-const AttestationCard: FC<Props> = ({ epochKey, repGiven })  => {
+const AttestationCard = ({ epochKey, repGiven })  => {
     return (
         <div className='event-card'>
             <p>{epochKey}</p>

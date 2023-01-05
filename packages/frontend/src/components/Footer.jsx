@@ -1,3 +1,4 @@
+import React from 'react'
 import './footer.css'
 // import Background from '../../public/footer_bg.svg'
 

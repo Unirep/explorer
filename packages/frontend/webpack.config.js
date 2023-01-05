@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
 
 module.exports = (env) => ({
-  entry: ['./src/index.tsx'],
+  entry: ['./src/index.jsx'],
   mode: 'development',
   devServer: {
     port: 3000,
@@ -39,6 +39,14 @@ module.exports = (env) => ({
             loader: 'ts-loader',
           },
         ],
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-react'],
+        },
       },
       {
         test: /\.(png|jpg|gif|svg|ico)$/i,

@@ -1,21 +1,17 @@
-import * as React from 'react'
+import React from 'react'
 import measureText from '../utils/measure-text'
 import './tooltip.css'
-import UIContext from '../contexts/interface'
+import state from '../contexts/state'
 import { observer } from 'mobx-react-lite'
 
-type Props = {
-    text: string;
-    maxWidth: number
-}
 
-export default observer<Props>(({
+export default observer(({
   text,
   maxWidth,
   ...props
 }) => {
-  const ui = React.useContext(UIContext)
-  const containerEl = React.createRef<any>()
+  const ui = React.useContext(state)
+  const containerEl = React.createRef()
   const [timer, setTimer] = React.useState(null)
   const [showingPopup, setShowingPopup] = React.useState(false)
   const [leftOffset, setLeftOffset] = React.useState(0)
@@ -47,17 +43,15 @@ export default observer<Props>(({
           setShowingPopup(false)
           setTimer(null)
         }, 3000)
-        // setTimer(_timer)
+        setTimer(_timer)
       }}
       className="tooltip-outer"
       ref={containerEl}
       {...props}
     >
       <div
-        // onMouseEnter={!ui.isMobile && setShowingPopup.bind(null, true)}
-        // onMouseLeave={!ui.isMobile && setShowingPopup.bind(null, false)}
-        onMouseEnter={() => !ui.isMobile && setShowingPopup(true)}
-        onMouseLeave={() => !ui.isMobile && setShowingPopup(false)}
+        onMouseEnter={!ui.isMobile && setShowingPopup.bind(null, true)}
+        onMouseLeave={!ui.isMobile && setShowingPopup.bind(null, false)}
       >
         <img src={require('../../public/info_icon.svg')} alt="info icon"/>
       </div>
