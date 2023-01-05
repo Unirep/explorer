@@ -1,10 +1,10 @@
 import { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import Tooltip from '../components/info/Tooltip'
-import InfoCard from '../components/info/InfoCard'
-import UnirepEvent from '../components/events/unirepEvents'
-import Footer from '../components/layout/footer'
+import Tooltip from '../components/Tooltip'
+import InfoCard from '../components/InfoCard'
+import UnirepEvent from '../components/UnirepEvent'
+import Footer from '../components/Footer'
 
 
 export default observer(() => {

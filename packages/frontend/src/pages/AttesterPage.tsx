@@ -2,11 +2,11 @@ import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import State from '../contexts/state'
-import Tooltip from '../components/info/Tooltip'
-import InfoCard from '../components/info/InfoCard'
-import AttestationCard from '../components/events/attesterEvents/AttestationCard'
-import UserCard from '../components/events/attesterEvents/UserCard'
-import Footer from '../components/layout/footer'
+import Tooltip from '../components/Tooltip'
+import InfoCard from '../components/InfoCard'
+import AttestationCard from '../components/AttestationCard'
+import UserCard from '../components/UserCard'
+import Footer from '../components/Footer'
 
 
 export default observer(() => {

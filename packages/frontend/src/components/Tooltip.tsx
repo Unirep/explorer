@@ -1,7 +1,7 @@
 import * as React from 'react'
-import measureText from '../../utils/measure-text'
+import measureText from '../utils/measure-text'
 import './tooltip.css'
-import UIContext from '../../contexts/interface'
+import UIContext from '../contexts/interface'
 import { observer } from 'mobx-react-lite'
 
 type Props = {
@@ -59,7 +59,7 @@ export default observer<Props>(({
         onMouseEnter={() => !ui.isMobile && setShowingPopup(true)}
         onMouseLeave={() => !ui.isMobile && setShowingPopup(false)}
       >
-        <img src={require('../../../public/info_icon.svg')} alt="info icon"/>
+        <img src={require('../../public/info_icon.svg')} alt="info icon"/>
       </div>
       {showingPopup &&
         <div className={`tooltip-popup ${ui.modeCssClass}`}

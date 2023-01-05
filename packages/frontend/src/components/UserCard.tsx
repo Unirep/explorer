@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from "react-router-dom";
-import '../eventCard.css'
+import './eventCard.css'
 
 type Props = {
     id: string;
