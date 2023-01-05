@@ -1,0 +1,19 @@
+a:link {
+    font-weight: 600;
+    color: black;
+    text-decoration: none;
+}
+
+a:visited {
+    color: black;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 2em 5em;
+}
+
+.link {
+    padding-right: 2.5em;
+}

@@ -1,17 +1,13 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './Home'
+import { BrowserRouter } from 'react-router-dom'
+import App from './App'
 
-export default function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
-  )
-}
-
-const root = createRoot(document.getElementById('root'))
-root.render(<App />)
+const rootElement = document.getElementById('root');
+if (!rootElement) throw new Error('Failed to find the root element');
+const root = createRoot(rootElement);
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+)

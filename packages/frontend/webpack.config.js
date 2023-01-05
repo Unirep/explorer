@@ -11,7 +11,7 @@ module.exports = (env) => ({
     historyApiFallback: true,
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   optimization: {
     splitChunks: {
@@ -26,7 +26,19 @@ module.exports = (env) => ({
   module: {
     rules: [
       {
-        test: /\.jsx$/,
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-react'],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {

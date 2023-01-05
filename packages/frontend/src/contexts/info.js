@@ -20,4 +20,10 @@ export default class Info {
     this.UNIREP_ADDRESS = UNIREP_ADDRESS
     this.ETH_PROVIDER_URL = ETH_PROVIDER_URL
   }
+
+  // async getCurrentEpoch() {
+  //   const url = new URL('api/info', SERVER)
+  //   const response = await fetch(url.toString())
+  //   const {}
+  // }
 }
