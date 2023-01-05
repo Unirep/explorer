@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx'
 import { SERVER } from '../config'
-// import { synchronizer } from '../../../backend/src/index.mjs'
 
 export default class Info {
   UNIREP_ADDRESS = ''
@@ -20,7 +19,6 @@ export default class Info {
     const { UNIREP_ADDRESS, ETH_PROVIDER_URL } = await response.json()
     this.UNIREP_ADDRESS = UNIREP_ADDRESS
     this.ETH_PROVIDER_URL = ETH_PROVIDER_URL
-    // this.synchronizer = synchronizer
   }
 
   // async getCurrentEpoch() {

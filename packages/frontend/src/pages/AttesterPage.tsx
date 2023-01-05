@@ -13,7 +13,6 @@ export default observer(() => {
   const { info } = useContext(State)
   const { id } = useParams()
   const [Selected, setSelected] = useState(0)
-  const toggleSelected = (Id: number) => setSelected(Id)
 
   return (
     <>
@@ -62,8 +61,8 @@ export default observer(() => {
           {Selected === 0 ? (
             <>
               <div style={{display: 'flex'}}>
-                <h3 onClick={() => toggleSelected(0)} className='selected' style={{marginRight: "30px"}}>Epoch</h3>
-                <h3 onClick={() => toggleSelected(1)} className='unselected'>Users</h3>
+                <h3 onClick={() => setSelected(0)} className='selected' style={{marginRight: "30px"}}>Epoch</h3>
+                <h3 onClick={() => setSelected(1)} className='unselected'>Users</h3>
               </div>
               <div className='info-grid'>
                 <InfoCard heading='Current Epoch #' value={'62'} valueIsNum={true}/>
@@ -103,8 +102,8 @@ export default observer(() => {
           ) : (
             <>
               <div style={{display: 'flex', marginBottom: '2%'}}>
-                <h3 onClick={() => toggleSelected(0)} className='unselected' style={{marginRight: "30px"}}>Epoch</h3>
-                <h3 onClick={() => toggleSelected(1)} className='selected'>Users</h3>
+                <h3 onClick={() => setSelected(0)} className='unselected' style={{marginRight: "30px"}}>Epoch</h3>
+                <h3 onClick={() => setSelected(1)} className='selected'>Users</h3>
               </div>
                 <div className='flex'>
                 <h4>Semaphore ID</h4>
