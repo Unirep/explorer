@@ -5,7 +5,7 @@ import Interface from './interface'
 const state = {}
 
 const info = new Info(state)
-const ui = new Interface()
+const ui = new Interface(state)
 
 Object.assign(state, {
   info,

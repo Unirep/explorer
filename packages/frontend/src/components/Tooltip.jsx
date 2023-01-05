@@ -10,7 +10,7 @@ export default observer(({
   maxWidth,
   ...props
 }) => {
-  const ui = React.useContext(state)
+  const { ui } = React.useContext(state)
   const containerEl = React.createRef()
   const [timer, setTimer] = React.useState(null)
   const [showingPopup, setShowingPopup] = React.useState(false)

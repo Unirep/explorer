@@ -11,7 +11,7 @@ export default class Interface {
   screenHeight = -1
   isMobile = false
 
-  constructor() {
+  constructor(state) {
     makeAutoObservable(this)
     if (typeof window !== 'undefined') {
       this.load()

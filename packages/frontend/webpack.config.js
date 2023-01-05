@@ -26,7 +26,7 @@ module.exports = (env) => ({
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: [
           {
@@ -35,13 +35,10 @@ module.exports = (env) => ({
               presets: ['@babel/preset-react'],
             },
           },
-          {
-            loader: 'ts-loader',
-          },
         ],
       },
       {
-        test: /\.jsx?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
