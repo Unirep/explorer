@@ -401,13 +401,12 @@ export class Synchronizer extends EventEmitter {
       .toString()
       .padStart(8, '0')}${event.logIndex.toString().padStart(8, '0')}`
 
-    const currentEpoch = await this.readCurrentEpoch()
+    const currentEpoch = await this.readCurrentEpoch(attesterId)
     if (epoch !== Number(currentEpoch.number)) {
       throw new Error(
         `Synchronizer: Epoch (${epoch}) must be the same as the current synced epoch ${currentEpoch.number}`
       )
     }
-    await this._checkEpochKeyRange(epochKey)
 
     db.create('Attestation', {
       epoch,
@@ -446,5 +445,39 @@ export class Synchronizer extends EventEmitter {
     return true
   }
 
-  async handleEpochEnded({ decodedData, event, db }) {}
+  async handleEpochEnded({ decodedData, event, db }) {
+    const epoch = Number(decodedData.epoch)
+    const attesterId = BigInt(decodedData.attesterId).toString()
+    console.log(`Epoch ${epoch} ended`)
+    const existingDoc = await this._db.findOne('Epoch', {
+      where: {
+        number: epoch,
+        attesterId,
+      }
+    })
+    if (existingDoc) {
+      db.update('Epoch', {
+        where: {
+          number: epoch,
+          attesterId,
+        },
+        update: {
+          sealed: true,
+        }
+      })
+    } else {
+      db.create('Epoch', {
+        number: epoch,
+        attesterId,
+        sealed: true,
+      })
+    }
+    // create the next stub entry
+    db.create('Epoch', {
+        number: epoch + 1,
+        attesterId,
+        sealed: false,
+    })
+    return true
+  }
 }
