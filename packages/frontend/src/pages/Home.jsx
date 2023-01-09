@@ -8,7 +8,7 @@ import Footer from '../components/Footer'
 
 
 export default observer(() => {
-  const { info } = useContext(state)
+  const { info, unirep } = useContext(state)
   return (
     <>
       <div className='container'>
@@ -50,8 +50,8 @@ export default observer(() => {
               <InfoCard heading='Total Users' value={'3,290,124'} valueIsNum={true}/>
               <InfoCard heading='Total Rep Given' value={'5,324,678'} valueIsNum={true}/>
               <InfoCard heading='Hashchains Completed' value={'292'} valueIsNum={true}/>
-              <InfoCard heading='Latest Attester' value={'App Name Here'} valueIsNum={false}/>
-              <InfoCard heading='Latest Submitted Attestation' value={'Attester Address'} valueIsNum={false}/>
+              <InfoCard heading='Latest Attester' value={'Attester Address, Deployed at:'} valueIsNum={false}/>
+              <InfoCard heading='Latest Submitted Attestation' value={'By Attester:  at Epoch:  '} valueIsNum={false}/>
           </div>          
 
           <h3>Stats</h3>
@@ -60,6 +60,12 @@ export default observer(() => {
               <ul>
                 <li>Unirep Address: {info.UNIREP_ADDRESS}</li>
                 <li>Provider URL: {info.ETH_PROVIDER_URL}</li>
+                <li>Attester Id: {unirep.attesterId}</li>
+                <li>Latest Processed Block: {unirep.latestProcessedBlock}</li>
+                <li>Latest Processed Transaction Index: {unirep.latestProcessedTransactionIndex}</li>
+                <li>Latest Processed Event Index: {unirep.latestProcessedEventIndex}</li>
+                <li>Latest Complete Block: {unirep.latestCompleteBlock}</li>
+                <li>ID: {unirep.id}</li>
               </ul>
           </div>
 
@@ -75,7 +81,7 @@ export default observer(() => {
             <h4>Rep Given</h4>
           </div>
           <div className='scroll'>
-            <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21' repGiven='120'/>
+            <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='-2gEJ-skQOJB666hUyacS' repGiven='120'/>
             <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
             <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
             <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='300'/>

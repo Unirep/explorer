@@ -1,16 +1,17 @@
 import React, { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
-import State from '../contexts/state'
+import state from '../contexts/state'
 import Tooltip from '../components/Tooltip'
 import InfoCard from '../components/InfoCard'
 import AttestationCard from '../components/AttestationCard'
 import UserCard from '../components/UserCard'
 import Footer from '../components/Footer'
 
+// export const { attesterId } = useParams()
 
 export default observer(() => {
-  const { info } = useContext(State)
+  const { info, attester } = useContext(state)
   const { id } = useParams()
   const [Selected, setSelected] = useState(0)
 

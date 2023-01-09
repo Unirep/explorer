@@ -7,7 +7,7 @@ import { schema } from '@unirep/core'
 import { SQLiteConnector } from 'anondb/node.js'
 import { Synchronizer } from './singletons/Synchronizer.mjs'
 
-const _schema = schema.map(row => {
+const _schema = schema.map((row) => {
   if (row.name !== 'Epoch') return row
   return {
     name: 'Epoch',

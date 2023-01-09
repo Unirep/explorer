@@ -1,16 +1,15 @@
 import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
-import State from '../contexts/state'
+import state from '../contexts/state'
 import Tooltip from '../components/Tooltip'
 import InfoCard from '../components/InfoCard'
 import UserEvent from '../components/UserEvent'
 import Footer from '../components/Footer'
 
-
-export default observer(() => {
-  const { info } = useContext(State)
+export default observer(() => { 
   const { id } = useParams()
+  const { info, user } = useContext(state)
 
   return (
     <>
@@ -19,11 +18,15 @@ export default observer(() => {
         <div className='left-container'>
           <h3>About</h3>
           <div className='image-placeholder'></div>
-          <h3>User {id}</h3>
+          <h3>User {user.id}</h3>
           <div>Connected to a server with the following info:</div>
           <ul>
             <li>Unirep Address: {info.UNIREP_ADDRESS}</li>
             <li>Provider URL: {info.ETH_PROVIDER_URL}</li>
+            <li>User Id: {user.id}</li>
+            <li>Signed up to Attester: {user.attesterId}</li>
+            <li>at Epoch: {user.epoch}</li>
+            <li>with Commitment: {user.commitment}</li>
           </ul>
           <div className='info-card'>
             <div className='flex'>
