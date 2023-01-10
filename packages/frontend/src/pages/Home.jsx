@@ -8,7 +8,8 @@ import Footer from '../components/Footer'
 
 
 export default observer(() => {
-  const { info, unirep } = useContext(state)
+  const { info, unirep, attestation } = useContext(state)
+  // console.log('HOME: ', attestation.attesterId)
   return (
     <>
       <div className='container'>
@@ -57,12 +58,24 @@ export default observer(() => {
           <h3>Stats</h3>
           <div className='graph-container'>
             <ul>
+              <li>SYNCHRONIZER STATE:</li>
               <li>Attester Id: {unirep.attesterId}</li>
               <li>Latest Processed Block: {unirep.latestProcessedBlock}</li>
               <li>Latest Processed Transaction Index: {unirep.latestProcessedTransactionIndex}</li>
               <li>Latest Processed Event Index: {unirep.latestProcessedEventIndex}</li>
               <li>Latest Complete Block: {unirep.latestCompleteBlock}</li>
               <li>ID: {unirep.id}</li>
+              <li>  </li>
+              <li>ATTESTATIONS:</li>
+              <li>epoch: {attestation.epoch}</li>
+              <li>epoch key: {attestation.epochKey}</li>
+              <li>index: {attestation.index}</li>
+              <li>attesterId: {attestation.attesterId}</li>
+              <li>posRep: {attestation.posRep}</li>
+              <li>negRep: {attestation.negRep}</li>
+              <li>graffiti: {attestation.graffiti}</li>
+              <li>hash: {attestation.hash}</li>
+              <li>id: {attestation._id}</li>
             </ul>
           </div>
 

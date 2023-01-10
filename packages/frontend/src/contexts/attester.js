@@ -1,7 +1,4 @@
 import { makeAutoObservable } from 'mobx'
-import { useParams } from 'react-router-dom'
-
-import { attesterId } from '../pages/AttesterPage'
 import { SERVER } from '../config'
 
 export default class Attester {
@@ -13,8 +10,6 @@ export default class Attester {
     if (typeof window !== 'undefined') {
       this.load()
     }
-    // const { attesterId } = useParams()
-    // this.id = attesterId
   }
 
   async load() {
