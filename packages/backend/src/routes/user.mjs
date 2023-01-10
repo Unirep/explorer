@@ -4,9 +4,9 @@ export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
     let user = req.params.userId
     console.log(user)
-    let userInfo = await db.findOne('UserSignUp', {
+    let userInfo = await db.findMany('UserSignUp', {
       where: {
-        _id: user,
+        commitment: user,
       },
     })
     res.json(userInfo)

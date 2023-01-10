@@ -1,4 +1,10 @@
-import { UNIREP_ADDRESS, ETH_PROVIDER_URL, DB_PATH } from '../config.mjs'
+import {
+  UNIREP_ADDRESS,
+  ETH_PROVIDER_URL,
+  DB_PATH,
+  VERSION,
+  RELEASE,
+} from '../config.mjs'
 import catchError from '../helpers/catchError.mjs'
 
 export default ({ app, db, synchronizer }) => {
@@ -7,6 +13,8 @@ export default ({ app, db, synchronizer }) => {
       UNIREP_ADDRESS,
       ETH_PROVIDER_URL,
       DB_PATH,
+      VERSION,
+      RELEASE,
     })
   }
   app.get('/api/info', catchError(handler))

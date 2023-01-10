@@ -11,7 +11,7 @@ import Footer from '../components/Footer'
 // export const { attesterId } = useParams()
 
 export default observer(() => {
-  const { info, attester } = useContext(state)
+  const { info } = useContext(state)
   const { id } = useParams()
   const [Selected, setSelected] = useState(0)
 

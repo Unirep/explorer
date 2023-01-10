@@ -10,14 +10,14 @@ const state = {}
 const info = new Info(state)
 const ui = new Interface(state)
 const unirep = new Unirep(state)
-const attester = new Attester(state)
+// const attester = new Attester(state)
 const user = new User(state)
 
 Object.assign(state, {
   info,
   ui,
   unirep,
-  attester,
+  // attester,
   user,
 })
 
