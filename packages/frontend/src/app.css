@@ -67,12 +67,12 @@ li {
 
 .container {
     display: flex;
-    margin: 50px 80px;
+    margin: 50px 50px;
 }
 
 .left-container {
-    width: 25%;
-    margin-right: 10%;
+    width: 30%;
+    margin-right: 5%;
 }
 
 .right-container {
