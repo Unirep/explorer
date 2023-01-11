@@ -8,8 +8,8 @@ import Footer from '../components/Footer'
 
 
 export default observer(() => {
-  const { info, unirep, attestation } = useContext(state)
-  // console.log('HOME: ', attestation.attesterId)
+  const { info, unirep, attestation, stateTreeLeaf } = useContext(state)
+  console.log('HOME: ', stateTreeLeaf.attesterId)
   return (
     <>
       <div className='container'>
@@ -66,16 +66,25 @@ export default observer(() => {
               <li>Latest Complete Block: {unirep.latestCompleteBlock}</li>
               <li>ID: {unirep.id}</li>
               <li>  </li>
-              <li>ATTESTATIONS:</li>
+              <li>ATTESTATION:</li>
               <li>epoch: {attestation.epoch}</li>
               <li>epoch key: {attestation.epochKey}</li>
               <li>index: {attestation.index}</li>
+              <li>attester: {attestation.attester}</li>
               <li>attesterId: {attestation.attesterId}</li>
               <li>posRep: {attestation.posRep}</li>
               <li>negRep: {attestation.negRep}</li>
               <li>graffiti: {attestation.graffiti}</li>
+              <li>timestamp: {attestation.timestamp}</li>
               <li>hash: {attestation.hash}</li>
               <li>id: {attestation._id}</li>
+              <li>  </li>
+              <li>STATE TREE LEAF:</li>
+              <li>epoch: {stateTreeLeaf.epoch}</li>
+              <li>hash: {stateTreeLeaf.hash}</li>
+              <li>index: {stateTreeLeaf.index}</li>
+              <li>attesterId: {stateTreeLeaf.attesterId}</li>
+              <li>id: {stateTreeLeaf._id}</li>
             </ul>
           </div>
 
