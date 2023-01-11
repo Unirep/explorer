@@ -7,8 +7,8 @@ export default class Attestation {
   index = ''
   attester = ''
   attesterId = ''
-  posRep = ''
-  negRep = ''
+  posRep = 0
+  negRep = 0
   graffiti = ''
   timestamp = ''
   hash = ''
@@ -43,14 +43,13 @@ export default class Attestation {
     this.index = index
     this.attester = attester
     this.attesterId = attesterId
-    this.posRep = posRep
-    this.negRep = negRep
+    this.posRep = Number(posRep)
+    this.negRep = Number(negRep)
     this.graffiti = graffiti
     this.timestamp = timestamp
     this.hash = hash
     this._id = _id
 
-    // console.log('Attestation:', await response.json())
     console.log('Attestation:', this.epoch)
     console.log('Attestation:', this.attesterId)
   }

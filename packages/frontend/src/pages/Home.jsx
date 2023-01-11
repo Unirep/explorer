@@ -9,7 +9,6 @@ import Footer from '../components/Footer'
 
 export default observer(() => {
   const { info, unirep, attestation, stateTreeLeaf, epoch } = useContext(state)
-  console.log('HOME: ', stateTreeLeaf.attesterId)
   return (
     <>
       <div className='container'>
@@ -47,10 +46,10 @@ export default observer(() => {
         <div className='right-container'>
           <h3>Overview</h3>
           <div className='info-grid'>            
-              <InfoCard heading='Total Attesters' value={'21'} valueIsNum={true}/>
-              <InfoCard heading='Total Users' value={'3,290,124'} valueIsNum={true}/>
-              <InfoCard heading='Total Rep Given' value={'5,324,678'} valueIsNum={true}/>
-              <InfoCard heading='Hashchains Completed' value={'292'} valueIsNum={true}/>
+              <InfoCard heading='Total Attesters/Apps' value={'21'} valueIsNum={true}/>
+              <InfoCard heading='Total Sign Ups' value={'3,290,124'} valueIsNum={true}/>
+              <InfoCard heading='Total Attestations' value={'292'} valueIsNum={true}/>              
+              <InfoCard heading='Total Reputation Processed' value={'5,324,678'} valueIsNum={true}/>
               <InfoCard heading='Latest Attester' value={'Attester Address, Deployed at:'} valueIsNum={false}/>
               <InfoCard heading='Latest Submitted Attestation' value={'By Attester:  at Epoch:  '} valueIsNum={false}/>
           </div>          
@@ -98,25 +97,14 @@ export default observer(() => {
             <Tooltip text='Some info goes here' maxWidth={200} />
           </div>
           <div className='flex'>
-            <h4>Contract Add</h4>
-            <h4>Attester</h4>
-            <h4>Epoch</h4>
-            <h4>User</h4>
-            <h4>Rep Given</h4>
+            <h4>Contract</h4>
+            <h4>Current</h4>
+            <h4>Users</h4>
+            <h4>Reputation</h4>
+            <h4>next Epoch at</h4>
           </div>
           <div className='scroll'>
-            <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21148151481457093107206483541042547669092147310094944251743153632587065177648' repGiven='120'/>
-            <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
-            <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
-            <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='300'/>
-            <UnirepEvent address='0x..345' appName='Attester Mno' epoch='5' user='25' repGiven='150'/>
-            <UnirepEvent address='0x..678' appName='Attester Pqr' epoch='5' user='26' repGiven='210'/>
-            <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21' repGiven='120'/>
-            <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
-            <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
-            <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='300'/>
-            <UnirepEvent address='0x..345' appName='Attester Mno' epoch='5' user='25' repGiven='150'/>
-            <UnirepEvent address='0x..678' appName='Attester Pqr' epoch='5' user='26' repGiven='210'/>
+            <UnirepEvent address={attestation.attesterId} current='1' users='30' reputation='50' nextEpoch='Jan30, 14:00 UTC'/>
           </div>
         </div>
       </div>

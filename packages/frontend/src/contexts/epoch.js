@@ -20,6 +20,6 @@ export default class Epoch {
     const { number, attesterId, sealed } = await response.json()
     this.number = number
     this.attesterId = attesterId
-    this.sealed = sealed
+    sealed === 1 ? (this.sealed = 'yes') : (this.sealed = 'no')
   }
 }

@@ -7,12 +7,14 @@ import UserEvent from '../components/UserEvent'
 import Footer from '../components/Footer'
 
 export default observer(() => { 
+  // how to pass this this :id to create context??
   // const { id } = useParams()
   const { user } = useContext(state)
-  console.log('from UserPage...', user.signUps)
-  console.log('from UserPage...', user.signUps[0])
-  console.log('from UserPage...', user.signUps.length)
+  // console.log('from UserPage...', user.signUps)
+  // console.log('from UserPage...', user.signUps[0])
+  // console.log('from UserPage...', user.signUps.length)
   // console.log('from UserPage...', user.signUps[0].attesterId)
+
   // can log signUps[0], but signUps[0].anything is undefined
 
   return (
@@ -47,7 +49,7 @@ export default observer(() => {
             <h4>time</h4>
           </div>
           <div className='scroll'>
-            {/* <UserEvent attester={user.signUps[0].attesterId} epoch={user.signUps[0].epoch} time='idk'/> */}
+            <UserEvent attester={user.attesterId} epoch={user.epoch} time='idk'/>
           </div>
         </div>
       </div>
