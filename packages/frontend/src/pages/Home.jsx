@@ -8,7 +8,7 @@ import Footer from '../components/Footer'
 
 
 export default observer(() => {
-  const { info, unirep, attestation, stateTreeLeaf } = useContext(state)
+  const { info, unirep, attestation, stateTreeLeaf, epoch } = useContext(state)
   console.log('HOME: ', stateTreeLeaf.attesterId)
   return (
     <>
@@ -85,6 +85,11 @@ export default observer(() => {
               <li>index: {stateTreeLeaf.index}</li>
               <li>attesterId: {stateTreeLeaf.attesterId}</li>
               <li>id: {stateTreeLeaf._id}</li>
+              <li>  </li>
+              <li>EPOCH:</li>
+              <li>number: {epoch.number}</li>
+              <li>attesterId: {epoch.attesterId}</li>
+              <li>sealed: {epoch.sealed}</li>
             </ul>
           </div>
 
