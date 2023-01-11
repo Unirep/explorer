@@ -10,6 +10,9 @@ export const ETH_PROVIDER_URL =
 
 export const DB_PATH = process.env.DB_PATH ?? ':memory:'
 
+export const VERSION = 'v2'
+export const RELEASE = 'Jan 2023'
+
 export const provider = ETH_PROVIDER_URL.startsWith('http')
   ? new ethers.providers.JsonRpcProvider(ETH_PROVIDER_URL)
   : new ethers.providers.WebSocketProvider(ETH_PROVIDER_URL)

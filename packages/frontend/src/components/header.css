@@ -11,7 +11,7 @@ a:visited {
 .header {
     display: flex;
     justify-content: space-between;
-    padding: 2em 5em;
+    padding: 2em 3em;
 }
 
 .link {
