@@ -8,11 +8,12 @@ import AttestationCard from '../components/AttestationCard'
 import UserCard from '../components/UserCard'
 import Footer from '../components/Footer'
 
-// export const { attesterId } = useParams()
 
 export default observer(() => {
-  const { info } = useContext(state)
   const { id } = useParams()
+  const { signups } = useContext(state)
+  // signups.loadSignUpsByAttester(id)
+  signups.loadSignUpsByAttester('1417799109672561583442883104695026698954826461290')
   const [Selected, setSelected] = useState(0)
 
   return (
@@ -20,34 +21,18 @@ export default observer(() => {
       <div className='container'>
 
         <div className='left-container'>
-          <h3>About</h3>
-          <div className='image-placeholder'></div>
-          <h1>project name</h1>
-          <a style={{color: '#669294'}}href="https://github.com/Unirep/create-unirep-app" target='blank'>https://url-of-attester</a>
-          <p style={{fontSize: '1.1em'}}>Lorem ipsum dolor sit amet consectetur. Molestie elit sit ut magna vel quis ultricies auctor porttitor. Mauris scelerisque tellus eleifend nunc id purus in. Tempus fames lacus feugiat lectus nibh morbi sapien et.</p>
-          <h3>Attester {id}</h3>
-          <div>Connected to a server with the following info:</div>
-          <ul>
-            <li>Unirep Address: {info.UNIREP_ADDRESS}</li>
-            <li>Provider URL: {info.ETH_PROVIDER_URL}</li>
-          </ul>
+          <h3>Attester</h3>
           <div className='info-card'>
             <div className='flex'>
               <h4>Attester Information</h4>
               <Tooltip text='Some info goes here' maxWidth={200} />
             </div>
             <div className='flex'>
-              <h5>ID</h5>
-              <h6>2</h6>
-            </div>
-            <div className='flex'>
               <h5>Deployed at</h5>
               <h6>Jan/20/2023</h6>
             </div>
-            <div className='flex'>
-              <h5>Address</h5>
-              <h6>0xdC9...Bc9</h6>
-            </div>
+            <h5>Address</h5>
+            <h6 style={{wordBreak: 'break-all'}}>0x{id}</h6>
           </div>
         </div>
 

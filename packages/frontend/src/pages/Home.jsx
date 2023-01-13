@@ -8,7 +8,11 @@ import Footer from '../components/Footer'
 
 
 export default observer(() => {
-  const { info, unirep, attestation, stateTreeLeaf, epoch } = useContext(state)
+  const { info, signups } = useContext(state)
+  signups.loadAllSignUps()
+  signups.loadSignUpsByAttester('1417799109672561583442883104695026698954826461290')
+  signups.loadSignUpsByUser('21148151481457093107206483541042547669092147310094944251743153632587065177648')
+
   return (
     <>
       <div className='container'>
@@ -34,11 +38,11 @@ export default observer(() => {
             </div>
             <div className='flex'>
               <h5>Address</h5>
-              <h6>{info.UNIREP_ADDRESS}</h6>
+              <h6 style={{wordBreak: 'break-all'}}>{info.UNIREP_ADDRESS}</h6>
             </div>
             <div className='flex'>
               <h5>Network</h5>
-              <h6>{info.ETH_PROVIDER_URL}</h6>
+              <h6 style={{wordBreak: 'break-all'}}>{info.ETH_PROVIDER_URL}</h6>
             </div>
           </div>
         </div>
@@ -57,38 +61,12 @@ export default observer(() => {
           <h3>Stats</h3>
           <div className='graph-container'>
             <ul>
-              <li>SYNCHRONIZER STATE:</li>
-              <li>Attester Id: {unirep.attesterId}</li>
-              <li>Latest Processed Block: {unirep.latestProcessedBlock}</li>
-              <li>Latest Processed Transaction Index: {unirep.latestProcessedTransactionIndex}</li>
-              <li>Latest Processed Event Index: {unirep.latestProcessedEventIndex}</li>
-              <li>Latest Complete Block: {unirep.latestCompleteBlock}</li>
-              <li>ID: {unirep.id}</li>
-              <li>  </li>
-              <li>ATTESTATION:</li>
-              <li>epoch: {attestation.epoch}</li>
-              <li>epoch key: {attestation.epochKey}</li>
-              <li>index: {attestation.index}</li>
-              <li>attester: {attestation.attester}</li>
-              <li>attesterId: {attestation.attesterId}</li>
-              <li>posRep: {attestation.posRep}</li>
-              <li>negRep: {attestation.negRep}</li>
-              <li>graffiti: {attestation.graffiti}</li>
-              <li>timestamp: {attestation.timestamp}</li>
-              <li>hash: {attestation.hash}</li>
-              <li>id: {attestation._id}</li>
-              <li>  </li>
-              <li>STATE TREE LEAF:</li>
-              <li>epoch: {stateTreeLeaf.epoch}</li>
-              <li>hash: {stateTreeLeaf.hash}</li>
-              <li>index: {stateTreeLeaf.index}</li>
-              <li>attesterId: {stateTreeLeaf.attesterId}</li>
-              <li>id: {stateTreeLeaf._id}</li>
-              <li>  </li>
-              <li>EPOCH:</li>
-              <li>number: {epoch.number}</li>
-              <li>attesterId: {epoch.attesterId}</li>
-              <li>sealed: {epoch.sealed}</li>
+              <li>SIGNUPS:</li>
+              <li>not currently able to access any values of signups</li>
+              {/* <li>{signups.allSignUps[0].commitment}</li>
+              <li>{signups.allSignUps[0].epoch}</li>
+              <li>{signups.allSignUps[0].attesterId}</li>
+              <li>{signups.allSignUps[0]._id}</li> */}
             </ul>
           </div>
 
@@ -104,7 +82,7 @@ export default observer(() => {
             <h4>next Epoch at</h4>
           </div>
           <div className='scroll'>
-            <UnirepEvent address={attestation.attesterId} current='1' users='30' reputation='50' nextEpoch='Jan30, 14:00 UTC'/>
+            <UnirepEvent address='23dfs49weo4kw034w4derg55' current='1' users='30' reputation='50' nextEpoch='Jan30, 14:00 UTC'/>
           </div>
         </div>
       </div>

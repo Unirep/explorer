@@ -7,15 +7,10 @@ import UserEvent from '../components/UserEvent'
 import Footer from '../components/Footer'
 
 export default observer(() => { 
-  // how to pass this this :id to create context??
-  // const { id } = useParams()
-  const { user } = useContext(state)
-  // console.log('from UserPage...', user.signUps)
-  // console.log('from UserPage...', user.signUps[0])
-  // console.log('from UserPage...', user.signUps.length)
-  // console.log('from UserPage...', user.signUps[0].attesterId)
-
-  // can log signUps[0], but signUps[0].anything is undefined
+  const { id } = useParams()
+  const { signups } = useContext(state)
+  // signups.loadSignUpsByUser(id)
+  signups.loadSignUpsByUser('21148151481457093107206483541042547669092147310094944251743153632587065177648')
 
   return (
     <>
@@ -31,13 +26,13 @@ export default observer(() => {
             </div>
             <div className='flex'>
               <h5>Attesters Joined</h5>
-              <h6>{user.signUps.length}</h6>
+              <h6>2</h6>
             </div>
             <div className='flex'>
               <h5>Semaphore ID</h5>
               <Tooltip text='Some info goes here' maxWidth={200} />
             </div>
-            <h6 style={{wordBreak: 'break-all'}}>{user.commitment}</h6>
+            <h6 style={{wordBreak: 'break-all'}}>{id}</h6>
           </div>      
         </div>
 
@@ -49,7 +44,7 @@ export default observer(() => {
             <h4>time</h4>
           </div>
           <div className='scroll'>
-            <UserEvent attester={user.attesterId} epoch={user.epoch} time='idk'/>
+            <UserEvent attester='s34setj09wkspq34sd' epoch='1' time='idk'/>
           </div>
         </div>
       </div>

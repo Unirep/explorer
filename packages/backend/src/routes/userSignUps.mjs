@@ -2,14 +2,14 @@ import catchError from '../helpers/catchError.mjs'
 
 export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
-    let user = req.params.userId
+    const user = req.params.userId
     console.log(user)
-    let userInfo = await db.findOne('UserSignUp', {
+    const userSignUps = await db.findOne('UserSignUp', {
       where: {
         commitment: user,
       },
     })
-    res.json(userInfo)
+    res.json(userSignUps)
   }
-  app.get('/api/user/:userId', catchError(handler))
+  app.get('/api/signups/:userId', catchError(handler))
 }
