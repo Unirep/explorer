@@ -13,7 +13,7 @@ export default class Interface {
 
   constructor(state) {
     makeAutoObservable(this)
-    this.state - state
+    this.state = state
     if (typeof window !== 'undefined') {
       this.load()
     }
