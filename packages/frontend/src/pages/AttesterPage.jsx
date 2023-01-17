@@ -10,10 +10,11 @@ import Footer from '../components/Footer'
 
 
 export default observer(() => {
-  const { id } = useParams()
-  const { signups } = useContext(state)
-  // signups.loadSignUpsByAttester(id)
-  signups.loadSignUpsByAttester('1417799109672561583442883104695026698954826461290')
+  // const { id } = useParams()
+  const id = '1417799109672561583442883104695026698954826461290'
+  const { attester } = useContext(state)
+  attester.loadSignUpsByAttester(id)
+  attester.loadAttestationsByAttester(id)
   const [Selected, setSelected] = useState(0)
 
   return (

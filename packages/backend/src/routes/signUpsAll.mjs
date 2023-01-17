@@ -7,5 +7,5 @@ export default ({ app, db, synchronizer }) => {
     })
     res.json(allSignUps)
   }
-  app.get('/api/signups', catchError(handler))
+  app.get('/api/unirep/signups', catchError(handler))
 }

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import Tooltip from '../components/Tooltip'
@@ -7,10 +8,10 @@ import UserEvent from '../components/UserEvent'
 import Footer from '../components/Footer'
 
 export default observer(() => { 
-  const { id } = useParams()
-  const { signups } = useContext(state)
-  // signups.loadSignUpsByUser(id)
-  signups.loadSignUpsByUser('21148151481457093107206483541042547669092147310094944251743153632587065177648')
+  // const { id } = useParams()
+  const id = '21148151481457093107206483541042547669092147310094944251743153632587065177648'
+  const { user } = useContext(state)
+  user.loadSignUpsByUser(id)
 
   return (
     <>
@@ -26,7 +27,7 @@ export default observer(() => {
             </div>
             <div className='flex'>
               <h5>Attesters Joined</h5>
-              <h6>2</h6>
+              {/* <h6>{user.signUpsByUser.length}</h6> */}
             </div>
             <div className='flex'>
               <h5>Semaphore ID</h5>
@@ -44,7 +45,20 @@ export default observer(() => {
             <h4>time</h4>
           </div>
           <div className='scroll'>
-            <UserEvent attester='s34setj09wkspq34sd' epoch='1' time='idk'/>
+            {/* {user.signUpsByUser[0] ? 
+              user.signUpsByUser.map(({ signup }) => (
+                <div className='event-card'>
+                  <Link to={`/attester/${signup.attesterId}`}>
+                    <p>0x<span>{signup.attesterId.slice(0, 2)}</span>...<span>{signup.attesterId.slice(-6, -1)}</span></p>
+                  </Link>
+                  <p>{signup.epoch}</p>
+                  <p>idk</p>
+                </div>
+              )) : null }
+            {user.signUpsByUser[0] ? 
+              null : 
+              'Loading...'
+            } */}
           </div>
         </div>
       </div>

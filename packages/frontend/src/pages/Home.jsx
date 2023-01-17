@@ -8,10 +8,9 @@ import Footer from '../components/Footer'
 
 
 export default observer(() => {
-  const { info, signups } = useContext(state)
-  signups.loadAllSignUps()
-  signups.loadSignUpsByAttester('1417799109672561583442883104695026698954826461290')
-  signups.loadSignUpsByUser('21148151481457093107206483541042547669092147310094944251743153632587065177648')
+  const { info, unirep } = useContext(state)
+  unirep.loadAllSignUps()
+  unirep.loadAllAttestations()
 
   return (
     <>
@@ -50,10 +49,10 @@ export default observer(() => {
         <div className='right-container'>
           <h3>Overview</h3>
           <div className='info-grid'>            
-              <InfoCard heading='Total Attesters/Apps' value={'21'} valueIsNum={true}/>
-              <InfoCard heading='Total Sign Ups' value={'3,290,124'} valueIsNum={true}/>
-              <InfoCard heading='Total Attestations' value={'292'} valueIsNum={true}/>              
-              <InfoCard heading='Total Reputation Processed' value={'5,324,678'} valueIsNum={true}/>
+              {/* <InfoCard heading='Total Attesters/Apps' value='21' valueIsNum={true}/>
+              <InfoCard heading='Total Sign Ups' value={unirep.allSignups.length} valueIsNum={true}/>
+              <InfoCard heading='Total Attestations' value={unirep.allAttestations.length} valueIsNum={true}/>              
+              <InfoCard heading='Total Reputation Processed' value={unirep.totalRep} valueIsNum={true}/> */}
               <InfoCard heading='Latest Attester' value={'Attester Address, Deployed at:'} valueIsNum={false}/>
               <InfoCard heading='Latest Submitted Attestation' value={'By Attester:  at Epoch:  '} valueIsNum={false}/>
           </div>          

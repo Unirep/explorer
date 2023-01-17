@@ -1,17 +1,17 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite'
 import { Link } from "react-router-dom";
 import './eventCard.css'
 
 
-const UserEvent = ({ attester, epoch, time })  => {
+export default observer(({ signup })  => {
     return (
         <div className='event-card'>
-            <Link to={`/attester/${attester}`}>
-                <p>0x<span>{attester.slice(0, 2)}</span>...<span>{attester.slice(-6, -1)}</span></p>
+            <Link to={`/attester/${signup.attesterId}`}>
+                <p>0x<span>{signup.attesterId.slice(0, 2)}</span>...<span>{signup.attesterId.slice(-6, -1)}</span></p>
             </Link>
-            <p>{epoch}</p>
-            <p>{time}</p>
+            <p>{signup.epoch}</p>
+            <p>idk</p>
         </div>
     )
-} 
-export default UserEvent
+})
