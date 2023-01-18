@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { Link } from "react-router-dom";
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import Tooltip from '../components/Tooltip'
@@ -51,16 +50,10 @@ export default observer(() => {
           </div>
           <div className='scroll'>
             {user.signUpsByUser ? 
-              user.signUpsByUser.map(( signup ) => (
-                <div className='event-card'>
-                  <Link to={`/attester/${signup.attesterId}`}>
-                    <p>0x<span>{signup.attesterId.slice(0, 2)}</span>...<span>{signup.attesterId.slice(-6, -1)}</span></p>
-                  </Link>
-                  <p>{signup.epoch}</p>
-                  <p>idk</p>
-                </div>
+              user.signUpsByUser.map(({ attesterId, epoch }) => (
+                <UserEvent key={attesterId} attesterId={attesterId} epoch={epoch} />
               )) : null }
-            {user.signUpsByUser[0] ? 
+            {user.signUpsByUser ? 
               null : 
               'Loading...'
             }
