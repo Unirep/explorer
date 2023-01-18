@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
@@ -13,9 +13,14 @@ export default observer(() => {
   // const { id } = useParams()
   const id = '1417799109672561583442883104695026698954826461290'
   const { attester } = useContext(state)
-  attester.loadSignUpsByAttester(id)
-  attester.loadAttestationsByAttester(id)
   const [Selected, setSelected] = useState(0)
+  useEffect(() => {
+    const loadData = async () => {
+      await attester.loadSignUpsByAttester(id);
+      await attester.loadAttestationsByAttester(id)
+    }
+    loadData();
+  }, [])
 
   return (
     <>

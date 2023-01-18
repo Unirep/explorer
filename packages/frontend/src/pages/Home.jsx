@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import Tooltip from '../components/Tooltip'
@@ -9,9 +9,14 @@ import Footer from '../components/Footer'
 
 export default observer(() => {
   const { info, unirep } = useContext(state)
-  unirep.loadAllSignUps()
-  unirep.loadAllAttestations()
-
+  useEffect(() => {
+    const loadData = async () => {
+      await unirep.loadAllSignUps();
+      await unirep.loadAllAttestations()
+    }
+    loadData();
+  }, [])
+  
   return (
     <>
       <div className='container'>
@@ -61,7 +66,7 @@ export default observer(() => {
           <div className='graph-container'>
             <ul>
               <li>SIGNUPS:</li>
-              <li>not currently able to access any values of signups</li>
+              {/* <li>{unirep.allSignUps.length}</li> */}
               {/* <li>{signups.allSignUps[0].commitment}</li>
               <li>{signups.allSignUps[0].epoch}</li>
               <li>{signups.allSignUps[0].attesterId}</li>
