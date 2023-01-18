@@ -88,11 +88,11 @@ export default observer(() => {
             </div>
           </div>
           <div className='scroll'>
-            {unirep.attesterIds ? 
-              unirep.attesterIds.map((id) => (
-                <UnirepEvent key={id} address={id} current='1' users='30' reputation='50' nextEpoch='idk'/>
+            {unirep.currentAttesterStats ? 
+              unirep.currentAttesterStats.map((status) => (
+                <UnirepEvent key={status.attesterId} status={status} nextEpoch='idk'/>
               )) : null }
-            {unirep.attesterIds ? 
+            {unirep.currentAttesterStats ? 
               null : 
               'Loading...'
             }

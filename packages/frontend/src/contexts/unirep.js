@@ -7,6 +7,7 @@ export default class Unirep {
   totalRep = 0
   allEpochs = []
   attesterIds = []
+  currentAttesterStats = []
 
   constructor(state) {
     makeAutoObservable(this)
@@ -50,8 +51,40 @@ export default class Unirep {
       (epoch) => epoch.number === 0 && this.attesterIds.push(epoch.attesterId)
     )
     console.log('attesterIds:', this.attesterIds)
-    // this.getCurrentAttesterStats()
+    this.getCurrentAttesterStats()
   }
 
-  async getCurrentAttesterStats() {}
+  async getCurrentAttesterStats() {
+    this.attesterIds.forEach((attester) => {
+      let latestEpoch = 0
+      let users = 0
+      let posRep = 0
+      let negRep = 0
+      this.allEpochs.forEach((epoch) => {
+        if (epoch.attesterId === attester) {
+          if (epoch.number > latestEpoch) {
+            latestEpoch = epoch.number
+          }
+        }
+      })
+      this.allSignUps.forEach((signup) => {
+        signup.attesterId === attester && users++
+      })
+      this.allAttestations.forEach((attestation) => {
+        if (attestation.attesterId === attester) {
+          posRep += attestation.posRep
+          negRep += attestation.negRep
+        }
+      })
+      // need to get time of next epoch, add to statObject
+      let status = {
+        attesterId: attester,
+        currentEpoch: latestEpoch,
+        numUsers: users,
+        posReputation: posRep,
+        negReputation: negRep,
+      }
+      this.currentAttesterStats.push(status)
+    })
+  }
 }
