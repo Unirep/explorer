@@ -12,7 +12,8 @@ export default observer(() => {
   useEffect(() => {
     const loadData = async () => {
       await unirep.loadAllSignUps();
-      await unirep.loadAllAttestations()
+      await unirep.loadAllAttestations();
+      await unirep.loadAllEpochs()
     }
     loadData();
   }, [])
@@ -54,24 +55,16 @@ export default observer(() => {
         <div className='right-container'>
           <h3>Overview</h3>
           <div className='info-grid'>            
-              {/* <InfoCard heading='Total Attesters/Apps' value='21' valueIsNum={true}/>
-              <InfoCard heading='Total Sign Ups' value={unirep.allSignups.length} valueIsNum={true}/>
-              <InfoCard heading='Total Attestations' value={unirep.allAttestations.length} valueIsNum={true}/>              
-              <InfoCard heading='Total Reputation Processed' value={unirep.totalRep} valueIsNum={true}/> */}
-              <InfoCard heading='Latest Attester' value={'Attester Address, Deployed at:'} valueIsNum={false}/>
-              <InfoCard heading='Latest Submitted Attestation' value={'By Attester:  at Epoch:  '} valueIsNum={false}/>
+              <InfoCard heading='Total Attesters/Apps' value={unirep.attesterIds.length}/>
+              <InfoCard heading='Total Sign Ups' value={unirep.allSignUps.length}/>
+              <InfoCard heading='Total Attestations' value={unirep.allAttestations.length}/>              
+              <InfoCard heading='Total Reputation Processed' value={unirep.totalRep}/>
+              <InfoCard heading='Latest Attester' value={'Attester Address, Deployed at:'}/>
+              <InfoCard heading='Latest Submitted Attestation' value={'By Attester:  at Epoch:  '}/>
           </div>          
 
           <h3>Stats</h3>
           <div className='graph-container'>
-            <ul>
-              <li>SIGNUPS:</li>
-              {/* <li>{unirep.allSignUps.length}</li> */}
-              {/* <li>{signups.allSignUps[0].commitment}</li>
-              <li>{signups.allSignUps[0].epoch}</li>
-              <li>{signups.allSignUps[0].attesterId}</li>
-              <li>{signups.allSignUps[0]._id}</li> */}
-            </ul>
           </div>
 
           <div className='flex' style={{marginBottom: '2%'}}>
@@ -81,12 +74,28 @@ export default observer(() => {
           <div className='flex'>
             <h4>Contract</h4>
             <h4>Current</h4>
-            <h4>Users</h4>
-            <h4>Reputation</h4>
-            <h4>next Epoch at</h4>
+            <div className='flex'>
+              <h4>Users</h4>
+              <img src={require('../../public/arrow_up_down.svg')} alt="arrow change order of display"/>
+            </div>
+            <div className='flex'>
+              <h4>Reputation</h4>
+              <img src={require('../../public/arrow_up_down.svg')} alt="arrow change order of display"/>
+            </div>
+            <div className='flex'>
+              <h4>next Epoch at</h4>
+              <img src={require('../../public/arrow_up_down.svg')} alt="arrow change order of display"/>
+            </div>
           </div>
           <div className='scroll'>
-            <UnirepEvent address='23dfs49weo4kw034w4derg55' current='1' users='30' reputation='50' nextEpoch='Jan30, 14:00 UTC'/>
+            {unirep.attesterIds ? 
+              unirep.attesterIds.map((id) => (
+                <UnirepEvent key={id} address={id} current='1' users='30' reputation='50' nextEpoch='idk'/>
+              )) : null }
+            {unirep.attesterIds ? 
+              null : 
+              'Loading...'
+            }
           </div>
         </div>
       </div>

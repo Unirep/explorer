@@ -5,6 +5,8 @@ export default class Unirep {
   allSignUps = []
   allAttestations = []
   totalRep = 0
+  allEpochs = []
+  attesterIds = []
 
   constructor(state) {
     makeAutoObservable(this)
@@ -36,4 +38,20 @@ export default class Unirep {
     console.log('allAttestations:', this.allAttestations)
     console.log('total rep:', this.totalRep)
   }
+
+  async loadAllEpochs() {
+    const url = new URL(`api/unirep/epochs`, SERVER)
+    const response = await fetch(url.toString()).then((r) => r.json())
+    console.log('loadAllEpochs was called')
+    console.log('response: ', response)
+    this.allEpochs = response
+    console.log('allEpochs:', this.allEpochs)
+    this.allEpochs.map(
+      (epoch) => epoch.number === 0 && this.attesterIds.push(epoch.attesterId)
+    )
+    console.log('attesterIds:', this.attesterIds)
+    // this.getCurrentAttesterStats()
+  }
+
+  async getCurrentAttesterStats() {}
 }

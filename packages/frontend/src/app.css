@@ -88,7 +88,7 @@ li {
 
 .graph-container {
     width: 100%;
-    height: auto;
+    height: 300px;
     border: 1px solid black;
     border-radius: 8px;
     background-color: #A0D8DB;
