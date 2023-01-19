@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite'
+import state from '../contexts/state';
 import UserCard from './UserCard';
 
 export default observer(({ signups })  => {
+    const { attester } = useContext(state)
     return (
         <div className='scroll'>
             <div className='flex'>
