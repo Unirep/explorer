@@ -7,8 +7,8 @@ import UserEvent from '../components/UserEvent'
 import Footer from '../components/Footer'
 
 export default observer(() => { 
-  // const { id } = useParams()
-  const id = '21148151481457093107206483541042547669092147310094944251743153632587065177648'
+  const { id } = useParams()
+  // const id = '21148151481457093107206483541042547669092147310094944251743153632587065177648'
   const { user } = useContext(state)
   useEffect(() => {
     const loadData = async () => {

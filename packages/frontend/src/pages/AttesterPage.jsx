@@ -104,6 +104,10 @@ export default observer(() => {
                   attester.attestationsByAttester.map(({ epochKey, posRep, negRep, graffiti, _id }) => (
                     <AttestationCard key={_id} epochKey={epochKey} posRep={posRep} negRep={negRep} graffiti={graffiti}/>
                   )) : null }
+                {attester.attestationsByAttester ? 
+                  null : 
+                  'Loading...'
+                }
               </div>
             </>
           ) : (
@@ -114,23 +118,17 @@ export default observer(() => {
               </div>
                 <div className='flex'>
                 <h4>Semaphore ID</h4>
-                <h4>Signed up</h4>
-                <h4># of epochs</h4>
-                <h4>Last seen</h4>
-                <h4>Total Rep</h4>
+                <h4>Signed up at</h4>
               </div>
               <div className='scroll'>
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
-                <UserCard id='e34..djljdg' signUp='1' epochsMade='10' lastSeen='3' totalRep='591' />
+                {attester.signUpsByAttester ?
+                  attester.signUpsByAttester.map(({ commitment, epoch }) => (
+                    <UserCard key={commitment} commitment={commitment} epoch={epoch} />
+                  )) : null }
+                {attester.signUpsByAttester ? 
+                  null : 
+                  'Loading...'
+                }
               </div>
             </>
           )}
