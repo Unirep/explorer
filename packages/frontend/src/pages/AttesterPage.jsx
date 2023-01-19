@@ -10,14 +10,15 @@ import Footer from '../components/Footer'
 
 
 export default observer(() => {
-  // const { id } = useParams()
-  const id = '1417799109672561583442883104695026698954826461290'
+  const { id } = useParams()
+  // const id = '1417799109672561583442883104695026698954826461290'
   const { attester } = useContext(state)
   const [Selected, setSelected] = useState(0)
   useEffect(() => {
     const loadData = async () => {
       await attester.loadSignUpsByAttester(id);
-      await attester.loadAttestationsByAttester(id)
+      await attester.loadAttestationsByAttester(id);
+      await attester.loadEpochsByAttester(id)
     }
     loadData();
   }, [])
@@ -37,18 +38,25 @@ export default observer(() => {
               <h5>Deployed at</h5>
               <h6>Jan/20/2023</h6>
             </div>
-            <h5>Address</h5>
-            <h6 style={{wordBreak: 'break-all'}}>0x{id}</h6>
+            <div className='flex'>
+              <h5>Contract Address</h5>
+              <h6>0x
+                <span>{id.slice(0, 3)}</span>...<span>{id.slice(-6, -1)}  </span>
+                <img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/>
+              </h6>
+            </div>
+            
           </div>
         </div>
 
         <div className='right-container'>
           <h3>Overview</h3>
           <div className='info-grid'>
-            <InfoCard heading='Epochs Processed' value={'61'} valueIsNum={true}/>
-            <InfoCard heading='Total Rep Given' value={'2,109'} valueIsNum={true}/>
-            <InfoCard heading='Total Users Signed Up' value={'20'} valueIsNum={true}/>          
-            <InfoCard heading='Hashchain Status' value={'Processing'} valueIsNum={false}/>
+            {/* currently showing last epoch, not last processed */}
+            <InfoCard heading='Epochs Processed' value={attester.epochsByAttester.length - 1}/>
+            <InfoCard heading='Total Rep Given' value={attester.posRep + attester.negRep}/>
+            <InfoCard heading='Total Users Signed Up' value={attester.signUpsByAttester.length}/>          
+            <InfoCard heading='Hashchain Status' value={'Processing'}/>
           </div>
           {Selected === 0 ? (
             <>
@@ -57,7 +65,7 @@ export default observer(() => {
                 <h3 onClick={() => setSelected(1)} className='unselected'>Users</h3>
               </div>
               <div className='info-grid'>
-                <InfoCard heading='Current Epoch #' value={'62'} valueIsNum={true}/>
+                <InfoCard heading='Current Epoch #' value={attester.epochsByAttester.length}/>
                 <InfoCard heading='Epoch Transition In' value={'hh:mm:ss'} valueIsNum={true}/>
               </div>
 
@@ -77,18 +85,25 @@ export default observer(() => {
               </div>
               <div className='flex'>
                 <h4>Epoch key</h4>
-                <h4>Rep given</h4>
+                <div className='flex'>
+                  <h4>Positive Rep</h4>
+                  <img src={require('../../public/arrow_up_down.svg')} alt="arrow change order of display"/>
+                </div>
+                <div className='flex'>
+                  <h4>Negative Rep</h4>
+                  <img src={require('../../public/arrow_up_down.svg')} alt="arrow change order of display"/>
+                </div>
+                <div className='flex'>
+                  <h4>Graffiti</h4>
+                  <img src={require('../../public/arrow_up_down.svg')} alt="arrow change order of display"/>
+                </div>
+                
               </div>
               <div className='scroll'>
-                <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='100' />
-                <AttestationCard epochKey='dglkdrt[p0o298349309fkjw3q3jwefk2j' repGiven='60' />
-                <AttestationCard epochKey='sdkljrw983bnksrg79834rkjnv89qrkje9' repGiven='120' />
-                <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='200' />
-                <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='40' />
-                <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='100' />
-                <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='10' />
-                <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='150' />
-                <AttestationCard epochKey='123jksif84ntg8fdvnle48sdv/kljewpo8' repGiven='200' />
+                {attester.attestationsByAttester ?
+                  attester.attestationsByAttester.map(({ epochKey, posRep, negRep, graffiti, _id }) => (
+                    <AttestationCard key={_id} epochKey={epochKey} posRep={posRep} negRep={negRep} graffiti={graffiti}/>
+                  )) : null }
               </div>
             </>
           ) : (
