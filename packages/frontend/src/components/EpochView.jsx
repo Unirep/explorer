@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite'
-import state from '../contexts/state';
 import InfoCard from './InfoCard';
 import AttestationCard from './AttestationCard';
 
 export default observer(({ currentEpoch, attestations })  => {
-    const { attester } = useContext(state)
     return (
         <>
             <div className='info-grid'>

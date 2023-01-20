@@ -1,9 +1,9 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 import { Link } from "react-router-dom";
 import './eventCard.css'
 
-
-const UnirepEvent = ({ status, nextEpoch })  => {
+export default observer(({ status, nextEpoch })  => {
     return (
         <div className="event-card">
             <Link to={`attester/${status.attesterId}`}>
@@ -15,6 +15,4 @@ const UnirepEvent = ({ status, nextEpoch })  => {
             <p>{nextEpoch}</p>
         </div>
     )
-}
-
-export default UnirepEvent
+})

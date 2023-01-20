@@ -1,9 +1,9 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 import Tooltip from './Tooltip';
 import './infoCard.css'
 
-
-const InfoCard = ({ heading, value })  => {
+export default observer(({ heading, value })  => {
     return (
         <div className='info-card'>
             <div className='flex'>
@@ -17,6 +17,4 @@ const InfoCard = ({ heading, value })  => {
             )}
         </div>
     )
-}
-
-export default InfoCard
+})
