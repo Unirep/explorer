@@ -20,8 +20,8 @@ export default class Attester {
 
   async loadSignUpsByAttester(attesterId) {
     const url = new URL(`api/attester/${attesterId}/signups`, SERVER)
-    const response = await fetch(url.toString())
-    this.signUpsByAttester = await response.json()
+    const response = await fetch(url.toString()).then((r) => r.json())
+    this.signUpsByAttester = response
     console.log('loadSignUpsByAttester was called')
     console.log('signUpsByAttester:', this.signUpsByAttester)
   }
@@ -40,7 +40,8 @@ export default class Attester {
 
   async loadEpochsByAttester(attesterId) {
     const url = new URL(`api/attester/${attesterId}/epochs`, SERVER)
-    this.epochsByAttester = await fetch(url.toString()).then((r) => r.json())
+    const response = await fetch(url.toString()).then((r) => r.json())
+    this.epochsByAttester = response
     console.log('loadEpochsByAttester was called')
     console.log('epochs:', this.epochsByAttester)
   }

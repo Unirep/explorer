@@ -40,7 +40,7 @@ export default observer(({ currentEpoch, attestations })  => {
 
             <div className='scroll'>
                 {attestations.map(({ epochKey, posRep, negRep, graffiti, _id }) => (
-                    <AttestationCard id={_id} epochKey={epochKey} posRep={posRep} negRep={negRep} graffiti={graffiti}/>
+                    <AttestationCard key={_id} epochKey={epochKey} posRep={posRep} negRep={negRep} graffiti={graffiti}/>
                 ))}
             </div>
         </>

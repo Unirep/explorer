@@ -8,10 +8,9 @@ import EpochView from '../components/EpochView'
 import UserView from '../components/UserView'
 import Footer from '../components/Footer'
 
-
 export default observer(() => {
   const { id } = useParams()
-  const { attester } = useContext(state)
+  const { unirep, attester } = useContext(state)
   const [Selected, setSelected] = useState(0)
   useEffect(() => {
     const loadData = async () => {
@@ -44,8 +43,7 @@ export default observer(() => {
                 <span>{id.slice(0, 3)}</span>...<span>{id.slice(-6, -1)}  </span>
                 <img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/>
               </h6>
-            </div>
-            
+            </div>           
           </div>
         </div>
 

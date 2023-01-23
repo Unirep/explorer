@@ -3,8 +3,13 @@ import { SERVER } from '../config'
 
 export default class Unirep {
   allSignUps = []
+  signUpsByUserId = {}
+  signUpsByAttesterId = {}
   allAttestations = []
-  totalRep = 0
+  attestationsByAttesterId = {}
+  totalPosRep = 0
+  totalNegRep = 0
+  totalRep = this.totalPosRep - this.totalNegRep
   allEpochs = []
   attesterIds = []
   currentAttesterStats = []
@@ -21,16 +26,54 @@ export default class Unirep {
 
   async loadAllSignUps() {
     const url = new URL(`api/unirep/signups`, SERVER)
-    this.allSignUps = await fetch(url.toString()).then((r) => r.json())
+    const data = await fetch(url.toString()).then((r) => r.json())
+    this.allSignUps = data
+    this.ingestSignUps(data)
+  }
+
+  async ingestSignUps(signups) {
+    this.signUpsByUserId = new Map()
+    this.signUpsByAttesterId = new Map()
+    for (let i = 0; i < signups.length; i++) {
+      let userId = signups[i].commitment
+      let attesterId = signups[i].attesterId
+      if (this.signUpsByUserId.has(userId)) {
+        this.signUpsByUserId.get(userId).push(signups[i])
+      } else {
+        this.signUpsByUserId.set(userId, [signups[i]])
+      }
+
+      if (this.signUpsByAttesterId.has(attesterId)) {
+        this.signUpsByAttesterId.get(attesterId).push(signups[i])
+      } else {
+        this.signUpsByAttesterId.set(attesterId, [signups[i]])
+      }
+    }
+    console.log('userSignups:', this.signUpsByUserId)
+    console.log('attesterSignUps:', this.signUpsByAttesterId)
   }
 
   async loadAllAttestations() {
     const url = new URL(`api/unirep/attestations`, SERVER)
-    this.allAttestations = await fetch(url.toString()).then((r) => r.json())
-    this.allAttestations.forEach((attestation) => {
-      this.totalRep += attestation.posRep
-      this.totalRep -= attestation.negRep
-    })
+    const data = await fetch(url.toString()).then((r) => r.json())
+    this.allAttestations = data
+    this.ingestAttestations(data)
+  }
+
+  async ingestAttestations(attestations) {
+    this.attestationsByAttesterId = new Map()
+    for (let i = 0; i < attestations.length; i++) {
+      let attesterId = attestations[i].attesterId
+      if (this.attestationsByAttesterId.has(attesterId)) {
+        this.attestationsByAttesterId.get(attesterId).push(attestations[i])
+      } else {
+        this.attestationsByAttesterId.set(attesterId, [attestations[i]])
+      }
+      this.totalPosRep += attestations[i].posRep
+      this.totalNegRep += attestations[i].negRep
+    }
+    console.log('attestationsByAttester:', this.attestationsByAttesterId)
+    console.log('total rep:', this.totalNegRep, this.totalPosRep)
   }
 
   async loadAllEpochs() {
@@ -40,9 +83,10 @@ export default class Unirep {
       epoch.number === 0 && this.attesterIds.push(epoch.attesterId)
     })
     this.getCurrentAttesterStats()
+    console.log('loadAllEpochs was called')
   }
 
-  async getCurrentAttesterStats() {
+  getCurrentAttesterStats() {
     this.attesterIds.forEach((attester) => {
       let latestEpoch = 0
       let users = 0
@@ -74,5 +118,7 @@ export default class Unirep {
       }
       this.currentAttesterStats.push(status)
     })
+    console.log('getCurrentAttesterStats ws called')
+    console.log('stats:', this.currentAttesterStats)
   }
 }
