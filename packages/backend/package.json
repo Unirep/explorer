@@ -15,6 +15,8 @@
   ],
   "scripts": {
     "start": "node ./src/index.mjs",
+    "deploy": "node ./scripts/deploy.mjs",
+    "blockchain": "sh scripts/start_test_environment.sh && yarn deploy",
     "test": "node ./__tests__/backend.test.js"
   },
   "dependencies": {
