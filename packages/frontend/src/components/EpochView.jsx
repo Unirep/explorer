@@ -5,7 +5,7 @@ import InfoCard from './InfoCard';
 import AttestationCard from './AttestationCard';
 import './epochView.css'
 
-export default observer(({ currentEpoch, attestations, attByEp, suByEp })  => {    
+export default observer(({ currentEpoch, attestations })  => {    
     const { attester } = useContext(state)
     const [selectedEpochActivities, setSelectedEpochActivities] = useState(currentEpoch)
     const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(currentEpoch)
