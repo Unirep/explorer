@@ -52,10 +52,16 @@ export default class Unirep {
     console.log('userSignups:', this.signUpsByUserId)
     console.log('attesterSignUps:', this.signUpsByAttesterId)
     console.log(
-      'one users signups:',
+      'one users signups with map.get:',
       this.signUpsByUserId.get(
         '20665588589671275613306006678457435446746460926274194220015986402668071993482'
       )
+    )
+    console.log(
+      'one users signups by id:',
+      this.signUpsByUserId[
+        '20665588589671275613306006678457435446746460926274194220015986402668071993482'
+      ]
     )
   }
 

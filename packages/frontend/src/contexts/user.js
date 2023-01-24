@@ -16,10 +16,7 @@ export default class User {
 
   async loadSignUpsByUser(userId) {
     const url = new URL(`api/user/${userId}/signups`, SERVER)
-    const response = await fetch(url.toString()).then((r) => r.json())
-    console.log('loadSignUpsByUser was called')
-    console.log('response: ', response)
-    this.signUpsByUser = response
-    console.log('signUpsByUser:', this.signUpsByUser)
+    const data = await fetch(url.toString()).then((r) => r.json())
+    this.signUpsByUser = data
   }
 }

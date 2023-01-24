@@ -5,10 +5,16 @@ import InfoCard from './InfoCard';
 import AttestationCard from './AttestationCard';
 import './epochView.css'
 
-export default observer(({ currentEpoch, attestations, attByEp, suByEp })  => {
+export default observer(({ currentEpoch, attestations, attByEp, suByEp })  => {    
     const { attester } = useContext(state)
     const [selectedEpochActivities, setSelectedEpochActivities] = useState(currentEpoch)
     const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(currentEpoch)
+    console.log(currentEpoch)
+    console.log(selectedEpochActivities)
+    console.log(attester.signUpsByEpoch)
+    console.log(attester.attestationsByEpoch)
+    console.log(attester.attestationsByEpoch[4])
+
     return (
         <>
             <div className='info-grid'>
@@ -18,9 +24,9 @@ export default observer(({ currentEpoch, attestations, attByEp, suByEp })  => {
 
             <div className='flex'>
                 <h3>Activities (Epoch {selectedEpochActivities})</h3>
-                <div class="dropdown">
-                    <button class="dropbtn">Jump to epoch..</button>
-                    <div class="dropdown-content">
+                <div className="dropdown">
+                    <button className="dropbtn">Jump to epoch..</button>
+                    <div className="dropdown-content">
                         {attester.epochsByAttester.map(({ number }) => (
                             <p onClick={() => setSelectedEpochActivities(number)} key={number} >{number}</p>
                         ))}
@@ -29,16 +35,22 @@ export default observer(({ currentEpoch, attestations, attByEp, suByEp })  => {
             </div>
 
             <div className='graph-container'>
-                <ul>
-                    <li>signups this epoch: {suByEp.size}</li>
+                <ul>signups this epoch:
+                    <li></li>
+                </ul>
+                <ul>attestations this epoch:
+                    <li></li>
+                </ul>
+                <ul>UST this epoch:
+                    <li></li>
                 </ul>
             </div>
 
             <div className='flex'>
                 <h3>Attestations (Epoch {selectedEpochAttestations})</h3>
-                <div class="dropdown">
-                    <button class="dropbtn">Jump to epoch..</button>
-                    <div class="dropdown-content">
+                <div className="dropdown">
+                    <button className="dropbtn">Jump to epoch..</button>
+                    <div className="dropdown-content">
                         {attester.epochsByAttester.map(({ number }) => (
                             <p onClick={() => setSelectedEpochAttestations(number)} key={number} >{number}</p>
                         ))}
@@ -62,9 +74,17 @@ export default observer(({ currentEpoch, attestations, attByEp, suByEp })  => {
             </div>
 
             <div className='scroll'>
-                {attestations.map(({ epochKey, posRep, negRep, graffiti, _id }) => (
+                {/* {attestations.map(({ epochKey, posRep, negRep, graffiti, _id }) => (
                     <AttestationCard key={_id} epochKey={epochKey} posRep={posRep} negRep={negRep} graffiti={graffiti}/>
-                ))}
+                ))} */}
+                {attester.attestationsByEpoch[selectedEpochAttestations] ?
+                    attestationsByEpoch[selectedEpochAttestations].map(({ epochKey, posRep, negRep, graffiti, _id }) => (
+                        <AttestationCard key={_id} epochKey={epochKey} posRep={posRep} negRep={negRep} graffiti={graffiti}/>
+                )) : null}
+                {attester.attestationsByEpoch[selectedEpochAttestations] ? 
+                null : 
+                'Loading...'
+                }
             </div>
         </>
     )

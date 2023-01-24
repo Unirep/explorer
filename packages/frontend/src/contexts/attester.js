@@ -25,8 +25,6 @@ export default class Attester {
     const data = await fetch(url.toString()).then((r) => r.json())
     this.signUpsByAttester = data
     this.mapSignUpsToEpoch(data)
-    console.log('loadSignUpsByAttester was called')
-    console.log('signUpsByAttester:', this.signUpsByAttester)
   }
 
   async mapSignUpsToEpoch(signups) {
@@ -39,7 +37,6 @@ export default class Attester {
         this.signUpsByEpoch.set(epoch, [signups[i]])
       }
     }
-    console.log('signUpsByEpoch:', this.signUpsByEpoch)
   }
 
   async loadAttestationsByAttester(attesterId) {
@@ -47,9 +44,6 @@ export default class Attester {
     const data = await fetch(url.toString()).then((r) => r.json())
     this.attestationsByAttester = data
     this.mapAttestationsToEpoch(data)
-    console.log('loadAttestationsByAttester was called')
-    console.log('attestationsByAttester:', this.attestationsByAttester)
-    this.attestationsByAttester.forEach((attestation) => {})
   }
 
   async mapAttestationsToEpoch(attestations) {
@@ -64,14 +58,11 @@ export default class Attester {
       this.totalPosRep += attestations[i].posRep
       this.totalNegRep += attestations[i].negRep
     }
-    console.log('attestationsByEpoch:', this.attestationsByEpoch)
   }
 
   async loadEpochsByAttester(attesterId) {
     const url = new URL(`api/attester/${attesterId}/epochs`, SERVER)
-    const response = await fetch(url.toString()).then((r) => r.json())
-    this.epochsByAttester = response
-    console.log('loadEpochsByAttester was called')
-    console.log('epochs:', this.epochsByAttester)
+    const data = await fetch(url.toString()).then((r) => r.json())
+    this.epochsByAttester = data
   }
 }

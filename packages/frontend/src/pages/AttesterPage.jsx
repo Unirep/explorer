@@ -10,7 +10,7 @@ import Footer from '../components/Footer'
 
 export default observer(() => {
   const { id } = useParams()
-  const { unirep, attester } = useContext(state)
+  const { attester } = useContext(state)
   const [Selected, setSelected] = useState(0)
   useEffect(() => {
     const loadData = async () => {
@@ -20,9 +20,7 @@ export default observer(() => {
     }
     loadData();
   }, [])
-  const currentEpoch = attester.epochsByAttester.length
-  const attByEp = attester.attestationsByEpoch
-  const suByEp = attester.signUpsByEpoch
+  const currentEpoch = attester.epochsByAttester.length - 1
 
   return (
     <>
@@ -64,11 +62,11 @@ export default observer(() => {
                 <h3 onClick={() => setSelected(0)} className='selected' style={{marginRight: "30px"}}>Epoch</h3>
                 <h3 onClick={() => setSelected(1)} className='unselected'>Users</h3>
               </div>  
-              {attester.attestationsByAttester ?
-                <EpochView currentEpoch={currentEpoch} attestations={attester.attestationsByAttester} attByEp={attByEp} suByEp={suByEp}/> :
+              {attester.epochsByAttester.length > 0 && attester.attestationsByAttester.length > 0 ?
+                <EpochView currentEpoch={currentEpoch} attestations={attester.attestationsByAttester}/> :
                 null
               }
-              {attester.attestationsByAttester ? 
+              {attester.epochsByAttester.length > 0 && attester.attestationsByAttester.length > 0 ? 
                 null : 
                 'Loading...'
               }
@@ -79,11 +77,11 @@ export default observer(() => {
                 <h3 onClick={() => setSelected(0)} className='unselected' style={{marginRight: "30px"}}>Epoch</h3>
                 <h3 onClick={() => setSelected(1)} className='selected'>Users</h3>
               </div>
-              {attester.signUpsByAttester ?
+              {attester.signUpsByAttester.length > 0 ?
                 <UserView signups={attester.signUpsByAttester}/> :
                 null
               }
-              {attester.signUpsByAttester ? 
+              {attester.signUpsByAttester.length > 0 ? 
                 null : 
                 'Loading...'
               }
