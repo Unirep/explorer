@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite'
+import state from '../contexts/state';
 import InfoCard from './InfoCard';
 import AttestationCard from './AttestationCard';
+import './epochView.css'
 
-export default observer(({ currentEpoch, attestations })  => {
+export default observer(({ currentEpoch, attestations, attByEp, suByEp })  => {
+    const { attester } = useContext(state)
+    const [selectedEpochActivities, setSelectedEpochActivities] = useState(currentEpoch)
+    const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(currentEpoch)
     return (
         <>
             <div className='info-grid'>
@@ -12,15 +17,33 @@ export default observer(({ currentEpoch, attestations })  => {
             </div>
 
             <div className='flex'>
-                <h3>Current Epoch Activities</h3>
-                <button>Jump to</button>
+                <h3>Activities (Epoch {selectedEpochActivities})</h3>
+                <div class="dropdown">
+                    <button class="dropbtn">Jump to epoch..</button>
+                    <div class="dropdown-content">
+                        {attester.epochsByAttester.map(({ number }) => (
+                            <p onClick={() => setSelectedEpochActivities(number)} key={number} >{number}</p>
+                        ))}
+                    </div>
+                </div>               
             </div>
 
-            <div className='graph-container'></div>
+            <div className='graph-container'>
+                <ul>
+                    <li>signups this epoch: {suByEp.size}</li>
+                </ul>
+            </div>
 
             <div className='flex'>
-                <h3>Epoch Keys</h3>
-                <button>Jump to</button>
+                <h3>Attestations (Epoch {selectedEpochAttestations})</h3>
+                <div class="dropdown">
+                    <button class="dropbtn">Jump to epoch..</button>
+                    <div class="dropdown-content">
+                        {attester.epochsByAttester.map(({ number }) => (
+                            <p onClick={() => setSelectedEpochAttestations(number)} key={number} >{number}</p>
+                        ))}
+                    </div>
+                </div>
             </div>
             <div className='flex'>
                 <h4>Epoch key</h4>

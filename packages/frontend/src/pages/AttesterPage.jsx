@@ -21,6 +21,8 @@ export default observer(() => {
     loadData();
   }, [])
   const currentEpoch = attester.epochsByAttester.length
+  const attByEp = attester.attestationsByEpoch
+  const suByEp = attester.signUpsByEpoch
 
   return (
     <>
@@ -52,7 +54,7 @@ export default observer(() => {
           <div className='info-grid'>
             {/* currently showing previous epoch, not last processed */}
             <InfoCard heading='Epochs Processed' value={currentEpoch - 1}/>
-            <InfoCard heading='Total Rep Given' value={attester.posRep + attester.negRep}/>
+            <InfoCard heading='Total Rep Given' value={attester.totalPosRep + attester.totalNegRep}/>
             <InfoCard heading='Total Users Signed Up' value={attester.signUpsByAttester.length}/>          
             <InfoCard heading='Hashchain Status' value={'Processing'}/>
           </div>
@@ -63,7 +65,7 @@ export default observer(() => {
                 <h3 onClick={() => setSelected(1)} className='unselected'>Users</h3>
               </div>  
               {attester.attestationsByAttester ?
-                <EpochView currentEpoch={currentEpoch} attestations={attester.attestationsByAttester}/> :
+                <EpochView currentEpoch={currentEpoch} attestations={attester.attestationsByAttester} attByEp={attByEp} suByEp={suByEp}/> :
                 null
               }
               {attester.attestationsByAttester ? 

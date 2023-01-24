@@ -51,6 +51,20 @@ export default class Unirep {
     }
     console.log('userSignups:', this.signUpsByUserId)
     console.log('attesterSignUps:', this.signUpsByAttesterId)
+    console.log(
+      'one users signups:',
+      this.signUpsByUserId.get(
+        '20665588589671275613306006678457435446746460926274194220015986402668071993482'
+      )
+    )
+  }
+
+  async getSignUpsByUserId(userId) {
+    return this.signUpsByUserId.get(userId)
+  }
+
+  async getSignUpsByAttesterId(attesterId) {
+    return this.signUpsByAttesterId[attesterId]
   }
 
   async loadAllAttestations() {

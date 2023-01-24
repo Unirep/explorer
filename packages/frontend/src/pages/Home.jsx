@@ -18,6 +18,7 @@ export default observer(() => {
     loadData();
   }, [])
   
+  
   return (
     <>
       <div className='container'>
@@ -64,8 +65,7 @@ export default observer(() => {
           </div>          
 
           <h3>Stats</h3>
-          <div className='graph-container'>
-          </div>
+          <div className='graph-container'></div>
 
           <div className='flex' style={{marginBottom: '2%'}}>
             <h3>Attester Activities</h3>
