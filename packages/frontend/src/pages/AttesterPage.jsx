@@ -63,7 +63,7 @@ export default observer(() => {
                 <h3 onClick={() => setSelected(1)} className='unselected'>Users</h3>
               </div>  
               {attester.epochsByAttester.length > 0 && attester.attestationsByAttester.length > 0 ?
-                <EpochView currentEpoch={currentEpoch} attestations={attester.attestationsByAttester}/> :
+                <EpochView currentEpoch={currentEpoch}/> :
                 null
               }
               {attester.epochsByAttester.length > 0 && attester.attestationsByAttester.length > 0 ? 

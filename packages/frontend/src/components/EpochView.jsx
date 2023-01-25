@@ -5,15 +5,15 @@ import InfoCard from './InfoCard';
 import AttestationCard from './AttestationCard';
 import './epochView.css'
 
-export default observer(({ currentEpoch, attestations })  => {    
+export default observer(({ currentEpoch })  => {    
     const { attester } = useContext(state)
     const [selectedEpochActivities, setSelectedEpochActivities] = useState(currentEpoch)
     const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(currentEpoch)
+    const signups = attester.signUpsByEpoch.get(selectedEpochActivities)
+    const graphAttestations = attester.attestationsByEpoch.get(selectedEpochActivities)
+    const listAttestations = attester.attestationsByEpoch.get(selectedEpochAttestations)
     console.log(currentEpoch)
     console.log(selectedEpochActivities)
-    console.log(attester.signUpsByEpoch)
-    console.log(attester.attestationsByEpoch)
-    console.log(attester.attestationsByEpoch[4])
 
     return (
         <>
@@ -34,14 +34,28 @@ export default observer(({ currentEpoch, attestations })  => {
                 </div>               
             </div>
 
-            <div className='graph-container'>
-                <ul>signups this epoch:
-                    <li></li>
+            <div className='graph-container' style={{height: 'auto'}}>
+                <ul>SIGNUPS THIS EPOCH: {signups ? signups.length : 0}
+                    {signups ? 
+                        signups.map(({ commitment }) => (
+                            <li key={commitment}>{commitment}</li>
+                    )) : null}
+                    {signups ?
+                        null :
+                        <li>There were no signups in this epoch</li>
+                    }
                 </ul>
-                <ul>attestations this epoch:
-                    <li></li>
+                <ul>ATTESTATIONS THIS EPOCH: {graphAttestations ?graphAttestations.length : 0}
+                    {graphAttestations ? 
+                        graphAttestations.map(({ epochKey }) => (
+                            <li key={epochKey}>{epochKey}</li>
+                    )) : null}
+                    {graphAttestations ?
+                        null :
+                        <li>There were no attestations in this epoch</li>
+                    }
                 </ul>
-                <ul>UST this epoch:
+                <ul>UST THIS EPOCH:
                     <li></li>
                 </ul>
             </div>
@@ -74,16 +88,13 @@ export default observer(({ currentEpoch, attestations })  => {
             </div>
 
             <div className='scroll'>
-                {/* {attestations.map(({ epochKey, posRep, negRep, graffiti, _id }) => (
-                    <AttestationCard key={_id} epochKey={epochKey} posRep={posRep} negRep={negRep} graffiti={graffiti}/>
-                ))} */}
-                {attester.attestationsByEpoch[selectedEpochAttestations] ?
-                    attestationsByEpoch[selectedEpochAttestations].map(({ epochKey, posRep, negRep, graffiti, _id }) => (
+                {listAttestations ?
+                    listAttestations.map(({ epochKey, posRep, negRep, graffiti, _id }) => (
                         <AttestationCard key={_id} epochKey={epochKey} posRep={posRep} negRep={negRep} graffiti={graffiti}/>
                 )) : null}
-                {attester.attestationsByEpoch[selectedEpochAttestations] ? 
+                {listAttestations ? 
                 null : 
-                'Loading...'
+                'There were no attestations in this epoch.'
                 }
             </div>
         </>
