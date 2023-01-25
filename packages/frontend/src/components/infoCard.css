@@ -5,5 +5,9 @@
 }
 
 .card-heading {
-    padding: 35px 0 20px 0;
+    padding: 35px 0 10px 0;
+}
+
+.break {
+    word-break: break-all;
 }

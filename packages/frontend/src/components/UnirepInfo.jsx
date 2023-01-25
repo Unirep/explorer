@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import Tooltip from './Tooltip';
+import ConfigInfoItem from './ConfigInfoItem';
 import './infoCard.css'
 
 export default observer(({ info })  => {
@@ -24,10 +24,10 @@ export default observer(({ info })  => {
                 <img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/>
               </a>
             </div>
-            <h6 style={{wordBreak: 'break-all'}}>{info.UNIREP_ADDRESS}</h6>
+            <h6 className='break'>{info.UNIREP_ADDRESS}</h6>
             <div className='flex'>
               <h5>Network</h5>
-              <h6 style={{wordBreak: 'break-all'}}>{info.ETH_PROVIDER_URL}</h6>
+              <h6 className='break'>{info.ETH_PROVIDER_URL}</h6>
             </div>
 
             {contractExpanded ? (
@@ -38,16 +38,8 @@ export default observer(({ info })  => {
                             <img src={require('../../public/arrow_up.svg')} alt="arrow up"/>
                         </div>
                     </div>
-                    <div className='flex'>
-                        <h5>Empty Epoch Tree Root</h5>
-                        <Tooltip text='Some info goes here' maxWidth={200} />
-                    </div>
-                    <h6 style={{wordBreak: 'break-all'}}>{info.EMPTY_EPOCH_TREE_ROOT}</h6>
-                    <div className='flex'>
-                        <h5>Aggregate Key Count</h5>
-                        <Tooltip text='Some info goes here' maxWidth={200} />
-                    </div>
-                    <h6 style={{wordBreak: 'break-all'}}>{info.AGGREGATE_KEY_COUNT}</h6>
+                    <ConfigInfoItem info={info.EMPTY_EPOCH_TREE_ROOT} />
+                    <ConfigInfoItem info={info.AGGREGATE_KEY_COUNT} />
                 </>
             ) : (
                 <>
@@ -68,26 +60,10 @@ export default observer(({ info })  => {
                             <img src={require('../../public/arrow_up.svg')} alt="arrow up"/>
                         </div>
                     </div>
-                    <div className='flex'>
-                        <h5>State Tree Depth</h5>
-                        <Tooltip text='Some info goes here' maxWidth={200} />
-                    </div>
-                    <h6 style={{wordBreak: 'break-all'}}>{info.STATE_TREE_DEPTH}</h6>
-                    <div className='flex'>
-                        <h5>Epoch Tree Depth</h5>
-                        <Tooltip text='Some info goes here' maxWidth={200} />
-                    </div>
-                    <h6 style={{wordBreak: 'break-all'}}>{info.EPOCH_TREE_DEPTH}</h6>
-                    <div className='flex'>
-                        <h5>Epoch Tree Arity</h5>
-                        <Tooltip text='Some info goes here' maxWidth={200} />
-                    </div>
-                    <h6 style={{wordBreak: 'break-all'}}>{info.EPOCH_TREE_ARITY}</h6>
-                    <div className='flex'>
-                        <h5>Epoch Key Nonce Count</h5>
-                        <Tooltip text='Some info goes here' maxWidth={200} />
-                    </div>
-                    <h6 style={{wordBreak: 'break-all'}}>{info.EPOCH_KEY_NONCE_COUNT}</h6>
+                    <ConfigInfoItem info={info.STATE_TREE_DEPTH} />
+                    <ConfigInfoItem info={info.EPOCH_TREE_DEPTH} />
+                    <ConfigInfoItem info={info.EPOCH_TREE_ARITY} />
+                    <ConfigInfoItem info={info.EPOCH_KEY_NONCE_COUNT} />
                 </>
             ) : (
                 <>
