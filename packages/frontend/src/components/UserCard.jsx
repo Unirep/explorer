@@ -7,7 +7,7 @@ export default observer(({ commitment, epoch })  => {
     return (
         <div className='event-card'>
             <Link to={`/user/${commitment}`}>
-                <p><span>{commitment.slice(0, 10)}</span>...<span>{commitment.slice(-6, -1)}</span></p>
+                <p><span>{commitment.slice(0, 10)}</span>...<span>{commitment.slice(-5)}</span></p>
             </Link>
             <p>epoch # {epoch}</p>
         </div>

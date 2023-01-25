@@ -40,7 +40,7 @@ export default observer(() => {
             <div className='flex'>
               <h5>Contract Address</h5>
               <h6>0x
-                <span>{id.slice(0, 3)}</span>...<span>{id.slice(-6, -1)}  </span>
+                <span>{id.slice(0, 3)}</span>...<span>{id.slice(-5)}  </span>
                 <img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/>
               </h6>
             </div>           
