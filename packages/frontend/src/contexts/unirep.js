@@ -9,7 +9,6 @@ export default class Unirep {
   attestationsByAttesterId = {}
   totalPosRep = 0
   totalNegRep = 0
-  totalRep = this.totalPosRep - this.totalNegRep
   allEpochs = []
   attesterIds = []
   currentAttesterStats = []

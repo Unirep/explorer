@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import UnirepInfo from '../components/UnirepInfo'
 import Tooltip from '../components/Tooltip'
 import InfoCard from '../components/InfoCard'
 import UnirepEvent from '../components/UnirepEvent'
@@ -29,28 +30,7 @@ export default observer(() => {
           <p style={{fontWeight: '500'}}>Ready to build your own?</p>
           <a style={{color: '#669294'}}href="https://github.com/Unirep/create-unirep-app" target='blank'>Get started here.</a>
           <div className=''><img src={require('../../public/hero_img.svg')} alt="bird image"/></div>
-          <div className='info-card'>
-            <div className='flex'>
-              <h4>Protocol Information</h4>
-              <Tooltip text='Some info goes here' maxWidth={200} />
-            </div>
-            <div className='flex'>
-              <h5>Current version</h5>
-              <h6>{info.VERSION}</h6>
-            </div>
-            <div className='flex'>
-              <h5>Release</h5>
-              <h6>{info.RELEASE}</h6>
-            </div>
-            <div className='flex'>
-              <h5>Address</h5>
-              <h6 style={{wordBreak: 'break-all'}}>{info.UNIREP_ADDRESS}</h6>
-            </div>
-            <div className='flex'>
-              <h5>Network</h5>
-              <h6 style={{wordBreak: 'break-all'}}>{info.ETH_PROVIDER_URL}</h6>
-            </div>
-          </div>
+          <UnirepInfo info={info} />
         </div>
 
         <div className='right-container'>
@@ -59,7 +39,7 @@ export default observer(() => {
               <InfoCard heading='Total Attesters/Apps' value={unirep.attesterIds.length}/>
               <InfoCard heading='Total Sign Ups' value={unirep.allSignUps.length}/>
               <InfoCard heading='Total Attestations' value={unirep.allAttestations.length}/>              
-              <InfoCard heading='Total Reputation Processed' value={unirep.totalRep}/>
+              <InfoCard heading='Total Reputation Processed' value={unirep.totalPosRep - unirep.totalNegRep}/>
               <InfoCard heading='Latest Attester' value={'Attester Address, Deployed at:'}/>
               <InfoCard heading='Latest Submitted Attestation' value={'By Attester:  at Epoch:  '}/>
           </div>          
