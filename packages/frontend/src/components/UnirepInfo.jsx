@@ -20,7 +20,9 @@ export default observer(({ info })  => {
             </div>
             <div className='flex'>
               <h5>Address</h5>
-              <a><img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/></a>
+              <a href='https://goerli.arbiscan.io/address/0x5e50ba700443FfA87d3A02039234dAA4F3c59A36' target='blank'>
+                <img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/>
+              </a>
             </div>
             <h6 style={{wordBreak: 'break-all'}}>{info.UNIREP_ADDRESS}</h6>
             <div className='flex'>
