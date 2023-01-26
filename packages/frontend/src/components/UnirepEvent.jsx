@@ -17,7 +17,7 @@ export default observer(({ status, nextEpoch })  => {
                     <span style={{color: 'red'}}>-{status.negReputation}</span>
                 </span>
             </p>
-            <p>Jan 30, 14:00 UTC</p>
+            <p style={{fontSize: '12px'}}>Jan 30, 14:00 UTC</p>
         </div>
     )
 })

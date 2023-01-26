@@ -19,8 +19,8 @@ export default observer(({ currentEpoch })  => {
     return (
         <>
             <div className='info-grid'>
-                <InfoCard heading='Current Epoch #' value={currentEpoch}/>
-                <InfoCard heading='Epoch Transition In' value={'hh:mm:ss'}/>
+                <InfoCard heading='Current Epoch #' value1={currentEpoch}/>
+                <InfoCard heading='Next Epoch Transition Time' value1={'Jan 30, 14:00 UTC'}/>
             </div>
 
             <div className='flex'>
@@ -79,8 +79,8 @@ export default observer(({ currentEpoch })  => {
                     </div>
                 </div>
             </div>
-            <div className='flex'>
-                <h4>Epoch key</h4>
+            <div className='flex events-header'>
+                <h4 style={{width: '35%'}}>Epoch key</h4>
                 <div className='flex'>
                     <h4>Positive Rep</h4>
                     <img src={require('../../public/arrow_up_down.svg')} alt="arrow change order of display"/>

@@ -30,10 +30,7 @@ export default observer(() => {
         <div className='left-container'>
           <h3>Attester</h3>
           <div className='info-card'>
-            <div className='flex'>
-              <h4>Attester Information</h4>
-              <Tooltip text='Some info goes here' maxWidth={200} />
-            </div>
+            <h4>Attester Information</h4>
             <div className='flex'>
               <h5>Deployed at</h5>
               <h6>Jan/20/2023</h6>
@@ -42,7 +39,9 @@ export default observer(() => {
               <h5>Contract Address</h5>
               <h6>0x
                 <span>{id.slice(0, 3)}</span>...<span>{id.slice(-5)}  </span>
+                <a href={`https://goerli.arbiscan.io/address/0x${id}`} target='blank'>
                 <img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/>
+                </a>
               </h6>
             </div>           
           </div>
@@ -52,10 +51,23 @@ export default observer(() => {
           <h3>Overview</h3>
           <div className='info-grid'>
             {/* currently showing previous epoch, not last processed */}
-            <InfoCard heading='Epochs Processed' value={currentEpoch - 1}/>
-            <InfoCard heading='Total Rep Given' value={attester.totalPosRep - attester.totalNegRep}/>
-            <InfoCard heading='Total Users Signed Up' value={attester.signUpsByAttester.length}/>          
-            <InfoCard heading='Hashchain Status' value={'Processing'}/>
+            <InfoCard heading='Epochs Processed' value1={currentEpoch - 1}/>
+            <InfoCard heading='Total Rep Given' value1={attester.totalPosRep - attester.totalNegRep} value2={attester.totalPosRep} value3={attester.totalNegRep}/>
+            <InfoCard heading='Total Users Signed Up' value1={attester.signUpsByAttester.length}/>          
+            <div className='info-card'>
+              <div className='flex'>
+                <h4>Hashchain Status</h4>
+                <Tooltip />
+              </div>             
+              <div className='flex'>
+                <h5>Average Delay</h5>                 
+                <h6>2 min</h6>
+              </div>
+              <div className='flex'>
+                <h5>Status</h5>
+                <h6>Completed <span class="dot"></span></h6>
+              </div>
+            </div>
           </div>
           {selectedView === 'Epoch' ? (
             <>

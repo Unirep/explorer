@@ -123,3 +123,11 @@ li {
 .red {
     color: #E17F75;
 }
+
+.dot {
+    height: 15px;
+    width: 15px;
+    background-color: #89BD5F;
+    border-radius: 50%;
+    display: inline-block;
+}
