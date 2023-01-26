@@ -22,8 +22,6 @@ export default observer(() => {
     loadData();
   }, [])
   const currentEpoch = attester.epochsByAttester.length - 1
-  console.log('USTs', attester.ustByAttester)
-  // console.log('also:', attester.ustByEpoch.get(7))
 
   return (
     <>

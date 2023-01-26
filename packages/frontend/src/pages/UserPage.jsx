@@ -36,7 +36,7 @@ export default observer(() => {
               <h5>Semaphore ID</h5>
               <Tooltip text='Some info goes here' maxWidth={200} />
             </div>
-            <h6 style={{wordBreak: 'break-all'}}>{id}</h6>
+            <h6 className='break'>{id}</h6>
           </div>      
         </div>
 

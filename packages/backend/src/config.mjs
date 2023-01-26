@@ -7,7 +7,6 @@ export const UNIREP_ADDRESS =
 // process.env.UNIREP_ADDRESS ?? '0x5e50ba700443ffa87d3a02039234daa4f3c59a36'
 export const ETH_PROVIDER_URL =
   process.env.ETH_PROVIDER_URL ?? 'https://arbitrum.goerli.unirep.io'
-// process.env.ETH_PROVIDER_URL ?? 'Arbitrum/Goerli'
 
 export const DB_PATH = process.env.DB_PATH ?? ':memory:'
 

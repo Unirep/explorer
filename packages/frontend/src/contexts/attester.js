@@ -85,6 +85,5 @@ export default class Attester {
         this.ustByEpoch.set(epoch, [USTs[i]])
       }
     }
-    // console.log('USTs:', this.ustByEpoch.get(7))
   }
 }

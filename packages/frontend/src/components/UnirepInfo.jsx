@@ -20,14 +20,18 @@ export default observer(({ info })  => {
             </div>
             <div className='flex'>
               <h5>Address</h5>
-              <a href='https://goerli.arbiscan.io/address/0x5e50ba700443FfA87d3A02039234dAA4F3c59A36' target='blank'>
-                <img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/>
-              </a>
+              <h6>
+                <span>{info.UNIREP_ADDRESS.slice(0, 5)}</span>...<span>{info.UNIREP_ADDRESS.slice(-5)} </span>
+                <a href={`https://goerli.arbiscan.io/address/${info.UNIREP_ADDRESS}`} target='blank'>
+                    <img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/>
+                </a>
+              </h6>
+              
             </div>
-            <h6 className='break'>{info.UNIREP_ADDRESS}</h6>
+            
             <div className='flex'>
               <h5>Network</h5>
-              <h6 className='break'>{info.ETH_PROVIDER_URL}</h6>
+              <h6>{info.ETH_PROVIDER_URL.slice(8, 23).replace('.', '/')}</h6>
             </div>
 
             {contractExpanded ? (
@@ -38,8 +42,9 @@ export default observer(({ info })  => {
                             <img src={require('../../public/arrow_up.svg')} alt="arrow up"/>
                         </div>
                     </div>
-                    <ConfigInfoItem info={info.EMPTY_EPOCH_TREE_ROOT} />
-                    <ConfigInfoItem info={info.AGGREGATE_KEY_COUNT} />
+                    {/* need these values */}
+                    <ConfigInfoItem item='Empty Epoch Tree Root' info={info.EMPTY_EPOCH_TREE_ROOT} />
+                    <ConfigInfoItem item='Aggregate Key Count' info={info.AGGREGATE_KEY_COUNT} />
                 </>
             ) : (
                 <>
@@ -60,10 +65,11 @@ export default observer(({ info })  => {
                             <img src={require('../../public/arrow_up.svg')} alt="arrow up"/>
                         </div>
                     </div>
-                    <ConfigInfoItem info={info.STATE_TREE_DEPTH} />
-                    <ConfigInfoItem info={info.EPOCH_TREE_DEPTH} />
-                    <ConfigInfoItem info={info.EPOCH_TREE_ARITY} />
-                    <ConfigInfoItem info={info.EPOCH_KEY_NONCE_COUNT} />
+                    <ConfigInfoItem item='State Tree Depth' info={info.STATE_TREE_DEPTH} />
+                    <ConfigInfoItem item='Epoch Tree Depth' info={info.EPOCH_TREE_DEPTH} />
+                    {/* need this value */}
+                    <ConfigInfoItem item='Epoch Tree Arity' info={info.EPOCH_TREE_ARITY} />
+                    <ConfigInfoItem item='Epoch Key Nonce Count' info={info.EPOCH_KEY_NONCE_COUNT} />
                 </>
             ) : (
                 <>
