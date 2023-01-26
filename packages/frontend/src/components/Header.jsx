@@ -7,6 +7,10 @@ export default () => {
         <>
             <div className="header">
                 <Link to='/'><img src={require('../../public/logo.svg')} alt="UniRep logo"/></Link>
+                <div className='searchbar'>
+                  <input id="search" type="text" className="input" placeholder="search by Attester/ User/ Epoch Key"/>
+                  <button id="go" className="go">GO</button>
+                </div>
                 <div className="flex">
                     <a className="link" href="https://developer.unirep.io/" target='blank'>Docs</a>
                     <a className="link" href="https://github.com/Unirep" target='blank'><img src={require('../../public/github.svg')} alt="GitHub logo"/></a>
