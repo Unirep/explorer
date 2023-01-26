@@ -10,6 +10,7 @@ export default observer(({ currentEpoch })  => {
     const [selectedEpochActivities, setSelectedEpochActivities] = useState(currentEpoch)
     const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(currentEpoch)
     const signups = attester.signUpsByEpoch.get(selectedEpochActivities)
+    const USTs = attester.ustByEpoch.get(selectedEpochActivities)
     const graphAttestations = attester.attestationsByEpoch.get(selectedEpochActivities)
     const listAttestations = attester.attestationsByEpoch.get(selectedEpochAttestations)
     console.log(currentEpoch)
@@ -55,8 +56,15 @@ export default observer(({ currentEpoch })  => {
                         <li>There were no attestations in this epoch</li>
                     }
                 </ul>
-                <ul>UST THIS EPOCH:
-                    <li></li>
+                <ul>UST THIS EPOCH: {USTs ? USTs.length : 0}
+                    {USTs ? 
+                        USTs.map(({ nullifier }) => (
+                            <li key={nullifier}>{nullifier}</li>
+                    )) : null}
+                    {USTs ?
+                        null :
+                        <li>There were no USTs in this epoch</li>
+                    }
                 </ul>
             </div>
 

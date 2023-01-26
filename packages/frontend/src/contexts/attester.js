@@ -2,13 +2,15 @@ import { makeAutoObservable } from 'mobx'
 import { SERVER } from '../config'
 
 export default class Attester {
+  epochsByAttester = []
   signUpsByAttester = []
   signUpsByEpoch = {}
   attestationsByAttester = []
   attestationsByEpoch = {}
   totalPosRep = 0
   totalNegRep = 0
-  epochsByAttester = []
+  ustByAttester = []
+  ustByEpoch = {}
 
   constructor(state) {
     makeAutoObservable(this)
@@ -19,6 +21,12 @@ export default class Attester {
   }
 
   //   async load() {}
+
+  async loadEpochsByAttester(attesterId) {
+    const url = new URL(`api/attester/${attesterId}/epochs`, SERVER)
+    const data = await fetch(url.toString()).then((r) => r.json())
+    this.epochsByAttester = data
+  }
 
   async loadSignUpsByAttester(attesterId) {
     const url = new URL(`api/attester/${attesterId}/signups`, SERVER)
@@ -60,9 +68,23 @@ export default class Attester {
     }
   }
 
-  async loadEpochsByAttester(attesterId) {
-    const url = new URL(`api/attester/${attesterId}/epochs`, SERVER)
+  async loadUSTByAttester(attesterId) {
+    const url = new URL(`api/attester/${attesterId}/ust`, SERVER)
     const data = await fetch(url.toString()).then((r) => r.json())
-    this.epochsByAttester = data
+    this.ustByAttester = data
+    this.mapUSTsToEpoch(data)
+  }
+
+  async mapUSTsToEpoch(USTs) {
+    this.ustByEpoch = new Map()
+    for (let i = 0; i < USTs.length; i++) {
+      let epoch = USTs[i].epoch
+      if (this.ustByEpoch.has(epoch)) {
+        this.ustByEpoch.get(epoch).push(USTs[i])
+      } else {
+        this.ustByEpoch.set(epoch, [USTs[i]])
+      }
+    }
+    // console.log('USTs:', this.ustByEpoch.get(7))
   }
 }

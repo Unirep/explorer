@@ -11,13 +11,10 @@ export default observer(() => {
   const { unirep, user } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
-      // await unirep.loadAllSignUps();
-      // const signups = await unirep.getSignUpsByUserId(id)
       await user.loadSignUpsByUser(id)
     }
     loadData();
   }, [])
-  // const signups = unirep.getSignUpsByUserId(id)
 
   return (
     <>
@@ -59,14 +56,6 @@ export default observer(() => {
               null : 
               'Loading...'
             }
-            {/* {signups ? 
-              signups.map(({ attesterId, epoch }) => (
-                <UserEvent key={attesterId} attesterId={attesterId} epoch={epoch} />
-              )) : null }
-            {signups ? 
-              null : 
-              'Loading...'
-            } */}
           </div>
         </div>
       </div>

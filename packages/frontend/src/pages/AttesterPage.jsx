@@ -11,16 +11,19 @@ import Footer from '../components/Footer'
 export default observer(() => {
   const { id } = useParams()
   const { attester } = useContext(state)
-  const [Selected, setSelected] = useState(0)
+  const [selectedView, setSelectedView] = useState('Epoch')
   useEffect(() => {
     const loadData = async () => {
+      await attester.loadEpochsByAttester(id);
       await attester.loadSignUpsByAttester(id);
       await attester.loadAttestationsByAttester(id);
-      await attester.loadEpochsByAttester(id)
+      await attester.loadUSTByAttester(id)
     }
     loadData();
   }, [])
   const currentEpoch = attester.epochsByAttester.length - 1
+  console.log('USTs', attester.ustByAttester)
+  // console.log('also:', attester.ustByEpoch.get(7))
 
   return (
     <>
@@ -52,21 +55,21 @@ export default observer(() => {
           <div className='info-grid'>
             {/* currently showing previous epoch, not last processed */}
             <InfoCard heading='Epochs Processed' value={currentEpoch - 1}/>
-            <InfoCard heading='Total Rep Given' value={attester.totalPosRep + attester.totalNegRep}/>
+            <InfoCard heading='Total Rep Given' value={attester.totalPosRep - attester.totalNegRep}/>
             <InfoCard heading='Total Users Signed Up' value={attester.signUpsByAttester.length}/>          
             <InfoCard heading='Hashchain Status' value={'Processing'}/>
           </div>
-          {Selected === 0 ? (
+          {selectedView === 'Epoch' ? (
             <>
               <div style={{display: 'flex'}}>
-                <h3 onClick={() => setSelected(0)} className='selected' style={{marginRight: "30px"}}>Epoch</h3>
-                <h3 onClick={() => setSelected(1)} className='unselected'>Users</h3>
+                <h3 onClick={() => setSelectedView('Epoch')} className='selected' style={{marginRight: "30px"}}>Epoch</h3>
+                <h3 onClick={() => setSelectedView('User')} className='unselected'>Users</h3>
               </div>  
-              {attester.epochsByAttester.length > 0 && attester.attestationsByAttester.length > 0 ?
+              {attester.epochsByAttester.length > 0 && attester.attestationsByAttester.length > 0 && attester.ustByAttester.length > 0 ?
                 <EpochView currentEpoch={currentEpoch}/> :
                 null
               }
-              {attester.epochsByAttester.length > 0 && attester.attestationsByAttester.length > 0 ? 
+              {attester.epochsByAttester.length > 0 && attester.attestationsByAttester.length > 0 && attester.ustByAttester.length > 0 ? 
                 null : 
                 'Loading...'
               }
@@ -74,8 +77,8 @@ export default observer(() => {
           ) : (
             <>
               <div style={{display: 'flex', marginBottom: '2%'}}>
-                <h3 onClick={() => setSelected(0)} className='unselected' style={{marginRight: "30px"}}>Epoch</h3>
-                <h3 onClick={() => setSelected(1)} className='selected'>Users</h3>
+                <h3 onClick={() => setSelectedView('Epoch')} className='unselected' style={{marginRight: "30px"}}>Epoch</h3>
+                <h3 onClick={() => setSelectedView('User')} className='selected'>Users</h3>
               </div>
               {attester.signUpsByAttester.length > 0 ?
                 <UserView signups={attester.signUpsByAttester}/> :

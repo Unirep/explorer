@@ -3,10 +3,10 @@ import { SERVER } from '../config'
 
 export default class Unirep {
   allSignUps = []
-  signUpsByUserId = {}
-  signUpsByAttesterId = {}
+  // signUpsByUserId = {}
+  // signUpsByAttesterId = {}
   allAttestations = []
-  attestationsByAttesterId = {}
+  // attestationsByAttesterId = {}
   totalPosRep = 0
   totalNegRep = 0
   allEpochs = []
@@ -27,73 +27,63 @@ export default class Unirep {
     const url = new URL(`api/unirep/signups`, SERVER)
     const data = await fetch(url.toString()).then((r) => r.json())
     this.allSignUps = data
-    this.ingestSignUps(data)
+    // this.ingestSignUps(data)
   }
 
-  async ingestSignUps(signups) {
-    this.signUpsByUserId = new Map()
-    this.signUpsByAttesterId = new Map()
-    for (let i = 0; i < signups.length; i++) {
-      let userId = signups[i].commitment
-      let attesterId = signups[i].attesterId
-      if (this.signUpsByUserId.has(userId)) {
-        this.signUpsByUserId.get(userId).push(signups[i])
-      } else {
-        this.signUpsByUserId.set(userId, [signups[i]])
-      }
+  // async ingestSignUps(signups) {
+  //   this.signUpsByUserId = new Map()
+  //   this.signUpsByAttesterId = new Map()
+  //   for (let i = 0; i < signups.length; i++) {
+  //     let userId = signups[i].commitment
+  //     let attesterId = signups[i].attesterId
+  //     if (this.signUpsByUserId.has(userId)) {
+  //       this.signUpsByUserId.get(userId).push(signups[i])
+  //     } else {
+  //       this.signUpsByUserId.set(userId, [signups[i]])
+  //     }
 
-      if (this.signUpsByAttesterId.has(attesterId)) {
-        this.signUpsByAttesterId.get(attesterId).push(signups[i])
-      } else {
-        this.signUpsByAttesterId.set(attesterId, [signups[i]])
-      }
-    }
-    console.log('userSignups:', this.signUpsByUserId)
-    console.log('attesterSignUps:', this.signUpsByAttesterId)
-    console.log(
-      'one users signups with map.get:',
-      this.signUpsByUserId.get(
-        '20665588589671275613306006678457435446746460926274194220015986402668071993482'
-      )
-    )
-    console.log(
-      'one users signups by id:',
-      this.signUpsByUserId[
-        '20665588589671275613306006678457435446746460926274194220015986402668071993482'
-      ]
-    )
-  }
-
-  async getSignUpsByUserId(userId) {
-    return this.signUpsByUserId.get(userId)
-  }
-
-  async getSignUpsByAttesterId(attesterId) {
-    return this.signUpsByAttesterId[attesterId]
-  }
+  //     if (this.signUpsByAttesterId.has(attesterId)) {
+  //       this.signUpsByAttesterId.get(attesterId).push(signups[i])
+  //     } else {
+  //       this.signUpsByAttesterId.set(attesterId, [signups[i]])
+  //     }
+  //   }
+  //   console.log('userSignups:', this.signUpsByUserId)
+  //   console.log('attesterSignUps:', this.signUpsByAttesterId)
+  //   console.log(
+  //     'one users signups with map.get:',
+  //     this.signUpsByUserId.get(
+  //       '20665588589671275613306006678457435446746460926274194220015986402668071993482'
+  //     )
+  //   )
+  // }
 
   async loadAllAttestations() {
     const url = new URL(`api/unirep/attestations`, SERVER)
     const data = await fetch(url.toString()).then((r) => r.json())
     this.allAttestations = data
-    this.ingestAttestations(data)
+    this.allAttestations.forEach((attestation) => {
+      this.totalPosRep += attestation.posRep
+      this.totalNegRep += attestation.negRep
+    })
+    // this.ingestAttestations(data)
   }
 
-  async ingestAttestations(attestations) {
-    this.attestationsByAttesterId = new Map()
-    for (let i = 0; i < attestations.length; i++) {
-      let attesterId = attestations[i].attesterId
-      if (this.attestationsByAttesterId.has(attesterId)) {
-        this.attestationsByAttesterId.get(attesterId).push(attestations[i])
-      } else {
-        this.attestationsByAttesterId.set(attesterId, [attestations[i]])
-      }
-      this.totalPosRep += attestations[i].posRep
-      this.totalNegRep += attestations[i].negRep
-    }
-    console.log('attestationsByAttester:', this.attestationsByAttesterId)
-    console.log('total rep:', this.totalNegRep, this.totalPosRep)
-  }
+  // async ingestAttestations(attestations) {
+  //   this.attestationsByAttesterId = new Map()
+  //   for (let i = 0; i < attestations.length; i++) {
+  //     let attesterId = attestations[i].attesterId
+  //     if (this.attestationsByAttesterId.has(attesterId)) {
+  //       this.attestationsByAttesterId.get(attesterId).push(attestations[i])
+  //     } else {
+  //       this.attestationsByAttesterId.set(attesterId, [attestations[i]])
+  //     }
+  //     this.totalPosRep += attestations[i].posRep
+  //     this.totalNegRep += attestations[i].negRep
+  //   }
+  //   console.log('attestationsByAttester:', this.attestationsByAttesterId)
+  //   console.log('total rep:', this.totalNegRep, this.totalPosRep)
+  // }
 
   async loadAllEpochs() {
     const url = new URL(`api/unirep/epochs`, SERVER)
