@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state';
 import InfoCard from './InfoCard';
@@ -7,8 +7,15 @@ import './epochView.css'
 
 export default observer(({ currentEpoch })  => {    
     const { attester } = useContext(state)
-    const [selectedEpochActivities, setSelectedEpochActivities] = useState(currentEpoch)
-    const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(currentEpoch)
+    const [selectedEpochActivities, setSelectedEpochActivities] = useState(0)
+    const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(0)
+    useEffect(() => {
+    const loadData = async () => {
+        setSelectedEpochActivities(currentEpoch)
+        setSelectedEpochAttestations(currentEpoch)
+    }
+    loadData();
+  }, [])
     const signups = attester.signUpsByEpoch.get(selectedEpochActivities)
     const USTs = attester.ustByEpoch.get(selectedEpochActivities)
     const graphAttestations = attester.attestationsByEpoch.get(selectedEpochActivities)

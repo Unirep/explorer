@@ -1,15 +1,42 @@
-import React from 'react'
+import React, { useContext, useState,useEffect } from 'react'
 import { Outlet, Link } from "react-router-dom";
+import { observer } from 'mobx-react-lite'
+import state from '../contexts/state';
 import './header.css'
 
-export default () => {
+export default observer(() => {
+    const { unirep } = useContext(state)
+    const [userIds, setUserIds] = useState([])
+    const [attesterIds, setAttesterIds] = useState([])
+    useEffect(() => {
+    const loadData = async () => {
+        await unirep.loadAllSignUps()
+        await unirep.loadAllAttestations()
+        await unirep.loadAllEpochs()
+        setUserIds(unirep.allSignUps)
+        setAttesterIds(unirep.attesterIds)
+      }
+      loadData();
+    }, [])
+    const [searchInput, setSearchInput] = useState('')
+    const [goToPage, setGoToPage] = useState('')
+    const handleGo = () => {
+        if (userIds.some(e => e.commitment === searchInput)) {
+            setGoToPage(`user/${searchInput}`)
+        } else if (attesterIds.includes(searchInput)) {
+            setGoToPage(`attester/${searchInput}`)
+        } else {
+            setGoToPage('404')
+        }
+    }
+    
     return (
         <>
             <div className="header">
                 <Link to='/'><img src={require('../../public/logo.svg')} alt="UniRep logo"/></Link>
                 <div className='searchbar'>
-                  <input id="search" type="text" className="input" placeholder="search by Attester/ User/ Epoch Key"/>
-                  <button id="go" className="go">GO</button>
+                  <input id="search" type="text" value={searchInput} onInput={e => setSearchInput(e.target.value)} className="input" placeholder="search by Attester/ User/ Epoch Key"/>
+                  <Link to={goToPage}><button id="go" className="go" onClick={() => handleGo()}>GO</button></Link>
                 </div>
                 <div className="flex">
                     <a className="link" href="https://developer.unirep.io/" target='blank'>Docs</a>
@@ -26,4 +53,4 @@ export default () => {
         </>
         
     )
-}
+})

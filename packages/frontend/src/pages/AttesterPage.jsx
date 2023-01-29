@@ -12,16 +12,17 @@ export default observer(() => {
   const { id } = useParams()
   const { attester } = useContext(state)
   const [selectedView, setSelectedView] = useState('Epoch')
+  const [currentEpoch, setCurrentEpoch] = useState(0)
   useEffect(() => {
     const loadData = async () => {
       await attester.loadEpochsByAttester(id);
       await attester.loadSignUpsByAttester(id);
       await attester.loadAttestationsByAttester(id);
       await attester.loadUSTByAttester(id)
+      setCurrentEpoch(attester.epochsByAttester.length - 1)   
     }
     loadData();
   }, [])
-  const currentEpoch = attester.epochsByAttester.length - 1
 
   return (
     <>
@@ -52,7 +53,7 @@ export default observer(() => {
           <div className='info-grid'>
             {/* currently showing previous epoch, not last processed */}
             <InfoCard heading='Epochs Processed' value1={currentEpoch - 1}/>
-            <InfoCard heading='Total Rep Given' value1={attester.totalPosRep - attester.totalNegRep} value2={attester.totalPosRep} value3={attester.totalNegRep}/>
+            <InfoCard heading='Total Rep Given' value1={attester.allRep} value2={attester.totalPosRep} value3={attester.totalNegRep}/>
             <InfoCard heading='Total Users Signed Up' value1={attester.signUpsByAttester.length}/>          
             <div className='info-card'>
               <div className='flex'>
@@ -65,7 +66,7 @@ export default observer(() => {
               </div>
               <div className='flex'>
                 <h5>Status</h5>
-                <h6>Completed <span class="dot"></span></h6>
+                <h6>Completed <span className="dot"></span></h6>
               </div>
             </div>
           </div>
@@ -75,11 +76,11 @@ export default observer(() => {
                 <h3 onClick={() => setSelectedView('Epoch')} className='selected' style={{marginRight: "30px"}}>Epoch</h3>
                 <h3 onClick={() => setSelectedView('User')} className='unselected'>Users</h3>
               </div>  
-              {attester.epochsByAttester.length > 0 && attester.attestationsByAttester.length > 0 && attester.ustByAttester.length > 0 ?
+              {currentEpoch > 0 ?
                 <EpochView currentEpoch={currentEpoch}/> :
                 null
               }
-              {attester.epochsByAttester.length > 0 && attester.attestationsByAttester.length > 0 && attester.ustByAttester.length > 0 ? 
+              {currentEpoch > 0 ?
                 null : 
                 'Loading...'
               }

@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import UnirepInfo from '../components/UnirepInfo'
-import Tooltip from '../components/Tooltip'
 import InfoCard from '../components/InfoCard'
 import UnirepEvent from '../components/UnirepEvent'
 import Footer from '../components/Footer'
@@ -10,6 +9,7 @@ import Footer from '../components/Footer'
 
 export default observer(() => {
   const { info, unirep } = useContext(state)
+
   useEffect(() => {
     const loadData = async () => {
       await unirep.loadAllSignUps();
@@ -95,14 +95,22 @@ export default observer(() => {
             </div>
           </div>
           <div className='scroll'>
-            {unirep.currentAttesterStats ? 
+            {unirep.currentAttesterStats.length > 0 ? 
               unirep.currentAttesterStats.map((status) => (
                 <UnirepEvent key={status.attesterId} status={status} nextEpoch='idk'/>
               )) : null }
-            {unirep.currentAttesterStats ? 
+            {unirep.currentAttesterStats.length > 0 ? 
               null : 
               'Loading...'
             }
+            {/* {unirep.currentAttesterStats ? 
+              unirep.currentAttesterStats.forEach(() => {
+                <UnirepEvent key={value.attesterId} status={value} nextEpoch='idk'/>
+            }) : null }
+            {unirep.currentAttesterStats ? 
+              null : 
+              'Loading...'
+            } */}
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@ export default class Attester {
   attestationsByEpoch = {}
   totalPosRep = 0
   totalNegRep = 0
+  allRep = 0
   ustByAttester = []
   ustByEpoch = {}
 
@@ -45,6 +46,8 @@ export default class Attester {
         this.signUpsByEpoch.set(epoch, [signups[i]])
       }
     }
+    // console.log('signupsByEpoch:', this.signUpsByEpoch.get(0))
+    // console.log('instanceof:', this.signUpsByEpoch instanceof Map)
   }
 
   async loadAttestationsByAttester(attesterId) {
@@ -64,7 +67,9 @@ export default class Attester {
         this.attestationsByEpoch.set(epoch, [attestations[i]])
       }
       this.totalPosRep += attestations[i].posRep
+      this.allRep += attestations[i].posRep
       this.totalNegRep += attestations[i].negRep
+      this.allRep -= attestations[i].negRep
     }
   }
 

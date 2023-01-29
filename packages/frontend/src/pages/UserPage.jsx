@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext,  useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
@@ -9,9 +9,18 @@ import Footer from '../components/Footer'
 export default observer(() => { 
   const { id } = useParams()
   const { unirep, user } = useContext(state)
+  const [signups, setSignups] = useState([])
   useEffect(() => {
     const loadData = async () => {
-      await user.loadSignUpsByUser(id)
+      // if keeping 'user' context:
+      // await user.loadSignUpsByUser(id)
+
+      // if no 'user' context:
+      // always need to load signups again here?
+      // is this more efficient than having separate store for 'user'?
+      await unirep.loadAllSignUps()
+      setSignups(unirep.signUpsByUserId.get(id))
+      
     }
     loadData();
   }, [])
@@ -30,7 +39,7 @@ export default observer(() => {
             </div>
             <div className='flex'>
               <h5>Attesters Joined</h5>
-              <h6>{user.signUpsByUser.length}</h6>
+              <h6>{signups.length}</h6>
             </div>
             <div className='flex'>
               <h5>Semaphore ID</h5>
@@ -48,11 +57,23 @@ export default observer(() => {
             <h4>time</h4>
           </div>
           <div className='scroll'>
-            {user.signUpsByUser ? 
+            {/* below using list of signups from 'user' context: */}
+            {/* {user.signUpsByUser ? 
               user.signUpsByUser.map(({ attesterId, epoch }) => (
                 <UserEvent key={attesterId} attesterId={attesterId} epoch={epoch} />
               )) : null }
             {user.signUpsByUser ? 
+              null : 
+              'Loading...'
+            } */}
+
+            {/* below using mapping 'signUpsByUserId' from 'unirep' context */}
+            {signups ?
+              signups.map(({ attesterId, epoch }) => (
+                <UserEvent key={attesterId} attesterId={attesterId} epoch={epoch} />
+              )) : null
+            }
+            {signups ? 
               null : 
               'Loading...'
             }
