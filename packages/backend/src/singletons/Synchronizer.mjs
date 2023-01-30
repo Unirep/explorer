@@ -218,9 +218,13 @@ export class Synchronizer extends EventEmitter {
       return a.logIndex - b.logIndex
     })
 
+    const blockNumbers = []
     for (const event of events) {
       try {
         let success
+        if (!blockNumbers.includes(event.blockNumber)) {
+          blockNumbers.push(event.blockNumber)
+        }
         await this._db.transaction(async (db) => {
           const handler = this._eventHandlers[event.topics[0]]
           if (!handler) {
@@ -244,6 +248,21 @@ export class Synchronizer extends EventEmitter {
         console.log(`Error processing event:`, err)
         console.log(event)
         throw err
+      }
+    }
+
+    for (const blockNum of blockNumbers) {
+      const blockTimestamp = await this._db.findOne('BlockTimestamp', {
+        where: {
+          number: blockNum,
+        },
+      })
+      if (!blockTimestamp) {
+        const timestamp = await this.provider.getBlock(blockNum).timestamp
+        await this._db.create('BlockTimestamp', {
+          number: blockNum,
+          timestamp: timestamp,
+        })
       }
     }
   }
@@ -340,11 +359,18 @@ export class Synchronizer extends EventEmitter {
     const index = Number(decodedData.index)
     const attesterId = BigInt(decodedData.attesterId).toString()
     const hash = BigInt(decodedData.leaf).toString()
+    const Blocktimestamp = await this._db.findOne('BlockTimestamp', {
+      where: {
+        number: event.blockNumber,
+      },
+    })
+    const timestamp = Blocktimestamp.timestamp
     db.create('StateTreeLeaf', {
       epoch,
       hash,
       index,
       attesterId,
+      timestamp,
     })
     return true
   }
@@ -355,6 +381,12 @@ export class Synchronizer extends EventEmitter {
     const attesterId = BigInt(decodedData.attesterId).toString()
     const leaf = BigInt(decodedData.leaf).toString()
     const id = `${epoch}-${index}-${attesterId}`
+    const Blocktimestamp = await this._db.findOne('BlockTimestamp', {
+      where: {
+        number: event.blockNumber,
+      },
+    })
+    const timestamp = Blocktimestamp.timestamp
     db.upsert('EpochTreeLeaf', {
       where: {
         id,
@@ -368,6 +400,7 @@ export class Synchronizer extends EventEmitter {
         index,
         attesterId,
         hash: leaf,
+        timestamp,
       },
     })
     return true
@@ -380,10 +413,17 @@ export class Synchronizer extends EventEmitter {
     ).toString()
     const attesterId = BigInt(decodedData.attesterId.toString()).toString()
     const leafIndex = Number(decodedData.leafIndex)
+    const Blocktimestamp = await this._db.findOne('BlockTimestamp', {
+      where: {
+        number: event.blockNumber,
+      },
+    })
+    const timestamp = Blocktimestamp.timestamp
     db.create('UserSignUp', {
       commitment,
       epoch,
       attesterId,
+      timestamp,
     })
     return true
   }
@@ -394,6 +434,12 @@ export class Synchronizer extends EventEmitter {
     const attesterId = BigInt(decodedData.attesterId).toString()
     const posRep = Number(decodedData.posRep)
     const negRep = Number(decodedData.negRep)
+    const Blocktimestamp = await this._db.findOne('BlockTimestamp', {
+      where: {
+        number: event.blockNumber,
+      },
+    })
+    const timestamp = Blocktimestamp.timestamp
 
     const index = `${event.blockNumber
       .toString()
@@ -416,12 +462,14 @@ export class Synchronizer extends EventEmitter {
       posRep,
       negRep,
       graffiti: decodedData.graffiti.toString(),
-      timestamp: decodedData.timestamp.toString(),
+      timestamp,
+      // timestamp: decodedData.timestamp.toString(),
       hash: hash4([
         posRep,
         negRep,
         decodedData.graffiti,
-        decodedData.timestamp,
+        timestamp,
+        // decodedData.timestamp,
       ]).toString(),
     })
     return true
@@ -434,12 +482,19 @@ export class Synchronizer extends EventEmitter {
     const leafIndex = BigInt(decodedData.leafIndex).toString()
     const nullifier = BigInt(decodedData.nullifier).toString()
     const hashedLeaf = BigInt(decodedData.hashedLeaf).toString()
+    const Blocktimestamp = await this._db.findOne('BlockTimestamp', {
+      where: {
+        number: event.blockNumber,
+      },
+    })
+    const timestamp = Blocktimestamp.timestamp
 
     db.create('Nullifier', {
       epoch,
       attesterId,
       nullifier,
       transactionHash,
+      timestamp,
     })
 
     return true
@@ -448,12 +503,18 @@ export class Synchronizer extends EventEmitter {
   async handleEpochEnded({ decodedData, event, db }) {
     const epoch = Number(decodedData.epoch)
     const attesterId = BigInt(decodedData.attesterId).toString()
+    const Blocktimestamp = await this._db.findOne('BlockTimestamp', {
+      where: {
+        number: event.blockNumber,
+      },
+    })
+    const timestamp = Blocktimestamp.timestamp
     console.log(`Epoch ${epoch} ended`)
     const existingDoc = await this._db.findOne('Epoch', {
       where: {
         number: epoch,
         attesterId,
-      }
+      },
     })
     if (existingDoc) {
       db.update('Epoch', {
@@ -463,20 +524,22 @@ export class Synchronizer extends EventEmitter {
         },
         update: {
           sealed: true,
-        }
+          timestamp,
+        },
       })
     } else {
       db.create('Epoch', {
         number: epoch,
         attesterId,
         sealed: true,
+        timestamp,
       })
     }
     // create the next stub entry
     db.create('Epoch', {
-        number: epoch + 1,
-        attesterId,
-        sealed: false,
+      number: epoch + 1,
+      attesterId,
+      sealed: false,
     })
     return true
   }
