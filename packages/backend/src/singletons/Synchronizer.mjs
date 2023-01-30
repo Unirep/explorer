@@ -218,13 +218,33 @@ export class Synchronizer extends EventEmitter {
       return a.logIndex - b.logIndex
     })
 
-    const blockNumbers = []
+    const blockNumbers = events.reduce((acc, event) => {
+      return [
+        ...acc.filter((num) => num !== event.blockNumber),
+        event.blockNumber,
+      ]
+    }, [])
+    for (const blockNum of blockNumbers) {
+      const blockTimestamp = await this._db.findOne('BlockTimestamp', {
+        where: {
+          number: blockNum,
+        },
+      })
+      if (!blockTimestamp) {
+        const result = await this.provider.getBlock(blockNum)
+        const timestamp = result.timestamp
+        // console.log('getBlock result:', result)
+        // console.log('getBlock.timestamp:', timestamp)
+        await this._db.create('BlockTimestamp', {
+          number: blockNum,
+          timestamp,
+        })
+      }
+    }
+
     for (const event of events) {
       try {
         let success
-        if (!blockNumbers.includes(event.blockNumber)) {
-          blockNumbers.push(event.blockNumber)
-        }
         await this._db.transaction(async (db) => {
           const handler = this._eventHandlers[event.topics[0]]
           if (!handler) {
@@ -248,21 +268,6 @@ export class Synchronizer extends EventEmitter {
         console.log(`Error processing event:`, err)
         console.log(event)
         throw err
-      }
-    }
-
-    for (const blockNum of blockNumbers) {
-      const blockTimestamp = await this._db.findOne('BlockTimestamp', {
-        where: {
-          number: blockNum,
-        },
-      })
-      if (!blockTimestamp) {
-        const timestamp = await this.provider.getBlock(blockNum).timestamp
-        await this._db.create('BlockTimestamp', {
-          number: blockNum,
-          timestamp: timestamp,
-        })
       }
     }
   }
@@ -540,6 +545,7 @@ export class Synchronizer extends EventEmitter {
       number: epoch + 1,
       attesterId,
       sealed: false,
+      timestamp,
     })
     return true
   }

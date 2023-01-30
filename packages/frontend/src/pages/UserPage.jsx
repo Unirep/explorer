@@ -59,8 +59,8 @@ export default observer(() => {
           <div className='scroll'>
             {/* below using list of signups from 'user' context: */}
             {/* {user.signUpsByUser ? 
-              user.signUpsByUser.map(({ attesterId, epoch }) => (
-                <UserEvent key={attesterId} attesterId={attesterId} epoch={epoch} />
+              user.signUpsByUser.map(({ attesterId, epoch, timestamp }) => (
+                <UserEvent key={attesterId} attesterId={attesterId} epoch={epoch} timestamp={timestamp}/>
               )) : null }
             {user.signUpsByUser ? 
               null : 
@@ -69,8 +69,8 @@ export default observer(() => {
 
             {/* below using mapping 'signUpsByUserId' from 'unirep' context */}
             {signups ?
-              signups.map(({ attesterId, epoch }) => (
-                <UserEvent key={attesterId} attesterId={attesterId} epoch={epoch} />
+              signups.map(({ attesterId, epoch, timestamp }) => (
+                <UserEvent key={attesterId} attesterId={attesterId} epoch={epoch} timestamp={timestamp} />
               )) : null
             }
             {signups ? 
