@@ -10,12 +10,9 @@ export default observer(({ currentEpoch })  => {
     const [selectedEpochActivities, setSelectedEpochActivities] = useState(0)
     const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(0)
     useEffect(() => {
-    const loadData = async () => {
         setSelectedEpochActivities(currentEpoch)
         setSelectedEpochAttestations(currentEpoch)
-    }
-    loadData();
-  }, [])
+    }, [])
     const signups = attester.signUpsByEpoch.get(selectedEpochActivities)
     const USTs = attester.ustByEpoch.get(selectedEpochActivities)
     const graphAttestations = attester.attestationsByEpoch.get(selectedEpochActivities)
@@ -45,18 +42,18 @@ export default observer(({ currentEpoch })  => {
             <div className='graph-container' style={{height: 'auto'}}>
                 <ul>SIGNUPS THIS EPOCH: {signups ? signups.length : 0}
                     {signups ? 
-                        signups.map(({ commitment }) => (
-                            <li key={commitment}>{commitment}</li>
+                        signups.map(({ commitment, timestamp }) => (
+                            <li key={commitment}>{timestamp}</li>
                     )) : null}
                     {signups ?
                         null :
                         <li>There were no signups in this epoch</li>
                     }
                 </ul>
-                <ul>ATTESTATIONS THIS EPOCH: {graphAttestations ?graphAttestations.length : 0}
+                <ul>ATTESTATIONS THIS EPOCH: {graphAttestations ? graphAttestations.length : 0}
                     {graphAttestations ? 
-                        graphAttestations.map(({ epochKey }) => (
-                            <li key={epochKey}>{epochKey}</li>
+                        graphAttestations.map(({ epochKey, timestamp }) => (
+                            <li key={epochKey}>{timestamp}</li>
                     )) : null}
                     {graphAttestations ?
                         null :
@@ -65,8 +62,8 @@ export default observer(({ currentEpoch })  => {
                 </ul>
                 <ul>UST THIS EPOCH: {USTs ? USTs.length : 0}
                     {USTs ? 
-                        USTs.map(({ nullifier }) => (
-                            <li key={nullifier}>{nullifier}</li>
+                        USTs.map(({ nullifier, timestamp }) => (
+                            <li key={nullifier}>{timestamp}</li>
                     )) : null}
                     {USTs ?
                         null :

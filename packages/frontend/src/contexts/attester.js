@@ -7,9 +7,8 @@ export default class Attester {
   signUpsByEpoch = {}
   attestationsByAttester = []
   attestationsByEpoch = {}
-  totalPosRep = 0
-  totalNegRep = 0
-  allRep = 0
+  totalPosRep
+  totalNegRep
   ustByAttester = []
   ustByEpoch = {}
 
@@ -38,12 +37,12 @@ export default class Attester {
 
   async mapSignUpsToEpoch(signups) {
     this.signUpsByEpoch = new Map()
-    for (let i = 0; i < signups.length; i++) {
-      let epoch = signups[i].epoch
+    for (const signup of signups) {
+      let epoch = signup.epoch
       if (this.signUpsByEpoch.has(epoch)) {
-        this.signUpsByEpoch.get(epoch).push(signups[i])
+        this.signUpsByEpoch.get(epoch).push(signup)
       } else {
-        this.signUpsByEpoch.set(epoch, [signups[i]])
+        this.signUpsByEpoch.set(epoch, [signup])
       }
     }
     // console.log('signupsByEpoch:', this.signUpsByEpoch.get(0))
@@ -58,18 +57,18 @@ export default class Attester {
   }
 
   async mapAttestationsToEpoch(attestations) {
+    this.totalPosRep = 0
+    this.totalNegRep = 0
     this.attestationsByEpoch = new Map()
-    for (let i = 0; i < attestations.length; i++) {
-      let epoch = attestations[i].epoch
+    for (const attestation of attestations) {
+      let epoch = attestation.epoch
       if (this.attestationsByEpoch.has(epoch)) {
-        this.attestationsByEpoch.get(epoch).push(attestations[i])
+        this.attestationsByEpoch.get(epoch).push(attestation)
       } else {
-        this.attestationsByEpoch.set(epoch, [attestations[i]])
+        this.attestationsByEpoch.set(epoch, [attestation])
       }
-      this.totalPosRep += attestations[i].posRep
-      this.allRep += attestations[i].posRep
-      this.totalNegRep += attestations[i].negRep
-      this.allRep -= attestations[i].negRep
+      this.totalPosRep += attestation.posRep
+      this.totalNegRep += attestation.negRep
     }
   }
 
@@ -82,12 +81,12 @@ export default class Attester {
 
   async mapUSTsToEpoch(USTs) {
     this.ustByEpoch = new Map()
-    for (let i = 0; i < USTs.length; i++) {
-      let epoch = USTs[i].epoch
+    for (const UST of USTs) {
+      let epoch = UST.epoch
       if (this.ustByEpoch.has(epoch)) {
-        this.ustByEpoch.get(epoch).push(USTs[i])
+        this.ustByEpoch.get(epoch).push(UST)
       } else {
-        this.ustByEpoch.set(epoch, [USTs[i]])
+        this.ustByEpoch.set(epoch, [UST])
       }
     }
   }

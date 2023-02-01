@@ -2,10 +2,10 @@ import catchError from '../helpers/catchError.mjs'
 
 export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
-    const attester = req.params.attesterId
+    const { attesterId } = req.params
     const attesterEpochs = await db.findMany('Epoch', {
       where: {
-        attesterId: attester,
+        attesterId: attesterId,
       },
     })
     res.json(attesterEpochs)

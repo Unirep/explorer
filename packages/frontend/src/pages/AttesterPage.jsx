@@ -15,10 +15,12 @@ export default observer(() => {
   const [currentEpoch, setCurrentEpoch] = useState(0)
   useEffect(() => {
     const loadData = async () => {
-      await attester.loadEpochsByAttester(id);
-      await attester.loadSignUpsByAttester(id);
-      await attester.loadAttestationsByAttester(id);
-      await attester.loadUSTByAttester(id)
+      await Promise.all([
+        attester.loadEpochsByAttester(id),
+        attester.loadSignUpsByAttester(id),
+        attester.loadAttestationsByAttester(id),
+        attester.loadUSTByAttester(id)
+      ])
       setCurrentEpoch(attester.epochsByAttester.length - 1)   
     }
     loadData();
@@ -53,7 +55,7 @@ export default observer(() => {
           <div className='info-grid'>
             {/* currently showing previous epoch, not last processed */}
             <InfoCard heading='Epochs Processed' value1={currentEpoch - 1}/>
-            <InfoCard heading='Total Rep Given' value1={attester.allRep} value2={attester.totalPosRep} value3={attester.totalNegRep}/>
+            <InfoCard heading='Total Rep Given' value1={attester.totalPosRep - attester.totalNegRep} value2={attester.totalPosRep} value3={attester.totalNegRep}/>
             <InfoCard heading='Total Users Signed Up' value1={attester.signUpsByAttester.length}/>          
             <div className='info-card'>
               <div className='flex'>
