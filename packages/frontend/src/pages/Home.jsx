@@ -1,92 +1,132 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import Tooltip from '../components/Tooltip'
+import UnirepInfo from '../components/UnirepInfo'
 import InfoCard from '../components/InfoCard'
 import UnirepEvent from '../components/UnirepEvent'
 import Footer from '../components/Footer'
 
 
 export default observer(() => {
-  const { info } = useContext(state)
+  const { info, unirep } = useContext(state)
+  const [signups, setSignups] = useState()
+
+  useEffect(() => {
+    const loadData = async () => {
+      // below are being called from Header
+      // await unirep.loadAllSignUps();
+      // await unirep.loadAllAttestations();
+      // await unirep.loadAllEpochs()
+      setSignups(unirep.signUpsByAttesterId)
+    }
+    loadData();
+  }, [])
+  console.log('signups:', signups)
   return (
     <>
       <div className='container'>
         
         <div className='left-container'>
           <h1>Terminal</h1>
-          <p style={{fontSize: '1.1em'}}>UniRep Terminal is utility site that help others to discover apps built on the protocol & inspect the Rep system we are building for all.</p>
+          <p style={{fontSize: '1.1em'}}>UniRep Terminal is utility for discovering apps built on the protocol & inspecting the anonymous Universal Reputation system being built for all.</p>
           <p style={{fontWeight: '500'}}>Ready to build your own?</p>
           <a style={{color: '#669294'}}href="https://github.com/Unirep/create-unirep-app" target='blank'>Get started here.</a>
           <div className=''><img src={require('../../public/hero_img.svg')} alt="bird image"/></div>
-          <div className='info-card'>
-            <div className='flex'>
-              <h4>Protocol Information</h4>
-              <Tooltip text='Some info goes here' maxWidth={200} />
-            </div>
-            <div className='flex'>
-              <h5>Current version</h5>
-              <h6>v2</h6>
-            </div>
-            <div className='flex'>
-              <h5>Release</h5>
-              <h6>Jan/20/2023</h6>
-            </div>
-            <div className='flex'>
-              <h5>Address</h5>
-              <h6>0xdC9...Bc9</h6>
-            </div>
-            <div className='flex'>
-              <h5>Network</h5>
-              <h6>Arbitrum/Goerli</h6>
-            </div>
-          </div>
+          <UnirepInfo info={info} />
         </div>
 
         <div className='right-container'>
           <h3>Overview</h3>
           <div className='info-grid'>            
-              <InfoCard heading='Total Attesters' value={'21'} valueIsNum={true}/>
-              <InfoCard heading='Total Users' value={'3,290,124'} valueIsNum={true}/>
-              <InfoCard heading='Total Rep Given' value={'5,324,678'} valueIsNum={true}/>
-              <InfoCard heading='Hashchains Completed' value={'292'} valueIsNum={true}/>
-              <InfoCard heading='Latest Attester' value={'App Name Here'} valueIsNum={false}/>
-              <InfoCard heading='Latest Submitted Attestation' value={'Attester Address'} valueIsNum={false}/>
+              <InfoCard heading='Total Attesters/Apps' value1={unirep.attesterIds.length}/>
+              <InfoCard heading='Total Sign Ups' value1={unirep.allSignUps.length}/>
+              <InfoCard heading='Total Attestations' value1={unirep.allAttestations.length}/>              
+              <InfoCard heading='Total Reputation Processed' value1={unirep.totalPosRep - unirep.totalNegRep} value2={unirep.totalPosRep} value3={unirep.totalNegRep}/>
+              {/* need to get attester addresses here, currently using Unirep */}
+              <div className='info-card'>
+                <h4>Latest Attester</h4>
+                <div className='flex'>
+                  <h5>Deployed at</h5>
+                  <h6>mm/dd/yyyy</h6>
+                </div>
+                <div className='flex'>
+                  <h5>Contract address</h5>
+                  <h6>
+                    <span>{info.UNIREP_ADDRESS.slice(0, 5)}</span>...<span>{info.UNIREP_ADDRESS.slice(-5)} </span>
+                    <a href={`https://goerli.arbiscan.io/address/${info.UNIREP_ADDRESS}`} target='blank'>
+                      <img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/>
+                    </a>
+                  </h6>
+                </div>
+              </div>
+              <div className='info-card'>
+                <h4>Last Attestation Submitted</h4>
+                <div className='flex'>
+                  <h5>By Attester</h5>
+                  <h6><span>{info.UNIREP_ADDRESS.slice(0, 5)}</span>...<span>{info.UNIREP_ADDRESS.slice(-5)} </span></h6>
+                </div>
+                <div className='flex'>
+                  <h5>Current Epoch #</h5>
+                  <h6>23</h6>
+                </div>
+              </div>
           </div>          
 
           <h3>Stats</h3>
           <div className='graph-container'>
-            <div>Connected to a server with the following info:</div>
-              <ul>
-                <li>Unirep Address: {info.UNIREP_ADDRESS}</li>
-                <li>Provider URL: {info.ETH_PROVIDER_URL}</li>
-              </ul>
+            {/* <ul>SIGNUPS TO EACH ATTESTER:
+              {unirep.signUpsByAttesterId ? 
+                [...unirep.signUpsByAttesterId.entries()].map((key, {value}) => (
+                  // unirep.signUpsByAttesterId.get(key).map(({ value }) => (
+                    <li key={key}>attester: {key.slice(0, 5)}..  #signups: {}</li>
+                  // ))
+              )) : null}
+                  
+              {unirep.signUpsByAttesterId ?
+                null :
+                <li>There were no signups to this attester.</li>
+              }
+            </ul> */}
+            <ul>NEED:
+              <li>timestamps of attesters deployed</li>
+              <li>timestamps of signups to each attester</li>
+            </ul>
           </div>
 
-          <div className='flex' style={{marginBottom: '2%'}}>
-            <h3>Attester Activities</h3>
-            <Tooltip text='Some info goes here' maxWidth={200} />
-          </div>
-          <div className='flex'>
-            <h4>Contract Add</h4>
-            <h4>Attester</h4>
-            <h4>Epoch</h4>
-            <h4>User</h4>
-            <h4>Rep Given</h4>
+          <h3>Attester Snapshot</h3>
+          <div className='flex events-header'>
+            <h4 style={{width: '20%'}}>Contract</h4>
+            <h4>Current</h4>
+            <div className='flex'>
+              <h4>Users</h4>
+              <img src={require('../../public/arrow_up_down.svg')} alt="arrow change order of display"/>
+            </div>
+            <div className='flex'>
+              <h4>Reputation</h4>
+              <img src={require('../../public/arrow_up_down.svg')} alt="arrow change order of display"/>
+            </div>
+            <div className='flex'>
+              <h4>next Epoch at</h4>
+              <img src={require('../../public/arrow_up_down.svg')} alt="arrow change order of display"/>
+            </div>
           </div>
           <div className='scroll'>
-            <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21' repGiven='120'/>
-            <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
-            <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
-            <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='300'/>
-            <UnirepEvent address='0x..345' appName='Attester Mno' epoch='5' user='25' repGiven='150'/>
-            <UnirepEvent address='0x..678' appName='Attester Pqr' epoch='5' user='26' repGiven='210'/>
-            <UnirepEvent address='0x..123' appName='Attester Abc' epoch='5' user='21' repGiven='120'/>
-            <UnirepEvent address='0x..456' appName='Attester Def' epoch='5' user='22' repGiven='240'/>
-            <UnirepEvent address='0x..789' appName='Attester Ghi' epoch='5' user='23' repGiven='100'/>
-            <UnirepEvent address='0x..012' appName='Attester Jkl' epoch='5' user='24' repGiven='300'/>
-            <UnirepEvent address='0x..345' appName='Attester Mno' epoch='5' user='25' repGiven='150'/>
-            <UnirepEvent address='0x..678' appName='Attester Pqr' epoch='5' user='26' repGiven='210'/>
+            {unirep.currentAttesterStats.length > 0 ? 
+              unirep.currentAttesterStats.map((status) => (
+                <UnirepEvent key={status.attesterId} status={status} nextEpoch='idk'/>
+              )) : null }
+            {unirep.currentAttesterStats.length > 0 ? 
+              null : 
+              'Loading...'
+            }
+            {/* {unirep.currentAttesterStats ? 
+              unirep.currentAttesterStats.forEach(() => {
+                <UnirepEvent key={value.attesterId} status={value} nextEpoch='idk'/>
+            }) : null }
+            {unirep.currentAttesterStats ? 
+              null : 
+              'Loading...'
+            } */}
           </div>
         </div>
       </div>

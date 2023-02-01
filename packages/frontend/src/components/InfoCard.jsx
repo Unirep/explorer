@@ -1,22 +1,21 @@
 import React from 'react';
-import Tooltip from './Tooltip';
+import { observer } from 'mobx-react-lite';
 import './infoCard.css'
 
-
-const InfoCard = ({ heading, value, valueIsNum })  => {
+export default observer(({ heading, value1, value2, value3 })  => {
     return (
         <div className='info-card'>
-            <div className='flex'>
-                <h4>{heading}</h4>
-                <Tooltip text='Some info goes here' maxWidth={200}/>
-            </div>
-            {valueIsNum ? (
-                <h2>{value}</h2>
-            ) : (
-                <h6>{value}</h6>
-            )}
+            <h4>{heading}</h4>
+            
+            {value2 > -1 ? (
+                <div className='flex'>
+                    <h2>{value1}</h2>
+                    <div>
+                        <h4 className='green'>Positive: +{value2}</h4>
+                        <h4 className='red'>Negative: -{value3}</h4>
+                    </div>
+                </div>
+            ) : <h2>{value1}</h2> }
         </div>
     )
-}
-
-export default InfoCard
+})
