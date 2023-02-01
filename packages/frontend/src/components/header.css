@@ -1,55 +1,55 @@
 a:link {
-    font-weight: 600;
-    color: black;
-    text-decoration: none;
+  font-weight: 600;
+  color: black;
+  text-decoration: none;
 }
 
 a:visited {
-    color: black;
+  color: black;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    padding: 2em 3em;
+  display: flex;
+  justify-content: space-between;
+  padding: 2em 3em;
 }
 
 .link {
-    padding-right: 2.5em;
+  padding-right: 2.5em;
 }
 
 .searchbar {
-    width: 100%;
-    padding: 0 3%;
+  width: 100%;
+  padding: 0 3%;
 }
 
 input {
-    width: 85%;
-    height: 96%;
-    background-color: #F0F0F0;
-    border-radius: 8px 0 0 8px;
-    border: none;
-    padding-left: 3%;
-    font-size: 0.9em;
-    font-weight: 200;
+  width: 85%;
+  height: 96%;
+  background-color: #f0f0f0;
+  border-radius: 8px 0 0 8px;
+  border: none;
+  padding-left: 3%;
+  font-size: 0.9em;
+  font-weight: 200;
 }
 
 input::placeholder {
-    font-family: 'Azeret Mono';
-    font-size: 0.9em;
-    font-weight: 200;
+  font-family: 'Azeret Mono';
+  font-size: 0.9em;
+  font-weight: 200;
 }
 
 input:focus {
-    outline-color: #B3E0E2;
+  outline-color: #b3e0e2;
 }
 
 .go {
-    width: 10%;
-    height: 100%;
-    background-color: #B3E0E2;
-    border-radius: 0 8px 8px 0;
-    border: none;
-    font-size: 1em;
-    padding: 0;
+  width: 10%;
+  height: 100%;
+  background-color: #b3e0e2;
+  border-radius: 0 8px 8px 0;
+  border: none;
+  font-size: 1em;
+  padding: 0;
 }

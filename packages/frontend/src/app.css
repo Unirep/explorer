@@ -1,133 +1,133 @@
 body {
-    font-family: 'Azeret Mono';
-    font-weight: 200;
-    margin: 0;
-    padding: 0;
+  font-family: 'Azeret Mono';
+  font-weight: 200;
+  margin: 0;
+  padding: 0;
 }
 
-h1{
-    font-size: 3em;
-    font-weight: 700;
-    margin: 0.1em 0;
+h1 {
+  font-size: 3em;
+  font-weight: 700;
+  margin: 0.1em 0;
 }
 
 h2 {
-    font-size: 2em;
-    font-weight: 700;
-    margin: 0.2em 0;
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0.2em 0;
 }
 
 h3 {
-    font-size: 1.5em;
-    font-weight: 700;
-    margin: 0.5em 0;
-    color: #494E53;
+  font-size: 1.5em;
+  font-weight: 700;
+  margin: 0.5em 0;
+  color: #494e53;
 }
 
 h4 {
-   font-size: 0.9em;
-    font-weight: 600;
-    margin: 0.4em 0;
-    color: #669294;
+  font-size: 0.9em;
+  font-weight: 600;
+  margin: 0.4em 0;
+  color: #669294;
 }
 
 h5 {
-    font-size: 0.9em;
-    font-weight: 200;
-    margin: 0.4em 0;
+  font-size: 0.9em;
+  font-weight: 200;
+  margin: 0.4em 0;
 }
 
 h6 {
-    font-size: 0.9em;
-    font-weight: 600;
-    margin: 0.4em 0;
+  font-size: 0.9em;
+  font-weight: 600;
+  margin: 0.4em 0;
 }
 
 button {
-    background-color: white;
-    border-radius: 24px;
-    padding: 6px 30px;
-    cursor: pointer;
+  background-color: white;
+  border-radius: 24px;
+  padding: 6px 30px;
+  cursor: pointer;
 }
 
 li {
-    word-break: break-all;
+  word-break: break-all;
 }
 
 .img {
-    width: 100%;
-    justify-content: left;
+  width: 100%;
+  justify-content: left;
 }
 
 .flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .container {
-    display: flex;
-    margin: 50px 50px;
+  display: flex;
+  margin: 50px 50px;
 }
 
 .left-container {
-    width: 30%;
-    margin-right: 5%;
+  width: 30%;
+  margin-right: 5%;
 }
 
 .right-container {
-    width: 70%;
+  width: 70%;
 }
 
 .info-grid {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    gap: 12px;
-    margin-bottom: 8%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 12px;
+  margin-bottom: 8%;
 }
 
 .graph-container {
-    width: 100%;
-    height: 300px;
-    border: 1px solid black;
-    border-radius: 8px;
-    background-color: #A0D8DB;
-    margin-bottom: 8%;
+  width: 100%;
+  height: 300px;
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color: #a0d8db;
+  margin-bottom: 8%;
 }
 
 .events-header {
-    padding: 20px 10px;
+  padding: 20px 10px;
 }
 
 .selected {
-    text-decoration: underline;
-    cursor: pointer;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .unselected {
-    color: #9EA3A7;
-    cursor: pointer;
+  color: #9ea3a7;
+  cursor: pointer;
 }
 
 .scroll {
-    width: auto;
-    max-height: 400px;
-    overflow-x: hidden;
-    margin-bottom: 5%;
+  width: auto;
+  max-height: 400px;
+  overflow-x: hidden;
+  margin-bottom: 5%;
 }
 
 .green {
-    color: #89BD5F;
+  color: #89bd5f;
 }
 
 .red {
-    color: #E17F75;
+  color: #e17f75;
 }
 
 .dot {
-    height: 15px;
-    width: 15px;
-    background-color: #89BD5F;
-    border-radius: 50%;
-    display: inline-block;
+  height: 15px;
+  width: 15px;
+  background-color: #89bd5f;
+  border-radius: 50%;
+  display: inline-block;
 }

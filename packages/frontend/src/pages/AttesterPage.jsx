@@ -19,88 +19,118 @@ export default observer(() => {
         attester.loadEpochsByAttester(id),
         attester.loadSignUpsByAttester(id),
         attester.loadAttestationsByAttester(id),
-        attester.loadUSTByAttester(id)
+        attester.loadUSTByAttester(id),
       ])
-      setCurrentEpoch(attester.epochsByAttester.length - 1)   
+      setCurrentEpoch(attester.epochsByAttester.length - 1)
     }
-    loadData();
+    loadData()
   }, [])
 
   return (
     <>
-      <div className='container'>
-
-        <div className='left-container'>
+      <div className="container">
+        <div className="left-container">
           <h3>Attester</h3>
-          <div className='info-card'>
+          <div className="info-card">
             <h4>Attester Information</h4>
-            <div className='flex'>
+            <div className="flex">
               <h5>Deployed at</h5>
               <h6>Jan/20/2023</h6>
             </div>
-            <div className='flex'>
+            <div className="flex">
               <h5>Contract Address</h5>
-              <h6>0x
-                <span>{id.slice(0, 3)}</span>...<span>{id.slice(-5)}  </span>
-                <a href={`https://goerli.arbiscan.io/address/0x${id}`} target='blank'>
-                <img src={require('../../public/arrow_up_right.svg')} alt="arrow up right"/>
+              <h6>
+                0x
+                <span>{id.slice(0, 3)}</span>...<span>{id.slice(-5)} </span>
+                <a
+                  href={`https://goerli.arbiscan.io/address/0x${id}`}
+                  target="blank"
+                >
+                  <img
+                    src={require('../../public/arrow_up_right.svg')}
+                    alt="arrow up right"
+                  />
                 </a>
               </h6>
-            </div>           
+            </div>
           </div>
         </div>
 
-        <div className='right-container'>
+        <div className="right-container">
           <h3>Overview</h3>
-          <div className='info-grid'>
+          <div className="info-grid">
             {/* currently showing previous epoch, not last processed */}
-            <InfoCard heading='Epochs Processed' value1={currentEpoch - 1}/>
-            <InfoCard heading='Total Rep Given' value1={attester.totalPosRep - attester.totalNegRep} value2={attester.totalPosRep} value3={attester.totalNegRep}/>
-            <InfoCard heading='Total Users Signed Up' value1={attester.signUpsByAttester.length}/>          
-            <div className='info-card'>
-              <div className='flex'>
+            <InfoCard heading="Epochs Processed" value1={currentEpoch - 1} />
+            <InfoCard
+              heading="Total Rep Given"
+              value1={attester.totalPosRep - attester.totalNegRep}
+              value2={attester.totalPosRep}
+              value3={attester.totalNegRep}
+            />
+            <InfoCard
+              heading="Total Users Signed Up"
+              value1={attester.signUpsByAttester.length}
+            />
+            <div className="info-card">
+              <div className="flex">
                 <h4>Hashchain Status</h4>
                 <Tooltip />
-              </div>             
-              <div className='flex'>
-                <h5>Average Delay</h5>                 
+              </div>
+              <div className="flex">
+                <h5>Average Delay</h5>
                 <h6>2 min</h6>
               </div>
-              <div className='flex'>
+              <div className="flex">
                 <h5>Status</h5>
-                <h6>Completed <span className="dot"></span></h6>
+                <h6>
+                  Completed <span className="dot"></span>
+                </h6>
               </div>
             </div>
           </div>
           {selectedView === 'Epoch' ? (
             <>
-              <div style={{display: 'flex'}}>
-                <h3 onClick={() => setSelectedView('Epoch')} className='selected' style={{marginRight: "30px"}}>Epoch</h3>
-                <h3 onClick={() => setSelectedView('User')} className='unselected'>Users</h3>
-              </div>  
-              {currentEpoch > 0 ?
-                <EpochView currentEpoch={currentEpoch}/> :
-                null
-              }
-              {currentEpoch > 0 ?
-                null : 
-                'Loading...'
-              }
+              <div style={{ display: 'flex' }}>
+                <h3
+                  onClick={() => setSelectedView('Epoch')}
+                  className="selected"
+                  style={{ marginRight: '30px' }}
+                >
+                  Epoch
+                </h3>
+                <h3
+                  onClick={() => setSelectedView('User')}
+                  className="unselected"
+                >
+                  Users
+                </h3>
+              </div>
+              {currentEpoch > 0 ? (
+                <EpochView currentEpoch={currentEpoch} />
+              ) : null}
+              {currentEpoch > 0 ? null : 'Loading...'}
             </>
           ) : (
             <>
-              <div style={{display: 'flex', marginBottom: '2%'}}>
-                <h3 onClick={() => setSelectedView('Epoch')} className='unselected' style={{marginRight: "30px"}}>Epoch</h3>
-                <h3 onClick={() => setSelectedView('User')} className='selected'>Users</h3>
+              <div style={{ display: 'flex', marginBottom: '2%' }}>
+                <h3
+                  onClick={() => setSelectedView('Epoch')}
+                  className="unselected"
+                  style={{ marginRight: '30px' }}
+                >
+                  Epoch
+                </h3>
+                <h3
+                  onClick={() => setSelectedView('User')}
+                  className="selected"
+                >
+                  Users
+                </h3>
               </div>
-              {attester.signUpsByAttester.length > 0 ?
-                <UserView signups={attester.signUpsByAttester}/> :
-                null
-              }
-              {attester.signUpsByAttester.length > 0 ? 
-                null : 
-                'Loading...'
-              }
+              {attester.signUpsByAttester.length > 0 ? (
+                <UserView signups={attester.signUpsByAttester} />
+              ) : null}
+              {attester.signUpsByAttester.length > 0 ? null : 'Loading...'}
             </>
           )}
         </div>
