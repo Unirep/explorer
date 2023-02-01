@@ -1,13 +1,13 @@
 .info-card {
-    border-radius: 8px;
-    border: 1px solid black;
-    padding: 10px;
+  border-radius: 8px;
+  border: 1px solid black;
+  padding: 10px;
 }
 
 .card-heading {
-    padding: 35px 0 10px 0;
+  padding: 35px 0 10px 0;
 }
 
 .break {
-    word-break: break-all;
+  word-break: break-all;
 }
