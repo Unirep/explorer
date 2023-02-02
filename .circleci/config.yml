@@ -1,8 +1,13 @@
 version: 2.1
 workflows:
-  lint_workflow:
+  default_workflow:
     jobs:
       - lint
+      - deploy:
+          filters:
+            branches:
+              only:
+                - main
 
 # Just for reusing below
 step_defs:
@@ -17,6 +22,33 @@ step_defs:
       command: node -v | grep v16
 
 jobs:
+  deploy:
+    machine:
+      image: ubuntu-2204:2022.04.1
+    resource_class: large
+    steps:
+      - checkout
+      - run: *node_version
+      - run: *check_version
+      - run:
+          name: Install
+          command: yarn
+      - run:
+          name: Load beta packages
+          command: yarn loadBeta
+      - run:
+          name: Build backend image
+          command: docker build . -t jchancehud/unirep-explorer:latest
+      - run:
+          name: Push backend image
+          command: docker push jchancehud/unirep-explorer:latest
+      - run:
+          name: Build frontend
+          command: cd packages/frontend && yarn build --mode production
+      - run:
+          name: Publish frontend
+          command: wrangler publish
+
   lint:
     machine:
       image: ubuntu-2204:2022.04.1
