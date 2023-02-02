@@ -1,10 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet, Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import './header.css'
 
 export default observer(() => {
+  const navigate = useNavigate()
   const { unirep } = useContext(state)
   // const [userIds, setUserIds] = useState([])
   // const [attesterIds, setAttesterIds] = useState([])
@@ -22,19 +23,21 @@ export default observer(() => {
   }, [])
   const [searchInput, setSearchInput] = useState('')
 
-  // currently search doesn't check for any matching attester or user, just goes to 'user/searchInput'
-
-  // const [goToPage, setGoToPage] = useState('')
-  // const handleGo = () => {
-  //     if (userIds.some(e => e.commitment === searchInput)) {
-  //         setGoToPage(`user/${searchInput}`)
-  //     } else if (attesterIds.includes(searchInput)) {
-  //         setGoToPage(`attester/${searchInput}`)
-  //     } else {
-  //         setGoToPage('404')
-  //     }
-  //     setSearchInput('')
-  // }
+  const search = () => {
+    if (!/^(0x)?[a-fA-F0-9]*$/.test(searchInput)) {
+      // invalid input, only accept hexadecimal
+      // TODO: highlight the field red or something
+      return
+    }
+    const val = BigInt(`0x${searchInput.replace('0x', '')}`)
+    if (val > BigInt(2) ** BigInt(160)) {
+      // it's an epoch key
+      navigate(`/user/${searchInput})`)
+    } else {
+      // otherwise treat it as an attester id
+      navigate(`/attester/${searchInput})`)
+    }
+  }
 
   return (
     <>
@@ -47,16 +50,21 @@ export default observer(() => {
             id="search"
             type="text"
             value={searchInput}
-            onInput={(e) => setSearchInput(e.target.value)}
+            onInput={(e) => {
+              if (!/^(0x)?[a-fA-F0-9]*$/.test(e.target.value)) {
+                // invalid input, only accept hexadecimal
+                // TODO: highlight the field red or something
+                return
+              }
+              setSearchInput(e.target.value)
+            }}
+            onKeyPress={(e) => (e.charCode === 13 ? search() : null)}
             className="input"
             placeholder="search by Attester/ User/ Epoch Key"
           />
-          {/* <Link to={goToPage}><button id="go" className="go" onClick={() => handleGo()}>GO</button></Link> */}
-          <Link to={`user/${searchInput}`}>
-            <button id="go" className="go">
-              GO
-            </button>
-          </Link>
+          <button id="go" className="go" onClick={search}>
+            GO
+          </button>
         </div>
         <div className="flex">
           <a
