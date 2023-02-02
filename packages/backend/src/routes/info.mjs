@@ -1,16 +1,4 @@
-import {
-  UNIREP_ADDRESS,
-  ETH_PROVIDER_URL,
-  DB_PATH,
-  VERSION,
-  RELEASE,
-  EMPTY_EPOCH_TREE_ROOT,
-  AGGREGATE_KEY_COUNT,
-  STATE_TREE_DEPTH,
-  EPOCH_TREE_DEPTH,
-  EPOCH_TREE_ARITY,
-  EPOCH_KEY_NONCE_COUNT,
-} from '../config.mjs'
+import { UNIREP_ADDRESS, ETH_PROVIDER_URL } from '../config.mjs'
 import catchError from '../helpers/catchError.mjs'
 
 export default ({ app, db, synchronizer }) => {
@@ -18,15 +6,10 @@ export default ({ app, db, synchronizer }) => {
     res.json({
       UNIREP_ADDRESS,
       ETH_PROVIDER_URL,
-      DB_PATH,
-      VERSION,
-      RELEASE,
-      EMPTY_EPOCH_TREE_ROOT,
-      AGGREGATE_KEY_COUNT,
-      STATE_TREE_DEPTH,
-      EPOCH_TREE_DEPTH,
-      EPOCH_TREE_ARITY,
-      EPOCH_KEY_NONCE_COUNT,
+      STATE_TREE_DEPTH: synchronizer.settings.stateTreeDepth,
+      EPOCH_TREE_DEPTH: synchronizer.settings.epochTreeDepth,
+      EPOCH_TREE_ARITY: synchronizer.settings.epochTreeArity,
+      EPOCH_KEY_NONCE_COUNT: synchronizer.settings.numEpochKeyNoncePerEpoch,
     })
   }
   app.get('/api/info', catchError(handler))

@@ -88,12 +88,23 @@ export class Synchronizer extends EventEmitter {
     }, {})
   }
 
+  async setup() {
+    const config = await this.unirepContract.config()
+    this.settings = {}
+    this.settings.stateTreeDepth = config.stateTreeDepth
+    this.settings.epochTreeDepth = config.epochTreeDepth
+    this.settings.epochTreeArity = config.epochTreeArity
+    this.settings.numEpochKeyNoncePerEpoch =
+      config.numEpochKeyNoncePerEpoch.toNumber()
+  }
+
   /**
    * Start synchronize the events with Unirep contract util a `stop()` is called.
    * The synchronizer will check the database first to check if
    * there is some states stored in database
    */
   async start() {
+    await this.setup()
     const state = await this._db.findOne('SynchronizerState', {
       where: {},
     })
@@ -385,6 +396,10 @@ export class Synchronizer extends EventEmitter {
     const index = BigInt(decodedData.index).toString()
     const attesterId = BigInt(decodedData.attesterId).toString()
     const leaf = BigInt(decodedData.leaf).toString()
+    const epochKey = BigInt(decodedData.epochKey).toString()
+    const posRep = BigInt(decodedData.posRep).toString()
+    const negRep = BigInt(decodedData.negRep).toString()
+    const graffiti = BigInt(decodedData.graffiti).toString()
     const id = `${epoch}-${index}-${attesterId}`
     const Blocktimestamp = await this._db.findOne('BlockTimestamp', {
       where: {
@@ -406,6 +421,10 @@ export class Synchronizer extends EventEmitter {
         attesterId,
         hash: leaf,
         timestamp,
+        epochKey,
+        posRep,
+        negRep,
+        graffiti,
       },
     })
     return true

@@ -9,7 +9,8 @@
     "install": "lerna bootstrap",
     "backend": "yarn workspace backend",
     "frontend": "yarn workspace frontend",
-    "lint": "prettier ."
+    "lint": "prettier .",
+    "linkUnirep": "sh ./scripts/linkUnirep.sh"
   },
   "devDependencies": {
     "lerna": "^5.5.4"
