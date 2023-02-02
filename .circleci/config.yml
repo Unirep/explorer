@@ -8,6 +8,7 @@ workflows:
             branches:
               only:
                 - main
+                - beta-1-support
 
 # Just for reusing below
 step_defs:
@@ -41,13 +42,24 @@ jobs:
           command: docker build . -t jchancehud/unirep-explorer:latest
       - run:
           name: Push backend image
-          command: docker push jchancehud/unirep-explorer:latest
+          command: |
+            echo $DOCKER_TOKEN | docker login -u jchancehud --password-stdin
+            docker push jchancehud/unirep-explorer:latest
+            rm /home/circleci/.docker/config.json
+      - run:
+          name: Trigger service update
+          command: curl -X POST https://devops.unirep.io/api/webhooks/7dfdd202-bf2f-4336-b202-90da9f3ed337
+      - run:
+          name: Set frontend config
+          command: echo 'export const SERVER = "https://api.explorer.unirep.io"' > packages/frontend/src/config.js
       - run:
           name: Build frontend
-          command: cd packages/frontend && yarn build --mode production
+          command: yarn frontend build --mode production
       - run:
           name: Publish frontend
-          command: wrangler publish
+          command: |
+            cd packages/frontend
+            npx wrangler@2.1 publish
 
   lint:
     machine:
