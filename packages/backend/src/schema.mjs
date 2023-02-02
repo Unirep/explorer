@@ -92,6 +92,14 @@ const _schema = [
       ['timestamp', 'Int'],
     ],
   },
+  {
+    name: 'Attester',
+    primaryKey: '_id',
+    rows: [
+      ['startTimestamp', 'Int'],
+      ['epochLength', 'Int'],
+    ],
+  },
 ]
 
 /**
