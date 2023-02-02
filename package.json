@@ -10,7 +10,8 @@
     "backend": "yarn workspace backend",
     "frontend": "yarn workspace frontend",
     "lint": "prettier .",
-    "linkUnirep": "sh ./scripts/linkUnirep.sh"
+    "linkUnirep": "sh ./scripts/linkUnirep.sh",
+    "loadBeta": "sh ./scripts/loadUnirepBeta.sh"
   },
   "devDependencies": {
     "lerna": "^5.5.4"
