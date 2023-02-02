@@ -212,6 +212,7 @@ export class Synchronizer extends EventEmitter {
           'EpochEnded',
           'StateTreeLeaf',
           'EpochTreeLeaf',
+          'AttesterSignedUp',
         ],
       },
     }
@@ -369,6 +370,19 @@ export class Synchronizer extends EventEmitter {
   }
 
   // unirep event handlers
+
+  async handleAttesterSignedUp({ event, db, decodedData }) {
+    const attesterId = BigInt(decodedData.attesterId).toString()
+    const epochLength = Number(decodedData.epochLength)
+    const startTimestamp = await this.unirepContract.attesterStartTimestamp(
+      attesterId
+    )
+    db.create('Attester', {
+      _id: attesterId,
+      epochLength,
+      startTimestamp: startTimestamp.toNumber(),
+    })
+  }
 
   async handleStateTreeLeaf({ event, db, decodedData }) {
     const epoch = Number(decodedData.epoch)
