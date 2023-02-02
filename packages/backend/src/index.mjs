@@ -3,58 +3,13 @@ import path from 'path'
 import fs from 'fs'
 import express from 'express'
 import { provider, DB_PATH, UNIREP_ADDRESS } from './config.mjs'
-import { schema } from '@unirep/core'
+import { schema } from './schema.mjs'
 import { SQLiteConnector } from 'anondb/node.js'
 import { Synchronizer } from './singletons/Synchronizer.mjs'
 
-const _schema = schema.map((row) => {
-  if (row.name === 'Attestation') {
-    return {
-      name: 'Attestation',
-      indexes: [{ keys: ['index'] }, { keys: ['index', 'epochKey', 'epoch'] }],
-      rows: [
-        ['epoch', 'Int', { optional: true }],
-        ['epochKey', 'String', { optional: true }],
-        ['index', 'String'],
-        ['attester', 'String', { optional: true }],
-        ['attesterId', 'String', { optional: true }],
-        ['posRep', 'Int', { optional: true }],
-        ['negRep', 'Int', { optional: true }],
-        ['graffiti', 'String', { optional: true }],
-        ['hash', 'String'],
-      ],
-    }
-  }
-  if (row.name !== 'Epoch') return row
-  return {
-    name: 'Epoch',
-    indexes: [{ keys: ['number', 'attesterId'] }],
-    rows: [
-      ['number', 'Int'],
-      ['attesterId', 'String'],
-      ['sealed', 'Bool'],
-    ],
-  }
-})
-
-_schema.forEach((table) => {
-  if (table.name !== 'SynchronizerState') {
-    table.rows.push(['timestamp', 'Int'])
-  }
-})
-
-_schema.push({
-  name: 'BlockTimestamp',
-  primaryKey: 'number',
-  rows: [
-    ['number', 'Int'],
-    ['timestamp', 'Int'],
-  ],
-})
-
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
-const db = await SQLiteConnector.create(_schema, DB_PATH ?? ':memory:')
+const db = await SQLiteConnector.create(schema, DB_PATH)
 const synchronizer = new Synchronizer({
   db,
   provider,
