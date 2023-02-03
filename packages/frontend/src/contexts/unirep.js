@@ -5,7 +5,7 @@ export default class Unirep {
   allSignUps = []
   signUpsByUserId = new Map()
   signUpsByAttesterId = new Map()
-  attestationsByIndex = new Map()
+  attestationsById = new Map()
   attestationIds = []
   // attestationsByAttesterId = {}
   totalPosRep = 0
@@ -65,7 +65,7 @@ export default class Unirep {
     // store allAttestations as ids to prevent duplicating data
     this.attestationIds = attestations.map((a) => a._id)
     for (const a of attestations) {
-      this.attestationsByIndex.set(a._id, a)
+      this.attestationsById.set(a._id, a)
     }
   }
 

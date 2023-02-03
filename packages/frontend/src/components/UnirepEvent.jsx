@@ -10,7 +10,7 @@ dayjs.extend(relativeTime)
 
 export default observer(({ id }) => {
   const { unirep } = React.useContext(state)
-  const attestation = unirep.attestationsByIndex.get(id)
+  const attestation = unirep.attestationsById.get(id)
   const { attesterId, posRep, negRep, timestamp } = attestation
   const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
