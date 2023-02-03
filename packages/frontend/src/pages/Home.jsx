@@ -5,6 +5,7 @@ import UnirepInfo from '../components/UnirepInfo'
 import InfoCard from '../components/InfoCard'
 import UnirepEvent from '../components/UnirepEvent'
 import Footer from '../components/Footer'
+import measure from '../utils/measure-text'
 
 export default observer(() => {
   const { info, unirep } = useContext(state)
@@ -129,28 +130,49 @@ export default observer(() => {
 
           <h3>Latest Attestations</h3>
           <div className="flex events-header">
-            <h4 style={{ width: '20%' }}>Contract</h4>
-            <h4>Epoch</h4>
-            <div className="flex">
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: `${measure('0xca939...6132f')}px`,
+              }}
+            >
+              <h4>Attester</h4>
+            </div>
+            <h4 style={{ width: `50px` }}>Epoch</h4>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: `${measure('0xca939...6132f')}px`,
+              }}
+            >
               <h4>Epoch Key</h4>
-              <img
-                src={require('../../public/arrow_up_down.svg')}
-                alt="arrow change order of display"
-              />
             </div>
-            <div className="flex">
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '80px',
+              }}
+            >
               <h4>Change</h4>
+              <div style={{ width: '4px' }} />
               <img
                 src={require('../../public/arrow_up_down.svg')}
                 alt="arrow change order of display"
               />
             </div>
-            <div className="flex">
-              <h4></h4>
-              <img
-                src={require('../../public/arrow_up_down.svg')}
-                alt="arrow change order of display"
-              />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: `${measure('Jan 30, 14:00 UTC', {
+                  fontSize: '12px',
+                })}px`,
+              }}
+            >
+              <h4>Timestamp</h4>
             </div>
           </div>
           <div>

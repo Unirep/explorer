@@ -18,11 +18,13 @@ export default observer(({ id }) => {
           <span>{attesterIdHex.slice(-5)}</span>
         </p>
       </Link>
-      <p>Epoch #{attestation.epoch}</p>
+      <p style={{ minWidth: '50px', textAlign: 'center' }}>
+        {attestation.epoch}
+      </p>
       <Link to={`user/${epochKeyHex}`}>
         <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
       </Link>
-      <p>
+      <p style={{ minWidth: '80px' }}>
         {posRep - negRep}
         <span style={{ fontSize: '12px', fontWeight: '600' }}>
           <span style={{ color: 'green' }}>+{posRep}</span>/
