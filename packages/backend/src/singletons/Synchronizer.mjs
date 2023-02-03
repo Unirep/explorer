@@ -510,6 +510,7 @@ export class Synchronizer extends EventEmitter {
     })
 
     db.create('Attestation', {
+      _id: index,
       epoch,
       epochKey,
       index,

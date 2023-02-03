@@ -63,9 +63,9 @@ export default class Unirep {
     // accept an array or a single item
     const attestations = [_attestations].flat()
     // store allAttestations as ids to prevent duplicating data
-    this.attestationIds = attestations.map((a) => a.index)
+    this.attestationIds = attestations.map((a) => a._id)
     for (const a of attestations) {
-      this.attestationsByIndex.set(a.index, a)
+      this.attestationsByIndex.set(a._id, a)
     }
   }
 
