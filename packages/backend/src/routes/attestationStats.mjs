@@ -7,8 +7,12 @@ export default ({ app, db, synchronizer }) => {
         _id: 'attestations',
       },
     })
+    const attestationCount = await db.count('Attestation', {})
     const stats = JSON.parse(data)
-    res.json(stats)
+    res.json({
+      ...stats,
+      attestationCount,
+    })
   }
   app.get('/api/unirep/stats', catchError(handler))
 }

@@ -5,10 +5,12 @@ export default class Unirep {
   allSignUps = []
   signUpsByUserId = new Map()
   signUpsByAttesterId = new Map()
-  allAttestations = []
+  attestationsByIndex = new Map()
+  attestationIds = []
   // attestationsByAttesterId = {}
   totalPosRep = 0
   totalNegRep = 0
+  attestationCount = 0
   allEpochs = []
   attesterIds = []
   // currentAttesterStats = new Map()
@@ -49,40 +51,32 @@ export default class Unirep {
         this.signUpsByAttesterId.set(attesterId, [signup])
       }
     }
-    console.log('userSignups:', this.signUpsByUserId)
-    console.log('attesterSignUps:', this.signUpsByAttesterId)
   }
 
   async loadAllAttestations() {
     const url = new URL(`api/unirep/attestations`, SERVER)
     const { items } = await fetch(url.toString()).then((r) => r.json())
-    this.allAttestations = items
-    // this.ingestAttestations(data)
+    this.ingestAttestations(items)
   }
 
-  // async ingestAttestations(attestations) {
-  //   this.totalPosRep = 0
-  //   this.totalNegRep = 0
-  //   this.attestationsByAttesterId = new Map()
-  //   for (const attestation of attestations) {
-  //     let attesterId = attestation.attesterId
-  //     if (this.attestationsByAttesterId.has(attesterId)) {
-  //       this.attestationsByAttesterId.get(attesterId).push(attestation)
-  //     } else {
-  //       this.attestationsByAttesterId.set(attesterId, [attestation])
-  //     }
-  //     this.totalPosRep += attestations[i].posRep
-  //     this.totalNegRep += attestations[i].negRep
-  //   }
-  //   console.log('attestationsByAttester:', this.attestationsByAttesterId)
-  //   console.log('total rep:', this.totalNegRep, this.totalPosRep)
-  // }
+  async ingestAttestations(_attestations) {
+    // accept an array or a single item
+    const attestations = [_attestations].flat()
+    // store allAttestations as ids to prevent duplicating data
+    this.attestationIds = attestations.map((a) => a.index)
+    for (const a of attestations) {
+      this.attestationsByIndex.set(a.index, a)
+    }
+  }
 
   async loadStats() {
     const url = new URL(`api/unirep/stats`, SERVER)
-    const { posRep, negRep } = await fetch(url.toString()).then((r) => r.json())
+    const { posRep, negRep, attestationCount } = await fetch(
+      url.toString()
+    ).then((r) => r.json())
     this.totalPosRep = posRep
     this.totalNegRep = negRep
+    this.attestationCount = attestationCount
   }
 
   async loadAllEpochs() {
@@ -93,7 +87,6 @@ export default class Unirep {
       epoch.number === 0 && this.attesterIds.push(epoch.attesterId)
     })
     this.getCurrentAttesterStats()
-    console.log('loadAllEpochs was called')
   }
 
   // create array of attester stats
@@ -129,8 +122,6 @@ export default class Unirep {
       }
       this.currentAttesterStats.push(status)
     })
-    console.log('getCurrentAttesterStats was called')
-    console.log('stats:', this.currentAttesterStats)
   }
 
   // create mapping of attester stats

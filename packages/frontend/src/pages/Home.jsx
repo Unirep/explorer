@@ -14,7 +14,7 @@ export default observer(() => {
     const loadData = async () => {
       // below are being called from Header
       // await unirep.loadAllSignUps();
-      // await unirep.loadAllAttestations();
+      await unirep.loadAllAttestations()
       // await unirep.loadAllEpochs()
       setSignups(unirep.signUpsByAttesterId)
     }
@@ -57,7 +57,7 @@ export default observer(() => {
             />
             <InfoCard
               heading="Total Attestations"
-              value1={unirep.allAttestations.length}
+              value1={unirep.attestationCount}
             />
             <InfoCard
               heading="Total Reputation Processed"
@@ -127,51 +127,36 @@ export default observer(() => {
             </ul>
           </div>
 
-          <h3>Attester Snapshot</h3>
+          <h3>Latest Attestations</h3>
           <div className="flex events-header">
             <h4 style={{ width: '20%' }}>Contract</h4>
-            <h4>Current</h4>
+            <h4>Epoch</h4>
             <div className="flex">
-              <h4>Users</h4>
+              <h4>Epoch Key</h4>
               <img
                 src={require('../../public/arrow_up_down.svg')}
                 alt="arrow change order of display"
               />
             </div>
             <div className="flex">
-              <h4>Reputation</h4>
+              <h4>Change</h4>
               <img
                 src={require('../../public/arrow_up_down.svg')}
                 alt="arrow change order of display"
               />
             </div>
             <div className="flex">
-              <h4>next Epoch at</h4>
+              <h4></h4>
               <img
                 src={require('../../public/arrow_up_down.svg')}
                 alt="arrow change order of display"
               />
             </div>
           </div>
-          <div className="scroll">
-            {unirep.currentAttesterStats.length > 0
-              ? unirep.currentAttesterStats.map((status) => (
-                  <UnirepEvent
-                    key={status.attesterId}
-                    status={status}
-                    nextEpoch="idk"
-                  />
-                ))
-              : null}
-            {unirep.currentAttesterStats.length > 0 ? null : 'Loading...'}
-            {/* {unirep.currentAttesterStats ?
-              unirep.currentAttesterStats.forEach(() => {
-                <UnirepEvent key={value.attesterId} status={value} nextEpoch='idk'/>
-            }) : null }
-            {unirep.currentAttesterStats ?
-              null :
-              'Loading...'
-            } */}
+          <div>
+            {unirep.attestationIds.map((id) => (
+              <UnirepEvent key={id} id={id} />
+            ))}
           </div>
         </div>
       </div>

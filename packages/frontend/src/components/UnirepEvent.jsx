@@ -1,24 +1,32 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
+import state from '../contexts/state'
 import './eventCard.css'
 
-export default observer(({ status, nextEpoch }) => {
+export default observer(({ id }) => {
+  const { unirep } = React.useContext(state)
+  const attestation = unirep.attestationsByIndex.get(id)
+  const { attesterId, posRep, negRep } = attestation
+  const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
+  const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
   return (
     <div className="event-card">
-      <Link to={`attester/${status.attesterId}`}>
+      <Link to={`attester/${attesterIdHex}`}>
         <p>
-          0x<span>{status.attesterId.slice(0, 3)}</span>...
-          <span>{status.attesterId.slice(-5)}</span>
+          <span>{attesterIdHex.slice(0, 7)}</span>...
+          <span>{attesterIdHex.slice(-5)}</span>
         </p>
       </Link>
-      <p>Epoch #{status.currentEpoch}</p>
-      <p>{status.numUsers}</p>
+      <p>Epoch #{attestation.epoch}</p>
+      <Link to={`user/${epochKeyHex}`}>
+        <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
+      </Link>
       <p>
-        {status.posReputation - status.negReputation}
+        {posRep - negRep}
         <span style={{ fontSize: '12px', fontWeight: '600' }}>
-          <span style={{ color: 'green' }}> +{status.posReputation}</span>/
-          <span style={{ color: 'red' }}>-{status.negReputation}</span>
+          <span style={{ color: 'green' }}>+{posRep}</span>/
+          <span style={{ color: 'red' }}>-{negRep}</span>
         </span>
       </p>
       <p style={{ fontSize: '12px' }}>Jan 30, 14:00 UTC</p>

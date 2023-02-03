@@ -5,7 +5,7 @@ export default ({ app, db, synchronizer }) => {
     const allAttestations = await db.findMany('Attestation', {
       where: {},
       orderBy: {
-        timestamp: 'desc',
+        index: 'desc',
       },
     })
     res.json({
