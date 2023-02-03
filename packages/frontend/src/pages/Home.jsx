@@ -20,7 +20,6 @@ export default observer(() => {
     }
     loadData()
   }, [])
-  console.log('signups:', signups)
   return (
     <>
       <div className="container">
@@ -109,13 +108,13 @@ export default observer(() => {
           <h3>Stats</h3>
           <div className="graph-container">
             {/* <ul>SIGNUPS TO EACH ATTESTER:
-              {unirep.signUpsByAttesterId ? 
+              {unirep.signUpsByAttesterId ?
                 [...unirep.signUpsByAttesterId.entries()].map((key, {value}) => (
                   // unirep.signUpsByAttesterId.get(key).map(({ value }) => (
                     <li key={key}>attester: {key.slice(0, 5)}..  #signups: {}</li>
                   // ))
               )) : null}
-                  
+
               {unirep.signUpsByAttesterId ?
                 null :
                 <li>There were no signups to this attester.</li>
@@ -165,12 +164,12 @@ export default observer(() => {
                 ))
               : null}
             {unirep.currentAttesterStats.length > 0 ? null : 'Loading...'}
-            {/* {unirep.currentAttesterStats ? 
+            {/* {unirep.currentAttesterStats ?
               unirep.currentAttesterStats.forEach(() => {
                 <UnirepEvent key={value.attesterId} status={value} nextEpoch='idk'/>
             }) : null }
-            {unirep.currentAttesterStats ? 
-              null : 
+            {unirep.currentAttesterStats ?
+              null :
               'Loading...'
             } */}
           </div>

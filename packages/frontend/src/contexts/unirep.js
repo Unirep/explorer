@@ -55,8 +55,8 @@ export default class Unirep {
 
   async loadAllAttestations() {
     const url = new URL(`api/unirep/attestations`, SERVER)
-    const data = await fetch(url.toString()).then((r) => r.json())
-    this.allAttestations = data
+    const { items } = await fetch(url.toString()).then((r) => r.json())
+    this.allAttestations = items
     // this.ingestAttestations(data)
   }
 
