@@ -4,7 +4,6 @@ import ConfigInfoItem from './ConfigInfoItem'
 import './infoCard.css'
 
 export default observer(({ info }) => {
-  const [contractExpanded, setContractExpanded] = useState(false)
   const [circuitExpanded, setCircuitExpanded] = useState(false)
 
   return (
@@ -12,11 +11,11 @@ export default observer(({ info }) => {
       <h4 className="card-heading">Protocol Information</h4>
       <div className="flex">
         <h5>Current version</h5>
-        <h6>{info.VERSION}</h6>
+        <h6>v2</h6>
       </div>
       <div className="flex">
         <h5>Release</h5>
-        <h6>{info.RELEASE}</h6>
+        <h6>Feb 2023</h6>
       </div>
       <div className="flex">
         <h5>Address</h5>
@@ -39,44 +38,6 @@ export default observer(({ info }) => {
         <h5>Network</h5>
         <h6>{info.ETH_PROVIDER_URL.slice(8, 23).replace('.', '/')}</h6>
       </div>
-
-      {contractExpanded ? (
-        <>
-          <div className="flex card-heading">
-            <h4>Contract Config</h4>
-            <div
-              onClick={() => setContractExpanded(false)}
-              style={{ cursor: 'pointer' }}
-            >
-              <img src={require('../../public/arrow_up.svg')} alt="arrow up" />
-            </div>
-          </div>
-          {/* need these values */}
-          <ConfigInfoItem
-            item="Empty Epoch Tree Root"
-            info={info.EMPTY_EPOCH_TREE_ROOT}
-          />
-          <ConfigInfoItem
-            item="Aggregate Key Count"
-            info={info.AGGREGATE_KEY_COUNT}
-          />
-        </>
-      ) : (
-        <>
-          <div className="flex card-heading">
-            <h4>Contract Config</h4>
-            <div
-              onClick={() => setContractExpanded(true)}
-              style={{ cursor: 'pointer' }}
-            >
-              <img
-                src={require('../../public/arrow_down.svg')}
-                alt="arrow down"
-              />
-            </div>
-          </div>
-        </>
-      )}
 
       {circuitExpanded ? (
         <>
