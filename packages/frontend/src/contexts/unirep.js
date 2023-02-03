@@ -7,8 +7,8 @@ export default class Unirep {
   signUpsByAttesterId = new Map()
   allAttestations = []
   // attestationsByAttesterId = {}
-  totalPosRep
-  totalNegRep
+  totalPosRep = 0
+  totalNegRep = 0
   allEpochs = []
   attesterIds = []
   // currentAttesterStats = new Map()
@@ -57,12 +57,6 @@ export default class Unirep {
     const url = new URL(`api/unirep/attestations`, SERVER)
     const data = await fetch(url.toString()).then((r) => r.json())
     this.allAttestations = data
-    this.totalPosRep = 0
-    this.totalNegRep = 0
-    this.allAttestations.forEach((attestation) => {
-      this.totalPosRep += attestation.posRep
-      this.totalNegRep += attestation.negRep
-    })
     // this.ingestAttestations(data)
   }
 
@@ -83,6 +77,13 @@ export default class Unirep {
   //   console.log('attestationsByAttester:', this.attestationsByAttesterId)
   //   console.log('total rep:', this.totalNegRep, this.totalPosRep)
   // }
+
+  async loadStats() {
+    const url = new URL(`api/unirep/stats`, SERVER)
+    const { posRep, negRep } = await fetch(url.toString()).then((r) => r.json())
+    this.totalPosRep = posRep
+    this.totalNegRep = negRep
+  }
 
   async loadAllEpochs() {
     const url = new URL(`api/unirep/epochs`, SERVER)

@@ -491,6 +491,23 @@ export class Synchronizer extends EventEmitter {
         `Synchronizer: Epoch (${epoch}) must be the same as the current synced epoch ${currentEpoch.number}`
       )
     }
+    const { data } = await this._db.findOne('GlobalData', {
+      where: {
+        _id: 'attestations',
+      },
+    })
+
+    const stats = JSON.parse(data)
+    stats.posRep += posRep
+    stats.negRep += negRep
+    db.update('GlobalData', {
+      where: {
+        _id: 'attestations',
+      },
+      update: {
+        data: JSON.stringify(stats),
+      },
+    })
 
     db.create('Attestation', {
       epoch,
