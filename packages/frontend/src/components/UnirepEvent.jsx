@@ -2,12 +2,16 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import state from '../contexts/state'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import './eventCard.css'
+
+dayjs.extend(relativeTime)
 
 export default observer(({ id }) => {
   const { unirep } = React.useContext(state)
   const attestation = unirep.attestationsByIndex.get(id)
-  const { attesterId, posRep, negRep } = attestation
+  const { attesterId, posRep, negRep, timestamp } = attestation
   const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
   return (
@@ -31,7 +35,9 @@ export default observer(({ id }) => {
           <span style={{ color: 'red' }}>-{negRep}</span>
         </span>
       </p>
-      <p style={{ fontSize: '12px' }}>Jan 30, 14:00 UTC</p>
+      <p style={{ minWidth: '100px', fontSize: '12px' }}>
+        {dayjs(timestamp * 1000).from(dayjs())}
+      </p>
     </div>
   )
 })

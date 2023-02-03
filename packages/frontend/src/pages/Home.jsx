@@ -134,7 +134,10 @@ export default observer(() => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                width: `${measure('0xca939...6132f')}px`,
+                width: `${measure('0xca939...6132f', {
+                  fontSize: '0.9em',
+                  margin: '0.4em',
+                })}px`,
               }}
             >
               <h4>Attester</h4>
@@ -144,7 +147,10 @@ export default observer(() => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                width: `${measure('0xca939...6132f')}px`,
+                width: `${measure('0xca939...6132f', {
+                  fontSize: '0.9em',
+                  margin: '0.4em',
+                })}px`,
               }}
             >
               <h4>Epoch Key</h4>
@@ -167,9 +173,7 @@ export default observer(() => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                width: `${measure('Jan 30, 14:00 UTC', {
-                  fontSize: '12px',
-                })}px`,
+                width: `100px`,
               }}
             >
               <h4>Timestamp</h4>
