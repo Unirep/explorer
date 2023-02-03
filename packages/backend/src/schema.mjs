@@ -100,6 +100,11 @@ const _schema = [
       ['epochLength', 'Int'],
     ],
   },
+  {
+    name: 'GlobalData',
+    primaryKey: '_id',
+    rows: [['data', 'String']],
+  },
 ]
 
 /**

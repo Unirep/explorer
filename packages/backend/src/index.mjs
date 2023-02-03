@@ -10,6 +10,21 @@ import { Synchronizer } from './singletons/Synchronizer.mjs'
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
 const db = await SQLiteConnector.create(schema, DB_PATH)
+
+await db.upsert('GlobalData', {
+  where: {
+    _id: 'attestations',
+  },
+  create: {
+    _id: 'attestations',
+    data: JSON.stringify({
+      posRep: 0,
+      negRep: 0,
+    }),
+  },
+  update: {},
+})
+
 const synchronizer = new Synchronizer({
   db,
   provider,

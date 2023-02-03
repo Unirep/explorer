@@ -13,7 +13,7 @@ export default observer(() => {
     const loadData = async () => {
       await Promise.all([
         unirep.loadAllSignUps(),
-        unirep.loadAllAttestations(),
+        unirep.loadStats(),
         unirep.loadAllEpochs(),
       ])
       // setUserIds(unirep.allSignUps)

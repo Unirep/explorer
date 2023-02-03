@@ -5,6 +5,7 @@ import UnirepInfo from '../components/UnirepInfo'
 import InfoCard from '../components/InfoCard'
 import UnirepEvent from '../components/UnirepEvent'
 import Footer from '../components/Footer'
+import measure from '../utils/measure-text'
 
 export default observer(() => {
   const { info, unirep } = useContext(state)
@@ -14,13 +15,12 @@ export default observer(() => {
     const loadData = async () => {
       // below are being called from Header
       // await unirep.loadAllSignUps();
-      // await unirep.loadAllAttestations();
+      await unirep.loadAllAttestations()
       // await unirep.loadAllEpochs()
       setSignups(unirep.signUpsByAttesterId)
     }
     loadData()
   }, [])
-  console.log('signups:', signups)
   return (
     <>
       <div className="container">
@@ -58,7 +58,7 @@ export default observer(() => {
             />
             <InfoCard
               heading="Total Attestations"
-              value1={unirep.allAttestations.length}
+              value1={unirep.attestationCount}
             />
             <InfoCard
               heading="Total Reputation Processed"
@@ -109,13 +109,13 @@ export default observer(() => {
           <h3>Stats</h3>
           <div className="graph-container">
             {/* <ul>SIGNUPS TO EACH ATTESTER:
-              {unirep.signUpsByAttesterId ? 
+              {unirep.signUpsByAttesterId ?
                 [...unirep.signUpsByAttesterId.entries()].map((key, {value}) => (
                   // unirep.signUpsByAttesterId.get(key).map(({ value }) => (
                     <li key={key}>attester: {key.slice(0, 5)}..  #signups: {}</li>
                   // ))
               )) : null}
-                  
+
               {unirep.signUpsByAttesterId ?
                 null :
                 <li>There were no signups to this attester.</li>
@@ -128,51 +128,61 @@ export default observer(() => {
             </ul>
           </div>
 
-          <h3>Attester Snapshot</h3>
+          <h3>Latest Attestations</h3>
           <div className="flex events-header">
-            <h4 style={{ width: '20%' }}>Contract</h4>
-            <h4>Current</h4>
-            <div className="flex">
-              <h4>Users</h4>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: `${measure('0xca939...6132f', {
+                  fontSize: '0.9em',
+                  margin: '0.4em',
+                })}px`,
+              }}
+            >
+              <h4>Attester</h4>
+            </div>
+            <h4 style={{ width: `50px` }}>Epoch</h4>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: `${measure('0xca939...6132f', {
+                  fontSize: '0.9em',
+                  margin: '0.4em',
+                })}px`,
+              }}
+            >
+              <h4>Epoch Key</h4>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: '80px',
+              }}
+            >
+              <h4>Change</h4>
+              <div style={{ width: '4px' }} />
               <img
                 src={require('../../public/arrow_up_down.svg')}
                 alt="arrow change order of display"
               />
             </div>
-            <div className="flex">
-              <h4>Reputation</h4>
-              <img
-                src={require('../../public/arrow_up_down.svg')}
-                alt="arrow change order of display"
-              />
-            </div>
-            <div className="flex">
-              <h4>next Epoch at</h4>
-              <img
-                src={require('../../public/arrow_up_down.svg')}
-                alt="arrow change order of display"
-              />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                width: `100px`,
+              }}
+            >
+              <h4>Timestamp</h4>
             </div>
           </div>
-          <div className="scroll">
-            {unirep.currentAttesterStats.length > 0
-              ? unirep.currentAttesterStats.map((status) => (
-                  <UnirepEvent
-                    key={status.attesterId}
-                    status={status}
-                    nextEpoch="idk"
-                  />
-                ))
-              : null}
-            {unirep.currentAttesterStats.length > 0 ? null : 'Loading...'}
-            {/* {unirep.currentAttesterStats ? 
-              unirep.currentAttesterStats.forEach(() => {
-                <UnirepEvent key={value.attesterId} status={value} nextEpoch='idk'/>
-            }) : null }
-            {unirep.currentAttesterStats ? 
-              null : 
-              'Loading...'
-            } */}
+          <div>
+            {unirep.attestationIds.map((id) => (
+              <UnirepEvent key={id} id={id} />
+            ))}
           </div>
         </div>
       </div>
