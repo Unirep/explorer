@@ -27,10 +27,6 @@ export default class Info {
     const {
       UNIREP_ADDRESS,
       ETH_PROVIDER_URL,
-      VERSION,
-      RELEASE,
-      EMPTY_EPOCH_TREE_ROOT,
-      AGGREGATE_KEY_COUNT,
       STATE_TREE_DEPTH,
       EPOCH_TREE_DEPTH,
       EPOCH_TREE_ARITY,
@@ -38,10 +34,6 @@ export default class Info {
     } = await response.json()
     this.UNIREP_ADDRESS = UNIREP_ADDRESS
     this.ETH_PROVIDER_URL = ETH_PROVIDER_URL
-    this.VERSION = VERSION
-    this.RELEASE = RELEASE
-    this.EMPTY_EPOCH_TREE_ROOT = EMPTY_EPOCH_TREE_ROOT
-    this.AGGREGATE_KEY_COUNT = AGGREGATE_KEY_COUNT
     this.STATE_TREE_DEPTH = STATE_TREE_DEPTH
     this.EPOCH_TREE_DEPTH = EPOCH_TREE_DEPTH
     this.EPOCH_TREE_ARITY = EPOCH_TREE_ARITY

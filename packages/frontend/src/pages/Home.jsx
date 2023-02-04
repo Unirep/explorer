@@ -15,12 +15,14 @@ export default observer(() => {
     const loadData = async () => {
       // below are being called from Header
       // await unirep.loadAllSignUps();
+      await unirep.loadAttesterDeployments()
       await unirep.loadAllAttestations()
       // await unirep.loadAllEpochs()
       setSignups(unirep.signUpsByAttesterId)
     }
     loadData()
   }, [])
+
   return (
     <>
       <div className="container">
@@ -50,7 +52,7 @@ export default observer(() => {
           <div className="info-grid">
             <InfoCard
               heading="Total Attesters/Apps"
-              value1={unirep.attesterIds.length}
+              value1={unirep.attesterDeployments.length}
             />
             <InfoCard
               heading="Total Sign Ups"
@@ -66,18 +68,17 @@ export default observer(() => {
               value2={unirep.totalPosRep}
               value3={unirep.totalNegRep}
             />
-            {/* need to get attester addresses here, currently using Unirep */}
             <div className="info-card">
               <h4>Latest Attester</h4>
               <div className="flex">
                 <h5>Deployed at</h5>
-                <h6>mm/dd/yyyy</h6>
+                {/* <h6>{unirep.attesterDeployments[0]timestamp}</h6> */}
               </div>
               <div className="flex">
                 <h5>Contract address</h5>
                 <h6>
-                  <span>{info.UNIREP_ADDRESS.slice(0, 5)}</span>...
-                  <span>{info.UNIREP_ADDRESS.slice(-5)} </span>
+                  {/* <span>{unirep.attesterDeployments[0]_id.slice(0, 5)}</span>...
+                  <span>{unirep.attesterDeployments[0]_id.slice(-5)} </span> */}
                   <a
                     href={`https://goerli.arbiscan.io/address/${info.UNIREP_ADDRESS}`}
                     target="blank"

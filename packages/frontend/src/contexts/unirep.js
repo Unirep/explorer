@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx'
 import { SERVER } from '../config'
 
 export default class Unirep {
+  attesterDeployments = []
   allSignUps = []
   signUpsByUserId = new Map()
   signUpsByAttesterId = new Map()
@@ -26,6 +27,13 @@ export default class Unirep {
 
   //   async load() {}
 
+  async loadAttesterDeployments() {
+    const url = new URL(`api/unirep/attesters`, SERVER)
+    const data = await fetch(url.toString()).then((r) => r.json())
+    this.attesterDeployments = data
+    console.log('deployments:', this.attesterDeployments)
+  }
+
   async loadAllSignUps() {
     const url = new URL(`api/unirep/signups`, SERVER)
     const data = await fetch(url.toString()).then((r) => r.json())
@@ -34,8 +42,6 @@ export default class Unirep {
   }
 
   async ingestSignUps(signups) {
-    // this.signUpsByUserId = new Map()
-    // this.signUpsByAttesterId = new Map()
     for (const signup of signups) {
       let userId = signup.commitment
       let attesterId = signup.attesterId
