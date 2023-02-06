@@ -1,4 +1,5 @@
 import catchError from '../helpers/catchError.mjs'
+import loadTimestamps from '../helpers/loadTimestamps.mjs'
 
 export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
@@ -8,8 +9,9 @@ export default ({ app, db, synchronizer }) => {
         _id: 'desc',
       },
     })
+    const items = await loadTimestamps(allAttestations, db)
     res.json({
-      items: allAttestations,
+      items,
     })
   }
   app.get('/api/unirep/attestations', catchError(handler))

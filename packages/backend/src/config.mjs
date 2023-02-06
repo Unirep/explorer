@@ -3,7 +3,7 @@ import { config } from 'dotenv'
 config()
 
 export const UNIREP_ADDRESS =
-  process.env.UNIREP_ADDRESS ?? '0x0ab1edf98dc0e93906108a53d433eb0b780397bd'
+  process.env.UNIREP_ADDRESS ?? '0xC0ACd7234E629538A1026B060CA92A227fbF8f50'
 export const ETH_PROVIDER_URL =
   process.env.ETH_PROVIDER_URL ?? 'https://arbitrum.goerli.unirep.io'
 

@@ -1,4 +1,5 @@
 import catchError from '../helpers/catchError.mjs'
+import loadTimestamps from '../helpers/loadTimestamps.mjs'
 
 export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
@@ -8,7 +9,8 @@ export default ({ app, db, synchronizer }) => {
         attesterId: attesterId,
       },
     })
-    res.json(attesterSignUps)
+    const signups = await loadTimestamps(attesterSignUps, db)
+    res.json(signups)
   }
   app.get('/api/attester/:attesterId/signups', catchError(handler))
 }
