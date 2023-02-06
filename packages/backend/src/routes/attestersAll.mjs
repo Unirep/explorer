@@ -5,7 +5,9 @@ export default ({ app, db, synchronizer }) => {
     const attesters = await db.findMany('Attester', {
       where: {},
     })
-    res.json(attesters)
+    res.json({
+      items: attesters,
+    })
   }
   app.get('/api/unirep/attesters', catchError(handler))
 }

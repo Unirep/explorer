@@ -6,10 +6,11 @@ import InfoCard from '../components/InfoCard'
 import UnirepEvent from '../components/UnirepEvent'
 import Footer from '../components/Footer'
 import measure from '../utils/measure-text'
+import dayjs from 'dayjs'
 
 export default observer(() => {
   const { info, unirep } = useContext(state)
-  const [signups, setSignups] = useState()
+  // const [signups, setSignups] = useState()
 
   useEffect(() => {
     const loadData = async () => {
@@ -18,10 +19,13 @@ export default observer(() => {
       await unirep.loadAttesterDeployments()
       await unirep.loadAllAttestations()
       // await unirep.loadAllEpochs()
-      setSignups(unirep.signUpsByAttesterId)
+      // setSignups(unirep.signUpsByAttesterId)
     }
     loadData()
   }, [])
+
+  const lastDeployment = unirep.deploymentIds[0]
+  const latestAttester = unirep.deploymentsById.get(lastDeployment)
 
   return (
     <>
@@ -52,7 +56,7 @@ export default observer(() => {
           <div className="info-grid">
             <InfoCard
               heading="Total Attesters/Apps"
-              value1={unirep.attesterDeployments.length}
+              value1={unirep.deploymentIds.length}
             />
             <InfoCard
               heading="Total Sign Ups"
@@ -71,24 +75,34 @@ export default observer(() => {
             <div className="info-card">
               <h4>Latest Attester</h4>
               <div className="flex">
-                <h5>Deployed at</h5>
-                {/* <h6>{unirep.attesterDeployments[0]timestamp}</h6> */}
+                <h5>Deployed on</h5>
+                {latestAttester ? 
+                  <h6>{dayjs(latestAttester.startTimestamp * 1000).format("MMM D, YYYY")}</h6>
+                  : null }
+                {latestAttester ?
+                  null
+                  : <h5>Loading...</h5> }
               </div>
               <div className="flex">
                 <h5>Contract address</h5>
-                <h6>
-                  {/* <span>{unirep.attesterDeployments[0]_id.slice(0, 5)}</span>...
-                  <span>{unirep.attesterDeployments[0]_id.slice(-5)} </span> */}
-                  <a
-                    href={`https://goerli.arbiscan.io/address/${info.UNIREP_ADDRESS}`}
-                    target="blank"
-                  >
-                    <img
-                      src={require('../../public/arrow_up_right.svg')}
-                      alt="arrow up right"
-                    />
-                  </a>
-                </h6>
+                {latestAttester ?               
+                  <h6>
+                    <span>{`0x${BigInt(latestAttester._id).toString(16)}`.slice(0, 7)}</span>...
+                    <span>{`0x${BigInt(latestAttester._id).toString(16)}`.slice(-5)} </span>
+                    <a
+                      href={`https://goerli.arbiscan.io/address/0x${BigInt(latestAttester._id).toString(16)}`}
+                      target="blank"
+                    >
+                      <img
+                        src={require('../../public/arrow_up_right.svg')}
+                        alt="arrow up right"
+                      />
+                    </a>
+                  </h6>
+                  : null }
+                  {latestAttester ?
+                  null
+                  : <h5>Loading...</h5> }
               </div>
             </div>
             <div className="info-card">

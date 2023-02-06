@@ -7,15 +7,18 @@ import InfoCard from '../components/InfoCard'
 import EpochView from '../components/EpochView'
 import UserView from '../components/UserView'
 import Footer from '../components/Footer'
+import dayjs from 'dayjs'
 
 export default observer(() => {
   const { id } = useParams()
-  const { attester } = useContext(state)
+  const attesterId = BigInt(id).toString(10)
+  const { unirep, attester } = useContext(state)
   const [selectedView, setSelectedView] = useState('Epoch')
   const [currentEpoch, setCurrentEpoch] = useState(0)
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
+        unirep.loadAttesterDeployments(),
         attester.loadEpochsByAttester(id),
         attester.loadSignUpsByAttester(id),
         attester.loadAttestationsByAttester(id),
@@ -26,6 +29,8 @@ export default observer(() => {
     loadData()
   }, [])
 
+  const deployment = unirep.deploymentsById.get(attesterId)
+
   return (
     <>
       <div className="container">
@@ -34,16 +39,20 @@ export default observer(() => {
           <div className="info-card">
             <h4>Attester Information</h4>
             <div className="flex">
-              <h5>Deployed at</h5>
-              <h6>Jan/20/2023</h6>
+              <h5>Deployed on</h5>
+              {deployment ? 
+                  <h6>{dayjs(deployment.startTimestamp * 1000).format("MMM D, YYYY")}</h6>
+                  : null }
+                {deployment ?
+                  null
+                  : <h5>Loading...</h5> }
             </div>
             <div className="flex">
-              <h5>Contract Address</h5>
+              <h5>Address</h5>
               <h6>
-                0x
-                <span>{id.slice(0, 3)}</span>...<span>{id.slice(-5)} </span>
+                <span>{id.slice(0, 7)}</span>...<span>{id.slice(-5)} </span>
                 <a
-                  href={`https://goerli.arbiscan.io/address/0x${id}`}
+                  href={`https://goerli.arbiscan.io/address/${id}`}
                   target="blank"
                 >
                   <img
