@@ -40,12 +40,14 @@ export default observer(() => {
             <h4>Attester Information</h4>
             <div className="flex">
               <h5>Deployed on</h5>
-              {deployment ? 
-                  <h6>{dayjs(deployment.startTimestamp * 1000).format("MMM D, YYYY")}</h6>
-                  : null }
-                {deployment ?
-                  null
-                  : <h5>Loading...</h5> }
+              {deployment ? (
+                <h6>
+                  {dayjs(deployment.startTimestamp * 1000).format(
+                    'MMM D, YYYY'
+                  )}
+                </h6>
+              ) : null}
+              {deployment ? null : <h5>Loading...</h5>}
             </div>
             <div className="flex">
               <h5>Address</h5>

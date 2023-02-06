@@ -25,8 +25,10 @@ export default observer(() => {
     loadData()
   }, [])
 
-  const lastDeployment = unirep.deploymentIds[0]
-  const latestAttester = unirep.deploymentsById.get(lastDeployment)
+  const lastDeploymentId = unirep.deploymentIds[0]
+  const latestAttester = unirep.deploymentsById.get(lastDeploymentId)
+  const lastAttestationId = unirep.attestationIds[0]
+  const lastAttestation = unirep.attestationsById.get(lastAttestationId)
 
   return (
     <>
@@ -77,21 +79,33 @@ export default observer(() => {
               <h4>Latest Attester</h4>
               <div className="flex">
                 <h5>Deployed on</h5>
-                {latestAttester ? 
-                  <h6>{dayjs(latestAttester.startTimestamp * 1000).format("MMM D, YYYY")}</h6>
-                  : null }
-                {latestAttester ?
-                  null
-                  : <h5>Loading...</h5> }
+                {latestAttester ? (
+                  <h6>
+                    {dayjs(latestAttester.startTimestamp * 1000).format(
+                      'MMM D, YYYY'
+                    )}
+                  </h6>
+                ) : null}
+                {latestAttester ? null : <h5>Loading...</h5>}
               </div>
               <div className="flex">
                 <h5>Contract address</h5>
-                {latestAttester ?               
+                {latestAttester ? (
                   <h6>
-                    <span>{`0x${BigInt(latestAttester._id).toString(16)}`.slice(0, 7)}</span>...
-                    <span>{`0x${BigInt(latestAttester._id).toString(16)}`.slice(-5)} </span>
+                    <span>
+                      {`0x${BigInt(latestAttester._id).toString(16)}`.slice(
+                        0,
+                        7
+                      )}
+                    </span>
+                    ...
+                    <span>
+                      {`0x${BigInt(latestAttester._id).toString(16)}`.slice(-5)}{' '}
+                    </span>
                     <a
-                      href={`https://goerli.arbiscan.io/address/0x${BigInt(latestAttester._id).toString(16)}`}
+                      href={`https://goerli.arbiscan.io/address/0x${BigInt(
+                        latestAttester._id
+                      ).toString(16)}`}
                       target="blank"
                     >
                       <img
@@ -100,24 +114,42 @@ export default observer(() => {
                       />
                     </a>
                   </h6>
-                  : null }
-                  {latestAttester ?
-                  null
-                  : <h5>Loading...</h5> }
+                ) : null}
+                {latestAttester ? null : <h5>Loading...</h5>}
               </div>
             </div>
+
             <div className="info-card">
-              <h4>Last Attestation Submitted</h4>
+              <h4>Lastest Attestation</h4>
               <div className="flex">
-                <h5>By Attester</h5>
-                <h6>
-                  <span>{info.UNIREP_ADDRESS.slice(0, 5)}</span>...
-                  <span>{info.UNIREP_ADDRESS.slice(-5)} </span>
-                </h6>
+                <h5>Submitted</h5>
+                {lastAttestation ? (
+                  <h6>
+                    {dayjs(lastAttestation.timestamp * 1000).format(
+                      'MMM D, YYYY'
+                    )}
+                  </h6>
+                ) : null}
+                {lastAttestation ? null : <h5>Loading...</h5>}
               </div>
               <div className="flex">
-                <h5>Current Epoch #</h5>
-                <h6>23</h6>
+                <h5>By Attester</h5>
+                {lastAttestation ? (
+                  <h6>
+                    <span>
+                      {`0x${BigInt(lastAttestation.attesterId).toString(
+                        16
+                      )}`.slice(0, 5)}
+                    </span>
+                    ...
+                    <span>
+                      {`0x${BigInt(lastAttestation.attesterId).toString(
+                        16
+                      )}`.slice(-5)}{' '}
+                    </span>
+                  </h6>
+                ) : null}
+                {lastAttestation ? null : <h5>Loading...</h5>}
               </div>
             </div>
           </div>
