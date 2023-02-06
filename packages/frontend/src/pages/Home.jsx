@@ -14,12 +14,13 @@ export default observer(() => {
 
   useEffect(() => {
     const loadData = async () => {
-      // below are being called from Header
-      // await unirep.loadAllSignUps();
-      await unirep.loadAttesterDeployments()
-      await unirep.loadAllAttestations()
-      // await unirep.loadAllEpochs()
-      // setSignups(unirep.signUpsByAttesterId)
+      await Promise.all([
+        // await unirep.loadAllSignUps();
+        await unirep.loadAttesterDeployments(),
+        await unirep.loadAllAttestations(),
+        // await unirep.loadAllEpochs()
+        // setSignups(unirep.signUpsByAttesterId)
+      ])
     }
     loadData()
   }, [])
