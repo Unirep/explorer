@@ -6,7 +6,7 @@ export default ({ app, db, synchronizer }) => {
     const { userId } = req.params
     const userSignUps = await db.findMany('UserSignUp', {
       where: {
-        commitment: userId,
+        commitment: BigInt(userId).toString(),
       },
     })
     const signups = await loadTimestamps(userSignUps, db)

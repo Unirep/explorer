@@ -51,10 +51,15 @@ export default class Unirep {
 
   async ingestSignUps(signups) {
     for (const signup of signups) {
-      let userId = signup.commitment
-      let attesterId = signup.attesterId
+      const userId = signup.commitment
+      const { attesterId } = signup
       if (this.signUpsByUserId.has(userId)) {
-        this.signUpsByUserId.get(userId).push(signup)
+        // make sure not to insert duplicates
+        const signups = this.signUpsByUserId
+          .get(userId)
+          .filter((s) => s._id !== signup._id)
+          .push(signup)
+        this.signUpsByUserId.set(signups)
       } else {
         this.signUpsByUserId.set(userId, [signup])
       }
