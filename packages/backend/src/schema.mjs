@@ -7,7 +7,11 @@ export default [
     primaryKey: 'number',
     rows: [
       ['number', 'Int'],
-      ['timestamp', 'Int'],
+      {
+        name: 'timestamp',
+        type: 'Int',
+        default: 0,
+      },
     ],
   },
   {

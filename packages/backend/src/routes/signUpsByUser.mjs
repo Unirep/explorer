@@ -1,5 +1,5 @@
 import catchError from '../helpers/catchError.mjs'
-import loadTimestamps from '../helpers/loadTimestamps.mjs'
+import { TimestampLoader } from '../helpers/timestampLoader.mjs'
 
 export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
@@ -9,7 +9,7 @@ export default ({ app, db, synchronizer }) => {
         commitment: BigInt(userId).toString(),
       },
     })
-    const signups = await loadTimestamps(userSignUps, db)
+    const signups = await TimestampLoader.inject(userSignUps, db)
     res.json(signups)
   }
   app.get('/api/user/:userId/signups', catchError(handler))

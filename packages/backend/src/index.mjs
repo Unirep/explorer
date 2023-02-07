@@ -6,10 +6,14 @@ import { provider, DB_PATH, UNIREP_ADDRESS } from './config.mjs'
 import schema from './schema.mjs'
 import { SQLiteConnector } from 'anondb/node.js'
 import { Synchronizer } from '@unirep/core'
+import { TimestampLoader } from './helpers/timestampLoader.mjs'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
 const db = await SQLiteConnector.create(schema, DB_PATH)
+
+const loader = new TimestampLoader(db)
+loader.start()
 
 await db.upsert('GlobalData', {
   where: {
@@ -30,25 +34,16 @@ const synchronizer = new Synchronizer({
   provider,
   unirepAddress: UNIREP_ADDRESS,
 })
-const loadMap = {}
 synchronizer.on('processedEvent', async (event) => {
-  if (loadMap[event.blockNumber]) return
-  loadMap[event.blockNumber] = true
-  const doc = await db.findOne('BlockTimestamp', {
-    number: event.blockNumber,
-  })
-  if (doc) return
-  try {
-    const { timestamp } = await synchronizer.provider.getBlock(
-      event.blockNumber
-    )
-    await synchronizer._db.create('BlockTimestamp', {
+  await db.upsert('BlockTimestamp', {
+    where: {
       number: event.blockNumber,
-      timestamp,
-    })
-  } catch (err) {
-    console.log(err)
-  }
+    },
+    create: {
+      number: event.blockNumber,
+    },
+    update: {},
+  })
 })
 synchronizer.on('AttestationSubmitted', async ({ decodedData }) => {
   const posRep = Number(decodedData.posRep)

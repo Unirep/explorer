@@ -1,5 +1,5 @@
 import catchError from '../helpers/catchError.mjs'
-import loadTimestamps from '../helpers/loadTimestamps.mjs'
+import { TimestampLoader } from '../helpers/timestampLoader.mjs'
 
 export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
@@ -9,7 +9,7 @@ export default ({ app, db, synchronizer }) => {
         _id: 'desc',
       },
     })
-    const items = await loadTimestamps(allAttestations, db)
+    const items = await TimestampLoader.inject(allAttestations, db)
     res.json({
       items,
     })
