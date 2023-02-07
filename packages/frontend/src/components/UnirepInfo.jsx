@@ -36,7 +36,7 @@ export default observer(({ info }) => {
 
       <div className="flex">
         <h5>Network</h5>
-        <h6>{info.ETH_PROVIDER_URL.slice(8, 23).replace('.', '/')}</h6>
+        <h6>Arbitrum / Goerli</h6>
       </div>
 
       {circuitExpanded ? (

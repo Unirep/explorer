@@ -3,24 +3,35 @@ import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import UnirepInfo from '../components/UnirepInfo'
 import InfoCard from '../components/InfoCard'
+import LastDeploymentCard from '../components/LastDeploymentCard'
+import LastAttestationCard from '../components/LastAttestationCard'
 import UnirepEvent from '../components/UnirepEvent'
 import Footer from '../components/Footer'
 import measure from '../utils/measure-text'
+import dayjs from 'dayjs'
 
 export default observer(() => {
   const { info, unirep } = useContext(state)
-  const [signups, setSignups] = useState()
+  // const [signups, setSignups] = useState()
 
   useEffect(() => {
     const loadData = async () => {
-      // below are being called from Header
-      // await unirep.loadAllSignUps();
-      await unirep.loadAllAttestations()
-      // await unirep.loadAllEpochs()
-      setSignups(unirep.signUpsByAttesterId)
+      await Promise.all([
+        // await unirep.loadAllSignUps();
+        await unirep.loadAttesterDeployments(),
+        await unirep.loadAllAttestations(),
+        // await unirep.loadAllEpochs()
+        // setSignups(unirep.signUpsByAttesterId)
+      ])
     }
     loadData()
   }, [])
+
+  const lastDeploymentId = unirep.deploymentIds[0]
+  // const latestAttester = unirep.deploymentsById.get(lastDeploymentId)
+  const lastAttestationId = unirep.attestationIds[0]
+  // const lastAttestation = unirep.attestationsById.get(lastAttestationId)
+
   return (
     <>
       <div className="container">
@@ -50,7 +61,7 @@ export default observer(() => {
           <div className="info-grid">
             <InfoCard
               heading="Total Attesters/Apps"
-              value1={unirep.attesterIds.length}
+              value1={unirep.deploymentIds.length}
             />
             <InfoCard
               heading="Total Sign Ups"
@@ -66,44 +77,8 @@ export default observer(() => {
               value2={unirep.totalPosRep}
               value3={unirep.totalNegRep}
             />
-            {/* need to get attester addresses here, currently using Unirep */}
-            <div className="info-card">
-              <h4>Latest Attester</h4>
-              <div className="flex">
-                <h5>Deployed at</h5>
-                <h6>mm/dd/yyyy</h6>
-              </div>
-              <div className="flex">
-                <h5>Contract address</h5>
-                <h6>
-                  <span>{info.UNIREP_ADDRESS.slice(0, 5)}</span>...
-                  <span>{info.UNIREP_ADDRESS.slice(-5)} </span>
-                  <a
-                    href={`https://goerli.arbiscan.io/address/${info.UNIREP_ADDRESS}`}
-                    target="blank"
-                  >
-                    <img
-                      src={require('../../public/arrow_up_right.svg')}
-                      alt="arrow up right"
-                    />
-                  </a>
-                </h6>
-              </div>
-            </div>
-            <div className="info-card">
-              <h4>Last Attestation Submitted</h4>
-              <div className="flex">
-                <h5>By Attester</h5>
-                <h6>
-                  <span>{info.UNIREP_ADDRESS.slice(0, 5)}</span>...
-                  <span>{info.UNIREP_ADDRESS.slice(-5)} </span>
-                </h6>
-              </div>
-              <div className="flex">
-                <h5>Current Epoch #</h5>
-                <h6>23</h6>
-              </div>
-            </div>
+            <LastDeploymentCard id={lastDeploymentId} />
+            <LastAttestationCard id={lastAttestationId} />
           </div>
 
           <h3>Stats</h3>
