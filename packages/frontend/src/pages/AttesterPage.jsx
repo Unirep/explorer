@@ -118,10 +118,6 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              {/* {currentEpoch > 0 ? (
-                <EpochView currentEpoch={currentEpoch} />
-              ) : null}
-              {currentEpoch > 0 ? null : 'Loading...'} */}
               {deployment ? <EpochView deployment={deployment} /> : null}
               {deployment ? null : 'Loading...'}
             </>
@@ -142,10 +138,7 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              {/* {attester.signUpsByAttester.length > 0 ? (
-                <UserView signups={attester.signUpsByAttester} />
-              ) : null}
-              {attester.signUpsByAttester.length > 0 ? null : 'Loading...'} */}
+              <UserView />
             </>
           )}
         </div>

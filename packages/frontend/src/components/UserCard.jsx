@@ -1,18 +1,22 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
+import state from '../contexts/state'
 import './eventCard.css'
 
-export default observer(({ commitment, epoch }) => {
+export default observer(({ id }) => {
+  const { attester } = useContext(state)
+  const signup = attester.signUpsById.get(id)
+
   return (
     <div className="event-card">
-      <Link to={`/user/${commitment}`}>
+      <Link to={`/user/${signup.commitment}`}>
         <p>
-          <span>{commitment.slice(0, 10)}</span>...
-          <span>{commitment.slice(-5)}</span>
+          <span>{signup.commitment.slice(0, 10)}</span>...
+          <span>{signup.commitment.slice(-5)}</span>
         </p>
       </Link>
-      <p>epoch # {epoch}</p>
+      <p>{signup.epoch}</p>
     </div>
   )
 })
