@@ -25,7 +25,7 @@ export default observer(() => {
     loadData()
   }, [])
 
-  const lastDeploymentId = unirep.deploymentIds[unirep.deploymentIds.length -1]
+  const lastDeploymentId = unirep.deploymentIds[unirep.deploymentIds.length - 1]
   const lastAttestationId = unirep.attestationIds[0]
 
   return (
@@ -79,21 +79,26 @@ export default observer(() => {
 
           <h3>Stats</h3>
           <div className="graph-container">
-            <div style={{display: 'flex', justifyContent: 'space-around'}}>
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
               <ul>
-                <div style={{paddingBottom: '20px'}}>ATTESTER DEPLOYMENTS:</div>
+                <div style={{ paddingBottom: '20px' }}>
+                  ATTESTER DEPLOYMENTS:
+                </div>
                 {unirep.deploymentIds.map((id) => (
-                  <li key={id}>{unirep.deploymentsById.get(id).startTimestamp}</li>
-                ))} 
+                  <li key={id}>
+                    {unirep.deploymentsById.get(id).startTimestamp}
+                  </li>
+                ))}
               </ul>
               <ul>
-                <div style={{paddingBottom: '20px'}}>USER SIGNUPS:</div>        
+                <div style={{ paddingBottom: '20px' }}>USER SIGNUPS:</div>
                 {unirep.allSignUps.map(({ _id, timestamp }) => (
-                  <li key={_id}>{dayjs(timestamp * 1000).format('MM-DD-YYYY HH:mm:ss')}</li>
-                ))} 
+                  <li key={_id}>
+                    {dayjs(timestamp * 1000).format('MM-DD-YYYY HH:mm:ss')}
+                  </li>
+                ))}
               </ul>
-            </div>      
-            
+            </div>
           </div>
 
           <h3>Latest Attestations</h3>
