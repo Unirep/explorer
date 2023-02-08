@@ -8,9 +8,10 @@ import './epochView.css'
 
 export default observer(({ deployment }) => {
   const { attester } = useContext(state)
-  const { startTimestamp, epochLength } = deployment 
-  const currentEpoch = Math.floor((dayjs().unix() - startTimestamp) / epochLength) + 1
-  const nextEpoch = startTimestamp + (epochLength * currentEpoch)
+  const { startTimestamp, epochLength } = deployment
+  const currentEpoch =
+    Math.floor((dayjs().unix() - startTimestamp) / epochLength) + 1
+  const nextEpoch = startTimestamp + epochLength * currentEpoch
   const [selectedEpochActivities, setSelectedEpochActivities] = useState(0)
   const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(0)
   useEffect(() => {

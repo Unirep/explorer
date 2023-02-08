@@ -24,7 +24,9 @@ export default observer(() => {
         attester.loadAttestationsByAttester(attesterId),
         attester.loadUSTByAttester(attesterId),
       ])
-      setCurrentEpoch(attester.epochsByAttester[attester.epochsByAttester.length - 1].number)
+      setCurrentEpoch(
+        attester.epochsByAttester[attester.epochsByAttester.length - 1].number
+      )
     }
     loadData()
   }, [])
@@ -120,9 +122,7 @@ export default observer(() => {
                 <EpochView currentEpoch={currentEpoch} />
               ) : null}
               {currentEpoch > 0 ? null : 'Loading...'} */}
-              {deployment ? (
-                <EpochView deployment={deployment}/>
-              ) : null}
+              {deployment ? <EpochView deployment={deployment} /> : null}
               {deployment ? null : 'Loading...'}
             </>
           ) : (
