@@ -79,15 +79,15 @@ export default observer(() => {
 
           <h3>Stats</h3>
           <div className="graph-container">
-            <div style={{display: 'flex'}}>
+            <div style={{display: 'flex', justifyContent: 'space-around'}}>
               <ul>
-              ATTESTER DEPLOYMENTS:
+                <div style={{paddingBottom: '20px'}}>ATTESTER DEPLOYMENTS:</div>
                 {unirep.deploymentIds.map((id) => (
                   <li key={id}>{unirep.deploymentsById.get(id).startTimestamp}</li>
                 ))} 
               </ul>
               <ul>
-              USER SIGNUPS:
+                <div style={{paddingBottom: '20px'}}>USER SIGNUPS:</div>        
                 {unirep.allSignUps.map(({ _id, timestamp }) => (
                   <li key={_id}>{dayjs(timestamp * 1000).format('MM-DD-YYYY HH:mm:ss')}</li>
                 ))} 
