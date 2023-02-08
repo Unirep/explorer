@@ -3,10 +3,14 @@ import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import InfoCard from './InfoCard'
 import AttestationCard from './AttestationCard'
+import dayjs from 'dayjs'
 import './epochView.css'
 
-export default observer(({ currentEpoch }) => {
+export default observer(({ deployment }) => {
   const { attester } = useContext(state)
+  const { startTimestamp, epochLength } = deployment 
+  const currentEpoch = Math.floor((dayjs().unix() - startTimestamp) / epochLength) + 1
+  const nextEpoch = startTimestamp + (epochLength * currentEpoch)
   const [selectedEpochActivities, setSelectedEpochActivities] = useState(0)
   const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(0)
   useEffect(() => {
@@ -21,16 +25,16 @@ export default observer(({ currentEpoch }) => {
   const listAttestations = attester.attestationsByEpoch.get(
     selectedEpochAttestations
   )
-  console.log(currentEpoch)
-  console.log(selectedEpochActivities)
 
   return (
     <>
       <div className="info-grid">
+        {/* <InfoCard heading="Current Epoch #" value1={currentEpoch} /> */}
         <InfoCard heading="Current Epoch #" value1={currentEpoch} />
         <InfoCard
           heading="Next Epoch Transition Time"
-          value1={'Jan 30, 14:00 UTC'}
+          // value1={nextEpoch}
+          value1={dayjs(nextEpoch * 1000).format('MM-DD-YYYY HH:mm:ss')}
         />
       </div>
 

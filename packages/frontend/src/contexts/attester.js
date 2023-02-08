@@ -3,14 +3,15 @@ import { SERVER } from '../config'
 
 export default class Attester {
   epochsByAttester = []
-  signUpsByAttester = []
-  signUpsByEpoch = {}
+  signUpIds = []
+  signUpsById = new Map()
+  signUpsByEpoch = new Map()
   attestationsByAttester = []
-  attestationsByEpoch = {}
+  attestationsByEpoch = new Map()
   totalPosRep
   totalNegRep
   ustByAttester = []
-  ustByEpoch = {}
+  ustByEpoch = new Map()
 
   constructor(state) {
     makeAutoObservable(this)
@@ -31,22 +32,25 @@ export default class Attester {
   async loadSignUpsByAttester(attesterId) {
     const url = new URL(`api/attester/${attesterId}/signups`, SERVER)
     const data = await fetch(url.toString()).then((r) => r.json())
-    this.signUpsByAttester = data
-    this.mapSignUpsToEpoch(data)
+    this.ingestSignUps(data)
   }
 
-  async mapSignUpsToEpoch(signups) {
-    this.signUpsByEpoch = new Map()
+  async ingestSignUps(_signups) {
+    const signups = [_signups].flat()
+    this.signUpIds = signups.map((s) => s._id)
     for (const signup of signups) {
-      let epoch = signup.epoch
+      this.signUpsById.set(signup._id, signup)
+      const { epoch } = signup
       if (this.signUpsByEpoch.has(epoch)) {
-        this.signUpsByEpoch.get(epoch).push(signup)
+        const signups = this.signUpsByEpoch
+          .get(epoch)
+          .filter((s) => s._id !== signup._id)
+          .push(signup)
+        this.signUpsByEpoch.set(signups)
       } else {
         this.signUpsByEpoch.set(epoch, [signup])
       }
     }
-    // console.log('signupsByEpoch:', this.signUpsByEpoch.get(0))
-    // console.log('instanceof:', this.signUpsByEpoch instanceof Map)
   }
 
   async loadAttestationsByAttester(attesterId) {
@@ -59,7 +63,6 @@ export default class Attester {
   async mapAttestationsToEpoch(attestations) {
     this.totalPosRep = 0
     this.totalNegRep = 0
-    this.attestationsByEpoch = new Map()
     for (const attestation of attestations) {
       let epoch = attestation.epoch
       if (this.attestationsByEpoch.has(epoch)) {
@@ -80,7 +83,6 @@ export default class Attester {
   }
 
   async mapUSTsToEpoch(USTs) {
-    this.ustByEpoch = new Map()
     for (const UST of USTs) {
       let epoch = UST.epoch
       if (this.ustByEpoch.has(epoch)) {

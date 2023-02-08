@@ -19,12 +19,12 @@ export default observer(() => {
     const loadData = async () => {
       await Promise.all([
         unirep.loadAttesterDeployments(),
-        attester.loadEpochsByAttester(id),
-        attester.loadSignUpsByAttester(id),
-        attester.loadAttestationsByAttester(id),
-        attester.loadUSTByAttester(id),
+        attester.loadEpochsByAttester(attesterId),
+        attester.loadSignUpsByAttester(attesterId),
+        attester.loadAttestationsByAttester(attesterId),
+        attester.loadUSTByAttester(attesterId),
       ])
-      setCurrentEpoch(attester.epochsByAttester.length - 1)
+      setCurrentEpoch(attester.epochsByAttester[attester.epochsByAttester.length - 1].number)
     }
     loadData()
   }, [])
@@ -80,7 +80,7 @@ export default observer(() => {
             />
             <InfoCard
               heading="Total Users Signed Up"
-              value1={attester.signUpsByAttester.length}
+              value1={attester.signUpIds.length}
             />
             <div className="info-card">
               <div className="flex">
@@ -116,10 +116,14 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              {currentEpoch > 0 ? (
+              {/* {currentEpoch > 0 ? (
                 <EpochView currentEpoch={currentEpoch} />
               ) : null}
-              {currentEpoch > 0 ? null : 'Loading...'}
+              {currentEpoch > 0 ? null : 'Loading...'} */}
+              {deployment ? (
+                <EpochView deployment={deployment}/>
+              ) : null}
+              {deployment ? null : 'Loading...'}
             </>
           ) : (
             <>
@@ -138,10 +142,10 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              {attester.signUpsByAttester.length > 0 ? (
+              {/* {attester.signUpsByAttester.length > 0 ? (
                 <UserView signups={attester.signUpsByAttester} />
               ) : null}
-              {attester.signUpsByAttester.length > 0 ? null : 'Loading...'}
+              {attester.signUpsByAttester.length > 0 ? null : 'Loading...'} */}
             </>
           )}
         </div>
