@@ -3,13 +3,17 @@ import path from 'path'
 import fs from 'fs'
 import express from 'express'
 import { provider, DB_PATH, UNIREP_ADDRESS } from './config.mjs'
-import { schema } from './schema.mjs'
+import schema from './schema.mjs'
 import { SQLiteConnector } from 'anondb/node.js'
-import { Synchronizer } from './singletons/Synchronizer.mjs'
+import { Synchronizer } from '@unirep/core'
+import { TimestampLoader } from './helpers/timestampLoader.mjs'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
 const db = await SQLiteConnector.create(schema, DB_PATH)
+
+const loader = new TimestampLoader(db)
+loader.start()
 
 await db.upsert('GlobalData', {
   where: {
@@ -29,6 +33,38 @@ const synchronizer = new Synchronizer({
   db,
   provider,
   unirepAddress: UNIREP_ADDRESS,
+})
+synchronizer.on('processedEvent', async (event) => {
+  await db.upsert('BlockTimestamp', {
+    where: {
+      number: event.blockNumber,
+    },
+    create: {
+      number: event.blockNumber,
+    },
+    update: {},
+  })
+})
+synchronizer.on('AttestationSubmitted', async ({ decodedData }) => {
+  const posRep = Number(decodedData.posRep)
+  const negRep = Number(decodedData.negRep)
+  const { data } = await synchronizer._db.findOne('GlobalData', {
+    where: {
+      _id: 'attestations',
+    },
+  })
+
+  const stats = JSON.parse(data)
+  stats.posRep += posRep
+  stats.negRep += negRep
+  await synchronizer._db.update('GlobalData', {
+    where: {
+      _id: 'attestations',
+    },
+    update: {
+      data: JSON.stringify(stats),
+    },
+  })
 })
 console.log('Starting synchronizer...')
 await synchronizer.start()

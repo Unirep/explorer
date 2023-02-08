@@ -19,7 +19,7 @@ export default observer(() => {
       // always need to load signups again here?
       // is this more efficient than having separate store for 'user'?
       await unirep.loadAllSignUps()
-      setSignups(unirep.signUpsByUserId.get(id))
+      setSignups(unirep.signUpsByUserId.get(BigInt(id).toString()))
     }
     loadData()
   }, [])
@@ -56,20 +56,20 @@ export default observer(() => {
           </div>
           <div className="scroll">
             {/* below using list of signups from 'user' context: */}
-            {/* {user.signUpsByUser ? 
+            {/* {user.signUpsByUser ?
               user.signUpsByUser.map(({ attesterId, epoch, timestamp }) => (
                 <UserEvent key={attesterId} attesterId={attesterId} epoch={epoch} timestamp={timestamp}/>
               )) : null }
-            {user.signUpsByUser ? 
-              null : 
+            {user.signUpsByUser ?
+              null :
               'Loading...'
             } */}
 
             {/* below using mapping 'signUpsByUserId' from 'unirep' context */}
             {signups
-              ? signups.map(({ attesterId, epoch, timestamp }) => (
+              ? signups.map(({ _id, attesterId, epoch, timestamp }) => (
                   <UserEvent
-                    key={attesterId}
+                    key={_id}
                     attesterId={attesterId}
                     epoch={epoch}
                     timestamp={timestamp}
