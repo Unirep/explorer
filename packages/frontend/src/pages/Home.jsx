@@ -12,25 +12,21 @@ import dayjs from 'dayjs'
 
 export default observer(() => {
   const { info, unirep } = useContext(state)
-  // const [signups, setSignups] = useState()
 
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
-        // await unirep.loadAllSignUps();
-        await unirep.loadAttesterDeployments(),
-        await unirep.loadAllAttestations(),
-        // await unirep.loadAllEpochs()
-        // setSignups(unirep.signUpsByAttesterId)
+        unirep.loadAllSignUps(),
+        unirep.loadAttesterDeployments(),
+        unirep.loadAllAttestations(),
+        unirep.loadStats(),
       ])
     }
     loadData()
   }, [])
 
-  const lastDeploymentId = unirep.deploymentIds[0]
-  // const latestAttester = unirep.deploymentsById.get(lastDeploymentId)
+  const lastDeploymentId = unirep.deploymentIds[unirep.deploymentIds.length -1]
   const lastAttestationId = unirep.attestationIds[0]
-  // const lastAttestation = unirep.attestationsById.get(lastAttestationId)
 
   return (
     <>
@@ -61,7 +57,7 @@ export default observer(() => {
           <div className="info-grid">
             <InfoCard
               heading="Total Attesters/Apps"
-              value1={unirep.deploymentIds.length}
+              value1={unirep.deploymentIds.length - 1}
             />
             <InfoCard
               heading="Total Sign Ups"
@@ -83,24 +79,21 @@ export default observer(() => {
 
           <h3>Stats</h3>
           <div className="graph-container">
-            {/* <ul>SIGNUPS TO EACH ATTESTER:
-              {unirep.signUpsByAttesterId ?
-                [...unirep.signUpsByAttesterId.entries()].map((key, {value}) => (
-                  // unirep.signUpsByAttesterId.get(key).map(({ value }) => (
-                    <li key={key}>attester: {key.slice(0, 5)}..  #signups: {}</li>
-                  // ))
-              )) : null}
-
-              {unirep.signUpsByAttesterId ?
-                null :
-                <li>There were no signups to this attester.</li>
-              }
-            </ul> */}
-            <ul>
-              NEED:
-              <li>timestamps of attesters deployed</li>
-              <li>timestamps of signups to each attester</li>
-            </ul>
+            <div style={{display: 'flex'}}>
+              <ul>
+              ATTESTER DEPLOYMENTS:
+                {unirep.deploymentIds.map((id) => (
+                  <li key={id}>{unirep.deploymentsById.get(id).startTimestamp}</li>
+                ))} 
+              </ul>
+              <ul>
+              USER SIGNUPS:
+                {unirep.allSignUps.map(({ _id, timestamp }) => (
+                  <li key={_id}>{dayjs(timestamp * 1000).format('MM-DD-YYYY HH:mm:ss')}</li>
+                ))} 
+              </ul>
+            </div>      
+            
           </div>
 
           <h3>Latest Attestations</h3>
