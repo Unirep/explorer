@@ -6,21 +6,6 @@ import './header.css'
 
 export default observer(() => {
   const navigate = useNavigate()
-  const { unirep } = useContext(state)
-  // const [userIds, setUserIds] = useState([])
-  // const [attesterIds, setAttesterIds] = useState([])
-  useEffect(() => {
-    const loadData = async () => {
-      await Promise.all([
-        unirep.loadAllSignUps(),
-        unirep.loadStats(),
-        unirep.loadAllEpochs(),
-      ])
-      // setUserIds(unirep.allSignUps)
-      // setAttesterIds(unirep.attesterIds)
-    }
-    loadData()
-  }, [])
   const [searchInput, setSearchInput] = useState('')
 
   const search = () => {
