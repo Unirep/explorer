@@ -70,7 +70,9 @@ export default observer(({ deployment }) => {
           SIGNUPS THIS EPOCH: {signups ? signups.length : 0}
           {signups
             ? signups.map(({ commitment, timestamp }) => (
-                <li key={commitment}>{timestamp}</li>
+                <li key={commitment}>
+                  {dayjs(timestamp * 1000).format('MM-DD-YYYY HH:mm:ss')}
+                </li>
               ))
             : null}
           {signups ? null : <li>There were no signups in this epoch</li>}
@@ -80,7 +82,9 @@ export default observer(({ deployment }) => {
           {graphAttestations ? graphAttestations.length : 0}
           {graphAttestations
             ? graphAttestations.map(({ epochKey, timestamp }) => (
-                <li key={epochKey}>{timestamp}</li>
+                <li key={epochKey}>
+                  {dayjs(timestamp * 1000).format('MM-DD-YYYY HH:mm:ss')}
+                </li>
               ))
             : null}
           {graphAttestations ? null : (
@@ -91,7 +95,9 @@ export default observer(({ deployment }) => {
           UST THIS EPOCH: {USTs ? USTs.length : 0}
           {USTs
             ? USTs.map(({ nullifier, timestamp }) => (
-                <li key={nullifier}>{timestamp}</li>
+                <li key={nullifier}>
+                  {dayjs(timestamp * 1000).format('MM-DD-YYYY HH:mm:ss')}
+                </li>
               ))
             : null}
           {USTs ? null : <li>There were no USTs in this epoch</li>}
@@ -141,17 +147,12 @@ export default observer(({ deployment }) => {
 
       <div className="scroll">
         {listAttestations
-          ? listAttestations.map(
-              ({ epochKey, posRep, negRep, graffiti, _id }) => (
-                <AttestationCard
-                  key={_id}
-                  epochKey={epochKey}
-                  posRep={posRep}
-                  negRep={negRep}
-                  graffiti={graffiti}
-                />
-              )
-            )
+          ? listAttestations.map((attestation) => (
+              <AttestationCard
+                key={attestation._id}
+                attestation={attestation}
+              />
+            ))
           : null}
         {listAttestations ? null : 'There were no attestations in this epoch.'}
       </div>
