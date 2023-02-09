@@ -3,14 +3,19 @@ import { SERVER } from '../config'
 
 export default class Attester {
   epochsByAttester = []
+
   signUpIds = []
   signUpsById = new Map()
   signUpsByEpoch = new Map()
-  attestationsByAttester = []
+
+  attestationsIds = []
+  attestationsById = new Map()
   attestationsByEpoch = new Map()
   totalPosRep
   totalNegRep
-  ustByAttester = []
+
+  ustIds = []
+  ustById = new Map()
   ustByEpoch = new Map()
 
   constructor(state) {
@@ -56,17 +61,22 @@ export default class Attester {
   async loadAttestationsByAttester(attesterId) {
     const url = new URL(`api/attester/${attesterId}/attestations`, SERVER)
     const data = await fetch(url.toString()).then((r) => r.json())
-    this.attestationsByAttester = data
-    this.mapAttestationsToEpoch(data)
+    this.ingestAttestations(data)
   }
-
-  async mapAttestationsToEpoch(attestations) {
+  async ingestAttestations(_attestations) {
+    const attestations = [_attestations].flat()
+    this.attestaionIds = attestations.map((a) => a._id)
     this.totalPosRep = 0
     this.totalNegRep = 0
     for (const attestation of attestations) {
-      let epoch = attestation.epoch
+      this.attestationsById.set(attestation._id, attestation)
+      const { epoch } = attestation
       if (this.attestationsByEpoch.has(epoch)) {
-        this.attestationsByEpoch.get(epoch).push(attestation)
+        const attestations = this.attestationsByEpoch
+          .get(epoch)
+          .filter((a) => a._id !== attestation._id)
+          .push(attestation)
+        this.attestationsByEpoch.set(attestations)
       } else {
         this.attestationsByEpoch.set(epoch, [attestation])
       }
@@ -78,17 +88,24 @@ export default class Attester {
   async loadUSTByAttester(attesterId) {
     const url = new URL(`api/attester/${attesterId}/ust`, SERVER)
     const data = await fetch(url.toString()).then((r) => r.json())
-    this.ustByAttester = data
-    this.mapUSTsToEpoch(data)
+    // this.ustByAttester = data
+    this.ingestUST(data)
   }
 
-  async mapUSTsToEpoch(USTs) {
-    for (const UST of USTs) {
-      let epoch = UST.epoch
+  async ingestUST(_USTs) {
+    const USTs = [_USTs].flat()
+    this.ustIds = USTs.map((u) => u._id)
+    for (const ust of USTs) {
+      this.ustById.set(ust._id, ust)
+      const { epoch } = ust
       if (this.ustByEpoch.has(epoch)) {
-        this.ustByEpoch.get(epoch).push(UST)
+        const usts = this.ustByEpoch
+          .get(epoch)
+          .filter((u) => u._id !== ust._id)
+          .push(ust)
+        this.ustByEpoch.set(usts)
       } else {
-        this.ustByEpoch.set(epoch, [UST])
+        this.ustByEpoch.set(epoch, [ust])
       }
     }
   }

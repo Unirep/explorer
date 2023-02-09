@@ -37,16 +37,13 @@ export default observer(({ deployment }) => {
   const listAttestations = attester.attestationsByEpoch.get(
     selectedEpochAttestations
   )
-  console.log(currentEpoch)
 
   return (
     <>
       <div className="info-grid">
-        {/* <InfoCard heading="Current Epoch #" value1={currentEpoch} /> */}
         <InfoCard heading="Current Epoch #" value1={currentEpoch} />
         <InfoCard
           heading="Next Epoch Transition Time"
-          // value1={nextEpoch}
           value1={dayjs(nextEpoch * 1000).format('MM-DD-YYYY HH:mm:ss')}
         />
       </div>
