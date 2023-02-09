@@ -27,7 +27,7 @@ export default observer(({ id }) => {
             <span>
               {`0x${BigInt(lastAttestation.attesterId).toString(16)}`.slice(
                 0,
-                5
+                7
               )}
             </span>
             ...

@@ -20,7 +20,7 @@ export default observer(({ info }) => {
       <div className="flex">
         <h5>Address</h5>
         <h6>
-          <span>{info.UNIREP_ADDRESS.slice(0, 5)}</span>...
+          <span>{info.UNIREP_ADDRESS.slice(0, 7)}</span>...
           <span>{info.UNIREP_ADDRESS.slice(-5)} </span>
           <a
             href={`https://goerli.arbiscan.io/address/${info.UNIREP_ADDRESS}`}
