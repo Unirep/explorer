@@ -9,12 +9,21 @@ import './epochView.css'
 export default observer(({ deployment }) => {
   const { attester } = useContext(state)
   const { startTimestamp, epochLength } = deployment
-  const currentEpoch =
-    Math.floor((dayjs().unix() - startTimestamp) / epochLength) + 1
-  const nextEpoch = startTimestamp + epochLength * currentEpoch
+  const [currentEpoch, setCurrentEpoch] = useState(0)
+  const [nextEpoch, setNextEpoch] = useState(0)
   const [selectedEpochActivities, setSelectedEpochActivities] = useState(0)
   const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(0)
+  const calculateCurrentEpoch = () => {
+    const current = (dayjs().unix() - startTimestamp) / epochLength + 1
+    const next = startTimestamp + epochLength * current
+    setCurrentEpoch(Math.floor(current))
+    setNextEpoch(next)
+  }
   useEffect(() => {
+    calculateCurrentEpoch()
+    setInterval(() => {
+      calculateCurrentEpoch()
+    }, epochLength * 1000)
     setSelectedEpochActivities(currentEpoch)
     setSelectedEpochAttestations(currentEpoch)
   }, [])
@@ -26,6 +35,7 @@ export default observer(({ deployment }) => {
   const listAttestations = attester.attestationsByEpoch.get(
     selectedEpochAttestations
   )
+  console.log(currentEpoch)
 
   return (
     <>
