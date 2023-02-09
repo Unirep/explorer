@@ -15,7 +15,7 @@ export default observer(() => {
       </div>
       <div className="scroll">
         {signupIds.map((id) => (
-          <UserCard key={id} id={id}/>
+          <UserCard key={id} id={id} />
         ))}
       </div>
     </div>
