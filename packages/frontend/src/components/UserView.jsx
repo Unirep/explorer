@@ -8,8 +8,8 @@ export default observer(() => {
   const signupIds = attester.signUpIds
 
   return (
-    <div className="scroll">
-      <div className="flex">
+    <>
+      <div className="flex events-header">
         <h4>Semaphore ID</h4>
         <h4>Signed up at epoch #</h4>
       </div>
@@ -18,6 +18,6 @@ export default observer(() => {
           <UserCard key={id} id={id} />
         ))}
       </div>
-    </div>
+    </>
   )
 })

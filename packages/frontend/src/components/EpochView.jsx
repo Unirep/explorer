@@ -24,6 +24,8 @@ export default observer(({ deployment }) => {
     setInterval(() => {
       calculateCurrentEpoch()
     }, epochLength * 1000)
+    // TODO: find how to set these with currentEpoch after calculation;
+    // currentEpoch being passed as 0 here
     setSelectedEpochActivities(currentEpoch)
     setSelectedEpochAttestations(currentEpoch)
   }, [])
