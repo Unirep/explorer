@@ -9,11 +9,10 @@ import './eventCard.css'
 dayjs.extend(relativeTime)
 
 export default observer(({ id }) => {
-  const { unirep } = React.useContext(state)
-  const attestation = unirep.attestationsById.get(id)
+  const { epochKey } = React.useContext(state)
+  const attestation = epochKey.attestationsById.get(id)
   const { attesterId, posRep, negRep, timestamp } = attestation
   const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
-  const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
   return (
     <div className="event-card">
       <Link to={`attester/${attesterIdHex}`}>
@@ -25,9 +24,7 @@ export default observer(({ id }) => {
       <p style={{ minWidth: '50px', textAlign: 'center' }}>
         {attestation.epoch}
       </p>
-      <Link to={`epochKey/${epochKeyHex}`}>
-        <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
-      </Link>
+      <p>idk</p>
       <p style={{ minWidth: '80px' }}>
         {posRep - negRep}
         <span style={{ fontSize: '12px', fontWeight: '600' }}>
