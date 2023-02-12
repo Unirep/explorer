@@ -17,10 +17,10 @@ export default observer(() => {
     const val = BigInt(`0x${searchInput.replace('0x', '')}`)
     if (val > BigInt(2) ** BigInt(160)) {
       // it's an epoch key
-      navigate(`/user/${searchInput})`)
+      navigate(`/epochKey/${searchInput}`)
     } else {
       // otherwise treat it as an attester id
-      navigate(`/attester/${searchInput})`)
+      navigate(`/attester/${searchInput}`)
     }
   }
 

@@ -8,7 +8,7 @@ export default observer(({ attestation }) => {
 
   return (
     <div className="event-card">
-      <Link to={`epochKey/${epochKeyHex}`}>
+      <Link to={`/epochKey/${epochKeyHex}`}>
         <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
       </Link>
       <p style={{ color: 'green' }}>+{attestation.posRep}</p>

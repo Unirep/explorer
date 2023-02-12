@@ -15,7 +15,7 @@ export default observer(({ id }) => {
   const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
   return (
     <div className="event-card">
-      <Link to={`attester/${attesterIdHex}`}>
+      <Link to={`/attester/${attesterIdHex}`}>
         <p>
           <span>{attesterIdHex.slice(0, 7)}</span>...
           <span>{attesterIdHex.slice(-5)}</span>

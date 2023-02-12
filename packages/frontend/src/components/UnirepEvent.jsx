@@ -16,7 +16,7 @@ export default observer(({ id }) => {
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
   return (
     <div className="event-card">
-      <Link to={`attester/${attesterIdHex}`}>
+      <Link to={`/attester/${attesterIdHex}`}>
         <p>
           <span>{attesterIdHex.slice(0, 7)}</span>...
           <span>{attesterIdHex.slice(-5)}</span>
@@ -25,7 +25,7 @@ export default observer(({ id }) => {
       <p style={{ minWidth: '50px', textAlign: 'center' }}>
         {attestation.epoch}
       </p>
-      <Link to={`epochKey/${epochKeyHex}`}>
+      <Link to={`/epochKey/${epochKeyHex}`}>
         <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
       </Link>
       <p style={{ minWidth: '80px' }}>
