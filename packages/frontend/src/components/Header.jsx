@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { Outlet, Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
@@ -8,23 +8,18 @@ export default observer(() => {
   const { unirep } = useContext(state)
   const navigate = useNavigate()
   const [searchInput, setSearchInput] = useState('')
-  useEffect(() => {
-    const loadData = async () => {
-      await Promise.all([
-        unirep.loadAllSignUps(),
-        unirep.loadAttesterDeployments(),
-        unirep.loadAllAttestations(),
-      ])
-    }
-    loadData()
-  }, [])
 
-  const search = () => {
+  const search = async () => {
     if (!/^(0x)?[a-fA-F0-9]*$/.test(searchInput)) {
       // invalid input, only accept hexadecimal
       // TODO: highlight the field red or something
       return
     }
+    const inputAsId = BigInt(searchInput).toString(10)
+    const inputType = await unirep.searchForId(inputAsId)
+    navigate(`/${inputType}/${searchInput}`)
+    setSearchInput('')
+
     // const val = BigInt(`0x${searchInput.replace('0x', '')}`)
     // if (val > BigInt(2) ** BigInt(160)) {
     //   // it's an epoch key
@@ -33,17 +28,6 @@ export default observer(() => {
     //   // otherwise treat it as an attester id
     //   navigate(`/attester/${searchInput}`)
     // }
-    const inputAsId = BigInt(searchInput).toString(10)
-    if (unirep.deploymentsById.has(inputAsId)) {
-      navigate(`/attester/${searchInput}`)
-    } else if (unirep.signUpsByUserId.has(inputAsId)) {
-      navigate(`/user/${searchInput}`)
-    } else if (unirep.attestationsByEpochKey.has(inputAsId)) {
-      navigate(`/epochKey/${searchInput}`)
-    } else {
-      navigate(`/NotFound`)
-    }
-    setSearchInput('')
   }
 
   return (

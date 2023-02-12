@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import state from '../contexts/state'
@@ -8,10 +8,18 @@ import './eventCard.css'
 
 dayjs.extend(relativeTime)
 
-export default observer(({ id }) => {
-  const { epochKey } = React.useContext(state)
-  const attestation = epochKey.attestationsById.get(id)
-  const { attesterId, posRep, negRep, timestamp } = attestation
+export default observer(({ attestation }) => {
+  const { attesterId, epoch, posRep, negRep, timestamp } = attestation
+  const { attester } = useContext(state)
+  useEffect(() => {
+    const loadData = async () => {
+      await attester.loadEpochsByAttester(attesterId)
+    }
+    loadData()
+  }, [])
+  const attesterEpoch = attester.epochsByNumber.get(epoch)
+  // const { epochKey } = React.useContext(state)
+  // const attestation = epochKey.attestationsById.get(id)
   const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
   return (
     <div className="event-card">
@@ -24,7 +32,15 @@ export default observer(({ id }) => {
       <p style={{ minWidth: '50px', textAlign: 'center' }}>
         {attestation.epoch}
       </p>
-      <p>idk</p>
+      {attesterEpoch ? (
+        attesterEpoch.sealed ? (
+          <p>yes</p>
+        ) : (
+          <p>no</p>
+        )
+      ) : (
+        'Loading...'
+      )}
       <p style={{ minWidth: '80px' }}>
         {posRep - negRep}
         <span style={{ fontSize: '12px', fontWeight: '600' }}>

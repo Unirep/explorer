@@ -3,6 +3,8 @@ import { SERVER } from '../config'
 
 export default class Attester {
   epochsByAttester = []
+  epochIds = []
+  epochsByNumber = new Map()
 
   signUpIds = []
   signUpsById = new Map()
@@ -30,8 +32,18 @@ export default class Attester {
 
   async loadEpochsByAttester(attesterId) {
     const url = new URL(`api/attester/${attesterId}/epochs`, SERVER)
-    const data = await fetch(url.toString()).then((r) => r.json())
-    this.epochsByAttester = data
+    const items = await fetch(url.toString()).then((r) => r.json())
+    this.epochsByAttester = items
+    this.ingestEpochs(items)
+  }
+
+  async ingestEpochs(_epochs) {
+    const epochs = [_epochs].flat()
+    this.epochIds = epochs.map((e) => e._id)
+    for (const e of epochs) {
+      this.epochsByNumber.set(e.number, e)
+    }
+    console.log(this.epochsByNumber)
   }
 
   async loadSignUpsByAttester(attesterId) {

@@ -13,7 +13,9 @@ export default observer(({ attestation }) => {
       </Link>
       <p style={{ color: 'green' }}>+{attestation.posRep}</p>
       <p style={{ color: 'red' }}>-{attestation.negRep}</p>
-      <p>{attestation.graffiti} </p>
+      <p>
+        {attestation.graffiti.slice(0, 5)}...{attestation.graffiti.slice(-3)}{' '}
+      </p>
     </div>
   )
 })

@@ -29,6 +29,12 @@ export default class Unirep {
 
   //   async load() {}
 
+  async searchForId(id) {
+    const url = new URL(`api/unirep/search/${id}`, SERVER)
+    const type = await fetch(url.toString()).then((r) => r.json())
+    return type
+  }
+
   async loadAttesterDeployments() {
     const url = new URL(`api/unirep/attesters`, SERVER)
     const { items } = await fetch(url.toString()).then((r) => r.json())

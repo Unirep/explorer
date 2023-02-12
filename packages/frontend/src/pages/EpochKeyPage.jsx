@@ -12,15 +12,18 @@ dayjs.extend(relativeTime)
 
 export default observer(() => {
   const { id } = useParams()
-  const epochKeyId = BigInt(id).toString(10)
-  const { epochKey } = useContext(state)
+  // const epochKeyId = BigInt(id).toString(10)
+  // const { epochKey } = useContext(state)
+  const { unirep } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
-      await epochKey.loadAttestationsByEpochKey(epochKeyId)
+      // await epochKey.loadAttestationsByEpochKey(epochKeyId)
+      await unirep.loadAllSignUps()
     }
     loadData()
   }, [])
-  const attestationIds = epochKey.attestationIds
+  // const attestationIds = epochKey.attestationIds
+  const attestations = unirep.attestationsByEpochKey.get(BigInt(id).toString())
 
   return (
     <>
@@ -35,7 +38,7 @@ export default observer(() => {
             </div>
             <div className="flex">
               <h5>Attestations Received</h5>
-              <h6>{attestationIds.length}</h6>
+              <h6>{attestations ? attestations.length : 'Loading...'}</h6>
             </div>
             <div className="flex">
               <h5>Epoch Key</h5>
@@ -55,9 +58,18 @@ export default observer(() => {
             <h4>Timestamp</h4>
           </div>
           <div className="scroll">
-            {epochKey.attestationIds.map((id) => (
+            {/* {epochKey.attestationIds.map((id) => (
               <EpochKeyEvent key={id} id={id} />
-            ))}
+            ))} */}
+            {attestations
+              ? attestations.map((attestation) => (
+                  <EpochKeyEvent
+                    key={attestation._id}
+                    attestation={attestation}
+                  />
+                ))
+              : null}
+            {attestations ? null : 'Loading...'}
           </div>
         </div>
       </div>
