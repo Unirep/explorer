@@ -5,8 +5,19 @@ import state from '../contexts/state'
 import './header.css'
 
 export default observer(() => {
+  const { unirep } = useContext(state)
   const navigate = useNavigate()
   const [searchInput, setSearchInput] = useState('')
+  useEffect(() => {
+    const loadData = async () => {
+      await Promise.all([
+        unirep.loadAllSignUps(),
+        unirep.loadAttesterDeployments(),
+        unirep.loadAllAttestations(),
+      ])
+    }
+    loadData()
+  }, [])
 
   const search = () => {
     if (!/^(0x)?[a-fA-F0-9]*$/.test(searchInput)) {
@@ -14,13 +25,23 @@ export default observer(() => {
       // TODO: highlight the field red or something
       return
     }
-    const val = BigInt(`0x${searchInput.replace('0x', '')}`)
-    if (val > BigInt(2) ** BigInt(160)) {
-      // it's an epoch key
+    // const val = BigInt(`0x${searchInput.replace('0x', '')}`)
+    // if (val > BigInt(2) ** BigInt(160)) {
+    //   // it's an epoch key
+    //   navigate(`/epochKey/${searchInput}`)
+    // } else {
+    //   // otherwise treat it as an attester id
+    //   navigate(`/attester/${searchInput}`)
+    // }
+    const inputAsId = BigInt(searchInput).toString(10)
+    if (unirep.deploymentsById.has(inputAsId)) {
+      navigate(`/attester/${searchInput}`)
+    } else if (unirep.signUpsByUserId.has(inputAsId)) {
+      navigate(`/user/${searchInput}`)
+    } else if (unirep.attestationsByEpochKey.has(inputAsId)) {
       navigate(`/epochKey/${searchInput}`)
     } else {
-      // otherwise treat it as an attester id
-      navigate(`/attester/${searchInput}`)
+      navigate(`/NotFound`)
     }
     setSearchInput('')
   }

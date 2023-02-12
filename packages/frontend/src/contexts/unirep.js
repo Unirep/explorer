@@ -8,6 +8,7 @@ export default class Unirep {
   signUpsByUserId = new Map()
   signUpsByAttesterId = new Map()
   attestationsById = new Map()
+  attestationsByEpochKey = new Map()
   attestationIds = []
   // attestationsByAttesterId = {}
   totalPosRep = 0
@@ -85,6 +86,16 @@ export default class Unirep {
     this.attestationIds = attestations.map((a) => a._id)
     for (const a of attestations) {
       this.attestationsById.set(a._id, a)
+      const { epochKey } = a
+      if (this.attestationsByEpochKey.has(epochKey)) {
+        const attestations = this.attestationsByEpochKey
+          .get(epochKey)
+          .filter((attestation) => attestation._id !== a._id)
+          .push(a)
+        this.attestationsByEpochKey.set(attestations)
+      } else {
+        this.attestationsByEpochKey.set(epochKey, [a])
+      }
     }
   }
 
