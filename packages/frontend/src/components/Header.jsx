@@ -22,6 +22,7 @@ export default observer(() => {
       // otherwise treat it as an attester id
       navigate(`/attester/${searchInput}`)
     }
+    setSearchInput('')
   }
 
   return (
