@@ -124,24 +124,25 @@ export default observer(({ deployment }) => {
         <h4 style={{ width: '35%' }}>Epoch key</h4>
         <div className="flex">
           <h4>Positive Rep</h4>
-          <img
+          {/* TODO: implement changing display order of events */}
+          {/* <img
             src={require('../../public/arrow_up_down.svg')}
             alt="arrow change order of display"
-          />
+          /> */}
         </div>
         <div className="flex">
           <h4>Negative Rep</h4>
-          <img
+          {/* <img
             src={require('../../public/arrow_up_down.svg')}
             alt="arrow change order of display"
-          />
+          /> */}
         </div>
         <div className="flex">
           <h4>Graffiti</h4>
-          <img
+          {/* <img
             src={require('../../public/arrow_up_down.svg')}
             alt="arrow change order of display"
-          />
+          /> */}
         </div>
       </div>
 

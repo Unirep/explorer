@@ -137,10 +137,11 @@ export default observer(() => {
             >
               <h4>Change</h4>
               <div style={{ width: '4px' }} />
-              <img
+              {/* TODO: implement changing display order of events */}
+              {/* <img
                 src={require('../../public/arrow_up_down.svg')}
                 alt="arrow change order of display"
-              />
+              /> */}
             </div>
             <div
               style={{
