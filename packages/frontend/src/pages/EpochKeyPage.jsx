@@ -34,7 +34,7 @@ export default observer(() => {
             <h4>User Information</h4>
             <div className="flex">
               <h5>Onboard to UniRep</h5>
-              <h6>noneya</h6>
+              <h6>??</h6>
             </div>
             <div className="flex">
               <h5>Attestations Received</h5>
@@ -42,7 +42,10 @@ export default observer(() => {
             </div>
             <div className="flex">
               <h5>Epoch Key</h5>
-              <Tooltip text="Some info goes here" maxWidth={200} />
+              <Tooltip
+                text="A users' temporary, random-value-like epochKey is the receiver of attestations."
+                maxWidth={200}
+              />
             </div>
             <h6 className="break">{id}</h6>
           </div>

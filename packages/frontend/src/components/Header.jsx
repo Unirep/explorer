@@ -75,9 +75,9 @@ export default observer(() => {
           >
             <img src={require('../../public/discord.svg')} alt="Discord logo" />
           </a>
-          <div className="link">
+          {/* <div className="link">
             <img src={require('../../public/sun_icon.svg')} alt="sun icon" />
-          </div>
+          </div> */}
           <a href="https://github.com/Unirep/create-unirep-app" target="blank">
             <button>Build</button>
           </a>

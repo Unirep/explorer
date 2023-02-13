@@ -44,7 +44,10 @@ export default observer(() => {
             </div>
             <div className="flex">
               <h5>Semaphore ID</h5>
-              <Tooltip text="Some info goes here" maxWidth={200} />
+              <Tooltip
+                text="An identity commitment is a public value used in Semaphore groups to represent the identity of a group member."
+                maxWidth={200}
+              />
             </div>
             <h6 className="break">{id}</h6>
           </div>

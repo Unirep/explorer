@@ -87,16 +87,17 @@ export default observer(() => {
             <div className="info-card">
               <div className="flex">
                 <h4>Hashchain Status</h4>
-                <Tooltip />
+                {/* <Tooltip /> */}
               </div>
               <div className="flex">
                 <h5>Average Delay</h5>
-                <h6>2 min</h6>
+                <h6>--:--</h6>
               </div>
               <div className="flex">
                 <h5>Status</h5>
                 <h6>
-                  Completed <span className="dot"></span>
+                  Unknown
+                  {/* <span className="dot"></span> */}
                 </h6>
               </div>
             </div>
