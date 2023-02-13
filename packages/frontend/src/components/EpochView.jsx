@@ -9,21 +9,26 @@ import './epochView.css'
 export default observer(({ deployment }) => {
   const { attester } = useContext(state)
   const { startTimestamp, epochLength } = deployment
+  const timeSinceDeployment = new Date() / 1000 - startTimestamp
   const [currentEpoch, setCurrentEpoch] = useState(0)
   const [nextEpoch, setNextEpoch] = useState(0)
   const [selectedEpochActivities, setSelectedEpochActivities] = useState(0)
   const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(0)
   const calculateCurrentEpoch = () => {
-    const current = (dayjs().unix() - startTimestamp) / epochLength + 1
-    const next = startTimestamp + epochLength * current
-    setCurrentEpoch(Math.floor(current))
+    const now = Math.floor(new Date() / 1000)
+    const current = Math.floor((now - startTimestamp) / epochLength)
+    const next = startTimestamp + epochLength * (current + 1)
+    setCurrentEpoch(current)
     setNextEpoch(next)
   }
   useEffect(() => {
     calculateCurrentEpoch()
-    setInterval(() => {
+    setTimeout(() => {
       calculateCurrentEpoch()
-    }, epochLength * 1000)
+      setInterval(() => {
+        calculateCurrentEpoch()
+      }, epochLength * 1000)
+    }, (epochLength - (timeSinceDeployment % epochLength)) * 1000)
     // TODO: find how to set these with currentEpoch after calculation;
     // currentEpoch being passed as 0 here
     setSelectedEpochActivities(currentEpoch)
