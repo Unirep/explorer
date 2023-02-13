@@ -14,10 +14,10 @@ export default class Unirep {
   totalPosRep = 0
   totalNegRep = 0
   attestationCount = 0
-  allEpochs = []
-  attesterIds = []
+  // allEpochs = []
+  // attesterIds = []
   // currentAttesterStats = new Map()
-  currentAttesterStats = []
+  // currentAttesterStats = []
 
   constructor(state) {
     makeAutoObservable(this)
@@ -31,7 +31,15 @@ export default class Unirep {
 
   async searchForId(id) {
     const url = new URL(`api/unirep/search/${id}`, SERVER)
-    const type = await fetch(url.toString()).then((r) => r.json())
+    const { type, data } = await fetch(url.toString()).then((r) => r.json())
+    if (type === 'user') {
+      this.signUpsByUserId.set(data[0].commitment, data)
+    } else if (type === 'epochKey') {
+      this.attestationsByEpochKey.set(data[0].epochKey, data)
+    } else if (type === 'attester') {
+      this.deploymentsById.set(data._id, data)
+    }
+    console.log(type, data)
     return type
   }
 
@@ -115,53 +123,52 @@ export default class Unirep {
     this.attestationCount = attestationCount
   }
 
-  async loadAllEpochs() {
-    const url = new URL(`api/unirep/epochs`, SERVER)
-    this.allEpochs = await fetch(url.toString()).then((r) => r.json())
-    this.attesterIds = []
-    this.allEpochs.forEach((epoch) => {
-      epoch.number === 0 && this.attesterIds.push(epoch.attesterId)
-    })
-    this.getCurrentAttesterStats()
-  }
+  // async loadAllEpochs() {
+  //   const url = new URL(`api/unirep/epochs`, SERVER)
+  //   this.allEpochs = await fetch(url.toString()).then((r) => r.json())
+  //   this.attesterIds = []
+  //   this.allEpochs.forEach((epoch) => {
+  //     epoch.number === 0 && this.attesterIds.push(epoch.attesterId)
+  //   })
+  //   this.getCurrentAttesterStats()
+  // }
 
   // create array of attester stats
-  getCurrentAttesterStats() {
-    this.attesterIds.forEach((attester) => {
-      let latestEpoch = 0
-      let users = 0
-      let posRep = 0
-      let negRep = 0
-      this.allEpochs.forEach((epoch) => {
-        if (epoch.attesterId === attester) {
-          if (epoch.number > latestEpoch) {
-            latestEpoch = epoch.number
-          }
-        }
-      })
-      this.allSignUps.forEach((signup) => {
-        signup.attesterId === attester && users++
-      })
-      this.allAttestations.forEach((attestation) => {
-        if (attestation.attesterId === attester) {
-          posRep += attestation.posRep
-          negRep += attestation.negRep
-        }
-      })
-      // need to get time of next epoch, add to status
-      let status = {
-        attesterId: attester,
-        currentEpoch: latestEpoch,
-        numUsers: users,
-        posReputation: posRep,
-        negReputation: negRep,
-      }
-      this.currentAttesterStats.push(status)
-    })
-  }
+  // getCurrentAttesterStats() {
+  //   this.attesterIds.forEach((attester) => {
+  //     let latestEpoch = 0
+  //     let users = 0
+  //     let posRep = 0
+  //     let negRep = 0
+  //     this.allEpochs.forEach((epoch) => {
+  //       if (epoch.attesterId === attester) {
+  //         if (epoch.number > latestEpoch) {
+  //           latestEpoch = epoch.number
+  //         }
+  //       }
+  //     })
+  //     this.allSignUps.forEach((signup) => {
+  //       signup.attesterId === attester && users++
+  //     })
+  //     this.allAttestations.forEach((attestation) => {
+  //       if (attestation.attesterId === attester) {
+  //         posRep += attestation.posRep
+  //         negRep += attestation.negRep
+  //       }
+  //     })
+  //     // need to get time of next epoch, add to status
+  //     let status = {
+  //       attesterId: attester,
+  //       currentEpoch: latestEpoch,
+  //       numUsers: users,
+  //       posReputation: posRep,
+  //       negReputation: negRep,
+  //     }
+  //     this.currentAttesterStats.push(status)
+  //   })
+  // }
 
   // create mapping of attester stats
-
   // getCurrentAttesterStats() {
   //   // this.currentAttesterStats = new Map()
   //   for (let i = 0; i < this.attesterIds.length; i++) {

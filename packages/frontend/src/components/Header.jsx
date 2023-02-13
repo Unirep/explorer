@@ -16,8 +16,8 @@ export default observer(() => {
       return
     }
     const inputAsId = BigInt(searchInput).toString(10)
-    const inputType = await unirep.searchForId(inputAsId)
-    navigate(`/${inputType}/${searchInput}`)
+    const type = await unirep.searchForId(inputAsId)
+    navigate(`/${type}/${searchInput}`)
     setSearchInput('')
 
     // const val = BigInt(`0x${searchInput.replace('0x', '')}`)

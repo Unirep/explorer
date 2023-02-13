@@ -43,7 +43,6 @@ export default class Attester {
     for (const e of epochs) {
       this.epochsByNumber.set(e.number, e)
     }
-    console.log(this.epochsByNumber)
   }
 
   async loadSignUpsByAttester(attesterId) {

@@ -15,13 +15,13 @@ export default observer(() => {
   // const epochKeyId = BigInt(id).toString(10)
   // const { epochKey } = useContext(state)
   const { unirep } = useContext(state)
-  useEffect(() => {
-    const loadData = async () => {
-      // await epochKey.loadAttestationsByEpochKey(epochKeyId)
-      await unirep.loadAllSignUps()
-    }
-    loadData()
-  }, [])
+  // useEffect(() => {
+  //   const loadData = async () => {
+  //     // await epochKey.loadAttestationsByEpochKey(epochKeyId)
+  //     await unirep.loadAllAttestations()
+  //   }
+  //   loadData()
+  // }, [])
   // const attestationIds = epochKey.attestationIds
   const attestations = unirep.attestationsByEpochKey.get(BigInt(id).toString())
 

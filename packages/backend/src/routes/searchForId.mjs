@@ -1,4 +1,5 @@
 import catchError from '../helpers/catchError.mjs'
+import { TimestampLoader } from '../helpers/timestampLoader.mjs'
 
 export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
@@ -8,27 +9,40 @@ export default ({ app, db, synchronizer }) => {
         _id: id,
       },
     })
-    const attestation = await db.findOne('Attestation', {
+
+    const attestations = await db.findMany('Attestation', {
       where: {
         epochKey: id,
       },
     })
-    const signUp = await db.findOne('UserSignUp', {
+    const epochKeyItems = await TimestampLoader.inject(attestations, db)
+
+    const signUps = await db.findMany('UserSignUp', {
       where: {
         commitment: id,
       },
     })
+    const userItems = await TimestampLoader.inject(signUps, db)
+
     let type = ''
+    let data = ''
     if (deployment) {
       type = 'attester'
-    } else if (attestation) {
-      type = 'epochKey'
-    } else if (signUp) {
+      data = deployment
+    } else if (signUps.length > 0) {
       type = 'user'
+      data = userItems
+    } else if (attestations.length > 0) {
+      type = 'epochKey'
+      data = epochKeyItems
     } else {
       type = 'unknown'
+      data = null
     }
-    res.json(type)
+    res.json({
+      type,
+      data,
+    })
   }
   app.get('/api/unirep/search/:id', catchError(handler))
 }
