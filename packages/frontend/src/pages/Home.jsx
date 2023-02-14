@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import UnirepInfo from '../components/UnirepInfo'
@@ -77,7 +77,8 @@ export default observer(() => {
             <LastAttestationCard id={lastAttestationId} />
           </div>
 
-          <h3>Stats</h3>
+          {/* TODO: create graph element for Unirep contract stats according to upcoming design revision */}
+          {/* <h3>Stats</h3>
           <div className="graph-container">
             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
               <ul>
@@ -99,7 +100,7 @@ export default observer(() => {
                 ))}
               </ul>
             </div>
-          </div>
+          </div> */}
 
           <h3>Latest Attestations</h3>
           <div className="flex events-header">
