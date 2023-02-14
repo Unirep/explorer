@@ -13,8 +13,9 @@ export default class Attester {
   attestationsIds = []
   attestationsById = new Map()
   attestationsByEpoch = new Map()
-  totalPosRep
-  totalNegRep
+  totalPosRep = 0
+  totalNegRep = 0
+  attestationCount = 0
 
   ustIds = []
   ustById = new Map()
@@ -77,8 +78,6 @@ export default class Attester {
   async ingestAttestations(_attestations) {
     const attestations = [_attestations].flat()
     this.attestaionIds = attestations.map((a) => a._id)
-    this.totalPosRep = 0
-    this.totalNegRep = 0
     for (const attestation of attestations) {
       this.attestationsById.set(attestation._id, attestation)
       const { epoch } = attestation
@@ -91,15 +90,22 @@ export default class Attester {
       } else {
         this.attestationsByEpoch.set(epoch, [attestation])
       }
-      this.totalPosRep += attestation.posRep
-      this.totalNegRep += attestation.negRep
     }
+  }
+
+  async loadStats(attesterId) {
+    const url = new URL(`api/attester/${attesterId}/stats`, SERVER)
+    const { posRep, negRep, attestationCount } = await fetch(
+      url.toString()
+    ).then((r) => r.json())
+    this.totalPosRep = posRep
+    this.totalNegRep = negRep
+    this.attestationCount = attestationCount
   }
 
   async loadUSTByAttester(attesterId) {
     const url = new URL(`api/attester/${attesterId}/ust`, SERVER)
     const data = await fetch(url.toString()).then((r) => r.json())
-    // this.ustByAttester = data
     this.ingestUST(data)
   }
 

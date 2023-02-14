@@ -8,7 +8,6 @@ import LastAttestationCard from '../components/LastAttestationCard'
 import UnirepEvent from '../components/UnirepEvent'
 import Footer from '../components/Footer'
 import measure from '../utils/measure-text'
-import dayjs from 'dayjs'
 
 export default observer(() => {
   const { info, unirep } = useContext(state)

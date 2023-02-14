@@ -24,6 +24,7 @@ export default observer(() => {
         attester.loadSignUpsByAttester(attesterId),
         attester.loadAttestationsByAttester(attesterId),
         attester.loadUSTByAttester(attesterId),
+        attester.loadStats(attesterId),
       ])
     }
     loadData()
@@ -77,19 +78,25 @@ export default observer(() => {
               value1={lastEpoch ? lastEpoch.number : 'Loading...'}
             />
             <InfoCard
+              heading="Total Users Signed Up"
+              value1={attester.signUpIds.length}
+            />
+            <InfoCard
+              heading="Total Attestations"
+              value1={attester.attestationCount}
+            />
+            <InfoCard
               heading="Total Rep Given"
               value1={attester.totalPosRep - attester.totalNegRep}
               value2={attester.totalPosRep}
               value3={attester.totalNegRep}
             />
-            <InfoCard
-              heading="Total Users Signed Up"
-              value1={attester.signUpIds.length}
-            />
-            <div className="info-card">
+
+            {/* TODO: display hashchain status */}
+            {/* <div className="info-card">
               <div className="flex">
                 <h4>Hashchain Status</h4>
-                {/* <Tooltip /> */}
+                <Tooltip />
               </div>
               <div className="flex">
                 <h5>Average Delay</h5>
@@ -99,10 +106,10 @@ export default observer(() => {
                 <h5>Status</h5>
                 <h6>
                   Unknown
-                  {/* <span className="dot"></span> */}
+                  <span className="dot"></span>
                 </h6>
               </div>
-            </div>
+            </div> */}
           </div>
           {selectedView === 'Epoch' ? (
             <>

@@ -6,7 +6,7 @@ export default class Unirep {
   deploymentsById = new Map()
   allSignUps = []
   signUpsByUserId = new Map()
-  signUpsByAttesterId = new Map()
+  // signUpsByAttesterId = new Map()
   attestationsById = new Map()
   attestationsByEpochKey = new Map()
   attestationIds = []
@@ -79,11 +79,11 @@ export default class Unirep {
         this.signUpsByUserId.set(userId, [signup])
       }
 
-      if (this.signUpsByAttesterId.has(attesterId)) {
-        this.signUpsByAttesterId.get(attesterId).push(signup)
-      } else {
-        this.signUpsByAttesterId.set(attesterId, [signup])
-      }
+      // if (this.signUpsByAttesterId.has(attesterId)) {
+      //   this.signUpsByAttesterId.get(attesterId).push(signup)
+      // } else {
+      //   this.signUpsByAttesterId.set(attesterId, [signup])
+      // }
     }
   }
 
