@@ -12,18 +12,20 @@ dayjs.extend(relativeTime)
 
 export default observer(() => {
   const { id } = useParams()
-  // const epochKeyId = BigInt(id).toString(10)
+  const epochKeyId = BigInt(id).toString(10)
   // const { epochKey } = useContext(state)
   const { unirep } = useContext(state)
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     // await epochKey.loadAttestationsByEpochKey(epochKeyId)
-  //     await unirep.loadAllAttestations()
-  //   }
-  //   loadData()
-  // }, [])
+  useEffect(() => {
+    const loadData = async () => {
+      // await epochKey.loadAttestationsByEpochKey(epochKeyId)
+      !unirep.attestationsByEpochKey.has(epochKeyId)
+        ? await unirep.loadAllAttestations()
+        : null
+    }
+    loadData()
+  }, [])
   // const attestationIds = epochKey.attestationIds
-  const attestations = unirep.attestationsByEpochKey.get(BigInt(id).toString())
+  const attestations = unirep.attestationsByEpochKey.get(epochKeyId)
 
   return (
     <>
