@@ -35,6 +35,8 @@ export default ({ app, db, synchronizer }) => {
       res.json({ type: 'user', data: userItems })
       return
     }
+
+    res.json({ type: 'unknown', data: null })
   }
   app.get('/api/unirep/search/:id', catchError(handler))
 }
