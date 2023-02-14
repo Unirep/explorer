@@ -20,19 +20,18 @@ export default observer(({ deployment }) => {
     const next = startTimestamp + epochLength * (current + 1)
     setCurrentEpoch(current)
     setNextEpoch(next)
+    return current
   }
   useEffect(() => {
-    calculateCurrentEpoch()
+    const current = calculateCurrentEpoch()
+    setSelectedEpochActivities(current)
+    setSelectedEpochAttestations(current)
     setTimeout(() => {
       calculateCurrentEpoch()
       setInterval(() => {
         calculateCurrentEpoch()
       }, epochLength * 1000)
     }, (epochLength - (timeSinceDeployment % epochLength)) * 1000)
-    // TODO: find how to set these with currentEpoch after calculation;
-    // currentEpoch being passed as 0 here
-    setSelectedEpochActivities(currentEpoch)
-    setSelectedEpochAttestations(currentEpoch)
   }, [])
   const signups = attester.signUpsByEpoch.get(selectedEpochActivities)
   const USTs = attester.ustByEpoch.get(selectedEpochActivities)

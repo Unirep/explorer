@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import Tooltip from '../components/Tooltip'
+// import Tooltip from '../components/Tooltip'
 import InfoCard from '../components/InfoCard'
 import EpochView from '../components/EpochView'
 import UserView from '../components/UserView'
@@ -14,7 +14,6 @@ export default observer(() => {
   const attesterId = BigInt(id).toString(10)
   const { unirep, attester } = useContext(state)
   const [selectedView, setSelectedView] = useState('Epoch')
-  const [currentEpoch, setCurrentEpoch] = useState(0)
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
@@ -26,14 +25,13 @@ export default observer(() => {
         attester.loadAttestationsByAttester(attesterId),
         attester.loadUSTByAttester(attesterId),
       ])
-      setCurrentEpoch(
-        attester.epochsByAttester[attester.epochsByAttester.length - 1].number
-      )
     }
     loadData()
   }, [])
 
   const deployment = unirep.deploymentsById.get(attesterId)
+  const lastEpoch =
+    attester.epochsByAttester[attester.epochsByAttester.length - 1]
 
   return (
     <>
@@ -74,8 +72,10 @@ export default observer(() => {
         <div className="right-container">
           <h3>Overview</h3>
           <div className="info-grid">
-            {/* currently showing previous epoch, not last processed */}
-            <InfoCard heading="Epochs Processed" value1={currentEpoch - 1} />
+            <InfoCard
+              heading="Epochs Processed"
+              value1={lastEpoch ? lastEpoch.number : 'Loading...'}
+            />
             <InfoCard
               heading="Total Rep Given"
               value1={attester.totalPosRep - attester.totalNegRep}
