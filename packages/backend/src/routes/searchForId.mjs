@@ -9,40 +9,32 @@ export default ({ app, db, synchronizer }) => {
         _id: id,
       },
     })
+    if (deployment) {
+      res.json({ type: 'attester', data: deployment })
+      return
+    }
 
     const attestations = await db.findMany('Attestation', {
       where: {
         epochKey: id,
       },
     })
-    const epochKeyItems = await TimestampLoader.inject(attestations, db)
+    if (attestations.length > 0) {
+      const epochKeyItems = await TimestampLoader.inject(attestations, db)
+      res.json({ type: 'epochKey', data: epochKeyItems })
+      return
+    }
 
     const signUps = await db.findMany('UserSignUp', {
       where: {
         commitment: id,
       },
     })
-    const userItems = await TimestampLoader.inject(signUps, db)
-
-    let type = ''
-    let data = ''
-    if (deployment) {
-      type = 'attester'
-      data = deployment
-    } else if (signUps.length > 0) {
-      type = 'user'
-      data = userItems
-    } else if (attestations.length > 0) {
-      type = 'epochKey'
-      data = epochKeyItems
-    } else {
-      type = 'unknown'
-      data = null
+    if (signUps.length > 0) {
+      const userItems = await TimestampLoader.inject(signUps, db)
+      res.json({ type: 'user', data: userItems })
+      return
     }
-    res.json({
-      type,
-      data,
-    })
   }
   app.get('/api/unirep/search/:id', catchError(handler))
 }
