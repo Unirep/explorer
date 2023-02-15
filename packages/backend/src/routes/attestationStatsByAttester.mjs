@@ -10,9 +10,7 @@ export default ({ app, db, synchronizer }) => {
     })
     const stats = JSON.parse(data)
     const attestationCount = await db.count('Attestation', {
-      //   where: {
-      //     attesterId: attesterId,
-      //   },
+      attesterId,
     })
     res.json({
       ...stats,
