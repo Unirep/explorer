@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import UnirepInfo from '../components/UnirepInfo'
@@ -8,7 +8,6 @@ import LastAttestationCard from '../components/LastAttestationCard'
 import UnirepEvent from '../components/UnirepEvent'
 import Footer from '../components/Footer'
 import measure from '../utils/measure-text'
-import dayjs from 'dayjs'
 
 export default observer(() => {
   const { info, unirep } = useContext(state)
@@ -77,7 +76,8 @@ export default observer(() => {
             <LastAttestationCard id={lastAttestationId} />
           </div>
 
-          <h3>Stats</h3>
+          {/* TODO: create graph element for Unirep contract stats according to upcoming design revision */}
+          {/* <h3>Stats</h3>
           <div className="graph-container">
             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
               <ul>
@@ -99,7 +99,7 @@ export default observer(() => {
                 ))}
               </ul>
             </div>
-          </div>
+          </div> */}
 
           <h3>Latest Attestations</h3>
           <div className="flex events-header">
@@ -137,10 +137,11 @@ export default observer(() => {
             >
               <h4>Change</h4>
               <div style={{ width: '4px' }} />
-              <img
+              {/* TODO: implement changing display order of events */}
+              {/* <img
                 src={require('../../public/arrow_up_down.svg')}
                 alt="arrow change order of display"
-              />
+              /> */}
             </div>
             <div
               style={{

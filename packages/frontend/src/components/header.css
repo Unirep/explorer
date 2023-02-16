@@ -15,7 +15,7 @@ a:visited {
 }
 
 .link {
-  padding-right: 2.5em;
+  padding-right: 2em;
 }
 
 .searchbar {
@@ -24,7 +24,7 @@ a:visited {
 }
 
 input {
-  width: 85%;
+  width: 80%;
   height: 96%;
   background-color: #f0f0f0;
   border-radius: 8px 0 0 8px;

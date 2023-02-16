@@ -3,18 +3,18 @@ import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import './eventCard.css'
 
-export default observer(({ epochKey, posRep, negRep, graffiti }) => {
+export default observer(({ attestation }) => {
+  const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
+
   return (
     <div className="event-card">
-      <p>{epochKey}</p>
-      <p style={{ color: 'green' }}>+{posRep}</p>
-      <p style={{ color: 'red' }}>-{negRep}</p>
+      <Link to={`/epochKey/${epochKeyHex}`}>
+        <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
+      </Link>
+      <p style={{ color: 'green' }}>+{attestation.posRep}</p>
+      <p style={{ color: 'red' }}>-{attestation.negRep}</p>
       <p>
-        {graffiti}{' '}
-        <img
-          src={require('../../public/arrow_up_right.svg')}
-          alt="arrow up right"
-        />
+        {attestation.graffiti.slice(0, 5)}...{attestation.graffiti.slice(-3)}{' '}
       </p>
     </div>
   )

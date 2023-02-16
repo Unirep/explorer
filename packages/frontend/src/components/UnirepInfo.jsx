@@ -53,19 +53,23 @@ export default observer(({ info }) => {
           <ConfigInfoItem
             item="State Tree Depth"
             info={info.STATE_TREE_DEPTH}
+            text="A state tree stores the updated user state after a user signs up and after a user state transition is performed"
           />
           <ConfigInfoItem
             item="Epoch Tree Depth"
             info={info.EPOCH_TREE_DEPTH}
+            text="An epoch tree is used to track the reputation received by epoch keys. Non-repudiability is enforced at the circuit and smart contract level."
           />
           {/* need this value */}
           <ConfigInfoItem
             item="Epoch Tree Arity"
             info={info.EPOCH_TREE_ARITY}
+            text="The number of child nodes of each non-leaf node in the epoch tree."
           />
           <ConfigInfoItem
             item="Epoch Key Nonce Count"
             info={info.EPOCH_KEY_NONCE_COUNT}
+            text="The number of unique epoch keys given to each user per epoch."
           />
         </>
       ) : (

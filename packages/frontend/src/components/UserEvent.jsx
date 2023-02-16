@@ -1,19 +1,24 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 import './eventCard.css'
 
-export default observer(({ attesterId, epoch, timestamp }) => {
+dayjs.extend(relativeTime)
+
+export default observer(({ signup }) => {
+  const attesterIdHex = `0x${BigInt(signup.attesterId).toString(16)}`
   return (
     <div className="event-card">
-      <Link to={`/attester/${attesterId}`}>
+      <Link to={`/attester/${attesterIdHex}`}>
         <p>
-          0x<span>{attesterId.slice(0, 3)}</span>...
-          <span>{attesterId.slice(-5)}</span>
+          <span>{attesterIdHex.slice(0, 7)}</span>...
+          <span>{attesterIdHex.slice(-5)}</span>
         </p>
       </Link>
-      <p>{epoch}</p>
-      <p>{timestamp}</p>
+      <p>{signup.epoch}</p>
+      <p>{dayjs(signup.timestamp * 1000).from(dayjs())}</p>
     </div>
   )
 })

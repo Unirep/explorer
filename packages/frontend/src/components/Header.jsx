@@ -1,27 +1,24 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { Outlet, Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import './header.css'
 
 export default observer(() => {
+  const { unirep } = useContext(state)
   const navigate = useNavigate()
   const [searchInput, setSearchInput] = useState('')
 
-  const search = () => {
+  const search = async () => {
     if (!/^(0x)?[a-fA-F0-9]*$/.test(searchInput)) {
       // invalid input, only accept hexadecimal
       // TODO: highlight the field red or something
       return
     }
-    const val = BigInt(`0x${searchInput.replace('0x', '')}`)
-    if (val > BigInt(2) ** BigInt(160)) {
-      // it's an epoch key
-      navigate(`/user/${searchInput})`)
-    } else {
-      // otherwise treat it as an attester id
-      navigate(`/attester/${searchInput})`)
-    }
+    const inputAsId = BigInt(searchInput).toString(10)
+    const type = await unirep.searchForId(inputAsId)
+    navigate(`/${type}/${searchInput}`)
+    setSearchInput('')
   }
 
   return (
@@ -69,9 +66,10 @@ export default observer(() => {
           >
             <img src={require('../../public/discord.svg')} alt="Discord logo" />
           </a>
-          <div className="link">
+          {/* TODO: implement light/dark mode */}
+          {/* <div className="link">
             <img src={require('../../public/sun_icon.svg')} alt="sun icon" />
-          </div>
+          </div> */}
           <a href="https://github.com/Unirep/create-unirep-app" target="blank">
             <button>Build</button>
           </a>

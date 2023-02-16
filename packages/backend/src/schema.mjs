@@ -26,5 +26,17 @@ export default [
       ['data', 'String'],
     ],
   },
+  {
+    name: 'AttesterData',
+    primaryKey: '_id',
+    rows: [
+      {
+        name: '_id',
+        type: 'String',
+        default: () => nanoid(),
+      },
+      ['data', 'String'],
+    ],
+  },
   ...schema,
 ]

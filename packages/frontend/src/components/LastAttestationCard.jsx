@@ -1,6 +1,5 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { Link } from 'react-router-dom'
 import state from '../contexts/state'
 import dayjs from 'dayjs'
 
@@ -10,7 +9,7 @@ export default observer(({ id }) => {
 
   return (
     <div className="info-card">
-      <h4>Lastest Attestation</h4>
+      <h4>Latest Attestation</h4>
       <div className="flex">
         <h5>Submitted</h5>
         {lastAttestation ? (
