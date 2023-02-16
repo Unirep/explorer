@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import Tooltip from '../components/Tooltip'
+// import Tooltip from '../components/Tooltip'
 import InfoCard from '../components/InfoCard'
 import EpochView from '../components/EpochView'
 import UserView from '../components/UserView'
@@ -14,24 +14,25 @@ export default observer(() => {
   const attesterId = BigInt(id).toString(10)
   const { unirep, attester } = useContext(state)
   const [selectedView, setSelectedView] = useState('Epoch')
-  const [currentEpoch, setCurrentEpoch] = useState(0)
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
-        unirep.loadAttesterDeployments(),
+        !unirep.deploymentsById.has(attesterId)
+          ? unirep.loadAttesterDeployments()
+          : null,
         attester.loadEpochsByAttester(attesterId),
         attester.loadSignUpsByAttester(attesterId),
         attester.loadAttestationsByAttester(attesterId),
         attester.loadUSTByAttester(attesterId),
+        attester.loadStats(attesterId),
       ])
-      setCurrentEpoch(
-        attester.epochsByAttester[attester.epochsByAttester.length - 1].number
-      )
     }
     loadData()
   }, [])
 
   const deployment = unirep.deploymentsById.get(attesterId)
+  const lastEpoch =
+    attester.epochsByAttester[attester.epochsByAttester.length - 1]
 
   return (
     <>
@@ -72,34 +73,43 @@ export default observer(() => {
         <div className="right-container">
           <h3>Overview</h3>
           <div className="info-grid">
-            {/* currently showing previous epoch, not last processed */}
-            <InfoCard heading="Epochs Processed" value1={currentEpoch - 1} />
+            <InfoCard
+              heading="Epochs Processed"
+              value1={lastEpoch ? lastEpoch.number : 'Loading...'}
+            />
+            <InfoCard
+              heading="Total Users Signed Up"
+              value1={attester.signUpIds.length}
+            />
+            <InfoCard
+              heading="Total Attestations"
+              value1={attester.attestationCount}
+            />
             <InfoCard
               heading="Total Rep Given"
               value1={attester.totalPosRep - attester.totalNegRep}
               value2={attester.totalPosRep}
               value3={attester.totalNegRep}
             />
-            <InfoCard
-              heading="Total Users Signed Up"
-              value1={attester.signUpIds.length}
-            />
-            <div className="info-card">
+
+            {/* TODO: display hashchain status */}
+            {/* <div className="info-card">
               <div className="flex">
                 <h4>Hashchain Status</h4>
                 <Tooltip />
               </div>
               <div className="flex">
                 <h5>Average Delay</h5>
-                <h6>2 min</h6>
+                <h6>--:--</h6>
               </div>
               <div className="flex">
                 <h5>Status</h5>
                 <h6>
-                  Completed <span className="dot"></span>
+                  Unknown
+                  <span className="dot"></span>
                 </h6>
               </div>
-            </div>
+            </div> */}
           </div>
           {selectedView === 'Epoch' ? (
             <>

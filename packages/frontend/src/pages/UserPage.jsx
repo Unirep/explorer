@@ -12,14 +12,17 @@ dayjs.extend(relativeTime)
 
 export default observer(() => {
   const { id } = useParams()
+  const userId = BigInt(id).toString()
   const { unirep } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
-      await unirep.loadAllSignUps()
+      !unirep.signUpsByUserId.has(userId)
+        ? await unirep.loadSignUpsByUser(userId)
+        : null
     }
     loadData()
   }, [])
-  const signups = unirep.signUpsByUserId.get(BigInt(id).toString())
+  const signups = unirep.signUpsByUserId.get(userId)
 
   return (
     <>
@@ -44,7 +47,10 @@ export default observer(() => {
             </div>
             <div className="flex">
               <h5>Semaphore ID</h5>
-              <Tooltip text="Some info goes here" maxWidth={200} />
+              <Tooltip
+                text="An identity commitment is a public value used in Semaphore groups to represent the identity of a group member."
+                maxWidth={200}
+              />
             </div>
             <h6 className="break">{id}</h6>
           </div>

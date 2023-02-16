@@ -6,7 +6,7 @@ export default ({ app, db, synchronizer }) => {
     const allAttestations = await db.findMany('Attestation', {
       where: {},
       orderBy: {
-        _id: 'desc',
+        index: 'desc',
       },
     })
     const items = await TimestampLoader.inject(allAttestations, db)

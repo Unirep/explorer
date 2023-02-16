@@ -48,6 +48,7 @@ synchronizer.on('processedEvent', async (event) => {
 synchronizer.on('AttestationSubmitted', async ({ decodedData }) => {
   const posRep = Number(decodedData.posRep)
   const negRep = Number(decodedData.negRep)
+  const attesterId = BigInt(decodedData.attesterId).toString(10)
   const { data } = await synchronizer._db.findOne('GlobalData', {
     where: {
       _id: 'attestations',
@@ -65,6 +66,34 @@ synchronizer.on('AttestationSubmitted', async ({ decodedData }) => {
       data: JSON.stringify(stats),
     },
   })
+
+  const attesterData = await synchronizer._db.findOne('AttesterData', {
+    where: {
+      _id: attesterId,
+    },
+  })
+  if (attesterData) {
+    const { data } = attesterData
+    const attesterStats = JSON.parse(data)
+    attesterStats.posRep += posRep
+    attesterStats.negRep += negRep
+    await synchronizer._db.update('AttesterData', {
+      where: {
+        _id: attesterId,
+      },
+      update: {
+        data: JSON.stringify(attesterStats),
+      },
+    })
+  } else {
+    await synchronizer._db.create('AttesterData', {
+      _id: attesterId,
+      data: JSON.stringify({
+        posRep: posRep,
+        negRep: negRep,
+      }),
+    })
+  }
 })
 console.log('Starting synchronizer...')
 await synchronizer.start()

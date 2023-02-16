@@ -9,31 +9,37 @@ import './epochView.css'
 export default observer(({ deployment }) => {
   const { attester } = useContext(state)
   const { startTimestamp, epochLength } = deployment
+  const timeSinceDeployment = new Date() / 1000 - startTimestamp
   const [currentEpoch, setCurrentEpoch] = useState(0)
   const [nextEpoch, setNextEpoch] = useState(0)
-  const [selectedEpochActivities, setSelectedEpochActivities] = useState(0)
+  // const [selectedEpochActivities, setSelectedEpochActivities] = useState(0)
   const [selectedEpochAttestations, setSelectedEpochAttestations] = useState(0)
   const calculateCurrentEpoch = () => {
-    const current = (dayjs().unix() - startTimestamp) / epochLength + 1
-    const next = startTimestamp + epochLength * current
-    setCurrentEpoch(Math.floor(current))
+    const now = Math.floor(new Date() / 1000)
+    const current = Math.floor((now - startTimestamp) / epochLength)
+    const next = startTimestamp + epochLength * (current + 1)
+    setCurrentEpoch(current)
     setNextEpoch(next)
+    return current
   }
   useEffect(() => {
-    calculateCurrentEpoch()
-    setInterval(() => {
+    const current = calculateCurrentEpoch()
+    // setSelectedEpochActivities(current)
+    setSelectedEpochAttestations(current)
+    setTimeout(() => {
       calculateCurrentEpoch()
-    }, epochLength * 1000)
-    // TODO: find how to set these with currentEpoch after calculation;
-    // currentEpoch being passed as 0 here
-    setSelectedEpochActivities(currentEpoch)
-    setSelectedEpochAttestations(currentEpoch)
+      setInterval(() => {
+        calculateCurrentEpoch()
+      }, epochLength * 1000)
+    }, (epochLength - (timeSinceDeployment % epochLength)) * 1000)
   }, [])
-  const signups = attester.signUpsByEpoch.get(selectedEpochActivities)
-  const USTs = attester.ustByEpoch.get(selectedEpochActivities)
-  const graphAttestations = attester.attestationsByEpoch.get(
-    selectedEpochActivities
-  )
+
+  // TODO: use this data for Activity By Epoch graph element according to upcoming design revision
+  // const signups = attester.signUpsByEpoch.get(selectedEpochActivities)
+  // const USTs = attester.ustByEpoch.get(selectedEpochActivities)
+  // const graphAttestations = attester.attestationsByEpoch.get(
+  //   selectedEpochActivities
+  // )
   const listAttestations = attester.attestationsByEpoch.get(
     selectedEpochAttestations
   )
@@ -48,7 +54,8 @@ export default observer(({ deployment }) => {
         />
       </div>
 
-      <div className="flex">
+      {/* Activity By Epoch graph header */}
+      {/* <div className="flex">
         <h3>Activities (Epoch {selectedEpochActivities})</h3>
         <div className="dropdown">
           <button className="dropbtn">Jump to epoch..</button>
@@ -63,9 +70,10 @@ export default observer(({ deployment }) => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div className="graph-container" style={{ height: 'auto' }}>
+      {/* data for Activity By Epoch graph element */}
+      {/* <div className="graph-container" style={{ height: 'auto' }}>
         <ul>
           SIGNUPS THIS EPOCH: {signups ? signups.length : 0}
           {signups
@@ -102,7 +110,7 @@ export default observer(({ deployment }) => {
             : null}
           {USTs ? null : <li>There were no USTs in this epoch</li>}
         </ul>
-      </div>
+      </div> */}
 
       <div className="flex">
         <h3>Attestations (Epoch {selectedEpochAttestations})</h3>
@@ -124,24 +132,25 @@ export default observer(({ deployment }) => {
         <h4 style={{ width: '35%' }}>Epoch key</h4>
         <div className="flex">
           <h4>Positive Rep</h4>
-          <img
+          {/* TODO: implement changing display order of events */}
+          {/* <img
             src={require('../../public/arrow_up_down.svg')}
             alt="arrow change order of display"
-          />
+          /> */}
         </div>
         <div className="flex">
           <h4>Negative Rep</h4>
-          <img
+          {/* <img
             src={require('../../public/arrow_up_down.svg')}
             alt="arrow change order of display"
-          />
+          /> */}
         </div>
         <div className="flex">
           <h4>Graffiti</h4>
-          <img
+          {/* <img
             src={require('../../public/arrow_up_down.svg')}
             alt="arrow change order of display"
-          />
+          /> */}
         </div>
       </div>
 
