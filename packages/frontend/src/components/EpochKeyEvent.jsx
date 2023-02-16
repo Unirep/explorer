@@ -17,8 +17,7 @@ export default observer(({ attestation }) => {
     loadData()
   }, [])
   const attesterEpoch = attester.epochsByNumber.get(epoch)
-  // const { epochKey } = React.useContext(state)
-  // const attestation = epochKey.attestationsById.get(id)
+
   return (
     <div className="event-card">
       {attesterEpoch ? (

@@ -1,6 +1,5 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { Link } from 'react-router-dom'
 import state from '../contexts/state'
 import dayjs from 'dayjs'
 

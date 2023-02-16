@@ -19,15 +19,6 @@ export default observer(() => {
     const type = await unirep.searchForId(inputAsId)
     navigate(`/${type}/${searchInput}`)
     setSearchInput('')
-
-    // const val = BigInt(`0x${searchInput.replace('0x', '')}`)
-    // if (val > BigInt(2) ** BigInt(160)) {
-    //   // it's an epoch key
-    //   navigate(`/epochKey/${searchInput}`)
-    // } else {
-    //   // otherwise treat it as an attester id
-    //   navigate(`/attester/${searchInput}`)
-    // }
   }
 
   return (
@@ -75,6 +66,7 @@ export default observer(() => {
           >
             <img src={require('../../public/discord.svg')} alt="Discord logo" />
           </a>
+          {/* TODO: implement light/dark mode */}
           {/* <div className="link">
             <img src={require('../../public/sun_icon.svg')} alt="sun icon" />
           </div> */}

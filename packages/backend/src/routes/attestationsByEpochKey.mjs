@@ -12,5 +12,5 @@ export default ({ app, db, synchronizer }) => {
     const items = await TimestampLoader.inject(attestations, db)
     res.json(items)
   }
-  app.get('/api/epochKey/:epochKey/attestations', catchError(handler))
+  app.get('/api/unirep/attestations/:epochKey', catchError(handler))
 }

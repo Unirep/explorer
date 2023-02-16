@@ -13,18 +13,15 @@ dayjs.extend(relativeTime)
 export default observer(() => {
   const { id } = useParams()
   const epochKeyId = BigInt(id).toString(10)
-  // const { epochKey } = useContext(state)
   const { unirep } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
-      // await epochKey.loadAttestationsByEpochKey(epochKeyId)
       !unirep.attestationsByEpochKey.has(epochKeyId)
-        ? await unirep.loadAllAttestations()
+        ? await unirep.loadAttestationsByEpochKey(epochKeyId)
         : null
     }
     loadData()
   }, [])
-  // const attestationIds = epochKey.attestationIds
   const attestations = unirep.attestationsByEpochKey.get(epochKeyId)
 
   return (
@@ -89,9 +86,6 @@ export default observer(() => {
             <h4>Timestamp</h4>
           </div>
           <div className="scroll">
-            {/* {epochKey.attestationIds.map((id) => (
-              <EpochKeyEvent key={id} id={id} />
-            ))} */}
             {attestations
               ? attestations.map((attestation) => (
                   <EpochKeyEvent

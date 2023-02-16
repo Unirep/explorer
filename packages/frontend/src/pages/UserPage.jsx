@@ -16,7 +16,9 @@ export default observer(() => {
   const { unirep } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
-      !unirep.signUpsByUserId.has(userId) ? await unirep.loadAllSignUps() : null
+      !unirep.signUpsByUserId.has(userId)
+        ? await unirep.loadSignUpsByUser(userId)
+        : null
     }
     loadData()
   }, [])

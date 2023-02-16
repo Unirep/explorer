@@ -12,5 +12,5 @@ export default ({ app, db, synchronizer }) => {
     const signups = await TimestampLoader.inject(userSignUps, db)
     res.json(signups)
   }
-  app.get('/api/user/:userId/signups', catchError(handler))
+  app.get('/api/unirep/signups/:userId', catchError(handler))
 }
