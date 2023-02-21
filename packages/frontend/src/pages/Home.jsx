@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import Header from '../components/Header'
 import UnirepInfo from '../components/UnirepInfo'
 import InfoCard from '../components/InfoCard'
 import LastDeploymentCard from '../components/LastDeploymentCard'
@@ -28,7 +29,8 @@ export default observer(() => {
   const lastAttestationId = unirep.attestationIds[0]
 
   return (
-    <>
+    <body>
+      <Header />
       <div className="container">
         <div className="left-container">
           <h1>Explorer</h1>
@@ -162,6 +164,6 @@ export default observer(() => {
       </div>
 
       <Footer />
-    </>
+    </body>
   )
 })

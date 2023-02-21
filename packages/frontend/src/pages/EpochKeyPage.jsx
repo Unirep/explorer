@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import Header from '../components/Header'
 import Tooltip from '../components/Tooltip'
 import EpochKeyEvent from '../components/EpochKeyEvent'
 import Footer from '../components/Footer'
@@ -25,7 +26,8 @@ export default observer(() => {
   const attestations = unirep.attestationsByEpochKey.get(epochKeyId)
 
   return (
-    <>
+    <body>
+      <Header />
       <div className="container">
         <div className="left-container">
           <h3>Epoch Key</h3>
@@ -98,8 +100,7 @@ export default observer(() => {
           </div>
         </div>
       </div>
-
       <Footer />
-    </>
+    </body>
   )
 })

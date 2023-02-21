@@ -1,5 +1,4 @@
 import React from 'react'
-import './footer.css'
 
 export default () => {
   const background = require('../../public/footer_bg.svg')

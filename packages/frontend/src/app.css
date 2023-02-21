@@ -1,4 +1,7 @@
 body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   font-family: 'Azeret Mono';
   font-weight: 200;
   margin: 0;
@@ -68,6 +71,10 @@ li {
 .container {
   display: flex;
   margin: 50px 50px;
+}
+
+.footer {
+  padding: 4.5em 3em;
 }
 
 .left-container {

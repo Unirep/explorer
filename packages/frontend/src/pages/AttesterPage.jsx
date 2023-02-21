@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 // import Tooltip from '../components/Tooltip'
+import Header from '../components/Header'
 import InfoCard from '../components/InfoCard'
 import EpochView from '../components/EpochView'
 import UserView from '../components/UserView'
@@ -35,7 +36,8 @@ export default observer(() => {
     attester.epochsByAttester[attester.epochsByAttester.length - 1]
 
   return (
-    <>
+    <body>
+      <Header />
       <div className="container">
         <div className="left-container">
           <h3>Attester</h3>
@@ -155,6 +157,6 @@ export default observer(() => {
       </div>
 
       <Footer />
-    </>
+    </body>
   )
 })
