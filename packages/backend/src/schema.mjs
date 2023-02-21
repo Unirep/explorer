@@ -1,6 +1,19 @@
 import { nanoid } from 'nanoid'
 import { schema } from '@unirep/core'
 
+const _schema = schema.map((r) => {
+  if (r.name !== 'Epoch') return r
+  return {
+    name: 'Epoch',
+    indexes: [{ keys: ['attesterId', 'number'] }],
+    rows: [
+      ['number', 'Int'],
+      ['attesterId', 'String'],
+      ['sealed', 'Bool'],
+    ],
+  }
+})
+
 export default [
   {
     name: 'BlockTimestamp',
@@ -38,5 +51,5 @@ export default [
       ['data', 'String'],
     ],
   },
-  ...schema,
+  ..._schema,
 ]

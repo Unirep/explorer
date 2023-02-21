@@ -31,9 +31,9 @@ export default observer(() => {
     <>
       <div className="container">
         <div className="left-container">
-          <h1>Terminal</h1>
+          <h1>Explorer</h1>
           <p style={{ fontSize: '1.1em' }}>
-            UniRep Terminal is utility for discovering apps built on the
+            UniRep Explorer is a utility for discovering apps built on the
             protocol & inspecting the anonymous Universal Reputation system
             being built for all.
           </p>
