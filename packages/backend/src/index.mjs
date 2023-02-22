@@ -45,9 +45,9 @@ synchronizer.on('processedEvent', async (event) => {
     update: {},
   })
 })
-synchronizer.on('AttestationSubmitted', async ({ decodedData }) => {
-  const posRep = Number(decodedData.posRep)
-  const negRep = Number(decodedData.negRep)
+synchronizer.on('Attestation', async ({ decodedData }) => {
+  const change = Number(decodedData.change)
+  const fieldIndex = Number(decodedData.fieldIndex)
   const attesterId = BigInt(decodedData.attesterId).toString(10)
   const { data } = await synchronizer._db.findOne('GlobalData', {
     where: {
@@ -55,9 +55,9 @@ synchronizer.on('AttestationSubmitted', async ({ decodedData }) => {
     },
   })
 
+  const byteCount = Math.ceil(BigInt(change).toString(16).length / 2)
   const stats = JSON.parse(data)
-  stats.posRep += posRep
-  stats.negRep += negRep
+  stats.totalBytes += byteCount
   await synchronizer._db.update('GlobalData', {
     where: {
       _id: 'attestations',
@@ -75,8 +75,7 @@ synchronizer.on('AttestationSubmitted', async ({ decodedData }) => {
   if (attesterData) {
     const { data } = attesterData
     const attesterStats = JSON.parse(data)
-    attesterStats.posRep += posRep
-    attesterStats.negRep += negRep
+    attesterStats.totalBytes += byteCount
     await synchronizer._db.update('AttesterData', {
       where: {
         _id: attesterId,
@@ -89,8 +88,7 @@ synchronizer.on('AttestationSubmitted', async ({ decodedData }) => {
     await synchronizer._db.create('AttesterData', {
       _id: attesterId,
       data: JSON.stringify({
-        posRep: posRep,
-        negRep: negRep,
+        totalBytes: byteCount,
       }),
     })
   }

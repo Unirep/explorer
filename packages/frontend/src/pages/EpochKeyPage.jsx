@@ -81,8 +81,8 @@ export default observer(() => {
           <h3>Attestations</h3>
           <div className="flex events-header">
             <h4>Epoch Status</h4>
+            <h4>Field Index</h4>
             <h4>Change</h4>
-            <h4>Graffiti</h4>
             <h4>Timestamp</h4>
           </div>
           <div className="scroll">

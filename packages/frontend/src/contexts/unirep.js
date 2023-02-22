@@ -9,9 +9,10 @@ export default class Unirep {
   attestationsById = new Map()
   attestationsByEpochKey = new Map()
   attestationIds = []
-  totalPosRep = 0
-  totalNegRep = 0
+  totalBytes = 0
   attestationCount = 0
+  signUpCount = 0
+  attesterCount = 0
 
   constructor(state) {
     makeAutoObservable(this)
@@ -33,7 +34,6 @@ export default class Unirep {
     } else if (type === 'attester') {
       this.deploymentsById.set(data._id, data)
     }
-    console.log(type, data)
     return type
   }
 
@@ -115,11 +115,11 @@ export default class Unirep {
 
   async loadStats() {
     const url = new URL(`api/unirep/stats`, SERVER)
-    const { posRep, negRep, attestationCount } = await fetch(
-      url.toString()
-    ).then((r) => r.json())
-    this.totalPosRep = posRep
-    this.totalNegRep = negRep
+    const { signUpCount, attesterCount, totalBytes, attestationCount } =
+      await fetch(url.toString()).then((r) => r.json())
+    this.totalBytes = totalBytes
     this.attestationCount = attestationCount
+    this.signUpCount = signUpCount
+    this.attesterCount = attesterCount
   }
 }

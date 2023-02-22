@@ -21,19 +21,19 @@ export default observer(() => {
           ? unirep.loadAttesterDeployments()
           : null,
         attester.loadEpochsByAttester(attesterId),
+        attester.loadStats(attesterId),
         attester.loadSignUpsByAttester(attesterId),
         attester.loadAttestationsByAttester(attesterId),
-        attester.loadUSTByAttester(attesterId),
-        attester.loadStats(attesterId),
       ])
     }
     loadData()
   }, [])
 
-  const deployment = unirep.deploymentsById.get(attesterId)
-  const lastEpoch =
-    attester.epochsByAttester[attester.epochsByAttester.length - 1]
+  const stats = attester.statsById[attesterId] ?? {}
 
+  const deployment = unirep.deploymentsById.get(attesterId)
+  const epochIds = attester.epochsByAttesterId.get(attesterId) || []
+  const lastEpoch = attester.epochsById.get(epochIds.pop())
   return (
     <>
       <div className="container">
@@ -79,17 +79,15 @@ export default observer(() => {
             />
             <InfoCard
               heading="Total Users Signed Up"
-              value1={attester.signUpIds.length}
+              value1={stats.signUpCount}
             />
             <InfoCard
               heading="Total Attestations"
-              value1={attester.attestationCount}
+              value1={stats.attestationCount}
             />
             <InfoCard
-              heading="Total Rep Given"
-              value1={attester.totalPosRep - attester.totalNegRep}
-              value2={attester.totalPosRep}
-              value3={attester.totalNegRep}
+              heading="Total Bytes Given"
+              value1={stats.totalBytes ?? 0}
             />
 
             {/* TODO: display hashchain status */}
@@ -128,7 +126,7 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              {deployment ? <EpochView deployment={deployment} /> : null}
+              {deployment ? <EpochView attesterId={deployment._id} /> : null}
               {deployment ? null : 'Loading...'}
             </>
           ) : (
@@ -148,7 +146,7 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              <UserView />
+              <UserView attesterId={attesterId} />
             </>
           )}
         </div>

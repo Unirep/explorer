@@ -5,7 +5,7 @@ export default ({ app, db, synchronizer }) => {
     const { attesterId } = req.params
     const attesterEpochs = await db.findMany('Epoch', {
       where: {
-        attesterId: attesterId,
+        attesterId: BigInt(attesterId).toString(),
       },
     })
     res.json(attesterEpochs)

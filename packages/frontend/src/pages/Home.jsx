@@ -14,12 +14,7 @@ export default observer(() => {
 
   useEffect(() => {
     const loadData = async () => {
-      await Promise.all([
-        unirep.loadAllSignUps(),
-        unirep.loadAttesterDeployments(),
-        unirep.loadAllAttestations(),
-        unirep.loadStats(),
-      ])
+      await Promise.all([unirep.loadStats(), unirep.loadAllAttestations()])
     }
     loadData()
   }, [])
@@ -56,22 +51,14 @@ export default observer(() => {
           <div className="info-grid">
             <InfoCard
               heading="Total Attesters/Apps"
-              value1={unirep.deploymentIds.length - 1}
+              value1={unirep.attesterCount}
             />
-            <InfoCard
-              heading="Total Sign Ups"
-              value1={unirep.allSignUps.length}
-            />
+            <InfoCard heading="Total Sign Ups" value1={unirep.signUpCount} />
             <InfoCard
               heading="Total Attestations"
               value1={unirep.attestationCount}
             />
-            <InfoCard
-              heading="Total Reputation Processed"
-              value1={unirep.totalPosRep - unirep.totalNegRep}
-              value2={unirep.totalPosRep}
-              value3={unirep.totalNegRep}
-            />
+            <InfoCard heading="Total Bytes Given" value1={unirep.totalBytes} />
             <LastDeploymentCard id={lastDeploymentId} />
             <LastAttestationCard id={lastAttestationId} />
           </div>
