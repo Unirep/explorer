@@ -13,10 +13,6 @@ export default class Attester {
   attestationsByAttesterId = new Map()
   attestationsById = new Map()
 
-  ustIds = []
-  ustById = new Map()
-  ustByEpoch = new Map()
-
   statsById = new Map()
 
   constructor(state) {
@@ -110,30 +106,6 @@ export default class Attester {
     this.statsById = {
       [attesterId]: stats,
       ...this.statsById,
-    }
-  }
-
-  async loadUSTByAttester(attesterId) {
-    const url = new URL(`api/attester/${attesterId}/ust`, SERVER)
-    const data = await fetch(url.toString()).then((r) => r.json())
-    this.ingestUST(data)
-  }
-
-  async ingestUST(_USTs) {
-    const USTs = [_USTs].flat()
-    this.ustIds = USTs.map((u) => u._id)
-    for (const ust of USTs) {
-      this.ustById.set(ust._id, ust)
-      const { epoch } = ust
-      if (this.ustByEpoch.has(epoch)) {
-        const usts = this.ustByEpoch
-          .get(epoch)
-          .filter((u) => u._id !== ust._id)
-          .push(ust)
-        this.ustByEpoch.set(usts)
-      } else {
-        this.ustByEpoch.set(epoch, [ust])
-      }
     }
   }
 }
