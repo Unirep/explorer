@@ -44,9 +44,6 @@ export default observer(({ attesterId }) => {
         />
       </div>
 
-      <div className="flex">
-        <h3>Attestations</h3>
-      </div>
       <div className="flex events-header">
         <h4>Epoch key</h4>
         <div className="flex">

@@ -83,7 +83,7 @@ li {
   display: grid;
   grid-template-columns: 50% 50%;
   gap: 12px;
-  margin-bottom: 8%;
+  margin-bottom: 8px;
 }
 
 .graph-container {

@@ -13,7 +13,7 @@ export default observer(() => {
   const { id } = useParams()
   const attesterId = BigInt(id).toString(10)
   const { unirep, attester } = useContext(state)
-  const [selectedView, setSelectedView] = useState('Epoch')
+  const [selectedView, setSelectedView] = useState('Attestations')
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
@@ -32,7 +32,7 @@ export default observer(() => {
   const stats = attester.statsById[attesterId] ?? {}
 
   const deployment = unirep.deploymentsById.get(attesterId)
-  const epochIds = attester.epochsByAttesterId.get(attesterId) || []
+  const epochIds = [...(attester.epochsByAttesterId.get(attesterId) || [])]
   const lastEpoch = attester.epochsById.get(epochIds.pop())
   return (
     <>
@@ -89,35 +89,16 @@ export default observer(() => {
               heading="Total Bytes Given"
               value1={stats.totalBytes ?? 0}
             />
-
-            {/* TODO: display hashchain status */}
-            {/* <div className="info-card">
-              <div className="flex">
-                <h4>Hashchain Status</h4>
-                <Tooltip />
-              </div>
-              <div className="flex">
-                <h5>Average Delay</h5>
-                <h6>--:--</h6>
-              </div>
-              <div className="flex">
-                <h5>Status</h5>
-                <h6>
-                  Unknown
-                  <span className="dot"></span>
-                </h6>
-              </div>
-            </div> */}
           </div>
-          {selectedView === 'Epoch' ? (
+          {selectedView === 'Attestations' ? (
             <>
               <div style={{ display: 'flex' }}>
                 <h3
-                  onClick={() => setSelectedView('Epoch')}
+                  onClick={() => setSelectedView('Attestations')}
                   className="selected"
                   style={{ marginRight: '30px' }}
                 >
-                  Epoch
+                  Attestations
                 </h3>
                 <h3
                   onClick={() => setSelectedView('User')}
@@ -133,11 +114,11 @@ export default observer(() => {
             <>
               <div style={{ display: 'flex', marginBottom: '2%' }}>
                 <h3
-                  onClick={() => setSelectedView('Epoch')}
+                  onClick={() => setSelectedView('Attestations')}
                   className="unselected"
                   style={{ marginRight: '30px' }}
                 >
-                  Epoch
+                  Attestations
                 </h3>
                 <h3
                   onClick={() => setSelectedView('User')}
