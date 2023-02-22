@@ -29,7 +29,7 @@ export default observer(() => {
   const lastAttestationId = unirep.attestationIds[0]
 
   return (
-    <body>
+    <div className="content">
       <Header />
       <div className="container">
         <div className="left-container">
@@ -164,6 +164,6 @@ export default observer(() => {
       </div>
 
       <Footer />
-    </body>
+    </div>
   )
 })

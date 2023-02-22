@@ -4,12 +4,12 @@ import Footer from '../components/Footer'
 
 export default () => {
   return (
-    <body>
+    <div className="content">
       <Header />
       <div style={{ textAlign: 'center' }}>
         sorry, can't find that attester or user.
       </div>
       <Footer />
-    </body>
+    </div>
   )
 }

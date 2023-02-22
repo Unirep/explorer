@@ -36,7 +36,7 @@ export default observer(() => {
     attester.epochsByAttester[attester.epochsByAttester.length - 1]
 
   return (
-    <body>
+    <div className="content">
       <Header />
       <div className="container">
         <div className="left-container">
@@ -157,6 +157,6 @@ export default observer(() => {
       </div>
 
       <Footer />
-    </body>
+    </div>
   )
 })

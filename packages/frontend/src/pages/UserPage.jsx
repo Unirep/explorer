@@ -26,7 +26,7 @@ export default observer(() => {
   const signups = unirep.signUpsByUserId.get(userId)
 
   return (
-    <body>
+    <div className="content">
       <Header />
       <div className="container">
         <div className="left-container">
@@ -77,6 +77,6 @@ export default observer(() => {
       </div>
 
       <Footer />
-    </body>
+    </div>
   )
 })

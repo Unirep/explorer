@@ -26,7 +26,7 @@ export default observer(() => {
   const attestations = unirep.attestationsByEpochKey.get(epochKeyId)
 
   return (
-    <body>
+    <div className="content">
       <Header />
       <div className="container">
         <div className="left-container">
@@ -65,6 +65,6 @@ export default observer(() => {
         </div>
       </div>
       <Footer />
-    </body>
+    </div>
   )
 })

@@ -1,7 +1,4 @@
 body {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
   font-family: 'Azeret Mono';
   font-weight: 200;
   margin: 0;
@@ -66,6 +63,12 @@ li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.content {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 .container {
