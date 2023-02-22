@@ -13,7 +13,7 @@ export default observer(() => {
   const { id } = useParams()
   const attesterId = BigInt(id).toString(10)
   const { unirep, attester } = useContext(state)
-  const [selectedView, setSelectedView] = useState('Epoch')
+  const [selectedView, setSelectedView] = useState('Attestations')
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
@@ -21,19 +21,19 @@ export default observer(() => {
           ? unirep.loadAttesterDeployments()
           : null,
         attester.loadEpochsByAttester(attesterId),
+        attester.loadStats(attesterId),
         attester.loadSignUpsByAttester(attesterId),
         attester.loadAttestationsByAttester(attesterId),
-        attester.loadUSTByAttester(attesterId),
-        attester.loadStats(attesterId),
       ])
     }
     loadData()
   }, [])
 
-  const deployment = unirep.deploymentsById.get(attesterId)
-  const lastEpoch =
-    attester.epochsByAttester[attester.epochsByAttester.length - 1]
+  const stats = attester.statsById[attesterId] ?? {}
 
+  const deployment = unirep.deploymentsById.get(attesterId)
+  const epochIds = [...(attester.epochsByAttesterId.get(attesterId) || [])]
+  const lastEpoch = attester.epochsById.get(epochIds.pop())
   return (
     <>
       <div className="container">
@@ -79,47 +79,26 @@ export default observer(() => {
             />
             <InfoCard
               heading="Total Users Signed Up"
-              value1={attester.signUpIds.length}
+              value1={stats.signUpCount}
             />
             <InfoCard
               heading="Total Attestations"
-              value1={attester.attestationCount}
+              value1={stats.attestationCount}
             />
             <InfoCard
-              heading="Total Rep Given"
-              value1={attester.totalPosRep - attester.totalNegRep}
-              value2={attester.totalPosRep}
-              value3={attester.totalNegRep}
+              heading="Total Bytes Given"
+              value1={stats.totalBytes ?? 0}
             />
-
-            {/* TODO: display hashchain status */}
-            {/* <div className="info-card">
-              <div className="flex">
-                <h4>Hashchain Status</h4>
-                <Tooltip />
-              </div>
-              <div className="flex">
-                <h5>Average Delay</h5>
-                <h6>--:--</h6>
-              </div>
-              <div className="flex">
-                <h5>Status</h5>
-                <h6>
-                  Unknown
-                  <span className="dot"></span>
-                </h6>
-              </div>
-            </div> */}
           </div>
-          {selectedView === 'Epoch' ? (
+          {selectedView === 'Attestations' ? (
             <>
               <div style={{ display: 'flex' }}>
                 <h3
-                  onClick={() => setSelectedView('Epoch')}
+                  onClick={() => setSelectedView('Attestations')}
                   className="selected"
                   style={{ marginRight: '30px' }}
                 >
-                  Epoch
+                  Attestations
                 </h3>
                 <h3
                   onClick={() => setSelectedView('User')}
@@ -128,18 +107,18 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              {deployment ? <EpochView deployment={deployment} /> : null}
+              {deployment ? <EpochView attesterId={deployment._id} /> : null}
               {deployment ? null : 'Loading...'}
             </>
           ) : (
             <>
               <div style={{ display: 'flex', marginBottom: '2%' }}>
                 <h3
-                  onClick={() => setSelectedView('Epoch')}
+                  onClick={() => setSelectedView('Attestations')}
                   className="unselected"
                   style={{ marginRight: '30px' }}
                 >
-                  Epoch
+                  Attestations
                 </h3>
                 <h3
                   onClick={() => setSelectedView('User')}
@@ -148,7 +127,7 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              <UserView />
+              <UserView attesterId={attesterId} />
             </>
           )}
         </div>

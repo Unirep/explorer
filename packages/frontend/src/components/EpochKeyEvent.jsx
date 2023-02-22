@@ -8,7 +8,7 @@ import './eventCard.css'
 dayjs.extend(relativeTime)
 
 export default observer(({ attestation }) => {
-  const { attesterId, epoch, posRep, negRep, graffiti, timestamp } = attestation
+  const { attesterId, epoch, fieldIndex, change, timestamp } = attestation
   const { attester } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
@@ -16,7 +16,7 @@ export default observer(({ attestation }) => {
     }
     loadData()
   }, [])
-  const attesterEpoch = attester.epochsByNumber.get(epoch)
+  const attesterEpoch = attester.epochByNumber(attesterId, epoch)
 
   return (
     <div className="event-card">
@@ -29,16 +29,8 @@ export default observer(({ attestation }) => {
       ) : (
         'Loading...'
       )}
-      <p style={{ minWidth: '80px' }}>
-        {posRep - negRep}
-        <span style={{ fontSize: '12px', fontWeight: '600' }}>
-          <span style={{ color: 'green' }}>+{posRep}</span>/
-          <span style={{ color: 'red' }}>-{negRep}</span>
-        </span>
-      </p>
-      <p>
-        {graffiti.slice(0, 5)}...{graffiti.slice(-3)}
-      </p>
+      <p>{fieldIndex}</p>
+      <p style={{ minWidth: '20px' }}>{'0x' + BigInt(change).toString(16)}</p>
       <p style={{ minWidth: '100px', fontSize: '12px' }}>
         {dayjs(timestamp * 1000).from(dayjs())}
       </p>
