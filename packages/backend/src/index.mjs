@@ -22,8 +22,7 @@ await db.upsert('GlobalData', {
   create: {
     _id: 'attestations',
     data: JSON.stringify({
-      posRep: 0,
-      negRep: 0,
+      totalBytes: 0,
     }),
   },
   update: {},
