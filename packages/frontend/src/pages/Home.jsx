@@ -14,7 +14,11 @@ export default observer(() => {
 
   useEffect(() => {
     const loadData = async () => {
-      await Promise.all([unirep.loadStats(), unirep.loadAllAttestations()])
+      await Promise.all([
+        unirep.loadStats(),
+        unirep.loadAllAttestations(),
+        unirep.loadAttesterDeployments(),
+      ])
     }
     loadData()
   }, [])
