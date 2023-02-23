@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import ConfigInfoItem from './ConfigInfoItem'
 import './infoCard.css'
+import buildNumber from '../buildnum'
 
 export default observer(({ info }) => {
   const [circuitExpanded, setCircuitExpanded] = useState(false)
@@ -42,7 +43,7 @@ export default observer(({ info }) => {
       {circuitExpanded ? (
         <>
           <div className="flex card-heading">
-            <h4>Circuit Config</h4>
+            <h4>Config</h4>
             <div
               onClick={() => setCircuitExpanded(false)}
               style={{ cursor: 'pointer' }}
@@ -71,11 +72,12 @@ export default observer(({ info }) => {
             info={info.EPOCH_KEY_NONCE_COUNT}
             text="The number of unique epoch keys given to each user per epoch."
           />
+          <ConfigInfoItem item="Build Number" info={buildNumber} />
         </>
       ) : (
         <>
           <div className="flex card-heading">
-            <h4>Circuit Config</h4>
+            <h4>Config</h4>
             <div
               onClick={() => setCircuitExpanded(true)}
               style={{ cursor: 'pointer' }}

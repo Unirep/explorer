@@ -8,7 +8,7 @@ export default observer(({ item, info, text }) => {
     <>
       <div className="flex">
         <h5>{item}</h5>
-        <Tooltip text={text} maxWidth={200} />
+        {text ? <Tooltip text={text} maxWidth={200} /> : null}
       </div>
       <h6 className="break">{info}</h6>
     </>
