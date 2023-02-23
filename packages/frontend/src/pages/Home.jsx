@@ -94,7 +94,7 @@ export default observer(() => {
             </div>
           </div> */}
 
-          <h3>Latest Attestations</h3>
+          <h3>Attestations</h3>
           <div className="flex events-header">
             <div
               style={{

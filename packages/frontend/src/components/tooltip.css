@@ -3,17 +3,17 @@
 }
 
 .tooltip-popup {
-  padding: 12px;
+  padding: 0.9rem;
   background: black;
   z-index: 100000;
   position: absolute;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   display: flex;
 }
 
 .tooltip-inner {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: normal;
-  line-height: 20px;
+  line-height: 1.25rem;
   color: #a0d8db;
 }
