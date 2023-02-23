@@ -35,9 +35,6 @@ jobs:
           name: Install
           command: yarn
       - run:
-          name: Load beta packages
-          command: yarn loadBeta
-      - run:
           name: Build backend image
           command: docker build . -t jchancehud/unirep-explorer:latest
       - run:
