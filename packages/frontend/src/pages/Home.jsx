@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import Header from '../components/Header'
 import UnirepInfo from '../components/UnirepInfo'
 import InfoCard from '../components/InfoCard'
 import LastDeploymentCard from '../components/LastDeploymentCard'
@@ -27,12 +28,13 @@ export default observer(() => {
   const lastAttestationId = unirep.attestationIds[0]
 
   return (
-    <>
+    <div className="content">
+      <Header />
       <div className="container">
         <div className="left-container">
-          <h1>Terminal</h1>
+          <h1>Explorer</h1>
           <p style={{ fontSize: '1.1em' }}>
-            UniRep Terminal is utility for discovering apps built on the
+            UniRep Explorer is a utility for discovering apps built on the
             protocol & inspecting the anonymous Universal Reputation system
             being built for all.
           </p>
@@ -92,7 +94,7 @@ export default observer(() => {
             </div>
           </div> */}
 
-          <h3>Latest Attestations</h3>
+          <h3>Attestations</h3>
           <div className="flex events-header">
             <div
               style={{
@@ -153,6 +155,6 @@ export default observer(() => {
       </div>
 
       <Footer />
-    </>
+    </div>
   )
 })

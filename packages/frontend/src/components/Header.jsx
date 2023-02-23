@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Outlet, Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import './header.css'
@@ -22,61 +22,53 @@ export default observer(() => {
   }
 
   return (
-    <>
-      <div className="header">
-        <Link to="/">
-          <img src={require('../../public/logo.svg')} alt="UniRep logo" />
-        </Link>
-        <div className="searchbar">
-          <input
-            id="search"
-            type="text"
-            value={searchInput}
-            onInput={(e) => {
-              if (!/^(0x)?[a-fA-F0-9]*$/.test(e.target.value)) {
-                // invalid input, only accept hexadecimal
-                // TODO: highlight the field red or something
-                return
-              }
-              setSearchInput(e.target.value)
-            }}
-            onKeyPress={(e) => (e.charCode === 13 ? search() : null)}
-            className="input"
-            placeholder="search by Attester/ User/ Epoch Key"
-          />
-          <button id="go" className="go" onClick={search}>
-            GO
-          </button>
-        </div>
-        <div className="flex">
-          <a
-            className="link"
-            href="https://developer.unirep.io/"
-            target="blank"
-          >
-            Docs
-          </a>
-          <a className="link" href="https://github.com/Unirep" target="blank">
-            <img src={require('../../public/github.svg')} alt="GitHub logo" />
-          </a>
-          <a
-            className="link"
-            href="https://discord.com/invite/VzMMDJmYc5"
-            target="blank"
-          >
-            <img src={require('../../public/discord.svg')} alt="Discord logo" />
-          </a>
-          {/* TODO: implement light/dark mode */}
-          {/* <div className="link">
+    <div className="header">
+      <Link to="/">
+        <img src={require('../../public/logo.svg')} alt="UniRep logo" />
+      </Link>
+      <div className="searchbar">
+        <input
+          id="search"
+          type="text"
+          value={searchInput}
+          onInput={(e) => {
+            if (!/^(0x)?[a-fA-F0-9]*$/.test(e.target.value)) {
+              // invalid input, only accept hexadecimal
+              // TODO: highlight the field red or something
+              return
+            }
+            setSearchInput(e.target.value)
+          }}
+          onKeyPress={(e) => (e.charCode === 13 ? search() : null)}
+          className="input"
+          placeholder="search by Attester/ User/ Epoch Key"
+        />
+        <button id="go" className="go" onClick={search}>
+          GO
+        </button>
+      </div>
+      <div className="flex">
+        <a className="link" href="https://developer.unirep.io/" target="blank">
+          Docs
+        </a>
+        <a className="link" href="https://github.com/Unirep" target="blank">
+          <img src={require('../../public/github.svg')} alt="GitHub logo" />
+        </a>
+        <a
+          className="link"
+          href="https://discord.com/invite/VzMMDJmYc5"
+          target="blank"
+        >
+          <img src={require('../../public/discord.svg')} alt="Discord logo" />
+        </a>
+        {/* TODO: implement light/dark mode */}
+        {/* <div className="link">
             <img src={require('../../public/sun_icon.svg')} alt="sun icon" />
           </div> */}
-          <a href="https://github.com/Unirep/create-unirep-app" target="blank">
-            <button>Build</button>
-          </a>
-        </div>
+        <a href="https://github.com/Unirep/create-unirep-app" target="blank">
+          <button>Build</button>
+        </a>
       </div>
-
-      <Outlet />
-    </>
+    </div>
   )
 })

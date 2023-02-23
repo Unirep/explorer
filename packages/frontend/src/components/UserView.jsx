@@ -13,7 +13,7 @@ export default observer(({ attesterId }) => {
         <h4>Semaphore ID</h4>
         <h4>Signed up at epoch #</h4>
       </div>
-      <div className="scroll">
+      <div>
         {signupIds.map((id) => (
           <UserCard key={id} id={id} />
         ))}

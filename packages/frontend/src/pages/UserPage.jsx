@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import Header from '../components/Header'
 import Tooltip from '../components/Tooltip'
 import UserEvent from '../components/UserEvent'
 import Footer from '../components/Footer'
@@ -25,7 +26,8 @@ export default observer(() => {
   const signups = unirep.signUpsByUserId.get(userId)
 
   return (
-    <>
+    <div className="content">
+      <Header />
       <div className="container">
         <div className="left-container">
           <h3>User</h3>
@@ -75,6 +77,6 @@ export default observer(() => {
       </div>
 
       <Footer />
-    </>
+    </div>
   )
 })
