@@ -7,13 +7,13 @@ import './eventCard.css'
 dayjs.extend(relativeTime)
 
 export default observer(({ attestation }) => {
-  const { attesterId, epoch, _id, fieldIndex, change, timestamp } = attestation
+  const { fieldIndex, change, timestamp } = attestation
 
   return (
     <div className="event-card">
-      <p>
+      {/* <p>
         {_id.slice(0, 5)}...{_id.slice(-5)}
-      </p>
+      </p> */}
       <p>{fieldIndex}</p>
       <p style={{ minWidth: '20px' }}>{'0x' + BigInt(change).toString(16)}</p>
       <p style={{ minWidth: '100px', fontSize: '12px' }}>
