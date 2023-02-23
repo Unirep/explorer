@@ -50,7 +50,7 @@ export default observer(() => {
             <h4>Change</h4>
             <h4>Timestamp</h4>
           </div>
-          <div className="scroll">
+          <div>
             {attestations
               ? attestations.map((attestation) => (
                   <EpochKeyEvent

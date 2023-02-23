@@ -2,9 +2,9 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-// import Tooltip from '../components/Tooltip'
 import Header from '../components/Header'
 import InfoCard from '../components/InfoCard'
+import EpochTime from '../components/EpochTime'
 import EpochView from '../components/EpochView'
 import UserView from '../components/UserView'
 import Footer from '../components/Footer'
@@ -91,7 +91,10 @@ export default observer(() => {
               heading="Total Bytes Given"
               value1={stats.totalBytes ?? 0}
             />
+            {deployment ? <EpochTime deployment={deployment} /> : null}
+            {deployment ? null : 'Loading...'}
           </div>
+
           {selectedView === 'Attestations' ? (
             <>
               <div style={{ display: 'flex' }}>
