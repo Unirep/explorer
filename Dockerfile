@@ -6,9 +6,6 @@ WORKDIR /src
 
 RUN rm -rf packages/frontend && yarn
 
-RUN rm -rf /src/node_modules/@unirep
-COPY node_modules/@unirep /src/node_modules/@unirep
-
 RUN rm -rf /src/node_modules/@unirep/circuits/zksnarkBuild
 RUN rm -rf /src/node_modules/@unirep/circuits/*.ptau
 

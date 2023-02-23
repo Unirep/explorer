@@ -3,9 +3,9 @@ import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import UserCard from './UserCard'
 
-export default observer(() => {
+export default observer(({ attesterId }) => {
   const { attester } = useContext(state)
-  const signupIds = attester.signUpIds
+  const signupIds = attester.signUpsByAttesterId.get(attesterId) ?? []
 
   return (
     <>

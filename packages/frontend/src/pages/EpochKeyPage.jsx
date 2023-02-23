@@ -45,10 +45,9 @@ export default observer(() => {
         <div className="right-container">
           <h3>Attestations</h3>
           <div className="flex events-header">
-            <h4>Transaction hash</h4>
-            <h4>PosRep</h4>
-            <h4>NegRep</h4>
-            <h4>Graffiti</h4>
+            <h4>Hash</h4>
+            <h4>Field Index</h4>
+            <h4>Change</h4>
             <h4>Timestamp</h4>
           </div>
           <div className="scroll">

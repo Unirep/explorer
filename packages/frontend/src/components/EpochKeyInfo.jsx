@@ -12,7 +12,7 @@ export default observer(({ attesterId, epoch, numAttestations, epochKey }) => {
     }
     loadData()
   }, [])
-  const attesterEpoch = attester.epochsByNumber.get(epoch)
+  const attesterEpoch = attester.epochByNumber(attesterId, epoch)
   const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
   return (
     <div className="info-card">

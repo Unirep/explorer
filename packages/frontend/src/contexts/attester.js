@@ -2,24 +2,18 @@ import { makeAutoObservable } from 'mobx'
 import { SERVER } from '../config'
 
 export default class Attester {
-  epochsByAttester = []
-  epochIds = []
-  epochsByNumber = new Map()
+  epochsByAttesterId = new Map()
+  epochsById = new Map()
 
+  signUpsByAttesterId = new Map()
   signUpIds = []
   signUpsById = new Map()
   signUpsByEpoch = new Map()
 
-  attestationsIds = []
+  attestationsByAttesterId = new Map()
   attestationsById = new Map()
-  attestationsByEpoch = new Map()
-  totalPosRep = 0
-  totalNegRep = 0
-  attestationCount = 0
 
-  ustIds = []
-  ustById = new Map()
-  ustByEpoch = new Map()
+  statsById = new Map()
 
   constructor(state) {
     makeAutoObservable(this)
@@ -31,18 +25,34 @@ export default class Attester {
 
   //   async load() {}
 
+  epochByNumber(attesterId, number) {
+    const epochId = (this.epochsByAttesterId.get(attesterId) ?? []).find(
+      (epochId) => {
+        return (this.epochsById.get(epochId) ?? {}).number === number
+      }
+    )
+    return this.epochsById.get(epochId)
+  }
+
   async loadEpochsByAttester(attesterId) {
     const url = new URL(`api/attester/${attesterId}/epochs`, SERVER)
     const items = await fetch(url.toString()).then((r) => r.json())
-    this.epochsByAttester = items
     this.ingestEpochs(items)
   }
 
   async ingestEpochs(_epochs) {
     const epochs = [_epochs].flat()
-    this.epochIds = epochs.map((e) => e._id)
     for (const e of epochs) {
-      this.epochsByNumber.set(e.number, e)
+      if (!this.epochsByAttesterId.get(e.attesterId)) {
+        this.epochsByAttesterId.set(e.attesterId, [])
+      }
+      this.epochsByAttesterId.set(e.attesterId, [
+        ...this.epochsByAttesterId
+          .get(e.attesterId)
+          .filter((_id) => _id !== e._id),
+        e._id,
+      ])
+      this.epochsById.set(e._id, e)
     }
   }
 
@@ -54,19 +64,17 @@ export default class Attester {
 
   async ingestSignUps(_signups) {
     const signups = [_signups].flat()
-    this.signUpIds = signups.map((s) => s._id)
     for (const signup of signups) {
-      this.signUpsById.set(signup._id, signup)
-      const { epoch } = signup
-      if (this.signUpsByEpoch.has(epoch)) {
-        const signups = this.signUpsByEpoch
-          .get(epoch)
-          .filter((s) => s._id !== signup._id)
-          .push(signup)
-        this.signUpsByEpoch.set(signups)
-      } else {
-        this.signUpsByEpoch.set(epoch, [signup])
+      if (!this.signUpsByAttesterId.get(signup.attesterId)) {
+        this.signUpsByAttesterId.set(signup.attesterId, [])
       }
+      this.signUpsByAttesterId.set(signup.attesterId, [
+        ...this.signUpsByAttesterId
+          .get(signup.attesterId)
+          .filter((_id) => _id !== signup._id),
+        signup._id,
+      ])
+      this.signUpsById.set(signup._id, signup)
     }
   }
 
@@ -75,55 +83,29 @@ export default class Attester {
     const data = await fetch(url.toString()).then((r) => r.json())
     this.ingestAttestations(data)
   }
+
   async ingestAttestations(_attestations) {
     const attestations = [_attestations].flat()
-    this.attestaionIds = attestations.map((a) => a._id)
     for (const attestation of attestations) {
-      this.attestationsById.set(attestation._id, attestation)
-      const { epoch } = attestation
-      if (this.attestationsByEpoch.has(epoch)) {
-        const attestations = this.attestationsByEpoch
-          .get(epoch)
-          .filter((a) => a._id !== attestation._id)
-          .push(attestation)
-        this.attestationsByEpoch.set(attestations)
-      } else {
-        this.attestationsByEpoch.set(epoch, [attestation])
+      if (!this.attestationsByAttesterId.get(attestation.attesterId)) {
+        this.attestationsByAttesterId.set(attestation.attesterId, [])
       }
+      this.attestationsByAttesterId.set(attestation.attesterId, [
+        ...this.attestationsByAttesterId
+          .get(attestation.attesterId)
+          .filter((_id) => _id !== attestation._id),
+        attestation._id,
+      ])
+      this.attestationsById.set(attestation._id, attestation)
     }
   }
 
   async loadStats(attesterId) {
     const url = new URL(`api/attester/${attesterId}/stats`, SERVER)
-    const { posRep, negRep, attestationCount } = await fetch(
-      url.toString()
-    ).then((r) => r.json())
-    this.totalPosRep = posRep
-    this.totalNegRep = negRep
-    this.attestationCount = attestationCount
-  }
-
-  async loadUSTByAttester(attesterId) {
-    const url = new URL(`api/attester/${attesterId}/ust`, SERVER)
-    const data = await fetch(url.toString()).then((r) => r.json())
-    this.ingestUST(data)
-  }
-
-  async ingestUST(_USTs) {
-    const USTs = [_USTs].flat()
-    this.ustIds = USTs.map((u) => u._id)
-    for (const ust of USTs) {
-      this.ustById.set(ust._id, ust)
-      const { epoch } = ust
-      if (this.ustByEpoch.has(epoch)) {
-        const usts = this.ustByEpoch
-          .get(epoch)
-          .filter((u) => u._id !== ust._id)
-          .push(ust)
-        this.ustByEpoch.set(usts)
-      } else {
-        this.ustByEpoch.set(epoch, [ust])
-      }
+    const stats = await fetch(url.toString()).then((r) => r.json())
+    this.statsById = {
+      [attesterId]: stats,
+      ...this.statsById,
     }
   }
 }
