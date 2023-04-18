@@ -44,9 +44,6 @@ jobs:
             docker push jchancehud/unirep-explorer:latest
             rm /home/circleci/.docker/config.json
       - run:
-          name: Trigger service update
-          command: curl -X POST https://devops.unirep.io/api/webhooks/7dfdd202-bf2f-4336-b202-90da9f3ed337
-      - run:
           name: Set frontend config
           command: echo 'export const SERVER = "https://api.explorer.unirep.io"' > packages/frontend/src/config.js
       - run:
