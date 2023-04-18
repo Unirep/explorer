@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import ConfigInfoItem from './ConfigInfoItem'
+import { version } from '../config'
 import './infoCard.css'
 
 export default observer(({ info }) => {
@@ -11,27 +12,33 @@ export default observer(({ info }) => {
       <h4 className="card-heading">Protocol Information</h4>
       <div className="flex">
         <h5>Current version</h5>
-        <h6>v2</h6>
-      </div>
-      <div className="flex">
-        <h5>Release</h5>
-        <h6>Feb 2023</h6>
-      </div>
-      <div className="flex">
-        <h5>Address</h5>
-        <h6>
-          <span>{info.UNIREP_ADDRESS.slice(0, 7)}</span>...
-          <span>{info.UNIREP_ADDRESS.slice(-5)} </span>
-          <a
-            href={`https://goerli.arbiscan.io/address/${info.UNIREP_ADDRESS}`}
-            target="blank"
-          >
+        <a href="https://github.com/unirep/unirep/releases" target="_blank">
+          <h6>
+            <span>{version}</span>
+            <span style={{ margin: '0.2rem' }} />
             <img
               src={require('../../public/arrow_up_right.svg')}
               alt="arrow up right"
             />
-          </a>
-        </h6>
+          </h6>
+        </a>
+      </div>
+      <div className="flex">
+        <h5>Address</h5>
+        <a
+          href={`https://goerli.arbiscan.io/address/${info.UNIREP_ADDRESS}`}
+          target="blank"
+        >
+          <h6>
+            <span>{info.UNIREP_ADDRESS.slice(0, 7)}</span>...
+            <span>{info.UNIREP_ADDRESS.slice(-5)}</span>
+            <span style={{ margin: '0.2rem' }} />
+            <img
+              src={require('../../public/arrow_up_right.svg')}
+              alt="arrow up right"
+            />
+          </h6>
+        </a>
       </div>
 
       <div className="flex">
