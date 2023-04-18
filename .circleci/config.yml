@@ -45,7 +45,7 @@ jobs:
             rm /home/circleci/.docker/config.json
       - run:
           name: Set frontend config
-          command: echo 'export const SERVER = "https://api.explorer.unirep.io"' > packages/frontend/src/config.js
+          command: echo 'SERVER = "https://api.explorer.unirep.io"' >> packages/frontend/src/config.js
       - run:
           name: Build frontend
           command: yarn frontend build --mode production
