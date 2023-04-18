@@ -9,10 +9,10 @@ export default class Unirep {
   attestationsById = new Map()
   attestationsByEpochKey = new Map()
   attestationIds = []
-  totalBytes = 0
-  attestationCount = 0
-  signUpCount = 0
-  attesterCount = 0
+  totalBytes = null
+  attestationCount = null
+  signUpCount = null
+  attesterCount = null
 
   constructor(state) {
     makeAutoObservable(this)
@@ -117,6 +117,7 @@ export default class Unirep {
     const url = new URL(`api/unirep/stats`, SERVER)
     const { signUpCount, attesterCount, totalBytes, attestationCount } =
       await fetch(url.toString()).then((r) => r.json())
+    console.log(attestationCount)
     this.totalBytes = totalBytes
     this.attestationCount = attestationCount
     this.signUpCount = signUpCount

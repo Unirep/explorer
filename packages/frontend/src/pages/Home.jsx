@@ -24,9 +24,6 @@ export default observer(() => {
     loadData()
   }, [])
 
-  const lastDeploymentId = unirep.deploymentIds[unirep.deploymentIds.length - 1]
-  const lastAttestationId = unirep.attestationIds[0]
-
   return (
     <div className="content">
       <Header />
@@ -57,16 +54,22 @@ export default observer(() => {
           <div className="info-grid">
             <InfoCard
               heading="Total Attesters/Apps"
-              value1={unirep.attesterCount}
+              value1={unirep.attesterCount ?? 0}
             />
-            <InfoCard heading="Total Sign Ups" value1={unirep.signUpCount} />
+            <InfoCard
+              heading="Total Sign Ups"
+              value1={unirep.signUpCount ?? 0}
+            />
             <InfoCard
               heading="Total Attestations"
-              value1={unirep.attestationCount}
+              value1={unirep.attestationCount ?? 0}
             />
-            <InfoCard heading="Total Bytes Given" value1={unirep.totalBytes} />
-            <LastDeploymentCard id={lastDeploymentId} />
-            <LastAttestationCard id={lastAttestationId} />
+            <InfoCard
+              heading="Total Bytes Given"
+              value1={unirep.totalBytes ?? 0}
+            />
+            <LastDeploymentCard />
+            <LastAttestationCard />
           </div>
 
           {/* TODO: create graph element for Unirep contract stats according to upcoming design revision */}

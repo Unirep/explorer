@@ -3,9 +3,11 @@ import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import dayjs from 'dayjs'
 
-export default observer(({ id }) => {
+export default observer(() => {
   const { unirep } = React.useContext(state)
+  const id = unirep.attestationIds.slice(-1)[0]
   const lastAttestation = unirep.attestationsById.get(id)
+  const { attestationCount } = unirep
 
   return (
     <div className="info-card">
@@ -17,7 +19,8 @@ export default observer(({ id }) => {
             {dayjs(lastAttestation.timestamp * 1000).format('MMM D, YYYY')}
           </h6>
         ) : null}
-        {lastAttestation ? null : <h5>Loading...</h5>}
+        {attestationCount === null ? <h5>Loading...</h5> : null}
+        {attestationCount === 0 ? <h5>No attestations</h5> : null}
       </div>
       <div className="flex">
         <h5>By Attester</h5>
@@ -35,7 +38,8 @@ export default observer(({ id }) => {
             </span>
           </h6>
         ) : null}
-        {lastAttestation ? null : <h5>Loading...</h5>}
+        {attestationCount === null ? <h5>Loading...</h5> : null}
+        {attestationCount === 0 ? <h5>No attestations</h5> : null}
       </div>
     </div>
   )

@@ -3,8 +3,9 @@ import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import dayjs from 'dayjs'
 
-export default observer(({ id }) => {
+export default observer(() => {
   const { unirep } = React.useContext(state)
+  const id = unirep.deploymentIds.slice(-1)[0]
   const lastDeployment = unirep.deploymentsById.get(id)
 
   return (
