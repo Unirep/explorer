@@ -1,7 +1,7 @@
 import catchError from '../helpers/catchError.mjs'
-import { provider, UNIREP_ADDRESS } from '../config.mjs'
+import { localProvider, provider, UNIREP_ADDRESS } from '../config.mjs'
 import ethers from 'ethers'
-import { unirepAbi } from '../helpers/abi.mjs'
+import { attesterDescriptionAbi } from '../helpers/abi.mjs'
 
 export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
@@ -10,32 +10,61 @@ export default ({ app, db, synchronizer }) => {
     // getDescription() -> 0x1a092541
     // interfaceId() -> 0x0c2f9f3f (isValidSignatureSelector ^ getDescriptionSelector)
 
-    const contract = new ethers.Contract(UNIREP_ADDRESS, unirepAbi, provider)
+    const attesterId = req.params.attesterId
+    const token = req.headers.token
+    let description = req.headers.description
+
+    console.log('AttesterId', attesterId)
+
+    // const contract = new ethers.Contract(UNIREP_ADDRESS, unirepAbi, provider)
+    const signer = localProvider.getSigner()
+    const contract = new ethers.Contract(
+      attesterId,
+      attesterDescriptionAbi,
+      signer
+    )
+
+    console.log('block number: ', await localProvider.getBlockNumber())
+    console.log('code: ', await localProvider.getCode(attesterId))
+
     const supportsInterface =
       typeof contract.supportsInterface === 'function'
         ? await contract.supportsInterface('0x0c2f9f3f')
         : false
 
-    const magicValue = '0x20c13b0b'
-    let verified = false,
-      description = ''
+    let didSetDescription = false,
+      validSig = false,
+      invalidSig = false
 
+    const hash = ethers.utils.keccak256(
+      ethers.utils.solidityPack(
+        ['uint256', 'string', 'address'],
+        [token, description, attesterId]
+      )
+    )
+    const hash2 = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('0'))
+    const signature = ethers.utils.keccak256(hash)
+
+    console.log(hash, signature)
     if (supportsInterface) {
-      verified =
-        magicValue ==
-        (await contract.isValidSignature(
-          req.headers.hash.toString(16),
-          req.headers.signature.toString(16)
-        ))
+      didSetDescription = await contract.setDescription(
+        hash,
+        signature,
+        description
+      )
 
-      if (verified) {
-        description = await contract.getDescription()
-      }
+      validSig = await contract.isValidSignature(hash, signature)
+      invalidSig = await contract.isValidSignature(hash2, signature)
     }
 
+    description = await contract.getDescription()
+
     res.json({
-      description: description,
+      validSig,
+      invalidSig,
+      supportsInterface,
+      description,
     })
   }
-  app.get('/api/about/', catchError(handler))
+  app.get('/api/about/:attesterId', catchError(handler))
 }
