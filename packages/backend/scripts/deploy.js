@@ -41,9 +41,7 @@ async function main() {
   console.log('Deploying contracts with the account:', deployer.address)
   const token = await ethers.deployContract('AttesterDescription')
 
-  // console.log('Token address:', await token.getAddress())
-  console.log(token)
-  console.log(await token.helloWorld())
+  console.log('Token address:', await token.getAddress())
 }
 
 main()
