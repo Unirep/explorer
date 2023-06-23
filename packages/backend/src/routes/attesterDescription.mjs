@@ -15,9 +15,6 @@ export default ({ app, db, synchronizer }) => {
     const token = req.headers.token
     let description = req.headers.description
 
-    console.log('AttesterId', attesterId)
-
-    // const contract = new ethers.Contract(UNIREP_ADDRESS, unirepAbi, provider)
     const signer = localProvider.getSigner()
     const contract = new ethers.Contract(
       attesterId,
@@ -25,8 +22,9 @@ export default ({ app, db, synchronizer }) => {
       signer
     )
 
-    console.log('block number: ', await localProvider.getBlockNumber())
-    console.log('code: ', await localProvider.getCode(attesterId))
+    // console.log('interface id: ', await contract.getInterfaceId())
+    // console.log('block number: ', await localProvider.getBlockNumber())
+    // console.log('code: ', await localProvider.getCode(attesterId))
 
     const supportsInterface =
       typeof contract.supportsInterface === 'function'
@@ -34,8 +32,7 @@ export default ({ app, db, synchronizer }) => {
         : false
 
     let didSetDescription = false,
-      validSig = false,
-      invalidSig = false
+      validSignature = false
 
     const hash = ethers.utils.keccak256(
       ethers.utils.solidityPack(
@@ -46,7 +43,6 @@ export default ({ app, db, synchronizer }) => {
 
     const signature = ethers.utils.keccak256(hash)
 
-    console.log(hash, signature)
     if (supportsInterface) {
       didSetDescription = await contract.setDescription(
         hash,
