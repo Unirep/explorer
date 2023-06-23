@@ -32,8 +32,4 @@ contract AttesterDescription {
   function getDescription() public view returns (string memory description) {
     return text;
   }
-
-  function helloWorld() public pure returns (string memory ret) {
-    return 'Hello Solidity!';
-  }
 }

@@ -1,7 +1,8 @@
-const contractNames = ['AttesterDescription']
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
+
+const contractNames = ['AttesterDescription']
 
 import('../src/helpers/compileContract.mjs').then((x) => {
   for (const contractName of contractNames) {

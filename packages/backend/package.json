@@ -17,7 +17,9 @@
     "start": "node ./src/index.mjs",
     "test": "node ./__tests__/backend.test.js",
     "compile": "node ./scripts/compileAll.js",
-    "deploy:local": "npx hardhat run scripts/deploy.js --network localhost"
+    "deploy:local": "npx hardhat run scripts/deploy.js --network localhost",
+    "lint": "prettier .",
+    "lint:fix": "prettier . --write"
   },
   "dependencies": {
     "@unirep/core": "^2.0.0-beta-3",
