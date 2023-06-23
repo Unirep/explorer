@@ -8,7 +8,7 @@ contract AttesterDescription {
   bytes4 internal constant MAGICVALUE = 0x1626ba7e;
 
   function supportsInterface(bytes4 interfaceId) external view returns (bool) {
-    return interfaceId == 0x0c2f9f3f;
+    return interfaceId == 0x0a1f90b9;
   }
 
   function isValidSignature(
@@ -23,7 +23,7 @@ contract AttesterDescription {
     bytes32 _hash,
     bytes32 _signature,
     string memory _text
-  ) public returns (bool didSet) {
+  ) public {
     if (isValidSignature(_hash, _signature)) {
       text = _text;
     }
