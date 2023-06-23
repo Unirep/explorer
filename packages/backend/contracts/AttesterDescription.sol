@@ -32,4 +32,11 @@ contract AttesterDescription {
   function getDescription() public view returns (string memory description) {
     return text;
   }
+
+  function getInterfaceId() external pure returns (bytes4) {
+    return
+      this.isValidSignature.selector ^
+      this.setDescription.selector ^
+      this.getDescription.selector;
+  }
 }
