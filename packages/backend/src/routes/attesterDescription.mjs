@@ -6,9 +6,10 @@ import { attesterDescriptionAbi } from '../helpers/abi.mjs'
 export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
     // EIP Interface code
-    // isValidSignature() -> 0x1626ba7e
-    // getDescription() -> 0x1a092541
-    // interfaceId() -> 0x0c2f9f3f (isValidSignatureSelector ^ getDescriptionSelector)
+    // isValidSignatureSelector 0xe0c5e6c3
+    // getDescriptionSelector 0x1a092541
+    // setDescriptionSelector 0xf0d3533b
+    // interfaceId 0x0a1f90b9
 
     const attesterId = req.params.attesterId
     const token = req.headers.token
@@ -29,7 +30,7 @@ export default ({ app, db, synchronizer }) => {
 
     const supportsInterface =
       typeof contract.supportsInterface === 'function'
-        ? await contract.supportsInterface('0x0c2f9f3f')
+        ? await contract.supportsInterface('0x0a1f90b9')
         : false
 
     let didSetDescription = false,
@@ -42,7 +43,7 @@ export default ({ app, db, synchronizer }) => {
         [token, description, attesterId]
       )
     )
-    const hash2 = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('0'))
+
     const signature = ethers.utils.keccak256(hash)
 
     console.log(hash, signature)
@@ -52,16 +53,12 @@ export default ({ app, db, synchronizer }) => {
         signature,
         description
       )
-
-      validSig = await contract.isValidSignature(hash, signature)
-      invalidSig = await contract.isValidSignature(hash2, signature)
+      validSignature = await contract.isValidSignature(hash, signature)
     }
 
     description = await contract.getDescription()
-
     res.json({
-      validSig,
-      invalidSig,
+      validSignature,
       supportsInterface,
       description,
     })
