@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { SERVER } from '../config'
+import { request } from './utils'
 
 export default class Attester {
   epochsByAttesterId = new Map()
@@ -35,8 +35,22 @@ export default class Attester {
   }
 
   async loadEpochsByAttester(attesterId) {
-    const url = new URL(`api/attester/${attesterId}/epochs`, SERVER)
-    const items = await fetch(url.toString()).then((r) => r.json())
+    const query = `
+    {
+      epoches (
+        where: {
+          attesterId: "${attesterId}"
+        }
+        orderBy: number
+      ) {
+          id
+          attesterId
+          number
+      }
+  }
+    `
+    const data = await request(query)
+    const items = data.data.epoches
     this.ingestEpochs(items)
   }
 
@@ -49,17 +63,32 @@ export default class Attester {
       this.epochsByAttesterId.set(e.attesterId, [
         ...this.epochsByAttesterId
           .get(e.attesterId)
-          .filter((_id) => _id !== e._id),
-        e._id,
+          .filter((id) => id !== e.id),
+        e.id,
       ])
-      this.epochsById.set(e._id, e)
+      this.epochsById.set(e.id, e)
     }
   }
 
   async loadSignUpsByAttester(attesterId) {
-    const url = new URL(`api/attester/${attesterId}/signups`, SERVER)
-    const data = await fetch(url.toString()).then((r) => r.json())
-    this.ingestSignUps(data)
+    const query = `
+    {
+      users (
+        where: {
+          attesterId: "${attesterId}"
+        }
+        orderBy: blockTimestamp
+      ) {
+        id
+        epoch
+        commitment
+        attesterId
+      }
+    }
+    `
+    const data = await request(query)
+    const items = data.data.users
+    this.ingestSignUps(items)
   }
 
   async ingestSignUps(_signups) {
@@ -71,17 +100,33 @@ export default class Attester {
       this.signUpsByAttesterId.set(signup.attesterId, [
         ...this.signUpsByAttesterId
           .get(signup.attesterId)
-          .filter((_id) => _id !== signup._id),
-        signup._id,
+          .filter((id) => id !== signup.id),
+        signup.id,
       ])
-      this.signUpsById.set(signup._id, signup)
+      this.signUpsById.set(signup.id, signup)
     }
   }
 
   async loadAttestationsByAttester(attesterId) {
-    const url = new URL(`api/attester/${attesterId}/attestations`, SERVER)
-    const data = await fetch(url.toString()).then((r) => r.json())
-    this.ingestAttestations(data)
+    // TODO: recursively query
+    const query = `{
+      attestations (
+        orderBy: blockTimestamp
+        orderDirection: desc
+        attesterId: "${attesterId}"
+      ) {
+        id
+        epochKey
+        attesterId
+        blockNumber
+        change
+        epoch
+        fieldIndex
+        blockTimestamp
+      }
+    }`
+    const item = await request(query)
+    this.ingestAttestations(item.data.attestations)
   }
 
   async ingestAttestations(_attestations) {
@@ -93,16 +138,55 @@ export default class Attester {
       this.attestationsByAttesterId.set(attestation.attesterId, [
         ...this.attestationsByAttesterId
           .get(attestation.attesterId)
-          .filter((_id) => _id !== attestation._id),
-        attestation._id,
+          .filter((id) => id !== attestation.id),
+        attestation.id,
       ])
-      this.attestationsById.set(attestation._id, attestation)
+      this.attestationsById.set(attestation.id, attestation)
     }
   }
 
   async loadStats(attesterId) {
-    const url = new URL(`api/attester/${attesterId}/stats`, SERVER)
-    const stats = await fetch(url.toString()).then((r) => r.json())
+    // TODO: recursively query
+    const queryCount = 1000
+    let bytes = 0
+    const query = `
+    {
+      attestations (
+        first: ${queryCount}
+        where: {
+          attesterId: "${attesterId}"
+        }
+    ) {
+        id
+        change
+    }
+    attesters (
+      first: ${queryCount}
+      where: {
+        attesterId: "${attesterId}"
+      }
+    ) {
+      id
+    }
+    users (
+      first: ${queryCount}
+      where: {
+        attesterId: "${attesterId}"
+      }
+  ) {
+      id
+  }
+    }
+    `
+    const data = await request(query)
+    data.data.attestations.map((data) => {
+      bytes += Math.ceil(BigInt(data.change).toString(16).length / 2)
+    })
+    const stats = {
+      signUpCount: data.data.users.length,
+      attestationCount: data.data.attestations.length,
+      totalBytes: bytes,
+    }
     this.statsById = {
       [attesterId]: stats,
       ...this.statsById,

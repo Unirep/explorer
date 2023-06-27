@@ -18,7 +18,7 @@ export default observer(({ signup }) => {
         </p>
       </Link>
       <p>{signup.epoch}</p>
-      <p>{dayjs(signup.timestamp * 1000).from(dayjs())}</p>
+      <p>{dayjs(+signup.blockTimestamp * 1000).from(dayjs())}</p>
     </div>
   )
 })
