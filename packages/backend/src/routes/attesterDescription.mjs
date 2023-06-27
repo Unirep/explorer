@@ -4,7 +4,7 @@ import ethers from 'ethers'
 import { attesterDescriptionAbi } from '../helpers/abi.mjs'
 
 export default ({ app, db, synchronizer }) => {
-  const handler = async (req, res) => {
+  const handleSet = async (req, res) => {
     // EIP Interface code
     // isValidSignatureSelector 0xe0c5e6c3
     // getDescriptionSelector 0x1a092541
@@ -22,17 +22,12 @@ export default ({ app, db, synchronizer }) => {
       signer
     )
 
-    // console.log('interface id: ', await contract.getInterfaceId())
-    // console.log('block number: ', await localProvider.getBlockNumber())
-    // console.log('code: ', await localProvider.getCode(attesterId))
-
     const supportsInterface =
       typeof contract.supportsInterface === 'function'
         ? await contract.supportsInterface('0x0a1f90b9')
         : false
 
-    let didSetDescription = false,
-      validSignature = false
+    let validSignature = false
 
     const hash = ethers.utils.keccak256(
       ethers.utils.solidityPack(
@@ -44,20 +39,43 @@ export default ({ app, db, synchronizer }) => {
     const signature = ethers.utils.keccak256(hash)
 
     if (supportsInterface) {
-      didSetDescription = await contract.setDescription(
-        hash,
-        signature,
-        description
-      )
+      let _ = await contract.setDescription(hash, signature, description)
       validSignature = await contract.isValidSignature(hash, signature)
+      description = await contract.getDescription()
     }
 
-    description = await contract.getDescription()
     res.json({
       validSignature,
       supportsInterface,
       description,
     })
   }
-  app.get('/api/about/:attesterId', catchError(handler))
+
+  const handleGet = async (req, res) => {
+    const attesterId = req.params.attesterId
+
+    const signer = localProvider.getSigner()
+    const contract = new ethers.Contract(
+      attesterId,
+      attesterDescriptionAbi,
+      signer
+    )
+
+    const supportsInterface =
+      typeof contract.supportsInterface === 'function'
+        ? await contract.supportsInterface('0x0a1f90b9')
+        : false
+
+    let description = ''
+    if (supportsInterface) {
+      description = await contract.getDescription()
+    }
+    res.json({
+      supportsInterface,
+      description,
+    })
+  }
+
+  app.post('/api/about/:attesterId', catchError(handleSet))
+  app.get('/api/about/:attesterId', catchError(handleGet))
 }
