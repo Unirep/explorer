@@ -94,9 +94,17 @@ export default ({ app, db, synchronizer }) => {
       },
     })
 
-    const { _id, data } = attesterDescription
-
-    res.json(JSON.parse(data))
+    if (attesterDescription) {
+      const { _id, data } = attesterDescription
+      res.json(JSON.parse(data))
+    } else {
+      res.json({
+        icon: '',
+        name: '',
+        description: '',
+        url: '',
+      })
+    }
   }
 
   app.post('/api/about/:attesterId', catchError(handleSet))
