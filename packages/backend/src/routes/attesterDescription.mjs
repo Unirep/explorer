@@ -2,6 +2,7 @@ import catchError from '../helpers/catchError.mjs'
 import { localProvider, provider, UNIREP_ADDRESS } from '../config.mjs'
 import ethers from 'ethers'
 import { attesterDescriptionAbi } from '../helpers/abi.mjs'
+import { isValidAttesterDescription } from '../helpers/attesterDescriptionVerifier.mjs'
 
 export default ({ app, db, synchronizer }) => {
   const handleSet = async (req, res) => {
@@ -13,9 +14,17 @@ export default ({ app, db, synchronizer }) => {
 
     const attesterId = req.params.attesterId
     const token = req.headers.token
-    let description = req.headers.description
+    const { icon, url, name, description } = req.headers
+
+    if (!isValidAttesterDescription(icon, name, description, url)) {
+      res.status(422)
+      res.send('Invalid attester description...')
+    }
+
+    let attesterDescription = JSON.stringify({ icon, name, description, url })
 
     const signer = localProvider.getSigner()
+    // const signer = provider.getSigner()
     const contract = new ethers.Contract(
       attesterId,
       attesterDescriptionAbi,
@@ -39,41 +48,55 @@ export default ({ app, db, synchronizer }) => {
     const signature = ethers.utils.keccak256(hash)
 
     if (supportsInterface) {
-      let _ = await contract.setDescription(hash, signature, description)
+      let _ = await contract.setDescription(
+        hash,
+        signature,
+        attesterDescription
+      )
       validSignature = await contract.isValidSignature(hash, signature)
-      description = await contract.getDescription()
+      attesterDescription = await contract.getDescription()
+    }
+
+    const _attesterDescription = await db.findOne('AttesterDescription', {
+      where: {
+        _id: attesterId,
+      },
+    })
+
+    if (_attesterDescription) {
+      await db.update('AttesterDescription', {
+        where: {
+          _id: attesterId,
+        },
+        update: {
+          data: attesterDescription,
+        },
+      })
+    } else {
+      await db.create('AttesterDescription', {
+        _id: attesterId,
+        data: attesterDescription,
+      })
     }
 
     res.json({
       validSignature,
       supportsInterface,
-      description,
     })
   }
 
   const handleGet = async (req, res) => {
     const attesterId = req.params.attesterId
 
-    const signer = localProvider.getSigner()
-    const contract = new ethers.Contract(
-      attesterId,
-      attesterDescriptionAbi,
-      signer
-    )
-
-    const supportsInterface =
-      typeof contract.supportsInterface === 'function'
-        ? await contract.supportsInterface('0x0a1f90b9')
-        : false
-
-    let description = ''
-    if (supportsInterface) {
-      description = await contract.getDescription()
-    }
-    res.json({
-      supportsInterface,
-      description,
+    const attesterDescription = await db.findOne('AttesterDescription', {
+      where: {
+        _id: attesterId,
+      },
     })
+
+    const { _id, data } = attesterDescription
+
+    res.json(JSON.parse(data))
   }
 
   app.post('/api/about/:attesterId', catchError(handleSet))
