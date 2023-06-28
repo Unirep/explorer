@@ -6,6 +6,7 @@ import UserPage from './pages/UserPage'
 import EpochKeyPage from './pages/EpochKeyPage'
 import NotFound from './pages/NotFound'
 import './app.css'
+import './app-mobile.css'
 
 export default function App() {
   return (
