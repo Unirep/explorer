@@ -21,6 +21,7 @@ a:visited {
 .searchbar {
   width: 100%;
   padding: 0 2.5rem;
+  display: flex;
 }
 
 input {
@@ -52,4 +53,22 @@ input:focus {
   border: none;
   font-size: 1rem;
   padding: 0;
+}
+
+.logo {
+  height: 40px;
+}
+
+.menu {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 800px) {
+  input {
+    width: 80%;
+  }
+
+  .go {
+    width: 20%;
+  }
 }
