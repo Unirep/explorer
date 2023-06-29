@@ -8,7 +8,7 @@ import './eventCard.css'
 
 dayjs.extend(relativeTime)
 
-export default observer(({ id }) => {
+export default observer(({ id, isMobile }) => {
   const { unirep } = React.useContext(state)
   const attestation = unirep.attestationsById.get(id)
   const { attesterId, timestamp } = attestation
@@ -22,26 +22,32 @@ export default observer(({ id }) => {
           <span>{attesterIdHex.slice(-5)}</span>
         </p>
       </Link>
-      <p style={{ minWidth: '50px', textAlign: 'center' }}>
-        {attestation.epoch}
-      </p>
+      {!isMobile && (
+        <p style={{ minWidth: '50px', textAlign: 'center' }}>
+          {attestation.epoch}
+        </p>
+      )}
       <Link to={`/epochKey/${epochKeyHex}`}>
         <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
       </Link>
-      <p
-        style={{
-          minWidth: '80px',
-          maxWidth: '100px',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-        }}
-      >
-        <span style={{ fontWeight: 'bold' }}>{attestation.fieldIndex}</span>:
-        {'0x' + BigInt(attestation.change).toString(16)}
-      </p>
-      <p style={{ minWidth: '100px', fontSize: '12px' }}>
-        {dayjs(timestamp * 1000).from(dayjs())}
-      </p>
+      {!isMobile && (
+        <p
+          style={{
+            minWidth: '80px',
+            maxWidth: '100px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          <span style={{ fontWeight: 'bold' }}>{attestation.fieldIndex}</span>:
+          {'0x' + BigInt(attestation.change).toString(16)}
+        </p>
+      )}
+      {!isMobile && (
+        <p style={{ minWidth: '100px', fontSize: '12px' }}>
+          {dayjs(timestamp * 1000).from(dayjs())}
+        </p>
+      )}
     </div>
   )
 })

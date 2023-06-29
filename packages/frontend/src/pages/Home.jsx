@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import Header from '../components/Header'
@@ -12,6 +12,7 @@ import measure from '../utils/measure-text'
 
 export default observer(() => {
   const { info, unirep } = useContext(state)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 600)
 
   useEffect(() => {
     const loadData = async () => {
@@ -21,7 +22,13 @@ export default observer(() => {
         unirep.loadAttesterDeployments(),
       ])
     }
+
+    const onWindowResize = () => {
+      setIsMobile(window.innerWidth < 600)
+    }
+
     loadData()
+    window.addEventListener('resize', onWindowResize)
   }, [])
 
   return (
@@ -98,7 +105,7 @@ export default observer(() => {
           </div> */}
 
           <h3>Attestations</h3>
-          <div className="flex events-header">
+          <div className="events-header">
             <div
               style={{
                 display: 'flex',
@@ -111,7 +118,8 @@ export default observer(() => {
             >
               <h4>Attester</h4>
             </div>
-            <h4 style={{ width: `50px` }}>Epoch</h4>
+
+            {!isMobile && <h4 style={{ width: `50px` }}>Epoch</h4>}
             <div
               style={{
                 display: 'flex',
@@ -124,34 +132,38 @@ export default observer(() => {
             >
               <h4>Epoch Key</h4>
             </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                width: '80px',
-              }}
-            >
-              <h4>Change</h4>
-              <div style={{ width: '4px' }} />
-              {/* TODO: implement changing display order of events */}
-              {/* <img
+            {!isMobile && (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  width: '80px',
+                }}
+              >
+                <h4>Change</h4>
+                <div style={{ width: '4px' }} />
+                {/* TODO: implement changing display order of events */}
+                {/* <img
                 src={require('../../public/arrow_up_down.svg')}
                 alt="arrow change order of display"
               /> */}
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                width: `100px`,
-              }}
-            >
-              <h4>Timestamp</h4>
-            </div>
+              </div>
+            )}
+            {!isMobile && (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  width: `100px`,
+                }}
+              >
+                <h4>Timestamp</h4>
+              </div>
+            )}
           </div>
           <div>
             {unirep.attestationIds.map((id) => (
-              <UnirepEvent key={id} id={id} />
+              <UnirepEvent key={id} id={id} isMobile={isMobile} />
             ))}
           </div>
         </div>

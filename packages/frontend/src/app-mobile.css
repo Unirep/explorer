@@ -74,17 +74,20 @@
 
   .container {
     display: flex;
-    margin: 3.5rem;
+    margin: 1.5rem;
     flex-flow: row wrap;
   }
 
   .footer {
-    padding: 4.5rem 3.5rem;
+    padding: 1rem;
+  }
+
+  .footer a {
+    padding: 0px;
   }
 
   .left-container {
     width: 100%;
-    margin-right: 4rem;
   }
 
   .right-container {
@@ -93,7 +96,7 @@
 
   .info-grid {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 100%;
     gap: 0.75rem;
     margin-bottom: 3.5rem;
   }
