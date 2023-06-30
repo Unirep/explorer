@@ -79,7 +79,7 @@ li {
 .footer {
   padding: 4.5rem 3.5rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .left-container {
