@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import './eventCard.css'
@@ -8,15 +8,7 @@ export default observer(({ id }) => {
   const { attester } = React.useContext(state)
   const attestation = attester.attestationsById.get(id)
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 600)
-
-  useEffect(() => {
-    const onWindowResize = () => {
-      setIsMobile(window.innerWidth < 600)
-    }
-
-    window.addEventListener('resize', onWindowResize)
-  }, [])
+  const [isHover, setIsHover] = useState(false)
 
   const changeString = () => {
     const tmp = parseInt(BigInt(attestation.change).toString(16), 16).toString()
@@ -33,7 +25,18 @@ export default observer(({ id }) => {
         <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
       </Link>
       <p>{attestation.fieldIndex} </p>
-      <p style={{ minWidth: '100px', textAlign: 'right' }}>{changeString()} </p>
+      <p
+        style={{ minWidth: '100px', textAlign: 'right' }}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+      >
+        {changeString()}{' '}
+      </p>
+      {isHover && (
+        <div className="changeDetail">
+          {'0x' + BigInt(attestation.change).toString(16)}
+        </div>
+      )}
     </div>
   )
 })
