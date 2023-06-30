@@ -25,18 +25,18 @@ export default observer(({ id }) => {
         <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
       </Link>
       <p>{attestation.fieldIndex} </p>
-      <p
-        style={{ minWidth: '100px', textAlign: 'right' }}
+      <div
+        style={{ minWidth: '100px', textAlign: 'right', position: 'relative' }}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
         {changeString()}{' '}
-      </p>
-      {isHover && (
-        <div className="changeDetail">
-          {'0x' + BigInt(attestation.change).toString(16)}
-        </div>
-      )}
+        {isHover && (
+          <div className="changeDetail">
+            {'0x' + BigInt(attestation.change).toString(16)}
+          </div>
+        )}
+      </div>
     </div>
   )
 })

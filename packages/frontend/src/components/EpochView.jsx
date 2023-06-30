@@ -14,7 +14,7 @@ export default observer(({ attesterId }) => {
           <h4>Field Index</h4>
         </div>
         <div className="flex">
-          <h4 style={{ minWidth: '50px', textAlign: 'right' }}>Change</h4>
+          <h4>Change</h4>
         </div>
       </div>
 
