@@ -11,6 +11,7 @@ export default observer(({ text, maxWidth, ...props }) => {
   const [showingPopup, setShowingPopup] = React.useState(false)
   const [leftOffset, setLeftOffset] = React.useState(0)
   const [textWidth, setTextWidth] = React.useState(0)
+
   React.useEffect(() => {
     const _textWidth = measureText(text, {
       fontSize: '12px',
@@ -24,6 +25,7 @@ export default observer(({ text, maxWidth, ...props }) => {
     const minWidth = _maxWidth + 20
     setLeftOffset(screenMaxWidth > minWidth ? 0 : minWidth - screenMaxWidth)
   })
+
   return (
     <div
       onMouseDown={() => {

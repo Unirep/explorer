@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
@@ -6,10 +6,9 @@ import './header.css'
 import Menu from './Menu'
 
 export default observer(() => {
-  const { unirep } = useContext(state)
+  const { unirep, ui } = useContext(state)
   const navigate = useNavigate()
   const [searchInput, setSearchInput] = useState('')
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 800)
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
   const search = async () => {
@@ -24,18 +23,10 @@ export default observer(() => {
     setSearchInput('')
   }
 
-  const onWindowResize = () => {
-    setIsMobile(window.innerWidth < 800)
-  }
-
-  useEffect(() => {
-    window.addEventListener('resize', onWindowResize)
-  }, [])
-
   return (
     <div className="header">
       <Link to="/">
-        {isMobile ? (
+        {ui.isMobile ? (
           <img
             className="logo"
             src={require(`../../public/logo_notext.svg`)}
@@ -65,14 +56,14 @@ export default observer(() => {
           onKeyPress={(e) => (e.charCode === 13 ? search() : null)}
           className="input"
           placeholder={
-            isMobile ? 'search' : 'search by Attester/ User/ Epoch Key'
+            ui.isMobile ? 'search' : 'search by Attester/ User/ Epoch Key'
           }
         />
         <button id="go" className="go" onClick={search}>
           GO
         </button>
       </div>
-      {isMobile ? (
+      {ui.isMobile ? (
         <img
           className="menu"
           src={require('../../public/menu.svg')}

@@ -11,8 +11,7 @@ import Footer from '../components/Footer'
 import measure from '../utils/measure-text'
 
 export default observer(() => {
-  const { info, unirep } = useContext(state)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 600)
+  const { info, unirep, ui } = useContext(state)
 
   useEffect(() => {
     const loadData = async () => {
@@ -23,12 +22,7 @@ export default observer(() => {
       ])
     }
 
-    const onWindowResize = () => {
-      setIsMobile(window.innerWidth < 600)
-    }
-
     loadData()
-    window.addEventListener('resize', onWindowResize)
   }, [])
 
   return (
@@ -119,7 +113,7 @@ export default observer(() => {
               <h4>Attester</h4>
             </div>
 
-            {!isMobile && <h4 style={{ width: `50px` }}>Epoch</h4>}
+            {!ui.isMobile && <h4 style={{ width: `50px` }}>Epoch</h4>}
             <div
               style={{
                 display: 'flex',
@@ -132,7 +126,7 @@ export default observer(() => {
             >
               <h4>Epoch Key</h4>
             </div>
-            {!isMobile && (
+            {!ui.isMobile && (
               <div
                 style={{
                   display: 'flex',
@@ -149,7 +143,7 @@ export default observer(() => {
               /> */}
               </div>
             )}
-            {!isMobile && (
+            {!ui.isMobile && (
               <div
                 style={{
                   display: 'flex',
@@ -163,7 +157,7 @@ export default observer(() => {
           </div>
           <div>
             {unirep.attestationIds.map((id) => (
-              <UnirepEvent key={id} id={id} isMobile={isMobile} />
+              <UnirepEvent key={id} id={id} />
             ))}
           </div>
         </div>

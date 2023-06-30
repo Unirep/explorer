@@ -8,12 +8,13 @@ import './eventCard.css'
 
 dayjs.extend(relativeTime)
 
-export default observer(({ id, isMobile }) => {
-  const { unirep } = React.useContext(state)
+export default observer(({ id }) => {
+  const { unirep, ui } = React.useContext(state)
   const attestation = unirep.attestationsById.get(id)
   const { attesterId, timestamp } = attestation
   const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
+
   return (
     <div className="event-card">
       <Link to={`/attester/${attesterIdHex}`}>
@@ -22,7 +23,7 @@ export default observer(({ id, isMobile }) => {
           <span>{attesterIdHex.slice(-5)}</span>
         </p>
       </Link>
-      {!isMobile && (
+      {!ui.isMobile && (
         <p style={{ minWidth: '50px', textAlign: 'center' }}>
           {attestation.epoch}
         </p>
@@ -30,7 +31,7 @@ export default observer(({ id, isMobile }) => {
       <Link to={`/epochKey/${epochKeyHex}`}>
         <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
       </Link>
-      {!isMobile && (
+      {!ui.isMobile && (
         <p
           style={{
             minWidth: '80px',
@@ -43,7 +44,7 @@ export default observer(({ id, isMobile }) => {
           {'0x' + BigInt(attestation.change).toString(16)}
         </p>
       )}
-      {!isMobile && (
+      {!ui.isMobile && (
         <p style={{ minWidth: '100px', fontSize: '12px' }}>
           {dayjs(timestamp * 1000).from(dayjs())}
         </p>
