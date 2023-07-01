@@ -10,5 +10,6 @@ module.exports = {
       '<rootDir>/src/__tests__/__utils__/imageTransform.js',
   },
   testPathIgnorePatterns: ['/__utils__/'],
+  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
   testEnvironment: 'jsdom',
 }

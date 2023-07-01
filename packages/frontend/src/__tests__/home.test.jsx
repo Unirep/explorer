@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import fetch from 'whatwg-fetch'
-import NotFound from '../pages/NotFound'
+import Home from '../pages/Home'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -10,10 +10,8 @@ jest.mock('react-router-dom', () => ({
   Link: jest.fn(),
 }))
 
-test('To test if NotFoundPage is exactly rendered', async () => {
-  render(<NotFound />)
+test('To test if HomePage is exactly rendered', async () => {
+  render(<Home />)
 
-  expect(
-    screen.getByText("sorry, can't find that attester or user.")
-  ).toBeInTheDocument()
+  expect(screen.getByText('Explorer')).toBeInTheDocument()
 })
