@@ -37,7 +37,7 @@ const defaultStateData = {
   },
 }
 
-test('To test if HomePage is exactly rendered', async () => {
+beforeAll(() => {
   defaultStateData.unirep.deploymentsById.set('d123', {
     _id: '0xd123',
     startTimestamp: 1688393495,
@@ -48,7 +48,17 @@ test('To test if HomePage is exactly rendered', async () => {
     change: '0x1',
     startTimestamp: 1688393495,
   })
+})
 
+test('To test if HomePage is exactly rendered', async () => {
   renderHomePage(defaultStateData)
+
   expect(screen.getByText('Explorer')).toBeInTheDocument()
+  expect(screen.getByText('Overview')).toBeInTheDocument()
+  expect(screen.getByText('Total Attesters/Apps')).toBeInTheDocument()
+  expect(screen.getByText('Total Sign Ups')).toBeInTheDocument()
+  expect(screen.getByText('Total Attestations')).toBeInTheDocument()
+  expect(screen.getByText('Total Bytes Given')).toBeInTheDocument()
+  expect(screen.getByText('Latest Attester')).toBeInTheDocument()
+  expect(screen.getByText('Latest Attestation')).toBeInTheDocument()
 })
