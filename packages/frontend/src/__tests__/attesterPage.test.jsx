@@ -39,10 +39,6 @@ const defaultStateData = {
 
 beforeAll(() => {
   defaultStateData.attester.statsById.set(0, {})
-  defaultStateData.unirep.deploymentsById.set(0, {
-    _id: '0xd123',
-    startTimestamp: 1688393495,
-  })
 })
 
 test('To test if AttesterPage is exactly rendered', async () => {
