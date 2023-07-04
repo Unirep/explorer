@@ -25,7 +25,7 @@ const defaultStateData = {
   },
 }
 
-test('To test if HomePage is exactly rendered', async () => {
+test('To test if Header is exactly rendered', async () => {
   renderHeader(defaultStateData)
 
   expect(screen.getByText('GO')).toBeInTheDocument()

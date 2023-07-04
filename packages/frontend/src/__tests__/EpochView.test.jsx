@@ -24,7 +24,7 @@ const defaultStateData = {
   },
 }
 
-test('To test if EpochKeyInfo is exactly rendered', async () => {
+test('To test if EpochView is exactly rendered', async () => {
   renderEpochView(defaultStateData, 123)
 
   expect(screen.getByText('Epoch key')).toBeInTheDocument()
