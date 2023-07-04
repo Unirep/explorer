@@ -4,7 +4,7 @@ import state from '../contexts/state'
 import AttestationCard from './AttestationCard'
 
 export default observer(({ attesterId }) => {
-  const { unirep, attester } = useContext(state)
+  const { attester } = useContext(state)
 
   return (
     <>
