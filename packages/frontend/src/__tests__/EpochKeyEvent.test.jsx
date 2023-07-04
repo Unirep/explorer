@@ -13,7 +13,7 @@ const renderEpochKeyEvent = (attestation) => {
   return render(<EpochKeyEvent attestation={attestation} />)
 }
 
-test('To test if ConfigInfoItem is exactly rendered', async () => {
+test('To test if EpochKeyEvent is exactly rendered', async () => {
   renderEpochKeyEvent({
     fieldIndex: 1,
     change: 1,

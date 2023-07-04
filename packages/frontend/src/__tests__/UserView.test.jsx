@@ -24,7 +24,7 @@ const defaultStateData = {
   },
 }
 
-test('To test if UnirepEvent is exactly rendered', async () => {
+test('To test if UnirepView is exactly rendered', async () => {
   renderUserView(defaultStateData, 123)
 
   expect(screen.getByText('Semaphore ID')).toBeInTheDocument()

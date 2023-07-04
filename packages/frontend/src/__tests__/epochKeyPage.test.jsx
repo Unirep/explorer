@@ -27,7 +27,7 @@ const defaultStateData = {
   },
 }
 
-test('To test if HomePage is exactly rendered', async () => {
+test('To test if EpochKeyPage is exactly rendered', async () => {
   renderEpochKeyPage(defaultStateData)
 
   expect(screen.getByText('Epoch Key')).toBeInTheDocument()
