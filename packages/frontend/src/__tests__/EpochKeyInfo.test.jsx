@@ -32,31 +32,15 @@ const renderEpochKeyInfo = (
 const defaultStateData = {
   attester: {
     loadEpochsByAttester: jest.fn(),
+    epochByNumber: jest.fn().mockReturnValue({ sealed: true }),
+  },
+  ui: {
+    isMobile: false,
   },
 }
 
-beforeAll(() => {
-  defaultStateData.unirep.deploymentsById.set('d123', {
-    _id: '0xd123',
-    startTimestamp: 1688393495,
-  })
-  defaultStateData.unirep.attestationsById.set('a123', {
-    attesterId: '0xa123',
-    epochKey: '0x0',
-    change: '0x1',
-    startTimestamp: 1688393495,
-  })
-})
+test('To test if EpochKeyInfo is exactly rendered', async () => {
+  renderEpochKeyInfo(defaultStateData, 123, 1, 0, 'e123')
 
-test('To test if HomePage is exactly rendered', async () => {
-  renderHomePage(defaultStateData)
-
-  expect(screen.getByText('Explorer')).toBeInTheDocument()
-  expect(screen.getByText('Overview')).toBeInTheDocument()
-  expect(screen.getByText('Total Attesters/Apps')).toBeInTheDocument()
-  expect(screen.getByText('Total Sign Ups')).toBeInTheDocument()
-  expect(screen.getByText('Total Attestations')).toBeInTheDocument()
-  expect(screen.getByText('Total Bytes Given')).toBeInTheDocument()
-  expect(screen.getByText('Latest Attester')).toBeInTheDocument()
-  expect(screen.getByText('Latest Attestation')).toBeInTheDocument()
+  expect(screen.getByText('Attester')).toBeInTheDocument()
 })
