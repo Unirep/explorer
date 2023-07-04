@@ -113,7 +113,7 @@ export default observer(() => {
               <h4>Attester</h4>
             </div>
 
-            {!ui.isMobile && <h4 style={{ width: `50px` }}>Epoch</h4>}
+            {!ui.isMobile && <h4>Epoch</h4>}
             <div
               style={{
                 display: 'flex',

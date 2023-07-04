@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import state from '../contexts/state'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import shortenId from '../utils/shorten-id'
 import './eventCard.css'
 
 dayjs.extend(relativeTime)
@@ -18,10 +19,7 @@ export default observer(({ id }) => {
   return (
     <div className="event-card">
       <Link to={`/attester/${attesterIdHex}`}>
-        <p>
-          <span>{attesterIdHex.slice(0, 7)}</span>...
-          <span>{attesterIdHex.slice(-5)}</span>
-        </p>
+        <p>{shortenId(attesterIdHex, ui.isMobile)}</p>
       </Link>
       {!ui.isMobile && (
         <p style={{ minWidth: '50px', textAlign: 'center' }}>
@@ -29,7 +27,7 @@ export default observer(({ id }) => {
         </p>
       )}
       <Link to={`/epochKey/${epochKeyHex}`}>
-        <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
+        <p>{shortenId(epochKeyHex, ui.isMobile)}</p>
       </Link>
       {!ui.isMobile && (
         <p
