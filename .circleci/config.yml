@@ -8,7 +8,11 @@ workflows:
             branches:
               only:
                 - main
-                - beta-1-support
+      - deploy_explorer0:
+          filters:
+            branches:
+              only:
+                - explorer0
 
 # Just for reusing below
 step_defs:
@@ -23,6 +27,41 @@ step_defs:
       command: node -v | grep v16
 
 jobs:
+  deploy_explorer0:
+    machine:
+      image: ubuntu-2204:2022.04.1
+    resource_class: large
+    steps:
+      - checkout
+      - run: *node_version
+      - run: *check_version
+      - run:
+          name: Install
+          command: yarn
+      - run:
+          name: Build backend image
+          command: docker build . -t jchancehud/unirep-explorer:explorer0
+      - run:
+          name: Push backend image
+          command: |
+            echo $DOCKER_TOKEN | docker login -u jchancehud --password-stdin
+            docker push jchancehud/unirep-explorer:explorer0
+            rm /home/circleci/.docker/config.json
+      - run:
+          name: Trigger service update
+          command: curl -X POST https://devops.unirep.io/api/webhooks/ad77ca9a-3bfa-474a-bb6c-83293773d440
+      - run:
+          name: Set frontend config
+          command: echo 'export const SERVER = "https://api.explorer0.unirep.io"' > packages/frontend/src/config.js
+      - run:
+          name: Build frontend
+          command: yarn frontend build --mode production
+      - run:
+          name: Publish frontend
+          command: |
+            cd packages/frontend
+            npx wrangler@2.1 publish --env explorer0
+
   deploy:
     machine:
       image: ubuntu-2204:2022.04.1

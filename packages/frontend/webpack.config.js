@@ -2,6 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
+const fs = require('fs/promises')
 
 module.exports = (env) => ({
   entry: ['./src/index.jsx'],
@@ -65,6 +66,23 @@ module.exports = (env) => ({
     ],
   },
   plugins: [
+    {
+      apply: (compiler) =>
+        compiler.hooks.watchRun.tapAsync('watchRun', async (params, cb) => {
+          const currentBuild = (
+            await fs.readFile(path.join(__dirname, 'src/buildnum.js'))
+          ).toString()
+          const [, num] = currentBuild.match(/export default (\d+)/)
+          await fs.writeFile(
+            path.join(__dirname, 'src/buildnum.js'),
+            `export default ${+num + 1}`
+          )
+          cb()
+        }),
+    },
+    new webpack.WatchIgnorePlugin({
+      paths: [path.join(__dirname, 'src/buildnum.js')],
+    }),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       filename: 'index.html',

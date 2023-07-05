@@ -2,5 +2,13 @@ name = "unirep-explorer"
 main = "worker.js"
 compatibility_date = "2022-10-18"
 
+[env.production]
+name = "production"
+route = { pattern = "explorer.unirep.io/*", zone_name = "unirep.io" }
+
+[env.explorer0]
+name = "explorer0"
+route = { pattern = "explorer0.unirep.io/*", zone_name = "unirep.io" }
+
 [site]
 bucket = "./build"
