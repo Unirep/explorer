@@ -44,7 +44,7 @@ export default observer(() => {
           >
             Get started here.
           </a>
-          <div className="">
+          <div>
             <img src={require('../../public/hero_img.svg')} alt="bird image" />
           </div>
           <UnirepInfo info={info} />
