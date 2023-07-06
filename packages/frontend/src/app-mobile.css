@@ -1,77 +1,4 @@
 @media only screen and (max-width: 800px) {
-  body {
-    font-family: 'Azeret Mono';
-    font-weight: 200;
-    margin: 0;
-    padding: 0;
-  }
-
-  h1 {
-    font-size: 3rem;
-    font-weight: 700;
-    margin: 0.1rem 0;
-  }
-
-  h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0.2rem 0;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0.5rem 0;
-    color: #494e53;
-  }
-
-  h4 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin: 0.4rem 0;
-    color: #669294;
-  }
-
-  h5 {
-    font-size: 0.9rem;
-    font-weight: 200;
-    margin: 0.4rem 0;
-  }
-
-  h6 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin: 0.4rem 0;
-  }
-
-  button {
-    background-color: white;
-    border-radius: 1.5rem;
-    padding: 0.3rem 1.8rem;
-    cursor: pointer;
-  }
-
-  li {
-    word-break: break-all;
-  }
-
-  .img {
-    width: 100%;
-    justify-content: left;
-  }
-
-  .flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .content {
-    min-height: 100vh;
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-  }
-
   .container {
     display: flex;
     margin: 1.5rem;
@@ -97,23 +24,6 @@
   }
 
   .info-grid {
-    display: grid;
     grid-template-columns: 100%;
-    gap: 0.75rem;
-    margin-bottom: 3.5rem;
-  }
-
-  .events-header {
-    padding: 0.6rem;
-  }
-
-  .selected {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-
-  .unselected {
-    color: #9ea3a7;
-    cursor: pointer;
   }
 }
