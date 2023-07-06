@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import './eventCard.css'
+import shortenId from '../utils/shorten-id'
 import state from '../contexts/state'
 
 export default observer(({ id }) => {
-  const { attester } = React.useContext(state)
+  const { attester, ui } = React.useContext(state)
   const attestation = attester.attestationsById.get(id)
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
   const [isHover, setIsHover] = useState(false)
@@ -22,7 +23,7 @@ export default observer(({ id }) => {
   return (
     <div className="event-card">
       <Link to={`/epochKey/${epochKeyHex}`}>
-        <p>{`${epochKeyHex.slice(0, 7)}...${epochKeyHex.slice(-5)}`}</p>
+        <p>{shortenId(epochKeyHex, ui.isMobile)}</p>
       </Link>
       <p>{attestation.fieldIndex} </p>
       <div

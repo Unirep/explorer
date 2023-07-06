@@ -16,6 +16,7 @@
 .menu-container a:link {
   font-weight: 600;
   text-decoration: none;
+  color: white;
 }
 
 .menu-container a img {
