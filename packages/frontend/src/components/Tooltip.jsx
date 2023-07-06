@@ -47,6 +47,7 @@ export default observer(({ text, maxWidth, ...props }) => {
       {...props}
     >
       <div
+        className="tooltip-img"
         onMouseEnter={setShowingPopup.bind(null, true)}
         onMouseLeave={setShowingPopup.bind(null, false)}
       >

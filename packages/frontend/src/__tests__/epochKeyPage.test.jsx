@@ -25,6 +25,9 @@ const defaultStateData = {
     loadAttestationsByEpochKey: jest.fn(),
     attestationsByEpochKey: new Map(),
   },
+  ui: {
+    isMobile: false,
+  },
 }
 
 test('To test if EpochKeyPage is exactly rendered', async () => {
