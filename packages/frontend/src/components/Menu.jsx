@@ -18,6 +18,7 @@ export default observer(({ closeMenu }) => {
         href="https://developer.unirep.io/"
         target="blank"
       >
+        <img src={require('../../public/unirep-logo.svg')} alt="Unirep logo" />
         Docs
       </a>
       <a className="menu-link" href="https://github.com/Unirep" target="blank">
