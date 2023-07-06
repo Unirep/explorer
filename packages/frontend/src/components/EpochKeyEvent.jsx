@@ -21,9 +21,6 @@ export default observer(({ attestation }) => {
 
   return (
     <div className="event-card">
-      {/* <p>
-        {_id.slice(0, 5)}...{_id.slice(-5)}
-      </p> */}
       <p>{fieldIndex}</p>
       <div
         style={{ minWidth: '20px', position: 'relative' }}
@@ -32,7 +29,7 @@ export default observer(({ attestation }) => {
       >
         {changeString()}
         {isHover && (
-          <div className="changeDetail">
+          <div className="change-detail">
             {'0x' + BigInt(change).toString(16)}
           </div>
         )}
