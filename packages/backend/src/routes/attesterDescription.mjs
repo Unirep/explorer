@@ -1,9 +1,11 @@
+import { ethers } from 'ethers'
 import catchError from '../helpers/catchError.mjs'
 import {
   localProvider,
   provider,
   UNIREP_ADDRESS,
   APP_ADDRESS,
+  wallet,
 } from '../config.mjs'
 import { attesterDescriptionAbi } from '../helpers/abi.mjs'
 import { isValidAttesterDescription } from '../helpers/attesterDescriptionVerifier.mjs'
@@ -11,7 +13,6 @@ import { createRequire } from 'module'
 
 const require = createRequire(import.meta.url)
 const UnirepAppAbi = require('../abi/AttesterDescription.json')
-import ethers from 'hardhat'
 
 export default ({ app, db, synchronizer }) => {
   const handleSet = async (req, res) => {
@@ -22,8 +23,8 @@ export default ({ app, db, synchronizer }) => {
     // interfaceId 0x93c93c46
 
     // const attesterId = req.params.attesterId
-    // const nonce = req.headers.nonce
-    // const { icon, url, name, description } = req.headers
+    const nonce = req.headers.nonce
+    const { icon, url, name, description } = req.headers
 
     // if (!isValidAttesterDescription(icon, name, description, url)) {
     //   res.status(422)
@@ -33,35 +34,37 @@ export default ({ app, db, synchronizer }) => {
     // let attesterDescription = JSON.stringify({ icon, name, description, url })
 
     // // const signer = localProvider.getSigner()
-    const signer = provider.getSigner()
     const contract = new ethers.Contract(
       APP_ADDRESS,
       attesterDescriptionAbi,
-      signer
+      wallet
     )
-    //
-    // const supportsInterface =
-    //   typeof contract.supportsInterface === 'function'
-    //     ? await contract.supportsInterface('0x93c93c46')
-    //     : false
 
-    // let validSignature = false
+    let supportsInterface = false
+    try {
+      supportsInterface = await contract.supportsInterface('0x93c93c46')
+    } catch (_) {
+      // assume the function call fails and the interface is not supported
+    }
 
-    // const hash = ethers.utils.solidityKeccak256(
-    //   ['uint256', 'string'],
-    //   [nonce, description]
-    // )
+    let validSignature = false
 
-    // const signature = await signer.signMessage(ethers.utils.arrayify(hash))
+    const hash = ethers.utils.solidityKeccak256(
+      ['uint256', 'string'],
+      [nonce, description]
+    )
+
+    const signature = await wallet.signMessage(ethers.utils.arrayify(hash))
+    console.log(signature)
 
     // if (supportsInterface) {
-    //   let _ = await contract.setDescription(
-    //     hash,
-    //     signature,
-    //     attesterDescription
-    //   )
-    //   validSignature = await contract.isValidSignature(hash, signature)
-    //   attesterDescription = await contract.getDescription()
+    // let _ = await contract.setDescription(
+    //   hash,
+    //   signature,
+    //   attesterDescription
+    // )
+    // validSignature = await contract.isValidSignature(hash, signature)
+    // attesterDescription = await contract.getDescription()
     // }
 
     // const _attesterDescription = await db.findOne('AttesterDescription', {
