@@ -1,13 +1,24 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8;
 
+import {Unirep} from '@unirep/contracts/Unirep.sol';
+
 contract AttesterDescription {
   bool private isValid;
   string public text;
 
   bytes4 internal constant MAGICVALUE = 0x1626ba7e;
 
-  function supportsInterface(bytes4 interfaceId) external view returns (bool) {
+  Unirep public unirep;
+
+  constructor(Unirep _unirep) {
+    unirep = _unirep;
+
+    unirep.attesterSignUp(2 ** 32);
+    text = 'Hello from Attester Description contract';
+  }
+
+  function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
     return interfaceId == 0x93c93c46;
   }
 
