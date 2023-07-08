@@ -20,3 +20,8 @@ export const provider = ETH_PROVIDER_URL.startsWith('http')
 export const localProvider = new ethers.providers.JsonRpcProvider(
   ETH_LOCAL_PROVIDER_URL
 )
+
+export const PRIVATE_KEY =
+  process.env.PRIVATE_KEY ??
+  '0x0f70e777f814334daa4456ac32b9a1fdca75ae07f70c2e6cef92679bad06c88b'
+export const wallet = new ethers.Wallet(PRIVATE_KEY, provider)
