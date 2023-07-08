@@ -16,12 +16,15 @@
   "scripts": {
     "start": "node ./src/index.mjs",
     "test": "node ./__tests__/backend.test.js",
-    "compile": "node ./scripts/compileAll.js",
-    "deploy:local": "yarn compile && npx hardhat run scripts/deploy.js --network localhost",
+    "abi": "node scripts/abi",
+    "compile": "hardhat compile && yarn abi",
+    "deploy": "npx hardhat run scripts/deploy.mjs",
     "lint": "prettier .",
     "lint:fix": "prettier . --write"
   },
   "dependencies": {
+    "@unirep/contracts": "^2.0.0-beta-3",
+    "@openzeppelin/contracts": "^4.7.3",
     "@unirep/core": "^2.0.0-beta-3",
     "dotenv": "^16.0.3",
     "ethers": "^5.4.8",
