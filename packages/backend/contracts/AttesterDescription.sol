@@ -5,17 +5,13 @@ import {Unirep} from '@unirep/contracts/Unirep.sol';
 
 contract AttesterDescription {
   bool private isValid;
-  string public text;
-
   bytes4 internal constant MAGICVALUE = 0x1626ba7e;
 
   Unirep public unirep;
 
   constructor(Unirep _unirep) {
     unirep = _unirep;
-
     unirep.attesterSignUp(2 ** 32);
-    text = 'Hello from Attester Description contract';
   }
 
   function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
@@ -51,24 +47,7 @@ contract AttesterDescription {
     }
   }
 
-  function setDescription(
-    bytes32 _hash,
-    bytes memory _signature,
-    string memory _text
-  ) public {
-    if (isValidSignature(_hash, _signature)) {
-      text = _text;
-    }
-  }
-
-  function getDescription() public view returns (string memory description) {
-    return text;
-  }
-
   function getInterfaceId() external pure returns (bytes4) {
-    return
-      this.isValidSignature.selector ^
-      this.setDescription.selector ^
-      this.getDescription.selector;
+    return this.isValidSignature.selector;
   }
 }
