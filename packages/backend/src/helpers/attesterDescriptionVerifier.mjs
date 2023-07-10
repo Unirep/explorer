@@ -2,7 +2,7 @@ import { XMLParser, XMLValidator } from 'fast-xml-parser'
 import { URL } from 'url'
 
 export const isValidAttesterDescription = (icon, name, description, url) => {
-  icon = icon.trim()
+  icon = String(icon).trim()
   if (XMLValidator.validate(icon) !== true) {
     return false
   }
@@ -12,7 +12,6 @@ export const isValidAttesterDescription = (icon, name, description, url) => {
   try {
     json = parser.parse(icon)
   } catch {
-    console.log(json)
     return false
   }
 
@@ -22,7 +21,6 @@ export const isValidAttesterDescription = (icon, name, description, url) => {
     description.length > 500 ||
     name.length == 0
   ) {
-    console.log('HERE')
     return false
   }
 
@@ -31,14 +29,9 @@ export const isValidAttesterDescription = (icon, name, description, url) => {
       new URL(s)
       return true
     } catch (err) {
-      console.log(s)
       return false
     }
   }
 
-  if (!isValidUrl(url)) {
-    return false
-  }
-
-  return true
+  return !isValidUrl(url)
 }

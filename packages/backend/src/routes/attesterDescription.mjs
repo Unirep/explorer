@@ -22,18 +22,17 @@ export default ({ app, db, synchronizer }) => {
     // setDescriptionSelector 0xf0d3533b
     // interfaceId 0x93c93c46
 
-    // const attesterId = req.params.attesterId
+    const attesterId = req.params.attesterId
     const nonce = req.headers.nonce
     const { icon, url, name, description } = req.headers
 
-    // if (!isValidAttesterDescription(icon, name, description, url)) {
-    //   res.status(422)
-    //   res.send('Invalid attester description...')
-    // }
+    if (!isValidAttesterDescription(icon, name, description, url)) {
+      res.status(422)
+      res.send('Invalid attester description...')
+    }
 
-    // let attesterDescription = JSON.stringify({ icon, name, description, url })
+    let attesterDescription = JSON.stringify({ icon, name, description, url })
 
-    // // const signer = localProvider.getSigner()
     const contract = new ethers.Contract(
       APP_ADDRESS,
       attesterDescriptionAbi,
@@ -45,53 +44,45 @@ export default ({ app, db, synchronizer }) => {
       supportsInterface = await contract.supportsInterface('0x93c93c46')
     } catch (_) {
       // assume the function call fails and the interface is not supported
+      res.status(401)
+      res.send('Contract interface not supported...')
     }
-
-    let validSignature = false
 
     const hash = ethers.utils.solidityKeccak256(
       ['uint256', 'string'],
       [nonce, description]
     )
-
     const signature = await wallet.signMessage(ethers.utils.arrayify(hash))
-    console.log(signature)
 
-    // if (supportsInterface) {
-    // let _ = await contract.setDescription(
-    //   hash,
-    //   signature,
-    //   attesterDescription
-    // )
-    // validSignature = await contract.isValidSignature(hash, signature)
-    // attesterDescription = await contract.getDescription()
-    // }
+    if (!(await contract.isValidSignature(hash, signature))) {
+      res.status(401)
+      res.send('Invalid signature....')
+    }
 
-    // const _attesterDescription = await db.findOne('AttesterDescription', {
-    //   where: {
-    //     _id: attesterId,
-    //   },
-    // })
+    const _attesterDescription = await db.findOne('AttesterDescription', {
+      where: {
+        _id: attesterId,
+      },
+    })
 
-    // if (_attesterDescription) {
-    //   await db.update('AttesterDescription', {
-    //     where: {
-    //       _id: attesterId,
-    //     },
-    //     update: {
-    //       data: attesterDescription,
-    //     },
-    //   })
-    // } else {
-    //   await db.create('AttesterDescription', {
-    //     _id: attesterId,
-    //     data: attesterDescription,
-    //   })
-    // }
+    if (_attesterDescription) {
+      await db.update('AttesterDescription', {
+        where: {
+          _id: attesterId,
+        },
+        update: {
+          data: attesterDescription,
+        },
+      })
+    } else {
+      await db.create('AttesterDescription', {
+        _id: attesterId,
+        data: attesterDescription,
+      })
+    }
 
-    console.log(contract)
-    const text = await contract.getInterfaceId()
-    res.json({})
+    res.status(200)
+    res.json({ passed: true })
   }
 
   const handleGet = async (req, res) => {
@@ -116,6 +107,6 @@ export default ({ app, db, synchronizer }) => {
     }
   }
 
-  app.post('/api/about/', catchError(handleSet))
+  app.post('/api/about/:attesterId', catchError(handleSet))
   app.get('/api/about/:attesterId', catchError(handleGet))
 }
