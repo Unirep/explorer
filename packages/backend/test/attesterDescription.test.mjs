@@ -5,14 +5,6 @@ import { ethers } from 'ethers'
 import { expect } from 'chai'
 import randomf from 'randomf'
 
-/*
-- attesters can successfully update info if they have correct signature
-(we can test even if attester changes ownership and sign the info, and even multisig?)
-
-attesters cannot update info if with invalid signature
-check if info successfully saved in db
-*/
-
 const random = () => Math.floor(Math.random() * 100000)
 const randomSignature = () =>
   '0x00' + randomf(2n << (BigInt(512) - 1n)).toString(16)
