@@ -1,3 +1,4 @@
+import ethers from 'ethers'
 import { makeAutoObservable } from 'mobx'
 import { SERVER } from '../config'
 
@@ -13,6 +14,7 @@ export default class Unirep {
   attestationCount = null
   signUpCount = null
   attesterCount = null
+  descriptionsByAttesterId = new Map()
 
   constructor(state) {
     makeAutoObservable(this)
@@ -122,5 +124,31 @@ export default class Unirep {
     this.attestationCount = attestationCount
     this.signUpCount = signUpCount
     this.attesterCount = attesterCount
+  }
+
+  // async updateAttesterDescription(attesterId, icon, url, name, description) {
+  //   const data = await fetch(`${SERVER}/api/about/${attesterId}`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'content-type': 'application/json',
+  //       'icon': icon,
+  //       'url': url,
+  //       'name': name,
+  //       'description': description,
+  //     }
+  //   }).then(r => r.json())
+  //   return response
+  // }
+
+  async updateAttesterDescription(attesterId, icon, url, name, description) {
+    this.descriptionsByAttesterId.set(attesterId, {icon: icon, url: url, name: name, description, description})
+    return 'info updated!'
+  }
+
+  async loadAttesterDescription(attesterId) {
+    const info =
+      await fetch(`${SERVER}/api/about/${attesterId}`)
+      .then((r) => r.json())
+    this.descriptionsByAttesterId.set(attesterId, info)
   }
 }
