@@ -8,7 +8,6 @@ import {
   wallet,
 } from '../config.mjs'
 import { attesterDescriptionAbi } from '../helpers/abi.mjs'
-import { isValidAttesterDescription } from '../helpers/attesterDescriptionVerifier.mjs'
 import { createRequire } from 'module'
 
 const require = createRequire(import.meta.url)
@@ -26,11 +25,6 @@ export default ({ app, db, synchronizer }) => {
     const nonce = req.headers.nonce
     const { icon, url, name, description } = req.headers
 
-    if (!isValidAttesterDescription(icon, name, description, url)) {
-      res.status(422)
-      res.send('Invalid attester description...')
-    }
-
     let attesterDescription = JSON.stringify({ icon, name, description, url })
 
     const contract = new ethers.Contract(
@@ -46,6 +40,7 @@ export default ({ app, db, synchronizer }) => {
       // assume the function call fails and the interface is not supported
       res.status(401)
       res.send('Contract interface not supported...')
+      return
     }
 
     const hash = ethers.utils.solidityKeccak256(
@@ -57,6 +52,7 @@ export default ({ app, db, synchronizer }) => {
     if (!(await contract.isValidSignature(hash, signature))) {
       res.status(401)
       res.send('Invalid signature....')
+      return
     }
 
     const _attesterDescription = await db.findOne('AttesterDescription', {
