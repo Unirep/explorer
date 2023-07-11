@@ -4,7 +4,7 @@ import catchError from '../helpers/catchError.mjs'
 export default ({ app, db, synchronizer }) => {
   const handler = async (req, res) => {
     res.json({
-      UNIREP_ADDRESS,
+      UNIREP_ADDRESS: '0x51714b0b1bE71464e6382108DE1F5398BaDe807C',
       ETH_PROVIDER_URL,
       STATE_TREE_DEPTH: synchronizer.settings.stateTreeDepth,
       EPOCH_TREE_DEPTH: synchronizer.settings.epochTreeDepth,

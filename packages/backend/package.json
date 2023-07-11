@@ -7,25 +7,25 @@
   "license": "MIT",
   "main": "lib/backend.js",
   "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+    "lib": "lib"
   },
   "files": [
     "lib"
   ],
   "scripts": {
     "start": "node ./src/index.mjs",
-    "test": "node ./__tests__/backend.test.js",
     "abi": "node scripts/abi",
     "compile": "hardhat compile && yarn abi",
     "deploy": "npx hardhat run scripts/deploy.mjs",
+    "test": "mocha",
     "lint": "prettier .",
     "lint:fix": "prettier . --write"
   },
   "dependencies": {
-    "@unirep/contracts": "^2.0.0-beta-3",
     "@openzeppelin/contracts": "^4.7.3",
+    "@unirep/contracts": "^2.0.0-beta-3",
     "@unirep/core": "^2.0.0-beta-3",
+    "ansi-colors": "^4.1.3",
     "dotenv": "^16.0.3",
     "ethers": "^5.4.8",
     "express": "^4.18.2",
@@ -49,6 +49,7 @@
     "@types/mocha": "^9.1.1",
     "chai": "^4.3.7",
     "hardhat-gas-reporter": "^1.0.9",
+    "mocha": "^10.2.0",
     "solidity-coverage": "^0.7.22",
     "ts-node": "^10.9.1",
     "typechain": "^8.2.0"
