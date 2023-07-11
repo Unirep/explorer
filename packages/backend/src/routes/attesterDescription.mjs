@@ -20,12 +20,13 @@ export default ({ app, db, synchronizer }) => {
     // getDescriptionSelector 0x1a092541
     // setDescriptionSelector 0xf0d3533b
     // interfaceId 0x93c93c46
+    // wallet signature: 0xb12f4be8935bc6f58e9b013472451f31791cce7c59f6c78b869aa67e6168dc3b4de9b5d7e3675de2b87ca0ae7e56871f9daeb0ac512cb55af58dce0729754fc51b
 
     const attesterId = req.params.attesterId
-    const nonce = req.headers.nonce
-    const { icon, url, name, description } = req.headers
+    const { icon, url, name, description, nonce, signature } = req.headers
 
     let attesterDescription = JSON.stringify({ icon, name, description, url })
+    let passed = true
 
     const contract = new ethers.Contract(
       APP_ADDRESS,
@@ -39,20 +40,17 @@ export default ({ app, db, synchronizer }) => {
     } catch (_) {
       // assume the function call fails and the interface is not supported
       res.status(401)
-      res.send('Contract interface not supported...')
-      return
+      passed = false
     }
 
     const hash = ethers.utils.solidityKeccak256(
       ['uint256', 'string'],
       [nonce, description]
     )
-    const signature = await wallet.signMessage(ethers.utils.arrayify(hash))
 
     if (!(await contract.isValidSignature(hash, signature))) {
       res.status(401)
-      res.send('Invalid signature....')
-      return
+      passed = false
     }
 
     const _attesterDescription = await db.findOne('AttesterDescription', {
@@ -78,7 +76,7 @@ export default ({ app, db, synchronizer }) => {
     }
 
     res.status(200)
-    res.json({ passed: true })
+    res.json({ passed })
   }
 
   const handleGet = async (req, res) => {
