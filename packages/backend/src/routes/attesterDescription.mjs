@@ -53,6 +53,11 @@ export default ({ app, db, synchronizer }) => {
       passed = false
     }
 
+    if (!passed) {
+      res.json({ passed })
+      return
+    }
+
     const _attesterDescription = await db.findOne('AttesterDescription', {
       where: {
         _id: attesterId,
