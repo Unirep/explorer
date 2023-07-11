@@ -17,7 +17,7 @@
     "abi": "node scripts/abi",
     "compile": "hardhat compile && yarn abi",
     "deploy": "npx hardhat run scripts/deploy.mjs",
-    "test": "mocha",
+    "test": "mocha --exit",
     "lint": "prettier .",
     "lint:fix": "prettier . --write"
   },

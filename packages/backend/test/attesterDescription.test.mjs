@@ -4,11 +4,12 @@ import fetch from 'node-fetch'
 import { ethers } from 'ethers'
 import { expect } from 'chai'
 import randomf from 'randomf'
+import { clearCollection } from '../src/index.mjs'
 
 const random = () => Math.floor(Math.random() * 100000)
 const randomSignature = () =>
   '0x00' + randomf(2n << (BigInt(512) - 1n)).toString(16)
-const load = 600 // time before server
+const load = 1000 // time before server
 
 describe('Attester Description Tests', function () {
   let attesters
@@ -21,8 +22,11 @@ describe('Attester Description Tests', function () {
     attesters = r.items.map((x) => '0x' + parseInt(x._id).toString(16))
   })
 
-  this.beforeEach(async () => {
+  beforeEach(async () => {
     await new Promise((r) => setTimeout(r, load))
+    await clearCollection('AttesterDescription', {
+      where: { _id: attesters[-1] },
+    })
     headers = {
       description: 'example description',
       icon: '<svg>...</svg>',
