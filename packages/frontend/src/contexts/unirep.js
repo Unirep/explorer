@@ -277,14 +277,20 @@ export default class Unirep {
   // }
 
   async updateAttesterDescription(attesterId, icon, url, name, description) {
-    this.descriptionsByAttesterId.set(attesterId, {icon: icon, url: url, name: name, description, description})
+    this.descriptionsByAttesterId.set(attesterId, {
+      icon: icon,
+      url: url,
+      name: name,
+      description,
+      description,
+    })
     return 'info updated!'
   }
 
   async loadAttesterDescription(attesterId) {
-    const info =
-      await fetch(`${SERVER}/api/about/${attesterId}`)
-      .then((r) => r.json())
+    const info = await fetch(`${SERVER}/api/about/${attesterId}`).then((r) =>
+      r.json()
+    )
     this.descriptionsByAttesterId.set(attesterId, info)
   }
 }

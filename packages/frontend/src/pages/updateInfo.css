@@ -17,19 +17,19 @@
 .info-p {
   font-size: 1rem;
   font-weight: 200;
-  color: #494E53;
+  color: #494e53;
   margin: 0.3rem 0;
   line-height: 1.4rem;
 }
 
 .form-container {
-  background-color: #ECF7F8;
+  background-color: #ecf7f8;
   border-radius: 0.5rem;
   padding: 0rem 2rem 0rem;
 }
 
 .signature-container {
-  background-color: #A0D8DB;
+  background-color: #a0d8db;
   height: fit-content;
   border-radius: 0.5rem;
   padding: 2rem;
@@ -43,7 +43,7 @@
 .form-heading {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #494E53;
+  color: #494e53;
 }
 
 .info-input {
@@ -58,11 +58,11 @@
 }
 
 .info-input::placeholder {
-  color: #9EA3A7;
+  color: #9ea3a7;
 }
 
 .input-lead {
-  background-color: #D0D1D2;
+  background-color: #d0d1d2;
   display: flex;
   align-items: center;
   height: 2.4rem;
@@ -90,7 +90,7 @@ textarea {
 }
 
 textarea::placeholder {
-  color: #9EA3A7;
+  color: #9ea3a7;
   font-weight: 200;
 }
 
@@ -103,7 +103,7 @@ textarea:focus {
   border-radius: 0.5rem;
   margin: 0.5rem 0 2.5rem;
   padding: 1.5rem;
-  color: #282A2D;
+  color: #282a2d;
   font-weight: 200;
   line-height: 1.4rem;
   word-break: break-all;
