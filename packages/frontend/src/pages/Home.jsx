@@ -104,10 +104,12 @@ export default observer(() => {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                width: `${measure('0xca939...6132f', {
-                  fontSize: '0.9em',
-                  margin: '0.4em',
-                })}px`,
+                width: `${measure(
+                  ui.isMobile ? '0xca9...2f' : '0xca939...6132f',
+                  {
+                    fontSize: '1.05em',
+                  }
+                )}px`,
               }}
             >
               <h4>Attester</h4>
@@ -130,7 +132,6 @@ export default observer(() => {
               <div
                 style={{
                   display: 'flex',
-                  justifyContent: 'center',
                   width: '80px',
                 }}
               >

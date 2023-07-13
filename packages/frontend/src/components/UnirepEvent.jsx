@@ -32,13 +32,12 @@ export default observer(({ id }) => {
       {!ui.isMobile && (
         <p
           style={{
-            minWidth: '80px',
-            maxWidth: '100px',
+            width: '80px',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
           }}
         >
-          <span style={{ fontWeight: 'bold' }}>{attestation.fieldIndex}</span>:
+          <b>{attestation.fieldIndex}</b>:
           {'0x' + BigInt(attestation.change).toString(16)}
         </p>
       )}
