@@ -78,6 +78,8 @@ li {
 
 .footer {
   padding: 4.5rem 3.5rem;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .left-container {
@@ -97,7 +99,9 @@ li {
 }
 
 .events-header {
-  padding: 0.6rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .selected {

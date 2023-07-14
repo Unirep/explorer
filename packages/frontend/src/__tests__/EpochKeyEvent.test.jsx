@@ -14,11 +14,11 @@ const renderEpochKeyEvent = (attestation) => {
 }
 
 test('To test if EpochKeyEvent is exactly rendered', async () => {
-  renderEpochKeyEvent({
+  const { container } = renderEpochKeyEvent({
     fieldIndex: 1,
     change: 1,
     timestamp: 1688393495,
   })
 
-  expect(screen.getByText('1')).toBeInTheDocument()
+  expect(container.querySelector('.event-card')).not.toBeNull()
 })

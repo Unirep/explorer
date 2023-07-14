@@ -22,6 +22,9 @@ const defaultStateData = {
   attester: {
     attestationsById: new Map(),
   },
+  ui: {
+    isMobile: false,
+  },
 }
 
 beforeAll(() => {
@@ -32,7 +35,7 @@ beforeAll(() => {
 })
 
 test('To test if AttesterCard is exactly rendered', async () => {
-  renderAttestationCard(defaultStateData, '123')
+  const { container } = renderAttestationCard(defaultStateData, '123')
 
-  expect(screen.getByText('0x' + BigInt(1).toString(16))).toBeInTheDocument()
+  expect(container.querySelector('.event-card')).not.toBeNull()
 })

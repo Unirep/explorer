@@ -22,6 +22,9 @@ const defaultStateData = {
   attester: {
     signUpsById: new Map(),
   },
+  ui: {
+    isMobile: false,
+  },
 }
 
 beforeAll(() => {

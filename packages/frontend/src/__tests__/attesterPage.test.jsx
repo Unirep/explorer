@@ -35,6 +35,9 @@ const defaultStateData = {
     deploymentsById: new Map(),
     loadAttesterDeployments: jest.fn(),
   },
+  ui: {
+    isMobile: false,
+  },
 }
 
 beforeAll(() => {

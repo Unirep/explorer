@@ -1,0 +1,29 @@
+@media only screen and (max-width: 800px) {
+  .container {
+    display: flex;
+    margin: 1.5rem;
+    flex-flow: row wrap;
+  }
+
+  .footer {
+    padding: 1rem;
+  }
+
+  .footer a {
+    padding: 0px;
+  }
+
+  .left-container {
+    width: 100%;
+    margin-right: 0rem;
+  }
+
+  .right-container {
+    width: 100%;
+    margin-right: 0rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 100%;
+  }
+}
