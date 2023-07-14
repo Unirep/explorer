@@ -141,13 +141,14 @@ export default class Unirep {
   // }
 
   async updateAttesterDescription(attesterId, icon, url, name, description) {
+    console.log(attesterId, name, icon, url, description)
     this.descriptionsByAttesterId.set(attesterId, {
       icon: icon,
       url: url,
       name: name,
-      description,
-      description,
+      description: description,
     })
+    console.log(this.descriptionsByAttesterId.get(attesterId))
     return 'info updated!'
   }
 
