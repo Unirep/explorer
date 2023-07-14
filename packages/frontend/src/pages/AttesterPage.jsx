@@ -57,20 +57,20 @@ export default observer(() => {
         <div className="left-container">
           <h3>Attester</h3>
 
-          {<div className='desc-icon'>{info.icon}</div> || null}
+          {<div className="desc-icon">{info.icon}</div> || null}
           {<h1>{info.name}</h1> || null}
-          {<div className='description'>{info.description}</div> || null}
-          {info.url ? 
-            <div className='desc-link'>
+          {<div className="description">{info.description}</div> || null}
+          {info.url ? (
+            <div className="desc-link">
               <a
-              style={{ color: '#83B5B8' }}
-              href={`https://${info.url}`}
-              target="blank"
+                style={{ color: '#83B5B8' }}
+                href={`https://${info.url}`}
+                target="blank"
               >
                 https://{info.url}
               </a>
             </div>
-          : null }
+          ) : null}
 
           <div className="info-card">
             <h4>Attester Information</h4>
@@ -103,7 +103,7 @@ export default observer(() => {
           </div>
 
           <Link to={`/updateInfo/${id}`}>
-            <button className='update'>Update Info</button>
+            <button className="update">Update Info</button>
           </Link>
         </div>
 

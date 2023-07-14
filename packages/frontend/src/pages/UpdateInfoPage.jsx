@@ -14,7 +14,7 @@ export default observer(() => {
   const { unirep } = useContext(state)
 
   // load existing info to populate form
-  
+
   // useEffect(() => {
   //   const loadData = async () => {
   //     !unirep.descriptionsByAttesterId.has(attesterId)
