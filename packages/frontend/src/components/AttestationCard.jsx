@@ -33,7 +33,7 @@ export default observer(({ id }) => {
       >
         {changeString()}{' '}
         {isHover && (
-          <div className="changeDetail">
+          <div className="change-detail">
             {'0x' + BigInt(attestation.change).toString(16)}
           </div>
         )}
