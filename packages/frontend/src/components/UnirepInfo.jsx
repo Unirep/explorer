@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import ConfigInfoItem from './ConfigInfoItem'
-import { version } from '../config'
+import { version, network } from '../config'
 import './infoCard.css'
 
 export default observer(({ info }) => {
@@ -43,7 +43,7 @@ export default observer(({ info }) => {
 
       <div className="flex">
         <h5>Network</h5>
-        <h6>Arbitrum / Goerli</h6>
+        <h6>{network}</h6>
       </div>
 
       {circuitExpanded ? (
