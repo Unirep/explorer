@@ -42,7 +42,7 @@ const defaultStateData = {
 
 beforeAll(() => {
   defaultStateData.unirep.deploymentsById.set('d123', {
-    _id: '0xd123',
+    attesterId: '0xd123',
     startTimestamp: 1688393495,
   })
   defaultStateData.unirep.attestationsById.set('a123', {

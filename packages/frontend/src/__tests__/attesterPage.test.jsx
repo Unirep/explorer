@@ -38,6 +38,9 @@ const defaultStateData = {
   ui: {
     isMobile: false,
   },
+  info: {
+    network: 'arbitrum-goerli',
+  },
 }
 
 beforeAll(() => {
