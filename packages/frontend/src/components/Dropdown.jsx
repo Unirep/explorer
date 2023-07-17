@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import './dropdown.css'
 
-export default observer(({ selected, choices, select }) => {
+export default observer(({ selected, choices, select, disabled = false }) => {
   const [isDropped, setIsDropped] = useState(false)
 
   const onClick = (choice) => {
@@ -10,10 +10,15 @@ export default observer(({ selected, choices, select }) => {
     select(choice)
   }
 
+  const drop = () => {
+    if (disabled) return
+    setIsDropped(true)
+  }
+
   return (
     <div
       className="dropdown"
-      onMouseEnter={() => setIsDropped(true)}
+      onMouseEnter={drop}
       onMouseLeave={() => setIsDropped(false)}
     >
       {isDropped ? (
@@ -25,7 +30,7 @@ export default observer(({ selected, choices, select }) => {
           <img src={require('../../public/arrow-drop-down-fill.svg')} />
         </div>
       ) : (
-        <div className="drop-btn" onClick={() => setIsDropped(true)}>
+        <div className={`drop-btn ${disabled && 'disabled'}`} onClick={drop}>
           <b>{selected}</b>
           <img src={require('../../public/arrow-drop-down-fill.svg')} />
         </div>

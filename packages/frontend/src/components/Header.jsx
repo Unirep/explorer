@@ -71,6 +71,7 @@ export default observer(() => {
             selected={info.network}
             choices={NETWORK}
             select={(n) => info.setNetwork(n)}
+            disabled={window.location.pathname !== '/'}
           />
         )}
         {/* TODO: implement light/dark mode */}

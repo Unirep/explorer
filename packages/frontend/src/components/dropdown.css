@@ -20,6 +20,12 @@
   box-sizing: border-box;
 }
 
+.drop-btn.disabled {
+  cursor: not-allowed;
+  background-color: #d0d0d0;
+  color: #b0b0b0;
+}
+
 .drop-btn.is-dropped {
   border-radius: 8px 8px 0px 0px;
 }
