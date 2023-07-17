@@ -115,3 +115,15 @@ textarea:focus {
   text-align: center;
   padding-top: 2rem;
 }
+
+@media only screen and (max-width: 800px) {
+  .info-page-container {
+    display: flex;
+    margin: 1.5rem;
+    flex-flow: row wrap;
+  }
+
+  .form-container {
+    margin: 1rem 0 2rem;
+  }
+}

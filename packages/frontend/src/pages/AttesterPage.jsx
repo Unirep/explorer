@@ -60,7 +60,7 @@ export default observer(() => {
         <div className="left-container">
           <h3>Attester</h3>
 
-          {<div className="desc-icon">{reader.readAsDataURL(info.icon)}</div> || null}
+          {<div className="desc-icon">{info.icon}</div> || null}
           {<h1>{info.name}</h1> || null}
           {<div className="description">{info.description}</div> || null}
           {info.url ? (
