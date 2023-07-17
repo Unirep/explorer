@@ -7,4 +7,19 @@
   border-radius: 0.5rem;
   margin-bottom: 1rem;
   padding: 0 1rem;
+  position: relative;
+}
+
+.change-detail {
+  position: absolute;
+  right: 0px;
+  top: -32px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 8px;
+  word-wrap: break-word;
+  max-width: 300px;
 }

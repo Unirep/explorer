@@ -22,6 +22,9 @@ const defaultStateData = {
   unirep: {
     attestationsById: new Map(),
   },
+  ui: {
+    isMobile: false,
+  },
 }
 
 beforeAll(() => {

@@ -11,6 +11,7 @@ export default observer(({ text, maxWidth, ...props }) => {
   const [showingPopup, setShowingPopup] = React.useState(false)
   const [leftOffset, setLeftOffset] = React.useState(0)
   const [textWidth, setTextWidth] = React.useState(0)
+
   React.useEffect(() => {
     const _textWidth = measureText(text, {
       fontSize: '12px',
@@ -24,6 +25,7 @@ export default observer(({ text, maxWidth, ...props }) => {
     const minWidth = _maxWidth + 20
     setLeftOffset(screenMaxWidth > minWidth ? 0 : minWidth - screenMaxWidth)
   })
+
   return (
     <div
       onMouseDown={() => {
@@ -46,8 +48,8 @@ export default observer(({ text, maxWidth, ...props }) => {
     >
       <div
         className="tooltip-img"
-        onMouseEnter={!ui.isMobile && setShowingPopup.bind(null, true)}
-        onMouseLeave={!ui.isMobile && setShowingPopup.bind(null, false)}
+        onMouseEnter={setShowingPopup.bind(null, true)}
+        onMouseLeave={setShowingPopup.bind(null, false)}
       >
         <img src={require('../../public/info_icon.svg')} alt="info icon" />
       </div>

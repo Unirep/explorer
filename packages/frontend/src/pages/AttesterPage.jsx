@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import shortenId from '../utils/shorten-id'
 import Header from '../components/Header'
 import InfoCard from '../components/InfoCard'
 import EpochTime from '../components/EpochTime'
@@ -13,8 +14,9 @@ import dayjs from 'dayjs'
 export default observer(() => {
   const { id } = useParams()
   const attesterId = BigInt(id).toString(10)
-  const { unirep, attester } = useContext(state)
+  const { unirep, attester, ui } = useContext(state)
   const [selectedView, setSelectedView] = useState('Attestations')
+
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
@@ -89,7 +91,7 @@ export default observer(() => {
             <div className="flex">
               <h5>Address</h5>
               <h6>
-                <span>{id.slice(0, 7)}</span>...<span>{id.slice(-5)} </span>
+                <span>{shortenId(id, ui.isMobile)}</span>
                 <a
                   href={`https://goerli.arbiscan.io/address/${id}`}
                   target="blank"

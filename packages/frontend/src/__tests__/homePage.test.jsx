@@ -35,6 +35,9 @@ const defaultStateData = {
   info: {
     UNIREP_ADDRESS: '0x123',
   },
+  ui: {
+    isMobile: false,
+  },
 }
 
 beforeAll(() => {

@@ -23,6 +23,9 @@ const defaultStateData = {
   unirep: {
     searchForId: jest.fn(),
   },
+  ui: {
+    isMobile: false,
+  },
 }
 
 test('To test if Header is exactly rendered', async () => {
