@@ -22,7 +22,7 @@ export default observer(() => {
         : null
     }
     loadData()
-  }, [])
+  }, [info.network])
   const signups = unirep.signUpsByUserId.get(userId)
 
   return (

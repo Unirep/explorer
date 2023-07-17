@@ -22,7 +22,7 @@ export default observer(() => {
         : null
     }
     loadData()
-  }, [])
+  }, [info.network])
   const attestations = unirep.attestationsByEpochKey.get(epochKeyId)
 
   return (

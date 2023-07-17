@@ -21,7 +21,7 @@ export default observer(() => {
     const loadData = async () => {
       await Promise.all([
         !unirep.deploymentsById.has(attesterId)
-          ? unirep.loadAttesterDeployments()
+          ? unirep.loadAttesterDeployments(info.network)
           : null,
         attester.loadEpochsByAttester(attesterId, info.network),
         attester.loadStats(attesterId, info.network),
@@ -30,7 +30,7 @@ export default observer(() => {
       ])
     }
     loadData()
-  }, [])
+  }, [info.network])
 
   const stats = attester.statsById[attesterId] ?? {}
 

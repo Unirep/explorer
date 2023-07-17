@@ -35,7 +35,11 @@ export default observer(({ selected, choices, select }) => {
         style={{ display: isDropped ? 'block' : 'none' }}
       >
         {choices.map((choice) => (
-          <div className="dropdown-item" onClick={onClick} key={choice}>
+          <div
+            className="dropdown-item"
+            onClick={() => onClick(choice)}
+            key={choice}
+          >
             <b>{choice}</b>
           </div>
         ))}

@@ -23,7 +23,7 @@ export default observer(() => {
     }
 
     loadData()
-  }, [])
+  }, [info.network])
 
   return (
     <div className="content">
