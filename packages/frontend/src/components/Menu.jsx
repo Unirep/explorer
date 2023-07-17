@@ -1,6 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import './Menu.css'
+import './menu.css'
+import Dropdown from './Dropdown'
 
 export default observer(({ closeMenu }) => {
   return (
@@ -36,6 +37,11 @@ export default observer(({ closeMenu }) => {
       <a href="https://github.com/Unirep/create-unirep-app" target="blank">
         <button>Build</button>
       </a>
+      <Dropdown
+        selected={'goerli-arbitrum'}
+        choices={['arbitrum-goerli', 'goerli']}
+        select={() => console.log('select')}
+      />
     </div>
   )
 })
