@@ -50,6 +50,7 @@ export default observer(() => {
   //   description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
   //   url: 'sunshineapp.xyz',
   // }
+  const reader = new FileReader()
   const epochIds = [...(attester.epochsByAttesterId.get(attesterId) || [])]
   const lastEpoch = attester.epochsById.get(epochIds.pop())
   return (
@@ -59,7 +60,7 @@ export default observer(() => {
         <div className="left-container">
           <h3>Attester</h3>
 
-          {<div className="desc-icon">{info.icon}</div> || null}
+          {<div className="desc-icon">{reader.readAsDataURL(info.icon)}</div> || null}
           {<h1>{info.name}</h1> || null}
           {<div className="description">{info.description}</div> || null}
           {info.url ? (

@@ -12,6 +12,7 @@ export default observer(() => {
   const { id } = useParams()
   const attesterId = BigInt(id).toString(10)
   const { unirep } = useContext(state)
+  const reader = new FileReader()
 
   // load existing info to populate form
 
@@ -96,6 +97,7 @@ export default observer(() => {
             <input
               className="info-input"
               placeholder="My Unirep App"
+              maxLength='25'
               value={name ?? ''}
               onChange={(event) => {
                 setName(event.target.value)
@@ -111,9 +113,13 @@ export default observer(() => {
               <input
                 className="info-input split"
                 placeholder="Filename..."
-                value={icon ?? ''}
+                defaultValue={icon ?? ''}
+                type='file'
+                // display='none'
+                accept='.svg'
                 onChange={(event) => {
-                  setIcon(event.target.value)
+                  reader.readAsText(event.target.files[0])
+                  setIcon(reader.result)
                 }}
               />
             </div>
@@ -127,6 +133,7 @@ export default observer(() => {
             </h5>
             <textarea
               placeholder="ZKP..."
+              maxLength='500'
               value={description ?? ''}
               onChange={(event) => {
                 setDescription(event.target.value)
