@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
+import state from '../contexts/state'
+import { NETWORK } from '../contexts/utils'
 import './menu.css'
 import Dropdown from './Dropdown'
 
 export default observer(({ closeMenu }) => {
+  const { info } = useContext(state)
+
   return (
     <div className="menu-container">
       <div className="close-container">
@@ -38,9 +42,9 @@ export default observer(({ closeMenu }) => {
         <button>Build</button>
       </a>
       <Dropdown
-        selected={'goerli-arbitrum'}
-        choices={['arbitrum-goerli', 'goerli']}
-        select={() => console.log('select')}
+        selected={info.network}
+        choices={NETWORK}
+        select={(n) => info.setNetwork(n)}
       />
     </div>
   )

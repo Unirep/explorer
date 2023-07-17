@@ -2,12 +2,13 @@ import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import { NETWORK } from '../contexts/utils'
 import './header.css'
 import Menu from './Menu'
 import Dropdown from './Dropdown'
 
 export default observer(() => {
-  const { unirep, ui } = useContext(state)
+  const { unirep, ui, info } = useContext(state)
   const navigate = useNavigate()
   const [searchInput, setSearchInput] = useState('')
   const [isMenuOpened, setIsMenuOpened] = useState(false)
@@ -67,9 +68,9 @@ export default observer(() => {
       <div className="flex">
         {!ui.isMobile && (
           <Dropdown
-            selected={'goerli-arbitrum'}
-            choices={['arbitrum-goerli', 'goerli']}
-            select={() => console.log('select')}
+            selected={info.network}
+            choices={NETWORK}
+            select={(n) => info.setNetwork(n)}
           />
         )}
         {/* TODO: implement light/dark mode */}

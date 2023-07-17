@@ -1,6 +1,8 @@
-import { version, network } from '../config'
+import { version } from '../config'
 
-export const request = async (query) => {
+export const NETWORK = ['arbitrum-goerli', 'goerli', 'mumbai', 'sepolia']
+
+export const request = async (network, query) => {
   const url = `https://api.studio.thegraph.com/query/48080/${network}/${version}`
   const res = await fetch(url, {
     method: 'POST',

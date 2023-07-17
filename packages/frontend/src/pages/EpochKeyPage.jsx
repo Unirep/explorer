@@ -14,11 +14,11 @@ dayjs.extend(relativeTime)
 export default observer(() => {
   const { id } = useParams()
   const epochKeyId = BigInt(id).toString(10)
-  const { unirep } = useContext(state)
+  const { unirep, info } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
       !unirep.attestationsByEpochKey.has(epochKeyId)
-        ? await unirep.loadAttestationsByEpochKey(epochKeyId)
+        ? await unirep.loadAttestationsByEpochKey(epochKeyId, info.network)
         : null
     }
     loadData()

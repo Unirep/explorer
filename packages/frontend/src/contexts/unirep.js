@@ -38,7 +38,7 @@ export default class Unirep {
     }
   }
 
-  async loadAttesterDeployments() {
+  async loadAttesterDeployments(network) {
     // TODO: recursively query
     const query = `
     {
@@ -54,14 +54,14 @@ export default class Unirep {
         attesterId
       }
     }`
-    const data = await request(query)
+    const data = await request(network, query)
     const items = data.data.attesters
     if (items.length) {
       this.ingestAttesterDeployments(items)
     }
   }
 
-  async loadAttesterByID(id) {
+  async loadAttesterByID(id, network) {
     // TODO: recursively query
     const query = `
     {
@@ -76,7 +76,7 @@ export default class Unirep {
         attesterId
       }
     }`
-    const data = await request(query)
+    const data = await request(network, query)
     const items = data.data.attesters
     if (items.length) {
       this.ingestAttesterDeployments(items)
@@ -92,7 +92,7 @@ export default class Unirep {
     }
   }
 
-  async loadAllSignUps() {
+  async loadAllSignUps(network) {
     const query = `
     {
       users (
@@ -105,7 +105,7 @@ export default class Unirep {
       }
     }
     `
-    const data = await request(query)
+    const data = await request(network, query)
     const items = data.data.users
     this.ingestSignUps(items)
   }
@@ -127,7 +127,7 @@ export default class Unirep {
     }
   }
 
-  async loadSignUpsByUser(userId) {
+  async loadSignUpsByUser(userId, network) {
     // TODO: recursively query
     const query = `{
       users (where: {
@@ -143,7 +143,7 @@ export default class Unirep {
           attesterId
       }
     }`
-    const data = await request(query)
+    const data = await request(network, query)
     const items = data.data.users
     if (items.length) {
       this.signUpsByUserId.set(items[0].commitment, items)
@@ -151,7 +151,7 @@ export default class Unirep {
     return items.length
   }
 
-  async loadAllAttestations() {
+  async loadAllAttestations(network) {
     // TODO: recursively query
     const query = `{
       attestations (orderBy: blockTimestamp, orderDirection: desc) {
@@ -165,7 +165,7 @@ export default class Unirep {
         blockTimestamp
       }
     }`
-    const item = await request(query)
+    const item = await request(network, query)
     this.ingestAttestations(item.data.attestations)
   }
 
@@ -189,7 +189,7 @@ export default class Unirep {
     }
   }
 
-  async loadAttestationsByEpochKey(epochKey) {
+  async loadAttestationsByEpochKey(epochKey, network) {
     // TODO: recursively query
     const query = `{
       attestations (
@@ -209,7 +209,7 @@ export default class Unirep {
           fieldIndex
       }
   }`
-    const res = await request(query)
+    const res = await request(network, query)
     const items = res.data.attestations
     if (items.length) {
       this.attestationsByEpochKey.set(items[0].epochKey, items)
@@ -217,7 +217,7 @@ export default class Unirep {
     return items.length
   }
 
-  async loadStats() {
+  async loadStats(network) {
     // TODO: recursively query
     const queryCount = 1000
     let bytes = 0
@@ -244,7 +244,7 @@ export default class Unirep {
   }
     }
     `
-    const data = await request(query)
+    const data = await request(network, query)
     data.data.attestations.map((data) => {
       bytes += Math.ceil(BigInt(data.change).toString(16).length / 2)
     })

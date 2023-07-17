@@ -13,6 +13,8 @@ export default class Info {
   EPOCH_TREE_ARITY = ''
   EPOCH_KEY_NONCE_COUNT = ''
 
+  network = 'arbitrum-goerli'
+
   constructor(state) {
     makeAutoObservable(this)
     this.state = state
@@ -38,5 +40,9 @@ export default class Info {
     this.EPOCH_TREE_DEPTH = EPOCH_TREE_DEPTH
     this.EPOCH_TREE_ARITY = EPOCH_TREE_ARITY
     this.EPOCH_KEY_NONCE_COUNT = EPOCH_KEY_NONCE_COUNT
+  }
+
+  setNetwork(network) {
+    this.network = network
   }
 }

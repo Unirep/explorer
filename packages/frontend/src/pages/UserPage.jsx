@@ -14,11 +14,11 @@ dayjs.extend(relativeTime)
 export default observer(() => {
   const { id } = useParams()
   const userId = BigInt(id).toString()
-  const { unirep } = useContext(state)
+  const { unirep, info } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
       !unirep.signUpsByUserId.has(userId)
-        ? await unirep.loadSignUpsByUser(userId)
+        ? await unirep.loadSignUpsByUser(userId, info.network)
         : null
     }
     loadData()

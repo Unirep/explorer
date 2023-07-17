@@ -34,7 +34,7 @@ export default class Attester {
     return this.epochsById.get(epochId)
   }
 
-  async loadEpochsByAttester(attesterId) {
+  async loadEpochsByAttester(attesterId, network) {
     const query = `
     {
       epoches (
@@ -49,7 +49,7 @@ export default class Attester {
       }
   }
     `
-    const data = await request(query)
+    const data = await request(network, query)
     const items = data.data.epoches
     this.ingestEpochs(items)
   }
@@ -70,7 +70,7 @@ export default class Attester {
     }
   }
 
-  async loadSignUpsByAttester(attesterId) {
+  async loadSignUpsByAttester(attesterId, network) {
     const query = `
     {
       users (
@@ -86,7 +86,7 @@ export default class Attester {
       }
     }
     `
-    const data = await request(query)
+    const data = await request(network, query)
     const items = data.data.users
     this.ingestSignUps(items)
   }
@@ -107,7 +107,7 @@ export default class Attester {
     }
   }
 
-  async loadAttestationsByAttester(attesterId) {
+  async loadAttestationsByAttester(attesterId, network) {
     // TODO: recursively query
     const query = `{
       attestations (
@@ -125,7 +125,7 @@ export default class Attester {
         blockTimestamp
       }
     }`
-    const item = await request(query)
+    const item = await request(network, query)
     this.ingestAttestations(item.data.attestations)
   }
 
@@ -145,7 +145,7 @@ export default class Attester {
     }
   }
 
-  async loadStats(attesterId) {
+  async loadStats(attesterId, network) {
     // TODO: recursively query
     const queryCount = 1000
     let bytes = 0
@@ -178,7 +178,7 @@ export default class Attester {
   }
     }
     `
-    const data = await request(query)
+    const data = await request(network, query)
     data.data.attestations.map((data) => {
       bytes += Math.ceil(BigInt(data.change).toString(16).length / 2)
     })
