@@ -12,7 +12,7 @@ dayjs.extend(relativeTime)
 export default observer(({ id }) => {
   const { unirep, ui } = React.useContext(state)
   const attestation = unirep.attestationsById.get(id)
-  const { attesterId, timestamp } = attestation
+  const { attesterId, blockTimestamp } = attestation
   const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
 
@@ -43,7 +43,7 @@ export default observer(({ id }) => {
       )}
       {!ui.isMobile && (
         <p style={{ minWidth: '100px', fontSize: '12px' }}>
-          {dayjs(timestamp * 1000).from(dayjs())}
+          {dayjs(+blockTimestamp * 1000).from(dayjs())}
         </p>
       )}
     </div>

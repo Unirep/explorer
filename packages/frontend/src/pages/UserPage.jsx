@@ -38,7 +38,7 @@ export default observer(() => {
               <h6>
                 {signups
                   ? dayjs(
-                      Math.min(...signups.map((s) => s.timestamp)) * 1000
+                      Math.min(...signups.map((s) => +s.blockTimestamp)) * 1000
                     ).from(dayjs())
                   : 'Loading...'}
               </h6>

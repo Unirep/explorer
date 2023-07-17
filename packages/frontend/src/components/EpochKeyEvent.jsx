@@ -7,7 +7,7 @@ import './eventCard.css'
 dayjs.extend(relativeTime)
 
 export default observer(({ attestation }) => {
-  const { fieldIndex, change, timestamp } = attestation
+  const { fieldIndex, change, blockTimestamp } = attestation
   const [isHover, setIsHover] = useState(false)
 
   const changeString = () => {
@@ -35,7 +35,7 @@ export default observer(({ attestation }) => {
         )}
       </div>
       <p style={{ minWidth: '100px', fontSize: '12px' }}>
-        {dayjs(timestamp * 1000).from(dayjs())}
+        {dayjs(+blockTimestamp * 1000).from(dayjs())}
       </p>
     </div>
   )

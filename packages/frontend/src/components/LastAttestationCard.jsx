@@ -17,7 +17,9 @@ export default observer(() => {
         <h5>Submitted</h5>
         {lastAttestation ? (
           <h6>
-            {dayjs(lastAttestation.timestamp * 1000).format('MMM D, YYYY')}
+            {dayjs(+lastAttestation.blockTimestamp * 1000).format(
+              'MMM D, YYYY'
+            )}
           </h6>
         ) : null}
         {attestationCount === null ? <h5>Loading...</h5> : null}

@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { SERVER } from '../config'
+import { request } from './utils'
 
 export default class Unirep {
   deploymentIds = []
@@ -23,39 +23,91 @@ export default class Unirep {
   }
 
   //   async load() {}
-
   async searchForId(id) {
-    const url = new URL(`api/unirep/search/${id}`, SERVER)
-    const { type, data } = await fetch(url.toString()).then((r) => r.json())
-    if (type === 'user') {
-      this.signUpsByUserId.set(data[0].commitment, data)
-    } else if (type === 'epochKey') {
-      this.attestationsByEpochKey.set(data[0].epochKey, data)
-    } else if (type === 'attester') {
-      this.deploymentsById.set(data._id, data)
+    if (this.signUpsByUserId.get(id)) return 'user'
+    else if (this.attestationsByEpochKey.get(id)) return 'epochKey'
+    else if (this.deploymentsById.get(id)) return 'attester'
+    else {
+      const userCount = await this.loadSignUpsByUser(id)
+      if (userCount) return 'user'
+      const epkCount = await this.loadAttestationsByEpochKey(id)
+      if (epkCount) return 'epochKey'
+      const attesterCount = await this.loadAttesterByID(id)
+      if (attesterCount) return 'attester'
+      return 'unknown'
     }
-    return type
   }
 
   async loadAttesterDeployments() {
-    const url = new URL(`api/unirep/attesters`, SERVER)
-    const { items } = await fetch(url.toString()).then((r) => r.json())
-    this.ingestAttesterDeployments(items)
+    // TODO: recursively query
+    const query = `
+    {
+      attesters (
+        where: {
+            attesterId_not: "0"
+        },
+        orderBy: startTimestamp
+      ){
+        id
+        startTimestamp
+        epochLength
+        attesterId
+      }
+    }`
+    const data = await request(query)
+    const items = data.data.attesters
+    if (items.length) {
+      this.ingestAttesterDeployments(items)
+    }
+  }
+
+  async loadAttesterByID(id) {
+    // TODO: recursively query
+    const query = `
+    {
+      attesters (
+        where: {
+            attesterId: "${id}"
+        }
+      ){
+        id
+        startTimestamp
+        epochLength
+        attesterId
+      }
+    }`
+    const data = await request(query)
+    const items = data.data.attesters
+    if (items.length) {
+      this.ingestAttesterDeployments(items)
+    }
+    return items.length
   }
 
   async ingestAttesterDeployments(_deployments) {
     const deployments = [_deployments].flat()
-    this.deploymentIds = deployments.map((d) => d._id)
+    this.deploymentIds = deployments.map((d) => d.attesterId)
     for (const d of deployments) {
-      this.deploymentsById.set(d._id, d)
+      this.deploymentsById.set(d.attesterId, d)
     }
   }
 
   async loadAllSignUps() {
-    const url = new URL(`api/unirep/signups`, SERVER)
-    const data = await fetch(url.toString()).then((r) => r.json())
-    this.allSignUps = data
-    this.ingestSignUps(data)
+    const query = `
+    {
+      users (
+        orderBy: blockTimestamp
+      ) {
+        id
+        epoch
+        commitment
+        attesterId
+      }
+    }
+    `
+    const data = await request(query)
+    const items = data.data.users
+    this.ingestSignUps(items)
   }
 
   async ingestSignUps(signups) {
@@ -66,7 +118,7 @@ export default class Unirep {
         // make sure not to insert duplicates
         const signups = this.signUpsByUserId
           .get(userId)
-          .filter((s) => s._id !== signup._id)
+          .filter((s) => s.id !== signup.id)
           .push(signup)
         this.signUpsByUserId.set(signups)
       } else {
@@ -76,29 +128,59 @@ export default class Unirep {
   }
 
   async loadSignUpsByUser(userId) {
-    const url = new URL(`api/unirep/signups/${userId}`, SERVER)
-    const items = await fetch(url.toString()).then((r) => r.json())
-    this.signUpsByUserId.set(items[0].commitment, items)
+    // TODO: recursively query
+    const query = `{
+      users (where: {
+          commitment: "${userId}"
+      },
+      orderBy: blockTimestamp,
+      orderDirection: desc) {
+          id
+          epoch
+          commitment
+          blockNumber
+          blockTimestamp
+          attesterId
+      }
+    }`
+    const data = await request(query)
+    const items = data.data.users
+    if (items.length) {
+      this.signUpsByUserId.set(items[0].commitment, items)
+    }
+    return items.length
   }
 
   async loadAllAttestations() {
-    const url = new URL(`api/unirep/attestations`, SERVER)
-    const { items } = await fetch(url.toString()).then((r) => r.json())
-    this.ingestAttestations(items)
+    // TODO: recursively query
+    const query = `{
+      attestations (orderBy: blockTimestamp, orderDirection: desc) {
+        id
+        epochKey
+        attesterId
+        blockNumber
+        change
+        epoch
+        fieldIndex
+        blockTimestamp
+      }
+    }`
+    const item = await request(query)
+    this.ingestAttestations(item.data.attestations)
   }
 
   async ingestAttestations(_attestations) {
     // accept an array or a single item
     const attestations = [_attestations].flat()
     // store allAttestations as ids to prevent duplicating data
-    this.attestationIds = attestations.map((a) => a._id)
+    this.attestationIds = attestations.map((a) => a.id)
     for (const a of attestations) {
-      this.attestationsById.set(a._id, a)
+      this.attestationsById.set(a.id, a)
       const { epochKey } = a
       if (this.attestationsByEpochKey.has(epochKey)) {
         const attestations = this.attestationsByEpochKey
           .get(epochKey)
-          .filter((attestation) => attestation._id !== a._id)
+          .filter((attestation) => attestation.id !== a.id)
           .push(a)
         this.attestationsByEpochKey.set(attestations)
       } else {
@@ -108,19 +190,67 @@ export default class Unirep {
   }
 
   async loadAttestationsByEpochKey(epochKey) {
-    const url = new URL(`api/unirep/attestations/${epochKey}`, SERVER)
-    const items = await fetch(url.toString()).then((r) => r.json())
-    this.attestationsByEpochKey.set(items[0].epochKey, items)
+    // TODO: recursively query
+    const query = `{
+      attestations (
+          where: {
+              epochKey: "${epochKey.toString()}"
+          },
+          orderBy: blockTimestamp,
+          orderDirection: desc
+      ) {
+          id
+          epoch
+          epochKey
+          blockNumber
+          blockTimestamp
+          attesterId
+          change
+          fieldIndex
+      }
+  }`
+    const res = await request(query)
+    const items = res.data.attestations
+    if (items.length) {
+      this.attestationsByEpochKey.set(items[0].epochKey, items)
+    }
+    return items.length
   }
 
   async loadStats() {
-    const url = new URL(`api/unirep/stats`, SERVER)
-    const { signUpCount, attesterCount, totalBytes, attestationCount } =
-      await fetch(url.toString()).then((r) => r.json())
-    console.log(attestationCount)
-    this.totalBytes = totalBytes
-    this.attestationCount = attestationCount
-    this.signUpCount = signUpCount
-    this.attesterCount = attesterCount
+    // TODO: recursively query
+    const queryCount = 1000
+    let bytes = 0
+    const query = `
+    {
+      attestations (
+        first: ${queryCount}
+    ) {
+        id
+        change
+    }
+    attesters (
+      first: ${queryCount}
+      where: {
+        attesterId_not: "0"
+      }
+    ) {
+      id
+    }
+    users (
+      first: ${queryCount}
+  ) {
+      id
+  }
+    }
+    `
+    const data = await request(query)
+    data.data.attestations.map((data) => {
+      bytes += Math.ceil(BigInt(data.change).toString(16).length / 2)
+    })
+    this.totalBytes = bytes
+    this.attestationCount = data.data.attestations.length
+    this.signUpCount = data.data.users.length
+    this.attesterCount = data.data.attesters.length
   }
 }

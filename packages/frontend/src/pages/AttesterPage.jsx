@@ -114,7 +114,9 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              {deployment ? <EpochView attesterId={deployment._id} /> : null}
+              {deployment ? (
+                <EpochView attesterId={deployment.attesterId} />
+              ) : null}
               {deployment ? null : 'Loading...'}
             </>
           ) : (

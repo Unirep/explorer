@@ -5,7 +5,8 @@ config()
 export const UNIREP_ADDRESS =
   process.env.UNIREP_ADDRESS ?? '0xCa61bFcA0107c5952f8bf59f4D510d111cbcE146'
 export const ETH_PROVIDER_URL =
-  process.env.ETH_PROVIDER_URL ?? 'https://arbitrum.goerli.unirep.io'
+  process.env.ETH_PROVIDER_URL ??
+  'https://arb-goerli.g.alchemy.com/v2/hfFfXlX8rR8YvrALiJ8b7ZtIPRGY1GTM'
 
 export const DB_PATH = process.env.DB_PATH ?? ':memory:'
 

@@ -29,18 +29,6 @@ export default observer(({ attesterId, epoch, numAttestations, epochKey }) => {
         <h6>{epoch}</h6>
       </div>
       <div className="flex">
-        <h5>Epoch status</h5>
-        {attesterEpoch ? (
-          attesterEpoch.sealed ? (
-            <h6>sealed</h6>
-          ) : (
-            <h6>not sealed</h6>
-          )
-        ) : (
-          'Loading...'
-        )}
-      </div>
-      <div className="flex">
         <h5>Attestations Received</h5>
         <h6>{numAttestations}</h6>
       </div>

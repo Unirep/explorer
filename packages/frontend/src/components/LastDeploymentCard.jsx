@@ -16,7 +16,7 @@ export default observer(() => {
         <h5>Deployed on</h5>
         {lastDeployment ? (
           <h6>
-            {dayjs(lastDeployment.startTimestamp * 1000).format('MMM D, YYYY')}
+            {dayjs(+lastDeployment.startTimestamp * 1000).format('MMM D, YYYY')}
           </h6>
         ) : null}
         {lastDeployment ? null : <h5>Loading...</h5>}
@@ -26,12 +26,12 @@ export default observer(() => {
         {lastDeployment ? (
           <h6>
             {shortenId(
-              `0x${BigInt(lastDeployment._id).toString(16)}`,
+              `0x${BigInt(lastDeployment.attesterId).toString(16)}`,
               ui.isMobile
             )}
             <a
               href={`https://goerli.arbiscan.io/address/0x${BigInt(
-                lastDeployment._id
+                lastDeployment.attesterId
               ).toString(16)}`}
               target="blank"
             >
