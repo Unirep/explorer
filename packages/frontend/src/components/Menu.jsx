@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import { NETWORK } from '../contexts/utils'
-import './menu.css'
+import './Menu.css'
 import Dropdown from './Dropdown'
 
 export default observer(({ closeMenu }) => {
