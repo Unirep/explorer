@@ -45,6 +45,7 @@ export default observer(({ closeMenu }) => {
         selected={info.network}
         choices={NETWORK}
         select={(n) => info.setNetwork(n)}
+        disabled={window.location.pathname !== '/'}
       />
     </div>
   )
