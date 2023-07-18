@@ -51,10 +51,8 @@ export default observer(() => {
             Enable users to discover your application.
           </div>
           <div className="signature-container">
-            <h5 style={{ marginBottom: '2rem' }}>
-              Upon updating the project information, it's mandatory to provide a
-              signature. It is crucial to be prepared to substantiate that you
-              are indeed the attester contract's owner.
+            <h5 style={{ marginBottom: '1rem' }}>
+              Updating the project information requires a signature from the owner of the attester contract.
             </h5>
             <div className="info-p" style={{ fontWeight: '600' }}>
               Hash of attester info:
@@ -75,7 +73,9 @@ export default observer(() => {
             >
               sign message
             </Button>
-            <div className="form-heading response">{responseMessage}</div>
+            {responseMessage ?
+              <div className="form-heading response">{responseMessage}</div>
+            : null }
             {responseMessage === 'info updated!' ? (
               <h5 style={{ textAlign: 'center' }}>
                 Check out your new attester page
@@ -93,7 +93,7 @@ export default observer(() => {
         <div className="form-container">
           <div className="form-section">
             <div className="form-heading">Attester name</div>
-            <h5>Your application's title</h5>
+            <h5>Your application's title.</h5>
             <input
               className="info-input"
               placeholder="My Unirep App"
