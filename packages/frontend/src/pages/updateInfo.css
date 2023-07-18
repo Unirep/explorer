@@ -61,6 +61,23 @@
   color: #9ea3a7;
 }
 
+input[type='file'] {
+  padding: 0;
+  /* color: #9ea3a7; */
+}
+
+input[type='file']::file-selector-button {
+  background-color: #d0d1d2;
+  height: 2.3rem;
+  border-radius: 0.5rem 0 0 0.5rem;
+  border: thin solid gray;
+  margin-right: 0.5rem;
+  padding: 0 0.5rem 0;
+  font-family: 'Azeret Mono';
+  font-size: 0.9rem;
+  font-weight: 200;
+}
+
 .input-lead {
   background-color: #d0d1d2;
   display: flex;

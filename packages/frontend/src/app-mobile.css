@@ -26,4 +26,8 @@
   .info-grid {
     grid-template-columns: 100%;
   }
+
+  .update {
+    margin-bottom: 2rem;
+  }
 }
