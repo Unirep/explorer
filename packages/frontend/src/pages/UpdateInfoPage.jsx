@@ -25,7 +25,7 @@ export default observer(() => {
   //   loadData()
   // }, [])
 
-  const info = unirep.descriptionsByAttesterId.get(attesterId) || {
+  const info = unirep.descriptionsByAttesterId.get(attesterId) ?? {
     icon: '',
     name: '',
     description: '',
@@ -97,7 +97,7 @@ export default observer(() => {
             <input
               className="info-input"
               placeholder="My Unirep App"
-              maxLength='25'
+              maxLength="25"
               value={name ?? ''}
               onChange={(event) => {
                 setName(event.target.value)
@@ -108,21 +108,18 @@ export default observer(() => {
           <div className="form-section">
             <div className="form-heading">App icon</div>
             <h5>Square format. SVG only.</h5>
-            <div style={{ display: 'flex' }}>
-              <div className="input-lead">select file</div>
-              <input
-                className="info-input split"
-                placeholder="Filename..."
-                defaultValue={icon ?? ''}
-                type='file'
-                // display='none'
-                accept='.svg'
-                onChange={(event) => {
-                  reader.readAsText(event.target.files[0])
-                  setIcon(reader.result)
-                }}
-              />
-            </div>
+            <input
+              className="info-input"
+              placeholder="Filename..."
+              // defaultValue={icon ?? ''}
+              defaultValue={''}
+              type="file"
+              accept=".svg"
+              onChange={async (event) => {
+                const svg = await event.target.files[0].text()
+                setIcon(svg)
+              }}
+            />
           </div>
 
           <div className="form-section">
@@ -133,7 +130,7 @@ export default observer(() => {
             </h5>
             <textarea
               placeholder="ZKP..."
-              maxLength='500'
+              maxLength="500"
               value={description ?? ''}
               onChange={(event) => {
                 setDescription(event.target.value)
