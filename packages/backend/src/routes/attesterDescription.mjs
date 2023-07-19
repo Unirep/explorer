@@ -8,10 +8,6 @@ import {
   wallet,
 } from '../config.mjs'
 import { attesterDescriptionAbi } from '../helpers/abi.mjs'
-import { createRequire } from 'module'
-
-const require = createRequire(import.meta.url)
-const UnirepAppAbi = require('../abi/AttesterDescription.json')
 
 export default ({ app, db, synchronizer }) => {
   const handleSet = async (req, res) => {
@@ -23,9 +19,10 @@ export default ({ app, db, synchronizer }) => {
     // wallet signature: 0xb12f4be8935bc6f58e9b013472451f31791cce7c59f6c78b869aa67e6168dc3b4de9b5d7e3675de2b87ca0ae7e56871f9daeb0ac512cb55af58dce0729754fc51b
 
     const attesterId = req.params.attesterId
-    const { icon, url, name, description, nonce, signature } = req.headers
+    const { icon, url, name, description, nonce, signature, network } =
+      req.headers
+    const _id = attesterId + network
 
-    let attesterDescription = JSON.stringify({ icon, name, description, url })
     let passed = true
 
     const contract = new ethers.Contract(
@@ -60,23 +57,33 @@ export default ({ app, db, synchronizer }) => {
 
     const _attesterDescription = await db.findOne('AttesterDescription', {
       where: {
-        _id: attesterId,
+        _id,
       },
     })
 
     if (_attesterDescription) {
       await db.update('AttesterDescription', {
         where: {
-          _id: attesterId,
+          _id,
         },
         update: {
-          data: attesterDescription,
+          name,
+          attesterId,
+          network,
+          url,
+          icon,
+          description,
         },
       })
     } else {
       await db.create('AttesterDescription', {
-        _id: attesterId,
-        data: attesterDescription,
+        _id,
+        name,
+        attesterId,
+        network,
+        url,
+        icon,
+        description,
       })
     }
 
@@ -86,22 +93,25 @@ export default ({ app, db, synchronizer }) => {
 
   const handleGet = async (req, res) => {
     const attesterId = req.params.attesterId
+    const { network } = req.headers
+    const _id = attesterId + network
 
     const attesterDescription = await db.findOne('AttesterDescription', {
       where: {
-        _id: attesterId,
+        _id,
       },
     })
 
     if (attesterDescription) {
-      const { _id, data } = attesterDescription
-      res.json(JSON.parse(data))
+      const { id, icon, name, description, url, network } = attesterDescription
+      res.json({ icon, name, description, url, network })
     } else {
       res.json({
         icon: '',
         name: '',
         description: '',
         url: '',
+        network: '',
       })
     }
   }

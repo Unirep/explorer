@@ -1,7 +1,7 @@
 require('@nomicfoundation/hardhat-toolbox')
 
 module.exports = {
-  defaultNetwork: 'local',
+  defaultNetwork: 'arb',
   networks: {
     hardhat: {
       blockGasLimit: 12000000,
@@ -12,7 +12,7 @@ module.exports = {
       blockGasLimit: 12000000,
       chainId: 421613, // match arb goerli
       accounts: [
-        '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80',
+        '0xbca43b51928100e446f2265f1493c3e9187d62eb26ef043f8ecbae6cb27e4f51',
       ],
     },
     arb: {
