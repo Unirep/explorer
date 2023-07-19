@@ -68,7 +68,7 @@ export default observer(() => {
       <div className="flex">
         {!ui.isMobile && (
           <Dropdown
-            selected={info.network}
+            selected={info.network.name}
             choices={NETWORK}
             select={(n) => info.setNetwork(n)}
             disabled={window.location.pathname !== '/'}

@@ -21,12 +21,12 @@ export default observer(() => {
     const loadData = async () => {
       await Promise.all([
         !unirep.deploymentsById.has(attesterId)
-          ? unirep.loadAttesterDeployments(info.network)
+          ? unirep.loadAttesterDeployments(info.network.name)
           : null,
-        attester.loadEpochsByAttester(attesterId, info.network),
-        attester.loadStats(attesterId, info.network),
-        attester.loadSignUpsByAttester(attesterId, info.network),
-        attester.loadAttestationsByAttester(attesterId, info.network),
+        attester.loadEpochsByAttester(attesterId, info.network.name),
+        attester.loadStats(attesterId, info.network.name),
+        attester.loadSignUpsByAttester(attesterId, info.network.name),
+        attester.loadAttestationsByAttester(attesterId, info.network.name),
       ])
     }
     loadData()

@@ -18,7 +18,7 @@ export default observer(() => {
   useEffect(() => {
     const loadData = async () => {
       !unirep.attestationsByEpochKey.has(epochKeyId)
-        ? await unirep.loadAttestationsByEpochKey(epochKeyId, info.network)
+        ? await unirep.loadAttestationsByEpochKey(epochKeyId, info.network.name)
         : null
     }
     loadData()
