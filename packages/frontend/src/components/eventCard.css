@@ -1,13 +1,20 @@
 .event-card {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 0.3rem;
   width: auto;
   border: 1px solid black;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
   padding: 0 1rem;
   position: relative;
+}
+
+.event-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .change-detail {

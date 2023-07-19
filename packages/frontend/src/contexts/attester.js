@@ -83,6 +83,7 @@ export default class Attester {
         epoch
         commitment
         attesterId
+        transactionHash
       }
     }
     `
@@ -123,6 +124,7 @@ export default class Attester {
         epoch
         fieldIndex
         blockTimestamp
+        transactionHash
       }
     }`
     const item = await request(network, query)
