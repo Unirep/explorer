@@ -14,6 +14,7 @@ const load = 1000 // time before server
 describe('Attester Description Tests', function () {
   let attesters
   let headers
+  this.timeout(3000)
   before(async () => {
     await new Promise((r) => setTimeout(r, load))
 
@@ -54,6 +55,33 @@ describe('Attester Description Tests', function () {
 
     Object.entries(get).forEach(([k, v]) => {
       expect(v).to.equal('')
+    })
+  })
+
+  it('should not update info with invalid url', async () => {
+    const hash = ethers.utils.solidityKeccak256(
+      ['uint256', 'string'],
+      [headers.nonce, headers.description]
+    )
+
+    headers.signature = await wallet.signMessage(ethers.utils.arrayify(hash))
+    headers.url = 'invalid url'
+
+    const url = new URL(`/api/about/${attesters[-1]}`, process.env.HTTP_SERVER)
+    const post = await fetch(url.toString(), {
+      method: 'post',
+      headers: headers,
+    }).then((r) => r.json())
+
+    expect(post.passed).to.be.true
+
+    const get = await fetch(url.toString(), {
+      method: 'get',
+      headers: { network: headers.network },
+    }).then((r) => r.json())
+
+    Object.entries(get).forEach(([k, v]) => {
+      expect(headers[k]).to.equal(v)
     })
   })
 
