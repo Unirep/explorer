@@ -1,4 +1,5 @@
 import { ethers } from 'ethers'
+import fetch from 'node-fetch'
 import catchError from '../helpers/catchError.mjs'
 import {
   localProvider,
@@ -30,6 +31,15 @@ export default ({ app, db, synchronizer }) => {
       attesterDescriptionAbi,
       wallet
     )
+
+    const validUrl = fetch(url)
+      .then(() => true)
+      .catch(() => false)
+
+    if (!validUrl) {
+      res.status(401)
+      passed = false
+    }
 
     let supportsInterface = false
     try {
