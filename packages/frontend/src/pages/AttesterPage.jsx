@@ -61,7 +61,7 @@ export default observer(() => {
               <h6>
                 <span>{shortenId(id, ui.isMobile)}</span>
                 <a
-                  href={`https://goerli.arbiscan.io/address/${id}`}
+                  href={`${info.network.explorer}/address/${id}`}
                   target="blank"
                 >
                   <img
