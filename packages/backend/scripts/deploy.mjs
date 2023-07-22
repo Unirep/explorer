@@ -3,7 +3,7 @@ import path from 'path'
 import url from 'url'
 import { createRequire } from 'module'
 import hardhat from 'hardhat'
-import { ETH_PROVIDER_URL, UNIREP_ADDRESS, provider } from '../src/config.mjs'
+import { ETH_PROVIDER_URL } from '../src/config.mjs'
 const { ethers } = hardhat
 
 const require = createRequire(import.meta.url)
