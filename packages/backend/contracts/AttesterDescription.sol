@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8;
 
 import {Unirep} from '@unirep/contracts/Unirep.sol';
@@ -6,13 +6,6 @@ import {Unirep} from '@unirep/contracts/Unirep.sol';
 contract AttesterDescription {
   bool private isValid;
   bytes4 internal constant MAGICVALUE = 0x1626ba7e;
-
-  Unirep public unirep;
-
-  constructor(Unirep _unirep) {
-    unirep = _unirep;
-    unirep.attesterSignUp(2 ** 32);
-  }
 
   function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
     return interfaceId == 0x93c93c46;

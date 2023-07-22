@@ -32,7 +32,6 @@
     "hardhat": "^2.12.3",
     "nanoid": "^4.0.0",
     "node-fetch": "^3.3.0",
-    "solc": "^0.8.20",
     "web3": "^4.0.1"
   },
   "devDependencies": {

@@ -2,7 +2,6 @@ import fs from 'fs'
 import path from 'path'
 import url from 'url'
 import { createRequire } from 'module'
-import { deployUnirep } from '@unirep/contracts/deploy/index.js'
 import hardhat from 'hardhat'
 import { ETH_PROVIDER_URL, UNIREP_ADDRESS, provider } from '../src/config.mjs'
 const { ethers } = hardhat
@@ -27,21 +26,13 @@ const retryAsNeeded = async (fn) => {
 const AttesterDescription = require('../src/abi/AttesterDescription.json')
 
 const [signer] = await ethers.getSigners()
-const unirep = await deployUnirep(signer, {
-  STATE_TREE_DEPTH: 20,
-})
 
 const App = await ethers.getContractFactory('AttesterDescription')
-const app = await retryAsNeeded(() => App.deploy(unirep.address))
+const app = await retryAsNeeded(() => App.deploy())
 
 await app.deployed()
 
-console.log(
-  `Unirep app with epoch length ${2 ** 32} deployed to ${app.address}`
-)
-
 const config = `
-UNIREP_ADDRESS: '${unirep.address}',
 APP_ADDRESS: '${app.address}',
 ETH_PROVIDER_URL: '${ETH_PROVIDER_URL}',
 ${
