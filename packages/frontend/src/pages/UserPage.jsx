@@ -68,7 +68,7 @@ export default observer(() => {
           <div className="scroll">
             {signups
               ? signups.map((signup) => (
-                  <UserEvent key={signup._id} signup={signup} />
+                  <UserEvent key={signup.id} signup={signup} />
                 ))
               : null}
             {signups ? null : 'Loading...'}

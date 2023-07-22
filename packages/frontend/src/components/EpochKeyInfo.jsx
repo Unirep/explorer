@@ -5,15 +5,16 @@ import state from '../contexts/state'
 import Tooltip from './Tooltip'
 
 export default observer(({ attesterId, epoch, numAttestations, epochKey }) => {
-  const { attester } = useContext(state)
+  const { attester, info } = useContext(state)
+  const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
+
   useEffect(() => {
     const loadData = async () => {
-      await attester.loadEpochsByAttester(attesterId)
+      await attester.loadEpochsByAttester(attesterId, info.network)
     }
     loadData()
   }, [])
-  const attesterEpoch = attester.epochByNumber(attesterId, epoch)
-  const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
+
   return (
     <div className="info-card">
       <div className="flex">
