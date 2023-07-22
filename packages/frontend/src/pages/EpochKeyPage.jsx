@@ -53,7 +53,7 @@ export default observer(() => {
             {attestations
               ? attestations.map((attestation) => (
                   <EpochKeyEvent
-                    key={attestation._id}
+                    key={attestation.id}
                     attestation={attestation}
                   />
                 ))
