@@ -73,15 +73,15 @@ describe('Attester Description Tests', function () {
       headers: headers,
     }).then((r) => r.json())
 
-    expect(post.passed).to.be.true
+    expect(post.passed).to.be.false
 
     const get = await fetch(url.toString(), {
       method: 'get',
       headers: { network: headers.network },
     }).then((r) => r.json())
 
-    Object.entries(get).forEach(([k, v]) => {
-      expect(headers[k]).to.equal(v)
+    Object.entries(get).forEach(([_, v]) => {
+      expect(v).to.equal('')
     })
   })
 

@@ -1,13 +1,7 @@
 import { ethers } from 'ethers'
 import fetch from 'node-fetch'
 import catchError from '../helpers/catchError.mjs'
-import {
-  localProvider,
-  provider,
-  UNIREP_ADDRESS,
-  APP_ADDRESS,
-  wallet,
-} from '../config.mjs'
+import { APP_ADDRESS, wallet } from '../config.mjs'
 import { attesterDescriptionAbi } from '../helpers/abi.mjs'
 
 export default ({ app, db, synchronizer }) => {
@@ -32,9 +26,7 @@ export default ({ app, db, synchronizer }) => {
       wallet
     )
 
-    const validUrl = fetch(url)
-      .then(() => true)
-      .catch(() => false)
+    const validUrl = await fetch(url).catch(() => false)
 
     if (!validUrl) {
       res.status(401)
