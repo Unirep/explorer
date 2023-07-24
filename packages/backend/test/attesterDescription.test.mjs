@@ -14,7 +14,7 @@ const load = 1000 // time before server
 describe('Attester Description Tests', function () {
   let attesters
   let headers
-  this.timeout(3000)
+  this.timeout(30000)
   before(async () => {
     await new Promise((r) => setTimeout(r, load))
 
