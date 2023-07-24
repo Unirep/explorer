@@ -4,6 +4,7 @@ workflows:
     jobs:
       - lint
       - frontend-test
+      - backend-test
       - deploy:
           filters:
             branches:
@@ -84,3 +85,17 @@ jobs:
       - run:
           name: Frontend test
           command: yarn frontend test
+  backend-test:
+    machine:
+      image: ubuntu-2204:2022.04.1
+    resource_class: medium
+    steps:
+      - checkout
+      - run: *node_version
+      - run: *check_version
+      - run:
+          name: Install
+          command: yarn
+      - run:
+          name: Backend test
+          command: yarn backend test
