@@ -126,7 +126,7 @@ export default class Unirep {
     this.attesterCount = attesterCount
   }
 
-  // async updateAttesterDescription(attesterId, icon, url, name, description) {
+  // async updateAttesterDescription(attesterId, icon, url, name, description, signature) {
   //   const data = await fetch(`${SERVER}/api/about/${attesterId}`, {
   //     method: 'POST',
   //     headers: {
@@ -135,13 +135,21 @@ export default class Unirep {
   //       'url': url,
   //       'name': name,
   //       'description': description,
+  //       'signature': signature,
   //     }
   //   }).then(r => r.json())
   //   return response
   // }
 
-  async updateAttesterDescription(attesterId, icon, url, name, description) {
-    console.log(attesterId, name, icon, url, description)
+  async updateAttesterDescription(
+    attesterId,
+    icon,
+    url,
+    name,
+    description,
+    signature
+  ) {
+    console.log(attesterId, name, icon, url, description, signature)
     this.descriptionsByAttesterId.set(attesterId, {
       icon: icon,
       url: url,
