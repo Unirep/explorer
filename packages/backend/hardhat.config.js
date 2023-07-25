@@ -1,16 +1,14 @@
-require('@nomicfoundation/hardhat-toolbox')
+require('@nomiclabs/hardhat-ethers')
 
 module.exports = {
   defaultNetwork: 'arb',
   networks: {
     hardhat: {
       blockGasLimit: 12000000,
-      chainId: 421613, // match arb goerli
     },
     local: {
       url: 'http://localhost:8545',
       blockGasLimit: 12000000,
-      chainId: 421613, // match arb goerli
       accounts: [
         '0xbca43b51928100e446f2265f1493c3e9187d62eb26ef043f8ecbae6cb27e4f51',
       ],

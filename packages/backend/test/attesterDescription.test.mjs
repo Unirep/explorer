@@ -1,14 +1,10 @@
-import { wallet } from '../src/config.mjs'
 import './server.mjs'
 import fetch from 'node-fetch'
-import { ethers } from 'ethers'
 import { expect } from 'chai'
-import randomf from 'randomf'
+import { wallet } from '../src/config.mjs'
 import { clearCollection } from '../src/index.mjs'
 
 const random = () => Math.floor(Math.random() * 100000)
-const randomSignature = () =>
-  '0x00' + randomf(2n << (BigInt(512) - 1n)).toString(16)
 const load = 1000 // time before server
 
 describe('Attester Description Tests', function () {
@@ -39,7 +35,16 @@ describe('Attester Description Tests', function () {
   })
 
   it('should not update info with incorrect signature', async () => {
-    headers.signature = randomSignature()
+    const randomWallet = new ethers.Wallet.createRandom()
+    const hash = ethers.utils.solidityKeccak256(
+      ['uint256', 'string'],
+      [headers.nonce, headers.description]
+    )
+
+    headers.signature = await randomWallet.signMessage(
+      ethers.utils.arrayify(hash)
+    )
+
     const url = new URL(`/api/about/${attesters[-1]}`, process.env.HTTP_SERVER)
     const post = await fetch(url.toString(), {
       method: 'post',
@@ -53,7 +58,7 @@ describe('Attester Description Tests', function () {
       headers: { network: headers.network },
     }).then((r) => r.json())
 
-    Object.entries(get).forEach(([k, v]) => {
+    Object.entries(get).forEach(([_, v]) => {
       expect(v).to.equal('')
     })
   })

@@ -3,7 +3,7 @@ import path from 'path'
 import url from 'url'
 import { createRequire } from 'module'
 import hardhat from 'hardhat'
-import { ETH_PROVIDER_URL } from '../src/config.mjs'
+import { ETH_PROVIDER_URL, UNIREP_ADDRESS } from '../src/config.mjs'
 const { ethers } = hardhat
 
 const require = createRequire(import.meta.url)
@@ -15,7 +15,6 @@ const retryAsNeeded = async (fn) => {
     try {
       return await fn()
     } catch (err) {
-      console.error(err)
       backoff *= 2
       console.log(`Failed, waiting ${backoff}ms`)
       await new Promise((r) => setTimeout(r, backoff))
@@ -26,23 +25,22 @@ const retryAsNeeded = async (fn) => {
 const AttesterDescription = require('../src/abi/AttesterDescription.json')
 
 const [signer] = await ethers.getSigners()
-
 const App = await ethers.getContractFactory('AttesterDescription')
 const app = await retryAsNeeded(() => App.deploy())
 
 await app.deployed()
 
 const config = `
-APP_ADDRESS: '${app.address}'
-ETH_PROVIDER_URL: '${ETH_PROVIDER_URL}'
+APP_ADDRESS='${app.address}'
+ETH_PROVIDER_URL='${ETH_PROVIDER_URL}'
 ${
   Array.isArray(hardhat.network.config.accounts)
-    ? `PRIVATE_KEY: '${hardhat.network.config.accounts[0]}'`
+    ? `PRIVATE_KEY: '${hardhat.network.config.accounts[0]}',`
     : `# This contract was deployed using a mnemonic. The PRIVATE_KEY variable needs to be set manually`
 }
 `
 
-const configPath = path.join(__dirname, '../../../.env')
+const configPath = path.join(__dirname, '../.env')
 await fs.promises.writeFile(configPath, config)
 
 console.log(`Config written to ${configPath}`)

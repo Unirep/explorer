@@ -15,7 +15,7 @@
   ],
   "scripts": {
     "start": "node ./src/index.mjs",
-    "test": "mocha --exit",
+    "test": "hardhat test --network hardhat",
     "abi": "node scripts/abi",
     "compile": "hardhat compile && yarn abi",
     "deploy": "npx hardhat run scripts/deploy.mjs",
