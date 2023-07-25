@@ -11,8 +11,7 @@ import './updateInfo.css'
 export default observer(() => {
   const { id } = useParams()
   const attesterId = BigInt(id).toString(10)
-  const { unirep } = useContext(state)
-  const reader = new FileReader()
+  const { unirep, wallet } = useContext(state)
 
   // load existing info to populate form
 
@@ -52,7 +51,8 @@ export default observer(() => {
           </div>
           <div className="signature-container">
             <h5 style={{ marginBottom: '1rem' }}>
-              Updating the project information requires a signature from the owner of the attester contract.
+              Updating the project information requires a signature from the
+              owner of the attester contract.
             </h5>
             <div className="info-p" style={{ fontWeight: '600' }}>
               Hash of attester info:
@@ -61,21 +61,26 @@ export default observer(() => {
             <Button
               loadingText="verifying signature..."
               onClick={async () => {
-                const response = await unirep.updateAttesterDescription(
-                  attesterId,
-                  icon,
-                  url,
-                  name,
-                  description
-                )
-                setResponseMessage(response)
+                await wallet.load()
+                const signature = await wallet.signMessage(infoHash)
+                console.log(signature)
+                if (signature) {
+                  const response = await unirep.updateAttesterDescription(
+                    attesterId,
+                    icon,
+                    url,
+                    name,
+                    description
+                  )
+                  setResponseMessage(response)
+                }
               }}
             >
               sign message
             </Button>
-            {responseMessage ?
+            {responseMessage ? (
               <div className="form-heading response">{responseMessage}</div>
-            : null }
+            ) : null}
             {responseMessage === 'info updated!' ? (
               <h5 style={{ textAlign: 'center' }}>
                 Check out your new attester page
