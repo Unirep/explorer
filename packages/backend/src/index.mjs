@@ -122,5 +122,7 @@ for (const routeFile of routes) {
 // })
 
 export const clearCollection = async (collection, options) => {
-  if (db.findOne(collection, options)) await db.delete(collection, options)
+  if (await db.findOne(collection, options)) {
+    await db.delete(collection, options)
+  }
 }

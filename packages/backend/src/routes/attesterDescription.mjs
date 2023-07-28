@@ -1,8 +1,9 @@
 import { ethers } from 'ethers'
 import fetch from 'node-fetch'
 import catchError from '../helpers/catchError.mjs'
-import { APP_ADDRESS, wallet } from '../config.mjs'
+import { APP_ADDRESS, ARBITRUM_API_KEY, wallet } from '../config.mjs'
 import { attesterDescriptionAbi } from '../helpers/abi.mjs'
+import axios from 'axios'
 
 export default ({ app, db, synchronizer }) => {
   const handleSet = async (req, res) => {
@@ -11,6 +12,9 @@ export default ({ app, db, synchronizer }) => {
     // getDescriptionSelector 0x1a092541
     // setDescriptionSelector 0xf0d3533b
     // interfaceId 0x93c93c46
+
+    // attesterId -> contgract
+    // signature -> deployer
 
     const attesterId = req.params.attesterId
     const { icon, url, name, description, nonce, signature, network } =
@@ -46,7 +50,23 @@ export default ({ app, db, synchronizer }) => {
       [nonce, description]
     )
 
-    if (!(await contract.isValidSignature(hash, signature, attesterId))) {
+    const _res = await axios({
+      url: 'https://api-goerli.arbiscan.io/api?',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      params: {
+        address: attesterId,
+        module: 'account',
+        action: 'txlist',
+        startblock: 0,
+        sort: 'acc',
+        apikey: ARBITRUM_API_KEY,
+      },
+    })
+    const tx = _res.data.result[_res.data.result.findIndex((x) => x.to == '')]
+
+    if (!(await contract.isValidSignature(hash, signature, tx.from))) {
       res.status(401)
       passed = false
     }
