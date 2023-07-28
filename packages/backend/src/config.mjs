@@ -3,7 +3,7 @@ import { config } from 'dotenv'
 config()
 
 export const APP_ADDRESS =
-  process.env.APP_ADDRESS ?? '0x87Aeb1Ff3E9b8AcF708a41A93832C704546606Cf'
+  process.env.APP_ADDRESS ?? '0x7BDFD4c1F65b4A09263c38fe99B6c4BC94d38568'
 export let UNIREP_ADDRESS = '0x51714b0b1bE71464e6382108DE1F5398BaDe807C'
 export const ETH_PROVIDER_URL =
   process.env.ETH_PROVIDER_URL ??
@@ -23,7 +23,7 @@ export const localProvider = new ethers.providers.JsonRpcProvider(
 
 export const PRIVATE_KEY =
   process.env.PRIVATE_KEY ??
-  '0x0f70e777f814334daa4456ac32b9a1fdca75ae07f70c2e6cef92679bad06c88b'
+  '0xbca43b51928100e446f2265f1493c3e9187d62eb26ef043f8ecbae6cb27e4f51'
 export const wallet = new ethers.Wallet(PRIVATE_KEY, provider)
 
 export const ARBITRUM_API_KEY = 'SF7Y62KJKK3XT8PN9Z6U2VVFJIFBIS7V5I'
