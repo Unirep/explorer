@@ -12,7 +12,6 @@ const retryAsNeeded = async (fn) => {
     try {
       return await fn()
     } catch (err) {
-      console.error(err)
       backoff *= 2
       console.log(`Failed, waiting ${backoff}ms`)
       await new Promise((r) => setTimeout(r, backoff))
