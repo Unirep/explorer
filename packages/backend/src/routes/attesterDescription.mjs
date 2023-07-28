@@ -11,7 +11,6 @@ export default ({ app, db, synchronizer }) => {
     // getDescriptionSelector 0x1a092541
     // setDescriptionSelector 0xf0d3533b
     // interfaceId 0x93c93c46
-    // wallet signature: 0xb12f4be8935bc6f58e9b013472451f31791cce7c59f6c78b869aa67e6168dc3b4de9b5d7e3675de2b87ca0ae7e56871f9daeb0ac512cb55af58dce0729754fc51b
 
     const attesterId = req.params.attesterId
     const { icon, url, name, description, nonce, signature, network } =
@@ -47,7 +46,7 @@ export default ({ app, db, synchronizer }) => {
       [nonce, description]
     )
 
-    if (!(await contract.isValidSignature(hash, signature))) {
+    if (!(await contract.isValidSignature(hash, signature, attesterId))) {
       res.status(401)
       passed = false
     }

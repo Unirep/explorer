@@ -1,8 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8;
+import '@unirep/contracts/Unirep.sol';
 
 contract AttesterDescription {
   bool private isValid;
+
+  Unirep public unirep;
+
+  constructor(Unirep _unirep) {
+    unirep = _unirep;
+  }
 
   function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
     return interfaceId == 0x93c93c46;
@@ -10,10 +17,11 @@ contract AttesterDescription {
 
   function isValidSignature(
     bytes32 _hash,
-    bytes memory _signature
-  ) public view returns (bool) {
+    bytes memory _signature,
+    address _owner
+  ) public pure returns (bool) {
     (bytes32 r, bytes32 s, uint8 v) = splitSignature(_signature);
-    return ecrecover(getEthSignedMessageHash(_hash), v, r, s) == msg.sender;
+    return ecrecover(getEthSignedMessageHash(_hash), v, r, s) == _owner;
   }
 
   function getEthSignedMessageHash(
