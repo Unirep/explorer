@@ -1,4 +1,4 @@
-import './server.mjs'
+import { HTTP_SERVER } from './server.mjs'
 import { expect } from 'chai'
 import { APP_ADDRESS } from '../src/config.mjs'
 import { clearCollection } from '../src/index.mjs'
@@ -55,7 +55,7 @@ describe('Attester Description Tests', function () {
       ethers.utils.arrayify(hash)
     )
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, process.env.HTTP_SERVER)
+    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
       method: 'post',
       headers: headers,
@@ -84,7 +84,7 @@ describe('Attester Description Tests', function () {
     headers.signature = await signer.signMessage(ethers.utils.arrayify(hash))
     headers.url = 'invalid url'
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, process.env.HTTP_SERVER)
+    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
       method: 'post',
       headers: headers,
@@ -112,7 +112,7 @@ describe('Attester Description Tests', function () {
 
     headers.signature = await signer.signMessage(ethers.utils.arrayify(hash))
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, process.env.HTTP_SERVER)
+    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
       method: 'post',
       headers: headers,
