@@ -1,7 +1,7 @@
 import './server.mjs'
 import fetch from 'node-fetch'
 import { expect } from 'chai'
-import { APP_ADDRESS, UNIREP_ADDRESS, wallet } from '../src/config.mjs'
+import { APP_ADDRESS, UNIREP_ADDRESS } from '../src/config.mjs'
 import { clearCollection } from '../src/index.mjs'
 import { attesterDescriptionAbi, unirepAbi } from '../src/helpers/abi.mjs'
 
@@ -83,7 +83,7 @@ describe('Attester Description Tests', function () {
       [headers.nonce, headers.description]
     )
 
-    headers.signature = await wallet.signMessage(ethers.utils.arrayify(hash))
+    headers.signature = await signer.signMessage(ethers.utils.arrayify(hash))
     headers.url = 'invalid url'
 
     const url = new URL(`/api/about/${signer.address}`, process.env.HTTP_SERVER)
@@ -112,7 +112,7 @@ describe('Attester Description Tests', function () {
       [headers.nonce, headers.description]
     )
 
-    headers.signature = await wallet.signMessage(ethers.utils.arrayify(hash))
+    headers.signature = await signer.signMessage(ethers.utils.arrayify(hash))
 
     const url = new URL(`/api/about/${signer.address}`, process.env.HTTP_SERVER)
     const post = await fetch(url.toString(), {
