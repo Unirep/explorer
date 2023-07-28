@@ -18,6 +18,7 @@ export default class Wallet {
       console.log(this.address)
     } catch (e) {
       this.errorMsg = e.message
+      window.alert(this.errorMsg)
     }
   }
 
@@ -66,7 +67,7 @@ export default class Wallet {
         address,
       }
     } catch (err) {
-      console.log(err.message)
+      window.alert(err.message)
     }
   }
 }

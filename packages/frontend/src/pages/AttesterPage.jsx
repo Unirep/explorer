@@ -54,6 +54,8 @@ export default observer(() => {
           {info.icon !== '' ? (
             <div className="desc-icon">
               <img
+                height={`${ui.isMobile ? '150' : '320'}`}
+                width={`${ui.isMobile ? '150' : '320'}`}
                 src={`data:image/svg+xml;utf8,${encodeURIComponent(info.icon)}`}
               />
             </div>
