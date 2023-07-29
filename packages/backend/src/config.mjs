@@ -25,5 +25,3 @@ export const PRIVATE_KEY =
   process.env.PRIVATE_KEY ??
   '0xbca43b51928100e446f2265f1493c3e9187d62eb26ef043f8ecbae6cb27e4f51'
 export const wallet = new ethers.Wallet(PRIVATE_KEY, provider)
-
-export const ARBITRUM_API_KEY = 'SF7Y62KJKK3XT8PN9Z6U2VVFJIFBIS7V5I'

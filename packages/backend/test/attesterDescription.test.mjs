@@ -4,6 +4,7 @@ import { APP_ADDRESS } from '../src/config.mjs'
 import { clearCollection } from '../src/index.mjs'
 import { attesterDescriptionAbi } from '../src/helpers/abi.mjs'
 import fetch from 'node-fetch'
+import { BlockExplorer } from '../src/helpers/blockExplorer.mjs'
 
 const random = () => Math.floor(Math.random() * 100000)
 
@@ -39,7 +40,7 @@ describe('Attester Description Tests', function () {
       icon: '<svg>...</svg>',
       url: 'https://developer.unirep.io',
       name: 'unirep',
-      network: 'unirep-goerli',
+      network: 'ArbitrumGoerli',
       nonce: random(),
     }
   })
@@ -127,6 +128,34 @@ describe('Attester Description Tests', function () {
 
     Object.entries(get).forEach(([k, v]) => {
       expect(headers[k]).to.equal(v)
+    })
+  })
+
+  it('should not update info with invalid network', async () => {
+    const accounts = await ethers.getSigners()
+    const signer = accounts[0]
+    const hash = ethers.utils.solidityKeccak256(
+      ['uint256', 'string'],
+      [headers.nonce, headers.description]
+    )
+    headers.network = BlockExplorer.Mainnet
+    headers.signature = await signer.signMessage(ethers.utils.arrayify(hash))
+
+    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
+    const post = await fetch(url.toString(), {
+      method: 'post',
+      headers: headers,
+    }).then((r) => r.json())
+
+    expect(post.passed).to.be.false
+
+    const get = await fetch(url.toString(), {
+      method: 'get',
+      headers: { network: headers.network },
+    }).then((r) => r.json())
+
+    Object.entries(get).forEach(([_, v]) => {
+      expect(v).to.equal('')
     })
   })
 
