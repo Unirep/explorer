@@ -13,7 +13,7 @@ export default observer(({ id }) => {
   const { unirep, ui, info } = React.useContext(state)
   const attestation = unirep.attestationsById.get(id)
   const { attesterId, blockTimestamp, transactionHash } = attestation
-  const attesterIdHex = `0x${BigInt(attesterId).toString(16)}`
+  const attesterIdHex = `0x${BigInt(attesterId).toString(16).padStart(40, '0')}`
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
 
   return (

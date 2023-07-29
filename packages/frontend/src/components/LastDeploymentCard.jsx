@@ -32,7 +32,9 @@ export default observer(() => {
             <a
               href={`${info.network.explorer}/address/0x${BigInt(
                 lastDeployment.attesterId
-              ).toString(16)}`}
+              )
+                .toString(16)
+                .padStart(40, '0')}`}
               target="blank"
             >
               <img
