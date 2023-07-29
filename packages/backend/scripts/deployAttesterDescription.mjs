@@ -19,7 +19,7 @@ const retryAsNeeded = async (fn) => {
   }
 }
 
-export const deployAttesterDescription = async (signer, unirepAddress) => {
+export const deployAttesterDescription = async (signer) => {
   const AttesterDescription = require('../artifacts/contracts/AttesterDescription.sol/AttesterDescription.json')
 
   const App = await ethers.getContractFactory(
@@ -27,7 +27,7 @@ export const deployAttesterDescription = async (signer, unirepAddress) => {
     AttesterDescription.bytecode,
     signer
   )
-  const app = await retryAsNeeded(() => App.deploy(unirepAddress))
+  const app = await retryAsNeeded(() => App.deploy())
   await app.deployed()
 
   return app

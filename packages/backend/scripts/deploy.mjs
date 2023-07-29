@@ -1,4 +1,4 @@
-import { wallet, UNIREP_ADDRESS, ETH_PROVIDER_URL } from '../src/config.mjs'
+import { wallet, ETH_PROVIDER_URL } from '../src/config.mjs'
 import { deployAttesterDescription } from './deployAttesterDescription.mjs'
 import hardhat from 'hardhat'
 import path from 'path'
@@ -7,7 +7,7 @@ import fs from 'fs'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
-const app = await deployAttesterDescription(wallet, UNIREP_ADDRESS)
+const app = await deployAttesterDescription(wallet)
 
 const config = `
 APP_ADDRESS='${app.address}'

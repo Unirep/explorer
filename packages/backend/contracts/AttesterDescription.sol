@@ -1,15 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8;
-import '@unirep/contracts/Unirep.sol';
 
 contract AttesterDescription {
   bool private isValid;
-
-  Unirep public unirep;
-
-  constructor(Unirep _unirep) {
-    unirep = _unirep;
-  }
 
   function supportsInterface(bytes4 interfaceId) external pure returns (bool) {
     return interfaceId == 0x93c93c46;
