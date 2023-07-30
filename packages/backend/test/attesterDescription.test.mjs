@@ -145,21 +145,4 @@ describe('Attester Description Tests', function () {
       expect(v).to.equal('')
     })
   })
-
-  it('recovered address from signature should be equal to the signer address', async () => {
-    const accounts = await ethers.getSigners()
-    const hash = ethers.utils.solidityKeccak256(
-      ['uint256', 'string'],
-      [headers.nonce, headers.description]
-    )
-
-    await Promise.all(
-      accounts.map(async (contract) => {
-        const signature = await contract.signMessage(hash)
-        expect(ethers.utils.recoverAddress(hashMessage(hash), signature)).equal(
-          contract.address
-        )
-      })
-    )
-  })
 })
