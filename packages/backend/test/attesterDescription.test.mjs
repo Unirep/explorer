@@ -146,7 +146,7 @@ describe('Attester Description Tests', function () {
     })
   })
 
-  it('contract should have a valid signature for each signature', async () => {
+  it('recovered address from signature should be equal to the signer address', async () => {
     const accounts = await ethers.getSigners()
     const hash = ethers.utils.solidityKeccak256(
       ['uint256', 'string'],
