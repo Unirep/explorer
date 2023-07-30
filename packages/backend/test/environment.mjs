@@ -32,55 +32,6 @@ export const startServer = async () => {
       update: {},
     })
   })
-  synchronizer.on('Attestation', async ({ decodedData }) => {
-    const change = Number(decodedData.change)
-    const fieldIndex = Number(decodedData.fieldIndex)
-    const attesterId = BigInt(decodedData.attesterId).toString(10)
-    const { data } = await synchronizer._db.findOne('GlobalData', {
-      where: {
-        _id: 'attestations',
-      },
-    })
-
-    const byteCount = Math.ceil(BigInt(change).toString(16).length / 2)
-    const stats = JSON.parse(data)
-    stats.totalBytes += byteCount
-    await synchronizer._db.update('GlobalData', {
-      where: {
-        _id: 'attestations',
-      },
-      update: {
-        data: JSON.stringify(stats),
-      },
-    })
-
-    const attesterData = await synchronizer._db.findOne('AttesterData', {
-      where: {
-        _id: attesterId,
-      },
-    })
-    if (attesterData) {
-      const { data } = attesterData
-      const attesterStats = JSON.parse(data)
-      attesterStats.totalBytes += byteCount
-      await synchronizer._db.update('AttesterData', {
-        where: {
-          _id: attesterId,
-        },
-        update: {
-          data: JSON.stringify(attesterStats),
-        },
-      })
-    } else {
-      await synchronizer._db.create('AttesterData', {
-        _id: attesterId,
-        data: JSON.stringify({
-          totalBytes: byteCount,
-        }),
-      })
-    }
-  })
-  console.log('Starting synchronizer...')
   await synchronizer.start()
 
   const app = express()
