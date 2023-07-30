@@ -15,17 +15,12 @@
   ],
   "scripts": {
     "start": "node ./src/index.mjs",
-    "test": "hardhat test --network arb",
-    "abi": "node scripts/abi",
-    "compile": "hardhat compile && yarn abi",
-    "deploy": "hardhat run scripts/deploy.mjs",
+    "test": "hardhat test --network hardhat",
     "lint": "prettier .",
     "lint:fix": "prettier . --write"
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.2.0",
-    "@openzeppelin/contracts": "^4.9.2",
-    "@unirep/contracts": "^2.0.0-beta-4",
     "@unirep/core": "^2.0.0-beta-3",
     "dotenv": "^16.0.3",
     "ethers": "^5.4.8",

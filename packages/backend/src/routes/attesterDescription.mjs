@@ -1,9 +1,8 @@
 import { ethers } from 'ethers'
 import fetch from 'node-fetch'
 import catchError from '../helpers/catchError.mjs'
-import { APP_ADDRESS, wallet } from '../config.mjs'
-import { attesterDescriptionAbi } from '../helpers/abi.mjs'
 import { BlockExplorer, getDeployer } from '../helpers/blockExplorer.mjs'
+import { hashMessage } from '@ethersproject/hash'
 
 export default ({ app, db, synchronizer }) => {
   const handleSet = async (req, res) => {
@@ -14,12 +13,6 @@ export default ({ app, db, synchronizer }) => {
 
     let passed = true
 
-    const contract = new ethers.Contract(
-      APP_ADDRESS,
-      attesterDescriptionAbi,
-      wallet
-    )
-
     const validUrl = await fetch(url).catch(() => false)
 
     if (!validUrl) {
@@ -27,24 +20,17 @@ export default ({ app, db, synchronizer }) => {
       passed = false
     }
 
-    let supportsInterface = false
-    try {
-      supportsInterface = await contract.supportsInterface('0x93c93c46')
-    } catch (_) {
-      // assume the function call fails and the interface is not supported
-      res.status(401)
-      passed = false
-    }
-
-    const hash = ethers.utils.solidityKeccak256(
-      ['uint256', 'string'],
-      [nonce, description]
+    const hash = hashMessage(
+      ethers.utils.solidityKeccak256(
+        ['uint256', 'string'],
+        [nonce, description]
+      )
     )
 
     const deployer = await getDeployer(BlockExplorer[network], attesterId)
     if (
       deployer == '0x' ||
-      !(await contract.isValidSignature(hash, signature, deployer))
+      !(ethers.utils.recoverAddress(hash, signature).toLowerCase() == deployer)
     ) {
       res.status(401)
       passed = false

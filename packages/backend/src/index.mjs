@@ -120,9 +120,3 @@ for (const routeFile of routes) {
 //     error: JSON.stringify(error, null, 2),
 //   })
 // })
-
-export const clearCollection = async (collection, options) => {
-  if (await db.findOne(collection, options)) {
-    await db.delete(collection, options)
-  }
-}

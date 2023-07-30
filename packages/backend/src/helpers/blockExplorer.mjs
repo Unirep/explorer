@@ -8,11 +8,11 @@ export const BlockExplorer = {
 }
 
 export const API_KEYS = {
-  Polygon: '3AQEAQZSNQ2NF6R4R8XSA6B6AQPQFZJMAJ',
-  Sepolia: 'WJGMYE7AF4DTBX1TDPPB54S7E1W7VW4A5X',
-  Mainnet: 'WJGMYE7AF4DTBX1TDPPB54S7E1W7VW4A5X',
-  Goerli: 'WJGMYE7AF4DTBX1TDPPB54S7E1W7VW4A5X',
-  ArbitrumGoerli: 'SF7Y62KJKK3XT8PN9Z6U2VVFJIFBIS7V5I',
+  Polygon: process.env.POLYGON_API_KEY,
+  Sepolia: process.env.SEPOLIA_API_KEY,
+  Mainnet: process.env.MAINNET_API_KEY,
+  Goerli: process.env.GOERLI_API_KEY,
+  ArbitrumGoerli: process.env.ARBITRUM_GOERLI_API_KEY,
 }
 
 export const getDeployer = async (blockExplorer, address) => {
