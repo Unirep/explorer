@@ -126,11 +126,12 @@ export default class Unirep {
     this.attesterCount = attesterCount
   }
 
-  // async updateAttesterDescription(attesterId, icon, url, name, description, signature) {
+  // async updateAttesterDescription(attesterId, network, icon, url, name, description, signature) {
   //   const data = await fetch(`${SERVER}/api/about/${attesterId}`, {
   //     method: 'POST',
   //     headers: {
   //       'content-type': 'application/json',
+  //       'network': network,
   //       'icon': icon,
   //       'url': url,
   //       'name': name,
@@ -143,6 +144,7 @@ export default class Unirep {
 
   async updateAttesterDescription(
     attesterId,
+    // network,
     icon,
     url,
     name,

@@ -11,30 +11,30 @@ import './updateInfo.css'
 export default observer(() => {
   const { id } = useParams()
   const attesterId = BigInt(id).toString(10)
-  const { unirep, wallet } = useContext(state)
+  const { unirep, wallet, info } = useContext(state)
 
-  // load existing info to populate form
+  // load existing attester description to populate form
 
   // useEffect(() => {
   //   const loadData = async () => {
   //     !unirep.descriptionsByAttesterId.has(attesterId)
-  //       ? await unirep.loadAttesterDescription(attesterId)
+  //       ? await unirep.loadAttesterDescription(attesterId, info.network.name)
   //       : null
   //   }
   //   loadData()
   // }, [])
 
-  const info = unirep.descriptionsByAttesterId.get(attesterId) ?? {
+  const attesterDesc = unirep.descriptionsByAttesterId.get(attesterId) ?? {
     icon: '',
     name: '',
     description: '',
     url: '',
   }
-  const [icon, setIcon] = useState(info.icon)
-  const [name, setName] = useState(info.name)
-  const [description, setDescription] = useState(info.description)
-  const [url, setUrl] = useState(info.url)
-  const infoHash = utils.keccak256(
+  const [icon, setIcon] = useState(attesterDesc.icon)
+  const [name, setName] = useState(attesterDesc.name)
+  const [description, setDescription] = useState(attesterDesc.description)
+  const [url, setUrl] = useState(attesterDesc.url)
+  const attesterDescHash = utils.keccak256(
     utils.toUtf8Bytes(JSON.stringify([icon, name, description, url]))
   )
   const [responseMessage, setResponseMessage] = useState('')
@@ -57,20 +57,22 @@ export default observer(() => {
             <div className="info-p" style={{ fontWeight: '600' }}>
               Hash of attester info:
             </div>
-            <div className="message-box">{infoHash}</div>
+            <div className="message-box">{attesterDescHash}</div>
             <Button
               loadingText="verifying signature..."
               onClick={async () => {
                 await wallet.load()
-                const signature = await wallet.signMessage(infoHash)
+                const signature = await wallet.signMessage(attesterDescHash)
                 console.log(signature)
                 if (signature) {
                   const response = await unirep.updateAttesterDescription(
                     attesterId,
+                    // info.network.name,
                     icon,
                     url,
                     name,
-                    description
+                    description,
+                    signature
                   )
                   setResponseMessage(response)
                 }
