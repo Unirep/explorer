@@ -1,6 +1,7 @@
-import ethers from 'ethers'
+// import ethers from 'ethers'
 import { makeAutoObservable } from 'mobx'
 import { request } from './utils'
+import { SERVER } from '../config'
 
 export default class Unirep {
   deploymentIds = []
@@ -262,44 +263,30 @@ export default class Unirep {
     this.attesterCount = data.data.attesters.length
   }
 
-  // async updateAttesterDescription(attesterId, network, icon, url, name, description, signature) {
-  //   const data = await fetch(`${SERVER}/api/about/${attesterId}`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'content-type': 'application/json',
-  //       'network': network,
-  //       'icon': icon,
-  //       'url': url,
-  //       'name': name,
-  //       'description': description,
-  //       'signature': signature,
-  //     }
-  //   }).then(r => r.json())
-  //   return response
-  // }
-
-  async updateAttesterDescription(
-    attesterId,
-    // network,
-    icon,
-    url,
-    name,
-    description,
-    signature
-  ) {
-    console.log(attesterId, name, icon, url, description, signature)
-    this.descriptionsByAttesterId.set(attesterId, {
-      icon: icon,
-      url: url,
-      name: name,
-      description: description,
-    })
-    console.log(this.descriptionsByAttesterId.get(attesterId))
-    return 'info updated!'
+  async updateAttesterDescription(attesterId, network, icon, url, name, description, signature, nonce) {
+    console.log(attesterId, network, icon, url, name, description, signature, nonce)
+    const data = await fetch(`${SERVER}/api/about/${attesterId}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'network': network,
+        'icon': icon,
+        'url': url,
+        'name': name,
+        'description': description,
+        'signature': signature,
+        'nonce': nonce,
+      }
+    }).then(r => r.json())
+    if (data.passed) {
+      return 'info undated!'
+    } else {
+      return 'invalid signature. please check that you are signing with the EOA that deployed the attester contract.'
+    }
   }
 
-  async loadAttesterDescription(attesterId) {
-    const info = await fetch(`${SERVER}/api/about/${attesterId}`).then((r) =>
+  async loadAttesterDescription(attesterId, network) {
+    const info = await fetch(`${SERVER}/api/about/${attesterId + network}`).then((r) =>
       r.json()
     )
     this.descriptionsByAttesterId.set(attesterId, info)
