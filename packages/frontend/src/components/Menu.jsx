@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
+import state from '../contexts/state'
+import { NETWORK } from '../contexts/utils'
 import './Menu.css'
+import Dropdown from './Dropdown'
 
 export default observer(({ closeMenu }) => {
+  const { info } = useContext(state)
+
   return (
     <div className="menu-container">
       <div className="close-container">
@@ -36,6 +41,12 @@ export default observer(({ closeMenu }) => {
       <a href="https://github.com/Unirep/create-unirep-app" target="blank">
         <button>Build</button>
       </a>
+      <Dropdown
+        selected={info.network.name}
+        choices={NETWORK}
+        select={(n) => info.setNetwork(n)}
+        disabled={window.location.pathname !== '/'}
+      />
     </div>
   )
 })

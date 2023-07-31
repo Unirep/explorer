@@ -14,15 +14,15 @@ dayjs.extend(relativeTime)
 export default observer(() => {
   const { id } = useParams()
   const userId = BigInt(id).toString()
-  const { unirep } = useContext(state)
+  const { unirep, info } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
       !unirep.signUpsByUserId.has(userId)
-        ? await unirep.loadSignUpsByUser(userId)
+        ? await unirep.loadSignUpsByUser(userId, info.network.name)
         : null
     }
     loadData()
-  }, [])
+  }, [info.network])
   const signups = unirep.signUpsByUserId.get(userId)
 
   return (
@@ -38,7 +38,7 @@ export default observer(() => {
               <h6>
                 {signups
                   ? dayjs(
-                      Math.min(...signups.map((s) => s.timestamp)) * 1000
+                      Math.min(...signups.map((s) => +s.blockTimestamp)) * 1000
                     ).from(dayjs())
                   : 'Loading...'}
               </h6>
@@ -68,7 +68,7 @@ export default observer(() => {
           <div className="scroll">
             {signups
               ? signups.map((signup) => (
-                  <UserEvent key={signup._id} signup={signup} />
+                  <UserEvent key={signup.id} signup={signup} />
                 ))
               : null}
             {signups ? null : 'Loading...'}

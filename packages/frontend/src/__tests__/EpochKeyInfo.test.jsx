@@ -37,6 +37,9 @@ const defaultStateData = {
   ui: {
     isMobile: false,
   },
+  info: {
+    network: 'arbitrum-goerli',
+  },
 }
 
 test('To test if EpochKeyInfo is exactly rendered', async () => {

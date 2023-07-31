@@ -14,23 +14,23 @@ import dayjs from 'dayjs'
 export default observer(() => {
   const { id } = useParams()
   const attesterId = BigInt(id).toString(10)
-  const { unirep, attester, ui } = useContext(state)
+  const { unirep, attester, ui, info } = useContext(state)
   const [selectedView, setSelectedView] = useState('Attestations')
 
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
         !unirep.deploymentsById.has(attesterId)
-          ? unirep.loadAttesterDeployments()
+          ? unirep.loadAttesterDeployments(info.network.name)
           : null,
-        attester.loadEpochsByAttester(attesterId),
-        attester.loadStats(attesterId),
-        attester.loadSignUpsByAttester(attesterId),
-        attester.loadAttestationsByAttester(attesterId),
+        attester.loadEpochsByAttester(attesterId, info.network.name),
+        attester.loadStats(attesterId, info.network.name),
+        attester.loadSignUpsByAttester(attesterId, info.network.name),
+        attester.loadAttestationsByAttester(attesterId, info.network.name),
       ])
     }
     loadData()
-  }, [])
+  }, [info.network])
 
   const stats = attester.statsById[attesterId] ?? {}
 
@@ -61,7 +61,7 @@ export default observer(() => {
               <h6>
                 <span>{shortenId(id, ui.isMobile)}</span>
                 <a
-                  href={`https://goerli.arbiscan.io/address/${id}`}
+                  href={`${info.network.explorer}/address/${id}`}
                   target="blank"
                 >
                   <img
@@ -114,7 +114,9 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              {deployment ? <EpochView attesterId={deployment._id} /> : null}
+              {deployment ? (
+                <EpochView attesterId={deployment.attesterId} />
+              ) : null}
               {deployment ? null : 'Loading...'}
             </>
           ) : (

@@ -14,15 +14,15 @@ dayjs.extend(relativeTime)
 export default observer(() => {
   const { id } = useParams()
   const epochKeyId = BigInt(id).toString(10)
-  const { unirep } = useContext(state)
+  const { unirep, info } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
       !unirep.attestationsByEpochKey.has(epochKeyId)
-        ? await unirep.loadAttestationsByEpochKey(epochKeyId)
+        ? await unirep.loadAttestationsByEpochKey(epochKeyId, info.network.name)
         : null
     }
     loadData()
-  }, [])
+  }, [info.network])
   const attestations = unirep.attestationsByEpochKey.get(epochKeyId)
 
   return (
@@ -53,7 +53,7 @@ export default observer(() => {
             {attestations
               ? attestations.map((attestation) => (
                   <EpochKeyEvent
-                    key={attestation._id}
+                    key={attestation.id}
                     attestation={attestation}
                   />
                 ))
