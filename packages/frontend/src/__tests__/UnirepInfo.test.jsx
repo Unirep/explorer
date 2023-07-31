@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import fetch from 'whatwg-fetch'
 import UnirepInfo from '../components/UnirepInfo'
+import { NETWORK } from '../contexts/utils'
 
 test('To test if UnirepInfo is exactly rendered', async () => {
   render(
@@ -13,9 +14,10 @@ test('To test if UnirepInfo is exactly rendered', async () => {
         EPOCH_TREE_DEPTH: 2,
         EPOCH_TREE_ARITY: 3,
         EPOCH_KEY_NONCE_COUNT: 4,
+        network: NETWORK.arbitrum,
       }}
     />
   )
 
-  expect(screen.getByText('Arbitrum / Goerli')).toBeInTheDocument()
+  expect(screen.getByText('arbitrum-goerli')).toBeInTheDocument()
 })

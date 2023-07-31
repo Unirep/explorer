@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import fetch from 'whatwg-fetch'
 import State from '../contexts/state'
+import { NETWORK } from '../contexts/utils'
 import Home from '../pages/Home'
 
 jest.mock('react-router-dom', () => ({
@@ -34,6 +35,7 @@ const defaultStateData = {
   },
   info: {
     UNIREP_ADDRESS: '0x123',
+    network: NETWORK.arbitrum,
   },
   ui: {
     isMobile: false,
@@ -42,7 +44,7 @@ const defaultStateData = {
 
 beforeAll(() => {
   defaultStateData.unirep.deploymentsById.set('d123', {
-    _id: '0xd123',
+    attesterId: '0xd123',
     startTimestamp: 1688393495,
   })
   defaultStateData.unirep.attestationsById.set('a123', {

@@ -10,16 +10,24 @@ import './eventCard.css'
 dayjs.extend(relativeTime)
 
 export default observer(({ signup }) => {
-  const { ui } = useContext(state)
+  const { ui, info } = useContext(state)
   const attesterIdHex = `0x${BigInt(signup.attesterId).toString(16)}`
 
   return (
     <div className="event-card">
-      <Link to={`/attester/${attesterIdHex}`}>
-        <p>{shortenId(attesterIdHex, ui.isMobile)}</p>
-      </Link>
-      <p>{signup.epoch}</p>
-      <p>{dayjs(signup.timestamp * 1000).from(dayjs())}</p>
+      <div className="event-info">
+        <Link to={`/attester/${attesterIdHex}`}>
+          <p>{shortenId(attesterIdHex, ui.isMobile)}</p>
+        </Link>
+        <p>{signup.epoch}</p>
+        <p>{dayjs(+signup.blockTimestamp * 1000).from(dayjs())}</p>
+      </div>
+      <a
+        href={`${info.network.explorer}/tx/${signup.transactionHash}`}
+        target="blank"
+      >
+        <img src={require('../../public/arrow_up_right.svg')} />
+      </a>
     </div>
   )
 })

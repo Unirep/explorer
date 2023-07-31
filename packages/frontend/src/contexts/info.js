@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { SERVER } from '../config'
+import { NETWORK } from './utils'
 
 export default class Info {
   UNIREP_ADDRESS = ''
@@ -12,6 +13,10 @@ export default class Info {
   EPOCH_TREE_DEPTH = ''
   EPOCH_TREE_ARITY = ''
   EPOCH_KEY_NONCE_COUNT = ''
+
+  network = localStorage.getItem('network')
+    ? JSON.parse(localStorage.getItem('network'))
+    : NETWORK.arbitrum
 
   constructor(state) {
     makeAutoObservable(this)
@@ -38,5 +43,10 @@ export default class Info {
     this.EPOCH_TREE_DEPTH = EPOCH_TREE_DEPTH
     this.EPOCH_TREE_ARITY = EPOCH_TREE_ARITY
     this.EPOCH_KEY_NONCE_COUNT = EPOCH_KEY_NONCE_COUNT
+  }
+
+  setNetwork(network) {
+    this.network = network
+    localStorage.setItem('network', JSON.stringify(network))
   }
 }

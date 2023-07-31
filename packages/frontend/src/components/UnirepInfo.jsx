@@ -26,7 +26,7 @@ export default observer(({ info }) => {
       <div className="flex">
         <h5>Address</h5>
         <a
-          href={`https://goerli.arbiscan.io/address/${info.UNIREP_ADDRESS}`}
+          href={`${info.network.explorer}/address/${info.UNIREP_ADDRESS}`}
           target="blank"
         >
           <h6>
@@ -43,7 +43,7 @@ export default observer(({ info }) => {
 
       <div className="flex">
         <h5>Network</h5>
-        <h6>Arbitrum / Goerli</h6>
+        <h6>{info.network.name}</h6>
       </div>
 
       {circuitExpanded ? (

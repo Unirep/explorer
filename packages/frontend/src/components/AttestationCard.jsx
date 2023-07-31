@@ -6,7 +6,7 @@ import shortenId from '../utils/shorten-id'
 import state from '../contexts/state'
 
 export default observer(({ id }) => {
-  const { attester, ui } = React.useContext(state)
+  const { attester, ui, info } = React.useContext(state)
   const attestation = attester.attestationsById.get(id)
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
   const [isHover, setIsHover] = useState(false)
@@ -22,22 +22,34 @@ export default observer(({ id }) => {
 
   return (
     <div className="event-card">
-      <Link to={`/epochKey/${epochKeyHex}`}>
-        <p>{shortenId(epochKeyHex, ui.isMobile)}</p>
-      </Link>
-      <p>{attestation.fieldIndex} </p>
-      <div
-        style={{ minWidth: '100px', textAlign: 'right', position: 'relative' }}
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
-      >
-        {changeString()}{' '}
-        {isHover && (
-          <div className="changeDetail">
-            {'0x' + BigInt(attestation.change).toString(16)}
-          </div>
-        )}
+      <div className="event-info">
+        <Link to={`/epochKey/${epochKeyHex}`}>
+          <p>{shortenId(epochKeyHex, ui.isMobile)}</p>
+        </Link>
+        <p>{attestation.fieldIndex} </p>
+        <div
+          style={{
+            minWidth: '100px',
+            textAlign: 'right',
+            position: 'relative',
+          }}
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
+        >
+          {changeString()}{' '}
+          {isHover && (
+            <div className="change-detail">
+              {'0x' + BigInt(attestation.change).toString(16)}
+            </div>
+          )}
+        </div>
       </div>
+      <a
+        href={`${info.network.explorer}/tx/${attestation.transactionHash}`}
+        target="blank"
+      >
+        <img src={require('../../public/arrow_up_right.svg')} />
+      </a>
     </div>
   )
 })

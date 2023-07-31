@@ -2,11 +2,13 @@ import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import { NETWORK } from '../contexts/utils'
 import './header.css'
 import Menu from './Menu'
+import Dropdown from './Dropdown'
 
 export default observer(() => {
-  const { unirep, ui } = useContext(state)
+  const { unirep, ui, info } = useContext(state)
   const navigate = useNavigate()
   const [searchInput, setSearchInput] = useState('')
   const [isMenuOpened, setIsMenuOpened] = useState(false)
@@ -63,41 +65,26 @@ export default observer(() => {
           GO
         </button>
       </div>
-      {ui.isMobile ? (
+      <div className="flex">
+        {!ui.isMobile && (
+          <Dropdown
+            selected={info.network.name}
+            choices={NETWORK}
+            select={(n) => info.setNetwork(n)}
+            disabled={window.location.pathname !== '/'}
+          />
+        )}
+        {/* TODO: implement light/dark mode */}
+        {/* <div className="link">
+            <img src={require('../../public/sun_icon.svg')} alt="sun icon" />
+          </div> */}
         <img
           className="menu"
           src={require('../../public/menu.svg')}
           alt="menu logo"
           onClick={() => setIsMenuOpened(true)}
         />
-      ) : (
-        <div className="flex">
-          <a
-            className="link"
-            href="https://developer.unirep.io/"
-            target="blank"
-          >
-            Docs
-          </a>
-          <a className="link" href="https://github.com/Unirep" target="blank">
-            <img src={require('../../public/github.svg')} alt="GitHub logo" />
-          </a>
-          <a
-            className="link"
-            href="https://discord.com/invite/VzMMDJmYc5"
-            target="blank"
-          >
-            <img src={require('../../public/discord.svg')} alt="Discord logo" />
-          </a>
-          {/* TODO: implement light/dark mode */}
-          {/* <div className="link">
-            <img src={require('../../public/sun_icon.svg')} alt="sun icon" />
-          </div> */}
-          <a href="https://github.com/Unirep/create-unirep-app" target="blank">
-            <button>Build</button>
-          </a>
-        </div>
-      )}
+      </div>
       {isMenuOpened && <Menu closeMenu={() => setIsMenuOpened(false)} />}
     </div>
   )

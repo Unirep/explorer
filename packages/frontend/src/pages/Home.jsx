@@ -16,14 +16,14 @@ export default observer(() => {
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
-        unirep.loadStats(),
-        unirep.loadAllAttestations(),
-        unirep.loadAttesterDeployments(),
+        unirep.loadStats(info.network.name),
+        unirep.loadAllAttestations(info.network.name),
+        unirep.loadAttesterDeployments(info.network.name),
       ])
     }
 
     loadData()
-  }, [])
+  }, [info.network])
 
   return (
     <div className="content">

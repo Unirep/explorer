@@ -38,5 +38,22 @@ export default [
       ['data', 'String'],
     ],
   },
+  {
+    name: 'AttesterDescription',
+    primaryKey: '_id',
+    rows: [
+      {
+        name: '_id',
+        type: 'String',
+        default: () => nanoid(),
+      },
+      ['name', 'String'],
+      ['attesterId', 'String'],
+      ['network', 'String'],
+      ['url', 'String'],
+      ['icon', 'String'],
+      ['description', 'String'],
+    ],
+  },
   ...schema,
 ]
