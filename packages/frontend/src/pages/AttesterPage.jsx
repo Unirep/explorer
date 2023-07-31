@@ -20,7 +20,7 @@ export default observer(() => {
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
-        // unirep.loadAttesterDescription(attesterId),
+        unirep.loadAttesterDescription(attesterId, info.network.name),
         !unirep.deploymentsById.has(attesterId)
           ? unirep.loadAttesterDeployments(info.network.name)
           : null,
@@ -36,7 +36,7 @@ export default observer(() => {
   const stats = attester.statsById[attesterId] ?? {}
 
   const deployment = unirep.deploymentsById.get(attesterId)
-  const info = unirep.descriptionsByAttesterId.get(attesterId) ?? {
+  const attesterDesc = unirep.descriptionsByAttesterId.get(attesterId) ?? {
     icon: '',
     name: '',
     description: '',
@@ -51,7 +51,7 @@ export default observer(() => {
         <div className="left-container">
           <h3>Attester</h3>
 
-          {info.icon !== '' ? (
+          {attesterDesc.icon !== '' ? (
             <div className="desc-icon">
               <img
                 height={`${ui.isMobile ? '150' : '320'}`}
@@ -60,16 +60,16 @@ export default observer(() => {
               />
             </div>
           ) : null}
-          {<h1>{info.name}</h1> || null}
-          {<div className="description">{info.description}</div> || null}
-          {info.url ? (
+          {<h1>{attesterDesc.name}</h1> || null}
+          {<div className="description">{attesterDesc.description}</div> || null}
+          {attesterDesc.url ? (
             <div className="desc-link">
               <a
                 style={{ color: '#83B5B8' }}
-                href={`https://${info.url}`}
+                href={`https://${attesterDesc.url}`}
                 target="blank"
               >
-                https://{info.url}
+                https://{attesterDesc.url}
               </a>
             </div>
           ) : null}

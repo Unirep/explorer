@@ -14,15 +14,12 @@ export default observer(() => {
   const { unirep, wallet, info } = useContext(state)
 
   // load existing attester description to populate form
-
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     !unirep.descriptionsByAttesterId.has(attesterId)
-  //       ? await unirep.loadAttesterDescription(attesterId, info.network.name)
-  //       : null
-  //   }
-  //   loadData()
-  // }, [])
+  useEffect(() => {
+    const loadData = async () => {
+      await unirep.loadAttesterDescription(attesterId, info.network.name)
+    }
+    loadData()
+  }, [])
 
   const attesterDesc = unirep.descriptionsByAttesterId.get(attesterId) ?? {
     icon: '',
@@ -63,16 +60,16 @@ export default observer(() => {
               onClick={async () => {
                 await wallet.load()
                 const signature = await wallet.signMessage(attesterDescHash)
-                console.log(signature)
                 if (signature) {
                   const response = await unirep.updateAttesterDescription(
                     attesterId,
-                    // info.network.name,
+                    info.network.name,
                     icon,
                     url,
                     name,
                     description,
-                    signature
+                    signature,
+                    1
                   )
                   setResponseMessage(response)
                 }
@@ -118,7 +115,6 @@ export default observer(() => {
             <input
               className="info-input"
               placeholder="Filename..."
-              // defaultValue={icon ?? ''}
               defaultValue={''}
               type="file"
               accept=".svg"

@@ -15,7 +15,6 @@ export default class Wallet {
       const walletResponse = await this.connectWallet()
       this.address = walletResponse.address
       this.addWalletListener()
-      console.log(this.address)
     } catch (e) {
       this.errorMsg = e.message
       window.alert(this.errorMsg)
@@ -60,12 +59,7 @@ export default class Wallet {
       const provider = new ethers.providers.Web3Provider(window.ethereum)
       const signer = provider.getSigner()
       const signatureHash = await signer.signMessage(message)
-      const address = await signer.getAddress()
-      return {
-        message,
-        signatureHash,
-        address,
-      }
+      return signatureHash
     } catch (err) {
       window.alert(err.message)
     }
