@@ -41,9 +41,15 @@ export default class Info {
     this.EPOCH_TREE_DEPTH = EPOCH_TREE_DEPTH
     this.EPOCH_TREE_ARITY = EPOCH_TREE_ARITY
     this.EPOCH_KEY_NONCE_COUNT = EPOCH_KEY_NONCE_COUNT
+
+    const _network = localStorage.getItem('network')
+    if (_network) {
+      this.network = JSON.parse(_network)
+    }
   }
 
   setNetwork(network) {
     this.network = network
+    localStorage.setItem('network', JSON.stringify(network))
   }
 }
