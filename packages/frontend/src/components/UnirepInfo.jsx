@@ -67,12 +67,6 @@ export default observer(({ info }) => {
             info={info.EPOCH_TREE_DEPTH}
             text="An epoch tree is used to track the reputation received by epoch keys. Non-repudiability is enforced at the circuit and smart contract level."
           />
-          {/* need this value */}
-          <ConfigInfoItem
-            item="Epoch Tree Arity"
-            info={info.EPOCH_TREE_ARITY}
-            text="The number of child nodes of each non-leaf node in the epoch tree."
-          />
           <ConfigInfoItem
             item="Epoch Key Nonce Count"
             info={info.EPOCH_KEY_NONCE_COUNT}

@@ -11,7 +11,6 @@ export default class Info {
   AGGREGATE_KEY_COUNT = ''
   STATE_TREE_DEPTH = ''
   EPOCH_TREE_DEPTH = ''
-  EPOCH_TREE_ARITY = ''
   EPOCH_KEY_NONCE_COUNT = ''
 
   network = localStorage.getItem('network')
@@ -34,14 +33,12 @@ export default class Info {
       ETH_PROVIDER_URL,
       STATE_TREE_DEPTH,
       EPOCH_TREE_DEPTH,
-      EPOCH_TREE_ARITY,
       EPOCH_KEY_NONCE_COUNT,
     } = await response.json()
     this.UNIREP_ADDRESS = UNIREP_ADDRESS
     this.ETH_PROVIDER_URL = ETH_PROVIDER_URL
     this.STATE_TREE_DEPTH = STATE_TREE_DEPTH
     this.EPOCH_TREE_DEPTH = EPOCH_TREE_DEPTH
-    this.EPOCH_TREE_ARITY = EPOCH_TREE_ARITY
     this.EPOCH_KEY_NONCE_COUNT = EPOCH_KEY_NONCE_COUNT
   }
 
