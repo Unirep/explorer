@@ -10,7 +10,7 @@ export default observer(({ attesterId, epoch, numAttestations, epochKey }) => {
 
   useEffect(() => {
     const loadData = async () => {
-      await attester.loadEpochsByAttester(attesterId, info.network)
+      await attester.loadEpochsByAttester(attesterId, info.network.name)
     }
     loadData()
   }, [])

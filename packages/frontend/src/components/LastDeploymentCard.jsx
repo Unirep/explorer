@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import shortenId from '../utils/shorten-id'
 
 export default observer(() => {
-  const { unirep, ui } = React.useContext(state)
+  const { unirep, ui, info } = React.useContext(state)
   const id = unirep.deploymentIds.slice(-1)[0]
   const lastDeployment = unirep.deploymentsById.get(id)
 
@@ -30,9 +30,11 @@ export default observer(() => {
               ui.isMobile
             )}
             <a
-              href={`https://goerli.arbiscan.io/address/0x${BigInt(
+              href={`${info.network.explorer}/address/0x${BigInt(
                 lastDeployment.attesterId
-              ).toString(16)}`}
+              )
+                .toString(16)
+                .padStart(40, '0')}`}
               target="blank"
             >
               <img

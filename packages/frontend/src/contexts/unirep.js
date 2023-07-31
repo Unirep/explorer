@@ -52,6 +52,7 @@ export default class Unirep {
         startTimestamp
         epochLength
         attesterId
+        transactionHash
       }
     }`
     const data = await request(network, query)
@@ -74,6 +75,7 @@ export default class Unirep {
         startTimestamp
         epochLength
         attesterId
+        transactionHash
       }
     }`
     const data = await request(network, query)
@@ -102,6 +104,7 @@ export default class Unirep {
         epoch
         commitment
         attesterId
+        transactionHash
       }
     }
     `
@@ -141,6 +144,7 @@ export default class Unirep {
           blockNumber
           blockTimestamp
           attesterId
+          transactionHash
       }
     }`
     const data = await request(network, query)
@@ -163,6 +167,7 @@ export default class Unirep {
         epoch
         fieldIndex
         blockTimestamp
+        transactionHash
       }
     }`
     const item = await request(network, query)
@@ -207,6 +212,7 @@ export default class Unirep {
           attesterId
           change
           fieldIndex
+          transactionHash
       }
   }`
     const res = await request(network, query)

@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { SERVER } from '../config'
+import { NETWORK } from './utils'
 
 export default class Info {
   UNIREP_ADDRESS = ''
@@ -13,7 +14,7 @@ export default class Info {
   EPOCH_TREE_ARITY = ''
   EPOCH_KEY_NONCE_COUNT = ''
 
-  network = 'arbitrum-goerli'
+  network = NETWORK.arbitrum
 
   constructor(state) {
     makeAutoObservable(this)

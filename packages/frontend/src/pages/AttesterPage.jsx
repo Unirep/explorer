@@ -21,12 +21,12 @@ export default observer(() => {
     const loadData = async () => {
       await Promise.all([
         !unirep.deploymentsById.has(attesterId)
-          ? unirep.loadAttesterDeployments(info.network)
+          ? unirep.loadAttesterDeployments(info.network.name)
           : null,
-        attester.loadEpochsByAttester(attesterId, info.network),
-        attester.loadStats(attesterId, info.network),
-        attester.loadSignUpsByAttester(attesterId, info.network),
-        attester.loadAttestationsByAttester(attesterId, info.network),
+        attester.loadEpochsByAttester(attesterId, info.network.name),
+        attester.loadStats(attesterId, info.network.name),
+        attester.loadSignUpsByAttester(attesterId, info.network.name),
+        attester.loadAttestationsByAttester(attesterId, info.network.name),
       ])
     }
     loadData()
@@ -61,7 +61,7 @@ export default observer(() => {
               <h6>
                 <span>{shortenId(id, ui.isMobile)}</span>
                 <a
-                  href={`https://goerli.arbiscan.io/address/${id}`}
+                  href={`${info.network.explorer}/address/${id}`}
                   target="blank"
                 >
                   <img

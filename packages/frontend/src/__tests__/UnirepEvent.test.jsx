@@ -4,6 +4,7 @@ import '@testing-library/jest-dom'
 import fetch from 'whatwg-fetch'
 import State from '../contexts/state'
 import UnirepEvent from '../components/UnirepEvent'
+import { NETWORK } from '../contexts/utils'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -24,6 +25,9 @@ const defaultStateData = {
   },
   ui: {
     isMobile: false,
+  },
+  info: {
+    network: NETWORK.arbitrum,
   },
 }
 

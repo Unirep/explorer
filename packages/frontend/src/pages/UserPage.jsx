@@ -18,7 +18,7 @@ export default observer(() => {
   useEffect(() => {
     const loadData = async () => {
       !unirep.signUpsByUserId.has(userId)
-        ? await unirep.loadSignUpsByUser(userId, info.network)
+        ? await unirep.loadSignUpsByUser(userId, info.network.name)
         : null
     }
     loadData()
