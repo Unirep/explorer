@@ -61,7 +61,8 @@ export default observer(() => {
             </div>
           ) : null}
           {<h1>{attesterDesc.name}</h1> || null}
-          {<div className="description">{attesterDesc.description}</div> || null}
+          {<div className="description">{attesterDesc.description}</div> ||
+            null}
           {attesterDesc.url ? (
             <div className="desc-link">
               <a
