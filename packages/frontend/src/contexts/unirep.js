@@ -273,16 +273,6 @@ export default class Unirep {
     signature,
     nonce
   ) {
-    console.log(
-      attesterId,
-      network,
-      icon,
-      url,
-      name,
-      description,
-      signature,
-      nonce
-    )
     const data = await fetch(`${SERVER}/api/about/${attesterId}`, {
       method: 'POST',
       headers: {
