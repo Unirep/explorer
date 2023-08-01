@@ -20,6 +20,7 @@ export default ({ app, db, synchronizer }) => {
       passed = false
     }
 
+    // is nonce necessary here?
     const hash = hashMessage(
       ethers.utils.solidityKeccak256(
         ['uint256', 'string'],
