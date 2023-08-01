@@ -263,21 +263,39 @@ export default class Unirep {
     this.attesterCount = data.data.attesters.length
   }
 
-  async updateAttesterDescription(attesterId, network, icon, url, name, description, signature, nonce) {
-    console.log(attesterId, network, icon, url, name, description, signature, nonce)
+  async updateAttesterDescription(
+    attesterId,
+    network,
+    icon,
+    url,
+    name,
+    description,
+    signature,
+    nonce
+  ) {
+    console.log(
+      attesterId,
+      network,
+      icon,
+      url,
+      name,
+      description,
+      signature,
+      nonce
+    )
     const data = await fetch(`${SERVER}/api/about/${attesterId}`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'network': network,
-        'icon': icon,
-        'url': url,
-        'name': name,
-        'description': description,
-        'signature': signature,
-        'nonce': nonce,
-      }
-    }).then(r => r.json())
+        network: network,
+        icon: icon,
+        url: url,
+        name: name,
+        description: description,
+        signature: signature,
+        nonce: nonce,
+      },
+    }).then((r) => r.json())
     if (data.passed) {
       return 'info undated!'
     } else {
@@ -286,9 +304,9 @@ export default class Unirep {
   }
 
   async loadAttesterDescription(attesterId, network) {
-    const info = await fetch(`${SERVER}/api/about/${attesterId + network}`).then((r) =>
-      r.json()
-    )
+    const info = await fetch(
+      `${SERVER}/api/about/${attesterId + network}`
+    ).then((r) => r.json())
     this.descriptionsByAttesterId.set(attesterId, info)
   }
 }
