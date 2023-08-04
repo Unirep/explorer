@@ -1,4 +1,4 @@
-export const version = 'v2.0.0-beta-3'
+export const version = 'v2.0.0-beta-4'
 export const network = 'arbitrum-goerli'
 // arbitrum-goerli, goerli, mumbai, sepolia
 

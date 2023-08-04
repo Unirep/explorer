@@ -8,7 +8,6 @@ export default ({ app, db, synchronizer }) => {
       ETH_PROVIDER_URL,
       STATE_TREE_DEPTH: synchronizer.settings.stateTreeDepth,
       EPOCH_TREE_DEPTH: synchronizer.settings.epochTreeDepth,
-      EPOCH_TREE_ARITY: synchronizer.settings.epochTreeArity,
       EPOCH_KEY_NONCE_COUNT: synchronizer.settings.numEpochKeyNoncePerEpoch,
     })
   }
