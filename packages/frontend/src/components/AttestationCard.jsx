@@ -5,8 +5,8 @@ import './eventCard.css'
 import shortenId from '../utils/shorten-id'
 import state from '../contexts/state'
 
-export default observer(({ id }) => {
-  const { attester, ui, info } = React.useContext(state)
+export default observer(({ id, explorer }) => {
+  const { attester, ui } = React.useContext(state)
   const attestation = attester.attestationsById.get(id)
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
   const [isHover, setIsHover] = useState(false)
@@ -44,10 +44,7 @@ export default observer(({ id }) => {
           )}
         </div>
       </div>
-      <a
-        href={`${info.network.explorer}/tx/${attestation.transactionHash}`}
-        target="blank"
-      >
+      <a href={`${explorer}/tx/${attestation.transactionHash}`} target="blank">
         <img src={require('../../public/arrow_up_right.svg')} />
       </a>
     </div>

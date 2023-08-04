@@ -12,9 +12,10 @@ export default function App() {
   return (
     <Routes>
       <Route index element={<Home />} />
-      <Route path="attester/:id" element={<AttesterPage />} />
-      <Route path="user/:id" element={<UserPage />} />
-      <Route path="epochKey/:id" element={<EpochKeyPage />} />
+      <Route path=":network?" element={<Home />} />
+      <Route path=":network/attester/:id" element={<AttesterPage />} />
+      <Route path=":network/user/:id" element={<UserPage />} />
+      <Route path=":network/epochKey/:id" element={<EpochKeyPage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

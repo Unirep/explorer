@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import { NETWORK } from '../contexts/utils'
 import Header from '../components/Header'
 import EpochKeyInfo from '../components/EpochKeyInfo'
 import EpochKeyEvent from '../components/EpochKeyEvent'
@@ -12,22 +13,25 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 
 export default observer(() => {
-  const { id } = useParams()
+  const { id, network } = useParams()
   const epochKeyId = BigInt(id).toString(10)
-  const { unirep, info } = useContext(state)
+  const { unirep } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
       !unirep.attestationsByEpochKey.has(epochKeyId)
-        ? await unirep.loadAttestationsByEpochKey(epochKeyId, info.network.name)
+        ? await unirep.loadAttestationsByEpochKey(
+            epochKeyId,
+            NETWORK[network].name
+          )
         : null
     }
     loadData()
-  }, [info.network])
+  }, [])
   const attestations = unirep.attestationsByEpochKey.get(epochKeyId)
 
   return (
     <div className="content">
-      <Header />
+      <Header network={network} />
       <div className="container">
         <div className="left-container">
           <h3>Epoch Key</h3>
@@ -55,6 +59,7 @@ export default observer(() => {
                   <EpochKeyEvent
                     key={attestation.id}
                     attestation={attestation}
+                    explorer={NETWORK[network].explorer}
                   />
                 ))
               : null}

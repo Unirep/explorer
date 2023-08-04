@@ -9,8 +9,8 @@ import './eventCard.css'
 
 dayjs.extend(relativeTime)
 
-export default observer(({ id }) => {
-  const { unirep, ui, info } = React.useContext(state)
+export default observer(({ id, explorer }) => {
+  const { unirep, ui } = React.useContext(state)
   const attestation = unirep.attestationsById.get(id)
   const { attesterId, blockTimestamp, transactionHash } = attestation
   const attesterIdHex = `0x${BigInt(attesterId).toString(16).padStart(40, '0')}`
@@ -48,7 +48,7 @@ export default observer(({ id }) => {
           </p>
         )}
       </div>
-      <a href={`${info.network.explorer}/tx/${transactionHash}`} target="blank">
+      <a href={`${explorer}/tx/${transactionHash}`} target="blank">
         <img src={require('../../public/arrow_up_right.svg')} />
       </a>
     </div>

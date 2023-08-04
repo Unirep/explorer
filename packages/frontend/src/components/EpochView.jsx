@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import AttestationCard from './AttestationCard'
 
-export default observer(({ attesterId }) => {
+export default observer(({ attesterId, explorer }) => {
   const { attester } = useContext(state)
 
   return (
@@ -20,7 +20,7 @@ export default observer(({ attesterId }) => {
 
       <div>
         {(attester.attestationsByAttesterId.get(attesterId) ?? []).map((id) => (
-          <AttestationCard key={id} id={id} />
+          <AttestationCard key={id} id={id} explorer={explorer} />
         ))}
       </div>
     </>

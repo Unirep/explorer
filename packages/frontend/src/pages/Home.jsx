@@ -1,5 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
+import { useParams, useNavigate } from 'react-router-dom'
+import { NETWORK } from '../contexts/utils'
 import state from '../contexts/state'
 import Header from '../components/Header'
 import UnirepInfo from '../components/UnirepInfo'
@@ -12,22 +14,31 @@ import measure from '../utils/measure-text'
 
 export default observer(() => {
   const { info, unirep, ui } = useContext(state)
+  const { network } = useParams()
+  const navigate = useNavigate()
+  const networkObj = NETWORK[network ?? 'arbitrum']
 
   useEffect(() => {
     const loadData = async () => {
+      const networkName = networkObj.name
       await Promise.all([
-        unirep.loadStats(info.network.name),
-        unirep.loadAllAttestations(info.network.name),
-        unirep.loadAttesterDeployments(info.network.name),
+        unirep.loadStats(networkName),
+        unirep.loadAllAttestations(networkName),
+        unirep.loadAttesterDeployments(networkName),
       ])
     }
 
     loadData()
-  }, [info.network])
+  }, [])
+
+  const setNetwork = (n) => {
+    // n: key of NETWORK
+    navigate(`/${n}`)
+  }
 
   return (
     <div className="content">
-      <Header />
+      <Header network={network ?? 'arbitrum'} setNetwork={setNetwork} />
       <div className="container">
         <div className="left-container">
           <h1>Explorer</h1>
@@ -47,7 +58,7 @@ export default observer(() => {
           <div>
             <img src={require('../../public/hero_img.svg')} alt="bird image" />
           </div>
-          <UnirepInfo info={info} />
+          <UnirepInfo info={info} networkObj={networkObj} />
         </div>
 
         <div className="right-container">
@@ -69,7 +80,7 @@ export default observer(() => {
               heading="Total Bytes Given"
               value1={unirep.totalBytes ?? 0}
             />
-            <LastDeploymentCard />
+            <LastDeploymentCard explorer={networkObj.explorer} />
             <LastAttestationCard />
           </div>
 
@@ -158,7 +169,7 @@ export default observer(() => {
           </div>
           <div>
             {unirep.attestationIds.map((id) => (
-              <UnirepEvent key={id} id={id} />
+              <UnirepEvent key={id} id={id} explorer={networkObj.explorer} />
             ))}
           </div>
         </div>

@@ -4,8 +4,8 @@ import state from '../contexts/state'
 import dayjs from 'dayjs'
 import shortenId from '../utils/shorten-id'
 
-export default observer(() => {
-  const { unirep, ui, info } = React.useContext(state)
+export default observer((explorer) => {
+  const { unirep, ui } = React.useContext(state)
   const id = unirep.deploymentIds.slice(-1)[0]
   const lastDeployment = unirep.deploymentsById.get(id)
 
@@ -30,9 +30,7 @@ export default observer(() => {
               ui.isMobile
             )}
             <a
-              href={`${info.network.explorer}/address/0x${BigInt(
-                lastDeployment.attesterId
-              )
+              href={`${explorer}/address/0x${BigInt(lastDeployment.attesterId)
                 .toString(16)
                 .padStart(40, '0')}`}
               target="blank"
