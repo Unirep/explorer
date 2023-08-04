@@ -41,6 +41,7 @@ export default observer(() => {
               epoch={attestations[0].epoch}
               numAttestations={attestations.length}
               epochKey={id}
+              network={network}
             />
           ) : null}
           {attestations ? null : 'Loading...'}
@@ -59,7 +60,7 @@ export default observer(() => {
                   <EpochKeyEvent
                     key={attestation.id}
                     attestation={attestation}
-                    explorer={NETWORK[network].explorer}
+                    network={network}
                   />
                 ))
               : null}

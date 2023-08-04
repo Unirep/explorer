@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom'
 import './eventCard.css'
 import shortenId from '../utils/shorten-id'
 import state from '../contexts/state'
+import { NETWORK } from '../contexts/utils'
 
-export default observer(({ id, explorer }) => {
+export default observer(({ id, network }) => {
   const { attester, ui } = React.useContext(state)
   const attestation = attester.attestationsById.get(id)
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
@@ -23,7 +24,7 @@ export default observer(({ id, explorer }) => {
   return (
     <div className="event-card">
       <div className="event-info">
-        <Link to={`/epochKey/${epochKeyHex}`}>
+        <Link to={`/${network}/epochKey/${epochKeyHex}`}>
           <p>{shortenId(epochKeyHex, ui.isMobile)}</p>
         </Link>
         <p>{attestation.fieldIndex} </p>
@@ -44,7 +45,10 @@ export default observer(({ id, explorer }) => {
           )}
         </div>
       </div>
-      <a href={`${explorer}/tx/${attestation.transactionHash}`} target="blank">
+      <a
+        href={`${NETWORK[network].explorer}/tx/${attestation.transactionHash}`}
+        target="blank"
+      >
         <img src={require('../../public/arrow_up_right.svg')} />
       </a>
     </div>

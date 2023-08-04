@@ -119,7 +119,7 @@ export default observer(() => {
               {deployment ? (
                 <EpochView
                   attesterId={deployment.attesterId}
-                  explorer={NETWORK[network].explorer}
+                  network={network}
                 />
               ) : null}
               {deployment ? null : 'Loading...'}
@@ -141,7 +141,7 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              <UserView attesterId={attesterId} />
+              <UserView attesterId={attesterId} network={network} />
             </>
           )}
         </div>

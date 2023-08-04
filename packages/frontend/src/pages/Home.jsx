@@ -14,13 +14,13 @@ import measure from '../utils/measure-text'
 
 export default observer(() => {
   const { info, unirep, ui } = useContext(state)
-  const { network } = useParams()
+  const { network: _network } = useParams()
   const navigate = useNavigate()
-  const networkObj = NETWORK[network ?? 'arbitrum']
+  const network = _network ?? 'arbitrum'
 
   useEffect(() => {
     const loadData = async () => {
-      const networkName = networkObj.name
+      const networkName = NETWORK[network].name
       await Promise.all([
         unirep.loadStats(networkName),
         unirep.loadAllAttestations(networkName),
@@ -29,7 +29,7 @@ export default observer(() => {
     }
 
     loadData()
-  }, [])
+  }, [_network])
 
   const setNetwork = (n) => {
     // n: key of NETWORK
@@ -38,7 +38,7 @@ export default observer(() => {
 
   return (
     <div className="content">
-      <Header network={network ?? 'arbitrum'} setNetwork={setNetwork} />
+      <Header network={network} setNetwork={setNetwork} />
       <div className="container">
         <div className="left-container">
           <h1>Explorer</h1>
@@ -58,7 +58,7 @@ export default observer(() => {
           <div>
             <img src={require('../../public/hero_img.svg')} alt="bird image" />
           </div>
-          <UnirepInfo info={info} networkObj={networkObj} />
+          <UnirepInfo info={info} networkObj={NETWORK[network]} />
         </div>
 
         <div className="right-container">
@@ -80,7 +80,7 @@ export default observer(() => {
               heading="Total Bytes Given"
               value1={unirep.totalBytes ?? 0}
             />
-            <LastDeploymentCard explorer={networkObj.explorer} />
+            <LastDeploymentCard network={network} />
             <LastAttestationCard />
           </div>
 
@@ -169,7 +169,7 @@ export default observer(() => {
           </div>
           <div>
             {unirep.attestationIds.map((id) => (
-              <UnirepEvent key={id} id={id} explorer={networkObj.explorer} />
+              <UnirepEvent key={id} id={id} network={network} />
             ))}
           </div>
         </div>

@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
+import { NETWORK } from '../contexts/utils'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import './eventCard.css'
 
 dayjs.extend(relativeTime)
 
-export default observer(({ attestation, explorer }) => {
+export default observer(({ attestation, network }) => {
   const { fieldIndex, change, blockTimestamp } = attestation
   const [isHover, setIsHover] = useState(false)
 
@@ -39,7 +40,10 @@ export default observer(({ attestation, explorer }) => {
           {dayjs(+blockTimestamp * 1000).from(dayjs())}
         </p>
       </div>
-      <a href={`${explorer}/tx/${attestation.transactionHash}`} target="blank">
+      <a
+        href={`${NETWORK[network].explorer}/tx/${attestation.transactionHash}`}
+        target="blank"
+      >
         <img src={require('../../public/arrow_up_right.svg')} />
       </a>
     </div>

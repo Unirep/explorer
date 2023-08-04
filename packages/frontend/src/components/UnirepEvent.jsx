@@ -2,6 +2,7 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import state from '../contexts/state'
+import { NETWORK } from '../contexts/utils'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import shortenId from '../utils/shorten-id'
@@ -9,7 +10,7 @@ import './eventCard.css'
 
 dayjs.extend(relativeTime)
 
-export default observer(({ id, explorer }) => {
+export default observer(({ id, network }) => {
   const { unirep, ui } = React.useContext(state)
   const attestation = unirep.attestationsById.get(id)
   const { attesterId, blockTimestamp, transactionHash } = attestation
@@ -19,7 +20,7 @@ export default observer(({ id, explorer }) => {
   return (
     <div className="event-card">
       <div className="event-info">
-        <Link to={`/attester/${attesterIdHex}`}>
+        <Link to={`/${network}/attester/${attesterIdHex}`}>
           <p>{shortenId(attesterIdHex, ui.isMobile)}</p>
         </Link>
         {!ui.isMobile && (
@@ -27,7 +28,7 @@ export default observer(({ id, explorer }) => {
             {attestation.epoch}
           </p>
         )}
-        <Link to={`/epochKey/${epochKeyHex}`}>
+        <Link to={`/${network}/epochKey/${epochKeyHex}`}>
           <p>{shortenId(epochKeyHex, ui.isMobile)}</p>
         </Link>
         {!ui.isMobile && (
@@ -48,7 +49,10 @@ export default observer(({ id, explorer }) => {
           </p>
         )}
       </div>
-      <a href={`${explorer}/tx/${transactionHash}`} target="blank">
+      <a
+        href={`${NETWORK[network].explorer}/tx/${transactionHash}`}
+        target="blank"
+      >
         <img src={require('../../public/arrow_up_right.svg')} />
       </a>
     </div>
