@@ -8,8 +8,10 @@ import Attester from '../pages/AttesterPage'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ id: '0x0' }),
+  useParams: jest.fn().mockReturnValue({ id: '0x0', network: 'arbitrum' }),
   useNavigate: jest.fn(),
+  useLocation: jest.fn(),
+  matchRoutes: jest.fn(),
   Link: jest.fn(),
 }))
 
@@ -37,9 +39,6 @@ const defaultStateData = {
   },
   ui: {
     isMobile: false,
-  },
-  info: {
-    network: 'arbitrum-goerli',
   },
 }
 

@@ -11,10 +11,10 @@ jest.mock('react-router-dom', () => ({
   Link: jest.fn(),
 }))
 
-const renderAttestationCard = (stateData, id) => {
+const renderAttestationCard = (stateData, id, network) => {
   return render(
     <State.Provider value={stateData}>
-      <AttestationCard id={id} />
+      <AttestationCard id={id} network={network} />
     </State.Provider>
   )
 }
@@ -26,9 +26,6 @@ const defaultStateData = {
   ui: {
     isMobile: false,
   },
-  info: {
-    network: NETWORK.arbitrum,
-  },
 }
 
 beforeAll(() => {
@@ -39,7 +36,11 @@ beforeAll(() => {
 })
 
 test('To test if AttesterCard is exactly rendered', async () => {
-  const { container } = renderAttestationCard(defaultStateData, '123')
+  const { container } = renderAttestationCard(
+    defaultStateData,
+    '123',
+    'arbitrum'
+  )
 
   expect(container.querySelector('.event-card')).not.toBeNull()
 })

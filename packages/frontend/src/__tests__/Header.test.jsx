@@ -8,6 +8,8 @@ import Header from '../components/Header'
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: jest.fn(),
+  useLocation: jest.fn(),
+  matchRoutes: jest.fn(),
   Link: jest.fn(),
 }))
 

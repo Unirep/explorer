@@ -26,6 +26,7 @@ test('To test if UnirepEvent is exactly rendered', async () => {
   const { container } = render(
     <UserEvent
       signup={{ attesterId: '123', epoch: 1, timestamp: 1688393495 }}
+      network={'arbitrum'}
     />
   )
 

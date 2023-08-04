@@ -9,16 +9,19 @@ jest.mock('react-router-dom', () => ({
   Link: jest.fn(),
 }))
 
-const renderEpochKeyEvent = (attestation) => {
-  return render(<EpochKeyEvent attestation={attestation} />)
+const renderEpochKeyEvent = (attestation, network) => {
+  return render(<EpochKeyEvent attestation={attestation} network={network} />)
 }
 
 test('To test if EpochKeyEvent is exactly rendered', async () => {
-  const { container } = renderEpochKeyEvent({
-    fieldIndex: 1,
-    change: 1,
-    timestamp: 1688393495,
-  })
+  const { container } = renderEpochKeyEvent(
+    {
+      fieldIndex: 1,
+      change: 1,
+      timestamp: 1688393495,
+    },
+    'arbitrum'
+  )
 
   expect(container.querySelector('.event-card')).not.toBeNull()
 })
