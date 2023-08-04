@@ -277,26 +277,32 @@ export default class Unirep {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        network: network,
-        icon: icon,
+      },
+      body: JSON.stringify({
+        network,
+        icon,
         url: url,
         name: name,
         description: description,
         signature: signature,
         nonce: nonce,
-      },
+      }),
     }).then((r) => r.json())
     if (data.passed) {
-      return 'info undated!'
+      return 'info updated!'
     } else {
-      return 'invalid signature. please check that you are signing with the EOA that deployed the attester contract.'
+      return 'invalid signature. please check that you are signing with the account that deployed the attester contract.'
     }
   }
 
   async loadAttesterDescription(attesterId, network) {
-    const info = await fetch(
-      `${SERVER}/api/about/${attesterId + network}`
-    ).then((r) => r.json())
+    const info = await fetch(`${SERVER}/api/about/${attesterId}`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        network: network,
+      },
+    }).then((r) => r.json())
     this.descriptionsByAttesterId.set(attesterId, info)
   }
 }

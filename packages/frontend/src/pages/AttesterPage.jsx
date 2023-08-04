@@ -20,7 +20,7 @@ export default observer(() => {
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
-        unirep.loadAttesterDescription(attesterId, info.network.name),
+        unirep.loadAttesterDescription(id, info.network.name),
         !unirep.deploymentsById.has(attesterId)
           ? unirep.loadAttesterDeployments(info.network.name)
           : null,

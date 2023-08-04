@@ -7,8 +7,7 @@ import { hashMessage } from '@ethersproject/hash'
 export default ({ app, db, synchronizer }) => {
   const handleSet = async (req, res) => {
     const attesterId = req.params.attesterId
-    const { icon, url, name, description, nonce, signature, network } =
-      req.headers
+    const { icon, url, name, description, nonce, signature, network } = req.body
     const _id = attesterId + network
 
     let passed = true
@@ -20,7 +19,6 @@ export default ({ app, db, synchronizer }) => {
       passed = false
     }
 
-    // is nonce necessary here?
     const hash = hashMessage(
       ethers.utils.solidityKeccak256(
         ['uint256', 'string'],
