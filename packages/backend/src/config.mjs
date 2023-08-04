@@ -4,7 +4,7 @@ config()
 
 export const APP_ADDRESS =
   process.env.APP_ADDRESS ?? '0x7BDFD4c1F65b4A09263c38fe99B6c4BC94d38568'
-export let UNIREP_ADDRESS = '0x51714b0b1bE71464e6382108DE1F5398BaDe807C'
+export let UNIREP_ADDRESS = '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3'
 export const ETH_PROVIDER_URL =
   process.env.ETH_PROVIDER_URL ??
   'https://arb-goerli.g.alchemy.com/v2/hfFfXlX8rR8YvrALiJ8b7ZtIPRGY1GTM'
