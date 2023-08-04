@@ -29,7 +29,7 @@ export default observer(({ network, setNetwork }) => {
 
   return (
     <div className="header">
-      <Link to="/">
+      <Link to={`/${network}`}>
         {ui.isMobile ? (
           <img
             className="logo"
