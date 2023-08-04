@@ -1,18 +1,18 @@
 import axios from 'axios'
 export const BlockExplorer = {
-  Sepolia: 'https://api-sepolia.etherscan.io/api',
-  Goerli: 'https://api-goerli.etherscan.io/api',
-  Mainnet: 'https://api.etherscan.io/api',
-  Polygon: 'https://api.polygonscan.com/api',
-  ArbitrumGoerli: 'https://api-goerli.arbiscan.io/api',
+  sepolia: 'https://api-sepolia.etherscan.io/api',
+  goerli: 'https://api-goerli.etherscan.io/api',
+  mainnet: 'https://api.etherscan.io/api',
+  polygon: 'https://api.polygonscan.com/api',
+  'arbitrum-goerli': 'https://api-goerli.arbiscan.io/api',
 }
 
 export const API_KEYS = {
-  Polygon: process.env.POLYGON_API_KEY,
-  Sepolia: process.env.SEPOLIA_API_KEY,
-  Mainnet: process.env.MAINNET_API_KEY,
-  Goerli: process.env.GOERLI_API_KEY,
-  ArbitrumGoerli: process.env.ARBITRUM_GOERLI_API_KEY,
+  polygon: process.env.POLYGON_API_KEY,
+  sepolia: process.env.SEPOLIA_API_KEY,
+  mainnet: process.env.MAINNET_API_KEY,
+  goerli: process.env.GOERLI_API_KEY,
+  'arbitrum-goerli': process.env.ARBITRUM_GOERLI_API_KEY,
 }
 
 export const getDeployer = async (blockExplorer, address) => {
@@ -23,9 +23,9 @@ export const getDeployer = async (blockExplorer, address) => {
 
   if (
     [
-      BlockExplorer.Goerli,
-      BlockExplorer.ArbitrumGoerli,
-      BlockExplorer.Sepolia,
+      BlockExplorer.goerli,
+      BlockExplorer['arbitrum-goerli'],
+      BlockExplorer.sepolia,
     ].includes(blockExplorer)
   ) {
     const res = await axios({
@@ -45,7 +45,7 @@ export const getDeployer = async (blockExplorer, address) => {
     const tx = res.data.result.find((x) => x.to == '')
     return tx.from
   } else if (
-    [BlockExplorer.Mainnet, BlockExplorer.Polygon].includes(blockExplorer)
+    [BlockExplorer.mainnet, BlockExplorer.polygon].includes(blockExplorer)
   ) {
     const res = await axios({
       url: blockExplorer,

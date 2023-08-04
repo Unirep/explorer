@@ -3,7 +3,6 @@ import { expect } from 'chai'
 import { APP_ADDRESS, wallet } from '../src/config.mjs'
 import fetch from 'node-fetch'
 import { BlockExplorer } from '../src/helpers/blockExplorer.mjs'
-import { hashMessage } from '@ethersproject/hash'
 import { startServer } from './environment.mjs'
 
 const clearCollection = async (db, collection, options) => {
@@ -35,7 +34,7 @@ describe('Attester Description Tests', function () {
       icon: '<svg>...</svg>',
       url: 'https://developer.unirep.io',
       name: 'unirep',
-      network: 'ArbitrumGoerli',
+      network: 'arbitrum-goerli',
       nonce: random(),
     }
   })
