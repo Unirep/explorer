@@ -42,8 +42,12 @@ export const getDeployer = async (blockExplorer, address) => {
         apikey,
       },
     })
-    const tx = res.data.result.find((x) => x.to == '')
-    return tx.from
+    try {
+      const tx = res.data.result.find((x) => x.to == '')
+      return tx.from
+    } catch {
+      return '0x'
+    }
   } else if (
     [BlockExplorer.mainnet, BlockExplorer.polygon].includes(blockExplorer)
   ) {
@@ -59,8 +63,12 @@ export const getDeployer = async (blockExplorer, address) => {
         apikey,
       },
     })
-    return res.data.result[0].contractCreator
-  } else {
-    return '0x'
+    try {
+      return res.data.result[0].contractCreator
+    } catch {
+      return '0x'
+    }
   }
+
+  return '0x'
 }

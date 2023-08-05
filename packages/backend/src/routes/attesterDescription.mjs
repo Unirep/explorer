@@ -13,10 +13,10 @@ export default ({ app, db, synchronizer }) => {
 
     let passed = true
 
-    const validUrl = await fetch(url).catch(() => false)
+    const validUrl = await fetch(`https://${url}`).catch(() => false)
 
     if (!validUrl) {
-      res.status(401)
+      res.status(402)
       passed = false
     }
 

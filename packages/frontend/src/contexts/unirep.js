@@ -274,16 +274,16 @@ export default class Unirep {
     nonce
   ) {
     const data = await fetch(`${SERVER}/api/about/${attesterId}`, {
-      method: 'POST',
+      method: 'post',
       headers: {
         'content-type': 'application/json',
-        network: network,
-        icon: icon,
-        url: url,
-        name: name,
-        description: description,
-        signature: signature,
-        nonce: nonce,
+        network,
+        icon,
+        url,
+        name,
+        description,
+        signature,
+        nonce,
       },
     }).then((r) => r.json())
     if (data.passed) {

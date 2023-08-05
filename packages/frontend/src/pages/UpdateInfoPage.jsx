@@ -31,10 +31,11 @@ export default observer(() => {
   const [name, setName] = useState(attesterDesc.name)
   const [description, setDescription] = useState(attesterDesc.description)
   const [url, setUrl] = useState(attesterDesc.url)
-  const attesterDescHash = utils.keccak256(
-    utils.toUtf8Bytes(JSON.stringify([icon, name, description, url]))
-  )
   const [responseMessage, setResponseMessage] = useState('')
+  let nonce = Math.floor(Math.random() * 10000)
+  let attesterDescHash = utils.keccak256(
+    utils.toUtf8Bytes(JSON.stringify([nonce, description]))
+  )
 
   return (
     <div className="content">
@@ -59,17 +60,22 @@ export default observer(() => {
               loadingText="verifying signature..."
               onClick={async () => {
                 await wallet.load()
+                nonce = Math.floor(Math.random() * 10000)
+                attesterDescHash = utils.solidityKeccak256(
+                  ['uint256', 'string'],
+                  [nonce, description]
+                )
                 const signature = await wallet.signMessage(attesterDescHash)
                 if (signature) {
                   const response = await unirep.updateAttesterDescription(
-                    attesterId,
+                    id,
                     info.network.name,
                     icon,
                     url,
                     name,
                     description,
                     signature,
-                    1
+                    nonce
                   )
                   setResponseMessage(response)
                 }
