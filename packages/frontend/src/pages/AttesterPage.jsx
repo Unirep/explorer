@@ -34,14 +34,8 @@ export default observer(() => {
   }, [info.network])
 
   const stats = attester.statsById[attesterId] ?? {}
-
   const deployment = unirep.deploymentsById.get(attesterId)
-  const attesterDesc = unirep.descriptionsByAttesterId.get(attesterId) ?? {
-    icon: '',
-    name: '',
-    description: '',
-    url: '',
-  }
+  const attesterDesc = unirep.descriptionsByAttesterId.get(id)
   const epochIds = [...(attester.epochsByAttesterId.get(attesterId) || [])]
   const lastEpoch = attester.epochsById.get(epochIds.pop())
   return (
@@ -51,27 +45,33 @@ export default observer(() => {
         <div className="left-container">
           <h3>Attester</h3>
 
-          {attesterDesc.icon !== '' ? (
-            <div className="desc-icon">
-              <img
-                height={`${ui.isMobile ? '150' : '320'}`}
-                width={`${ui.isMobile ? '150' : '320'}`}
-                src={`data:image/svg+xml;utf8,${encodeURIComponent(info.icon)}`}
-              />
-            </div>
-          ) : null}
-          {<h1>{attesterDesc.name}</h1> || null}
-          {<div className="description">{attesterDesc.description}</div> ||
-            null}
-          {attesterDesc.url ? (
-            <div className="desc-link">
-              <a
-                style={{ color: '#83B5B8' }}
-                href={`https://${attesterDesc.url}`}
-                target="blank"
-              >
-                https://{attesterDesc.url}
-              </a>
+          {attesterDesc ? (
+            <div>
+              {attesterDesc.icon !== '' ? (
+                <div className="desc-icon">
+                  <img
+                    height={`${ui.isMobile ? '150' : '320'}`}
+                    width={`${ui.isMobile ? '150' : '320'}`}
+                    src={`data:image/svg+xml;utf8,${encodeURIComponent(
+                      attesterDesc.icon
+                    )}`}
+                  />
+                </div>
+              ) : null}
+              {<h1>{attesterDesc.name}</h1> || null}
+              {<div className="description">{attesterDesc.description}</div> ||
+                null}
+              {attesterDesc.url ? (
+                <div className="desc-link">
+                  <a
+                    style={{ color: '#83B5B8' }}
+                    href={`https://${attesterDesc.url}`}
+                    target="blank"
+                  >
+                    https://{attesterDesc.url}
+                  </a>
+                </div>
+              ) : null}
             </div>
           ) : null}
 

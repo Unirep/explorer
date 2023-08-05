@@ -281,13 +281,14 @@ export default class Unirep {
       body: JSON.stringify({
         network,
         icon,
-        url: url,
-        name: name,
-        description: description,
-        signature: signature,
-        nonce: nonce,
+        url,
+        name,
+        description,
+        signature,
+        nonce,
       }),
     }).then((r) => r.json())
+    if (!data.validUrl) return 'please check your url and try again.'
     if (data.passed) {
       return 'info updated!'
     } else {

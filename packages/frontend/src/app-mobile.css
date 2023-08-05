@@ -27,10 +27,6 @@
     grid-template-columns: 100%;
   }
 
-  .desc-icon {
-    justify-content: left;
-  }
-
   .update {
     margin-bottom: 2rem;
   }

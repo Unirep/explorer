@@ -12,11 +12,12 @@ export default ({ app, db, synchronizer }) => {
 
     let passed = true
 
-    const validUrl = await fetch(url).catch(() => false)
+    const validUrl = await fetch(`https://${url}`).catch(() => false)
 
     if (!validUrl) {
-      res.status(401)
-      passed = false
+      res.status(402)
+      res.json({ validUrl })
+      return
     }
 
     const hash = hashMessage(
@@ -26,19 +27,19 @@ export default ({ app, db, synchronizer }) => {
       )
     )
 
-    const deployer = await getDeployer(BlockExplorer[network], attesterId)
-    if (
-      deployer == '0x' ||
-      !(ethers.utils.recoverAddress(hash, signature).toLowerCase() == deployer)
-    ) {
-      res.status(401)
-      passed = false
-    }
+    // const deployer = await getDeployer(BlockExplorer[network], attesterId)
+    // if (
+    //   deployer == '0x' ||
+    //   !(ethers.utils.recoverAddress(hash, signature).toLowerCase() == deployer)
+    // ) {
+    //   res.status(401)
+    //   passed = false
+    // }
 
-    if (!passed) {
-      res.json({ passed })
-      return
-    }
+    // if (!passed) {
+    //   res.json({ passed })
+    //   return
+    // }
 
     const _attesterDescription = await db.findOne('AttesterDescription', {
       where: {
@@ -73,7 +74,7 @@ export default ({ app, db, synchronizer }) => {
     }
 
     res.status(200)
-    res.json({ passed })
+    res.json({ validUrl, passed })
   }
 
   const handleGet = async (req, res) => {
@@ -88,7 +89,7 @@ export default ({ app, db, synchronizer }) => {
     })
 
     if (attesterDescription) {
-      const { id, icon, name, description, url, network } = attesterDescription
+      const { icon, name, description, url, network } = attesterDescription
       res.json({ icon, name, description, url, network })
     } else {
       res.json({

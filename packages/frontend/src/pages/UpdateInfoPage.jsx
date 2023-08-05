@@ -14,23 +14,20 @@ export default observer(() => {
   const { unirep, wallet, info } = useContext(state)
 
   // load existing attester description to populate form
-  // useEffect(() => {
-  //   const loadData = async () => {
-  //     await unirep.loadAttesterDescription(attesterId, info.network.name)
-  //   }
-  //   loadData()
-  // }, [])
+  useEffect(() => {
+    const loadData = async () => {
+      await unirep.loadAttesterDescription(id, info.network.name)
+    }
+    loadData()
+  }, [])
 
-  const attesterDesc = unirep.descriptionsByAttesterId.get(attesterId) ?? {
-    icon: '',
-    name: '',
-    description: '',
-    url: '',
-  }
-  const [icon, setIcon] = useState(attesterDesc.icon)
-  const [name, setName] = useState(attesterDesc.name)
-  const [description, setDescription] = useState(attesterDesc.description)
-  const [url, setUrl] = useState(attesterDesc.url)
+  const attesterDesc = unirep.descriptionsByAttesterId.get(id)
+  const [icon, setIcon] = useState(attesterDesc ? attesterDesc.icon : '')
+  const [name, setName] = useState(attesterDesc ? attesterDesc.name : '')
+  const [description, setDescription] = useState(
+    attesterDesc ? attesterDesc.description : ''
+  )
+  const [url, setUrl] = useState(attesterDesc ? attesterDesc.url : '')
   const attesterDescHash = utils.keccak256(
     utils.toUtf8Bytes(JSON.stringify([icon, name, description, url]))
   )
