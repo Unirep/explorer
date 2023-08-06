@@ -15,7 +15,7 @@ export default ({ app, db, synchronizer }) => {
     const validUrl = await fetch(`https://${url}`).catch(() => false)
 
     if (!validUrl) {
-      res.status(402)
+      res.status(401)
       res.json({ validUrl })
       return
     }
@@ -27,19 +27,25 @@ export default ({ app, db, synchronizer }) => {
       )
     )
 
-    // const deployer = await getDeployer(BlockExplorer[network], attesterId)
-    // if (
-    //   deployer == '0x' ||
-    //   !(ethers.utils.recoverAddress(hash, signature).toLowerCase() == deployer)
-    // ) {
-    //   res.status(401)
-    //   passed = false
-    // }
+    const deployer = await getDeployer(BlockExplorer[network], attesterId)
+    console.log('attesterId:', attesterId)
+    console.log('deployer:', deployer)
+    console.log(
+      'signer:',
+      ethers.utils.recoverAddress(hash, signature).toLowerCase()
+    )
+    if (
+      deployer == '0x' ||
+      !(ethers.utils.recoverAddress(hash, signature).toLowerCase() == deployer)
+    ) {
+      res.status(401)
+      passed = false
+    }
 
-    // if (!passed) {
-    //   res.json({ passed })
-    //   return
-    // }
+    if (!passed) {
+      res.json({ validUrl, passed })
+      return
+    }
 
     const _attesterDescription = await db.findOne('AttesterDescription', {
       where: {

@@ -18,6 +18,8 @@ describe('Attester Description Tests', function () {
 
   let headers
   let _db
+  const url = `${HTTP_SERVER}/api/about/${APP_ADDRESS}`
+
   before(async () => {
     let { db } = await startServer()
     _db = db
@@ -32,7 +34,7 @@ describe('Attester Description Tests', function () {
     headers = {
       description: 'example description',
       icon: '<svg>...</svg>',
-      url: 'https://developer.unirep.io',
+      url: 'developer.unirep.io',
       name: 'unirep',
       network: 'arbitrum-goerli',
       nonce: random(),
@@ -48,16 +50,15 @@ describe('Attester Description Tests', function () {
 
     headers.signature = await randomWallet.signMessage(hash)
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
-    const post = await fetch(url.toString(), {
-      method: 'post',
-      headers: headers,
+    const post = await fetch(url, {
+      method: 'POST',
+      headers,
     }).then((r) => r.json())
 
     expect(post.passed).to.be.false
 
-    const get = await fetch(url.toString(), {
-      method: 'get',
+    const get = await fetch(url, {
+      method: 'GET',
       headers: { network: headers.network },
     }).then((r) => r.json())
 
@@ -75,16 +76,15 @@ describe('Attester Description Tests', function () {
     headers.url = 'invalid url'
     headers.signature = await wallet.signMessage(hash)
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
-    const post = await fetch(url.toString(), {
-      method: 'post',
-      headers: headers,
+    const post = await fetch(url, {
+      method: 'POST',
+      headers,
     }).then((r) => r.json())
 
     expect(post.passed).to.be.false
 
-    const get = await fetch(url.toString(), {
-      method: 'get',
+    const get = await fetch(url, {
+      method: 'GET',
       headers: { network: headers.network },
     }).then((r) => r.json())
 
@@ -101,16 +101,15 @@ describe('Attester Description Tests', function () {
 
     headers.signature = await wallet.signMessage(hash)
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
-    const post = await fetch(url.toString(), {
-      method: 'post',
+    const post = await fetch(url, {
+      method: 'POST',
       headers: headers,
     }).then((r) => r.json())
 
     expect(post.passed).to.be.true
 
-    const get = await fetch(url.toString(), {
-      method: 'get',
+    const get = await fetch(url, {
+      method: 'GET',
       headers: { network: headers.network },
     }).then((r) => r.json())
 
@@ -127,16 +126,15 @@ describe('Attester Description Tests', function () {
     headers.network = BlockExplorer.Mainnet
     headers.signature = await wallet.signMessage(hash)
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
-    const post = await fetch(url.toString(), {
-      method: 'post',
-      headers: headers,
+    const post = await fetch(url, {
+      method: 'POST',
+      headers,
     }).then((r) => r.json())
 
     expect(post.passed).to.be.false
 
-    const get = await fetch(url.toString(), {
-      method: 'get',
+    const get = await fetch(url, {
+      method: 'GET',
       headers: { network: headers.network },
     }).then((r) => r.json())
 
