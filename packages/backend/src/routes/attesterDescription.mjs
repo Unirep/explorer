@@ -10,13 +10,20 @@ export default ({ app, db, synchronizer }) => {
     const { icon, url, name, description, nonce, signature, network } = req.body
     const _id = attesterId + network
 
-    let passed = true
+    let urlPassed = true
+    let sigPassed = true
 
-    const validUrl = await fetch(`https://${url}`).catch(() => false)
+    if (url !== '') {
+      const validUrl = await fetch(`https://${url}`).catch(() => false)
 
-    if (!validUrl) {
-      res.status(401)
-      res.json({ validUrl })
+      if (!validUrl) {
+        res.status(401)
+        urlPassed = false
+      }
+    }
+
+    if (!urlPassed) {
+      res.json({ urlPassed })
       return
     }
 
@@ -28,22 +35,16 @@ export default ({ app, db, synchronizer }) => {
     )
 
     const deployer = await getDeployer(BlockExplorer[network], attesterId)
-    console.log('attesterId:', attesterId)
-    console.log('deployer:', deployer)
-    console.log(
-      'signer:',
-      ethers.utils.recoverAddress(hash, signature).toLowerCase()
-    )
     if (
       deployer == '0x' ||
       !(ethers.utils.recoverAddress(hash, signature).toLowerCase() == deployer)
     ) {
       res.status(401)
-      passed = false
+      sigPassed = false
     }
 
-    if (!passed) {
-      res.json({ validUrl, passed })
+    if (!sigPassed) {
+      res.json({ urlPassed, sigPassed })
       return
     }
 
@@ -80,7 +81,7 @@ export default ({ app, db, synchronizer }) => {
     }
 
     res.status(200)
-    res.json({ validUrl, passed })
+    res.json({ urlPassed, sigPassed })
   }
 
   const handleGet = async (req, res) => {

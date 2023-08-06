@@ -288,8 +288,8 @@ export default class Unirep {
         nonce,
       }),
     }).then((r) => r.json())
-    if (!data.validUrl) return 'please check your url and try again.'
-    if (data.passed) {
+    if (!data.urlPassed) return 'please check your url and try again.'
+    if (data.sigPassed) {
       return 'info updated!'
     } else {
       return 'invalid signature. please check that you are signing with the account that deployed the attester contract.'
