@@ -8,7 +8,9 @@ import Attester from '../pages/AttesterPage'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest.fn().mockReturnValue({ id: '0x0', network: 'arbitrum' }),
+  useParams: jest
+    .fn()
+    .mockReturnValue({ id: '0x0', network: 'arbitrum_goerli' }),
   useNavigate: jest.fn(),
   useLocation: jest.fn(),
   matchRoutes: jest.fn(),

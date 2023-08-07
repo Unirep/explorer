@@ -29,7 +29,7 @@ export default observer(({ network, setNetwork }) => {
 
   return (
     <div className="header">
-      <Link to={`/${network}`}>
+      <Link to={`/${network ?? ''}`}>
         {ui.isMobile ? (
           <img
             className="logo"
@@ -70,7 +70,7 @@ export default observer(({ network, setNetwork }) => {
       <div className="flex">
         {!ui.isMobile && (
           <Dropdown
-            selected={network}
+            selected={network ?? 'arbitrum_goerli'}
             choices={Object.keys(NETWORK)}
             select={(n) => setNetwork(n)}
             disabled={matchRoutes([{ path: '/:network?' }], location) === null}

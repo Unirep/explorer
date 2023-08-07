@@ -31,7 +31,7 @@ export default observer(({ selected, choices, select, disabled = false }) => {
         </div>
       ) : (
         <div className={`drop-btn ${disabled && 'disabled'}`} onClick={drop}>
-          <b>{selected}</b>
+          <b>{selected.replace('_', '-')}</b>
           <img src={require('../../public/arrow-drop-down-fill.svg')} />
         </div>
       )}
@@ -41,7 +41,7 @@ export default observer(({ selected, choices, select, disabled = false }) => {
       >
         {choices.map((c) => (
           <div className="dropdown-item" onClick={() => onClick(c)} key={c}>
-            <b>{c}</b>
+            <b>{c.replace('_', '-')}</b>
           </div>
         ))}
       </div>

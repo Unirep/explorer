@@ -16,7 +16,7 @@ export default observer(() => {
   const { info, unirep, ui } = useContext(state)
   const { network: _network } = useParams()
   const navigate = useNavigate()
-  const network = _network ?? 'arbitrum'
+  const network = _network ?? 'arbitrum_goerli'
 
   useEffect(() => {
     const loadData = async () => {

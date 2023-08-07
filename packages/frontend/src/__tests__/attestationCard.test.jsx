@@ -39,7 +39,7 @@ test('To test if AttesterCard is exactly rendered', async () => {
   const { container } = renderAttestationCard(
     defaultStateData,
     '123',
-    'arbitrum'
+    'arbitrum_goerli'
   )
 
   expect(container.querySelector('.event-card')).not.toBeNull()

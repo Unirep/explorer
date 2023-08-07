@@ -40,7 +40,11 @@ beforeAll(() => {
 })
 
 test('To test if UnirepEvent is exactly rendered', async () => {
-  const { container } = renderUnirepEvent(defaultStateData, 123, 'arbitrum')
+  const { container } = renderUnirepEvent(
+    defaultStateData,
+    123,
+    'arbitrum_goerli'
+  )
 
   expect(container.querySelector('.event-card')).not.toBeNull()
 })
