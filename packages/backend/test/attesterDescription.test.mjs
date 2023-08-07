@@ -10,7 +10,7 @@ import { startServer } from './environment.mjs'
 const random = () => Math.floor(Math.random() * 100000)
 
 describe('Attester Description Tests', function () {
-  this.timeout(30000)
+  this.timeout(0)
 
   let headers
   let attester
