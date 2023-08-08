@@ -1,7 +1,9 @@
-import { ethers } from 'ethers'
 import fetch from 'node-fetch'
 import catchError from '../helpers/catchError.mjs'
-import { BlockExplorer, getDeployer } from '../helpers/blockExplorer.mjs'
+import {
+  BlockExplorer,
+  getAttesterSignUpEvents,
+} from '../helpers/blockExplorer.mjs'
 import { hashMessage } from '@ethersproject/hash'
 
 export default ({ app, db, synchronizer }) => {
@@ -20,18 +22,22 @@ export default ({ app, db, synchronizer }) => {
       passed = false
     }
 
-    const hash = hashMessage(
-      ethers.utils.solidityKeccak256(
-        ['uint256', 'string'],
-        [nonce, description]
-      )
+    // const hash = hashMessage(
+    //   ethers.utils.solidityKeccak256(
+    //     ['uint256', 'string'],
+    //     [nonce, description]
+    //   )
+    // )
+
+    // const deployer = ethers.utils.recoverAddress(hash, signature).toLowerCase()
+    const deployer = signature
+    const signUpEvents = await getAttesterSignUpEvents(
+      BlockExplorer[network],
+      attesterId,
+      deployer
     )
 
-    const deployer = await getDeployer(BlockExplorer[network], attesterId)
-    if (
-      deployer == '0x' ||
-      !(ethers.utils.recoverAddress(hash, signature).toLowerCase() == deployer)
-    ) {
+    if (signUpEvents.length == 0) {
       res.status(401)
       passed = false
     }

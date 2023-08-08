@@ -2,6 +2,7 @@ import pkg from 'hardhat'
 const { ethers } = pkg
 import { HTTP_SERVER } from './server.mjs'
 import { expect } from 'chai'
+import { UNIREP_ADDRESS } from '../src/config.mjs'
 import fetch from 'node-fetch'
 
 import { BlockExplorer } from '../src/helpers/blockExplorer.mjs'
@@ -27,7 +28,7 @@ describe('Attester Description Tests', function () {
       icon: '<svg>...</svg>',
       url: 'https://developer.unirep.io',
       name: 'unirep',
-      network: 'ArbitrumGoerli',
+      network: 'arbitrum-goerli',
       nonce: random(),
     }
   })
@@ -39,9 +40,9 @@ describe('Attester Description Tests', function () {
       [headers.nonce, headers.description]
     )
 
-    headers.signature = await randomWallet.signMessage(hash)
+    headers.signature = randomWallet.address
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
+    const url = new URL(`/api/about/${UNIREP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
       method: 'post',
       headers: headers,
@@ -68,7 +69,7 @@ describe('Attester Description Tests', function () {
     headers.url = 'invalid url'
     headers.signature = await attester.signMessage(hash)
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
+    const url = new URL(`/api/about/${UNIREP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
       method: 'post',
       headers: headers,
@@ -94,7 +95,7 @@ describe('Attester Description Tests', function () {
 
     headers.signature = await attester.signMessage(hash)
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
+    const url = new URL(`/api/about/${UNIREP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
       method: 'post',
       headers: headers,
@@ -120,7 +121,7 @@ describe('Attester Description Tests', function () {
     headers.network = BlockExplorer.Mainnet
     headers.signature = await attester.signMessage(hash)
 
-    const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
+    const url = new URL(`/api/about/${UNIREP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
       method: 'post',
       headers: headers,

@@ -1,66 +1,34 @@
-import axios from 'axios'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const unirepAbi = require('./unirepAbi.json')
+
 export const BlockExplorer = {
-  Sepolia: 'https://api-sepolia.etherscan.io/api',
-  Goerli: 'https://api-goerli.etherscan.io/api',
-  Mainnet: 'https://api.etherscan.io/api',
-  Polygon: 'https://api.polygonscan.com/api',
-  ArbitrumGoerli: 'https://api-goerli.arbiscan.io/api',
+  sepolia:
+    'https://eth-sepolia.g.alchemy.com/v2/NKy-j19E-A082K3ZDUwkZhI5C2sIa2qy',
+  goerli:
+    'https://eth-goerli.g.alchemy.com/v2/7cIl_YbD_R5-yChuWP3MkHO5zPcA8jbS',
+  'optimism-goerli':
+    'https://eth-goerli.g.alchemy.com/v2/7cIl_YbD_R5-yChuWP3MkHO5zPcA8jbS',
+  polygon:
+    'https://polygon-mumbai.g.alchemy.com/v2/6o1FUhX6yr4AtcDWw0cMsVEgE2PCl5vk',
+  'arbitrum-goerli':
+    'https://arb-goerli.g.alchemy.com/v2/hfFfXlX8rR8YvrALiJ8b7ZtIPRGY1GTM',
 }
 
-export const API_KEYS = {
-  Polygon: process.env.POLYGON_API_KEY,
-  Sepolia: process.env.SEPOLIA_API_KEY,
-  Mainnet: process.env.MAINNET_API_KEY,
-  Goerli: process.env.GOERLI_API_KEY,
-  ArbitrumGoerli: process.env.ARBITRUM_GOERLI_API_KEY,
-}
+export const getAttesterSignUpEvents = async (
+  blockExplorer,
+  unirep,
+  deployer
+) => {
+  if (unirep == '0x' || deployer == '0x') return []
 
-export const getDeployer = async (blockExplorer, address) => {
-  const apiKeyName = Object.keys(BlockExplorer).find(
-    (key) => BlockExplorer[key] == blockExplorer
-  )
-  const apikey = API_KEYS[apiKeyName]
+  const provider = blockExplorer.startsWith('http')
+    ? new ethers.providers.JsonRpcProvider(blockExplorer)
+    : new ethers.providers.WebSocketProvider(blockExplorer)
 
-  if (
-    [
-      BlockExplorer.Goerli,
-      BlockExplorer.ArbitrumGoerli,
-      BlockExplorer.Sepolia,
-    ].includes(blockExplorer)
-  ) {
-    const res = await axios({
-      url: blockExplorer,
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-      },
-      params: {
-        address,
-        module: 'account',
-        action: 'txlist',
-        startblock: 0,
-        sort: 'acc',
-        apikey,
-      },
-    })
-    const tx = res.data.result.find((x) => x.to == '')
-    return tx.from
-  } else if (
-    [BlockExplorer.Mainnet, BlockExplorer.Polygon].includes(blockExplorer)
-  ) {
-    const res = await axios({
-      url: blockExplorer,
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-      },
-      params: {
-        contractaddresses: address,
-        module: 'contract',
-        action: 'getcontractcreation',
-        apikey,
-      },
-    })
-    return res.data.result[0].contractCreator
-  } else {
-    return '0x'
-  }
+  const unirepContract = new ethers.Contract(unirep, unirepAbi, provider)
+  const filter = unirepContract.filters.AttesterSignedUp()
+  filter.topics.push(['0x' + deployer.slice(2).toString(16).padStart(64, '0')])
+  const events = unirepContract.queryFilter(filter)
+  return events
 }

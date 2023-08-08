@@ -2,7 +2,8 @@ import { ethers } from 'ethers'
 import { config } from 'dotenv'
 config()
 
-export let UNIREP_ADDRESS = '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3'
+export let UNIREP_ADDRESS =
+  process.env.UNIREP_ADDRESS ?? '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3'
 export const ETH_PROVIDER_URL =
   process.env.ETH_PROVIDER_URL ??
   'https://arb-goerli.g.alchemy.com/v2/hfFfXlX8rR8YvrALiJ8b7ZtIPRGY1GTM'

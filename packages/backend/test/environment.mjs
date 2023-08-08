@@ -61,3 +61,6 @@ export const startServer = async () => {
     attester,
   }
 }
+
+export const DEPLOYER_ADDRESS =
+  process.env.DEPLOYER_ADDRESS ?? '0x8e3e38452c0215d0ad940574e3db6ba87c645fd2'
