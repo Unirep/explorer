@@ -1,35 +1,27 @@
+import pkg from 'hardhat'
+const { ethers } = pkg
 import { HTTP_SERVER } from './server.mjs'
 import { expect } from 'chai'
-import { APP_ADDRESS, wallet } from '../src/config.mjs'
 import fetch from 'node-fetch'
-import { BlockExplorer } from '../src/helpers/blockExplorer.mjs'
-import { hashMessage } from '@ethersproject/hash'
-import { startServer } from './environment.mjs'
 
-const clearCollection = async (db, collection, options) => {
-  if (await db.findOne(collection, options)) {
-    await db.delete(collection, options)
-  }
-}
+import { BlockExplorer } from '../src/helpers/blockExplorer.mjs'
+import { startServer } from './environment.mjs'
 
 const random = () => Math.floor(Math.random() * 100000)
 
 describe('Attester Description Tests', function () {
-  this.timeout(30000)
+  this.timeout(0)
 
   let headers
-  let _db
+  let attester
+  let APP_ADDRESS
   before(async () => {
-    let { db } = await startServer()
-    _db = db
+    const res = await startServer()
+    attester = res.attester
+    APP_ADDRESS = `0x${BigInt(attester.address).toString(16).padStart(40, '0')}`
   })
 
   beforeEach(async () => {
-    clearCollection(_db, 'AttesterDescription', {
-      where: {
-        attesterId: APP_ADDRESS,
-      },
-    })
     headers = {
       description: 'example description',
       icon: '<svg>...</svg>',
@@ -74,7 +66,7 @@ describe('Attester Description Tests', function () {
     )
 
     headers.url = 'invalid url'
-    headers.signature = await wallet.signMessage(hash)
+    headers.signature = await attester.signMessage(hash)
 
     const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
@@ -100,7 +92,7 @@ describe('Attester Description Tests', function () {
       [headers.nonce, headers.description]
     )
 
-    headers.signature = await wallet.signMessage(hash)
+    headers.signature = await attester.signMessage(hash)
 
     const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
@@ -126,7 +118,7 @@ describe('Attester Description Tests', function () {
       [headers.nonce, headers.description]
     )
     headers.network = BlockExplorer.Mainnet
-    headers.signature = await wallet.signMessage(hash)
+    headers.signature = await attester.signMessage(hash)
 
     const url = new URL(`/api/about/${APP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
