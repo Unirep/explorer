@@ -22,15 +22,14 @@ export default ({ app, db, synchronizer }) => {
       passed = false
     }
 
-    // const hash = hashMessage(
-    //   ethers.utils.solidityKeccak256(
-    //     ['uint256', 'string'],
-    //     [nonce, description]
-    //   )
-    // )
+    const hash = hashMessage(
+      ethers.utils.solidityKeccak256(
+        ['uint256', 'string'],
+        [nonce, description]
+      )
+    )
 
-    // const deployer = ethers.utils.recoverAddress(hash, signature).toLowerCase()
-    const deployer = signature
+    const deployer = ethers.utils.recoverAddress(hash, signature).toLowerCase()
     const signUpEvents = await getAttesterSignUpEvents(
       BlockExplorer[network],
       attesterId,

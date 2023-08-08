@@ -4,6 +4,8 @@ import { HTTP_SERVER } from './server.mjs'
 import { expect } from 'chai'
 import { UNIREP_ADDRESS } from '../src/config.mjs'
 import fetch from 'node-fetch'
+import { startServer, DEPLOYER_ADDRESS } from './environment.mjs'
+import { BlockExplorer } from '../src/helpers/blockExplorer.mjs'
 
 import { BlockExplorer } from '../src/helpers/blockExplorer.mjs'
 import { startServer } from './environment.mjs'
@@ -40,7 +42,7 @@ describe('Attester Description Tests', function () {
       [headers.nonce, headers.description]
     )
 
-    headers.signature = randomWallet.address
+    headers.signature = await randomWallet.signMessage(hash)
 
     const url = new URL(`/api/about/${UNIREP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
@@ -67,7 +69,8 @@ describe('Attester Description Tests', function () {
     )
 
     headers.url = 'invalid url'
-    headers.signature = await attester.signMessage(hash)
+    headers.signature = await wallet.signMessage(hash)
+    // headers.signature = DEPLOYER_ADDRESS
 
     const url = new URL(`/api/about/${UNIREP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
@@ -93,7 +96,8 @@ describe('Attester Description Tests', function () {
       [headers.nonce, headers.description]
     )
 
-    headers.signature = await attester.signMessage(hash)
+    headers.signature = await wallet.signMessage(hash)
+    // headers.signature = DEPLOYER_ADDRESS
 
     const url = new URL(`/api/about/${UNIREP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
@@ -118,9 +122,14 @@ describe('Attester Description Tests', function () {
       ['uint256', 'string'],
       [headers.nonce, headers.description]
     )
-    headers.network = BlockExplorer.Mainnet
-    headers.signature = await attester.signMessage(hash)
+    headers.network = 'polygon'
+    headers.signature = await wallet.signMessage(hash)
 
+    const url = new URL(`/api/about/${UNIREP_ADDRESS}`, HTTP_SERVER)
+    const post = await fetch(url.toString(), {
+      method: 'post',
+      headers: headers,
+    }).then((r) => r.json())
     const url = new URL(`/api/about/${UNIREP_ADDRESS}`, HTTP_SERVER)
     const post = await fetch(url.toString(), {
       method: 'post',
@@ -128,12 +137,21 @@ describe('Attester Description Tests', function () {
     }).then((r) => r.json())
 
     expect(post.passed).to.be.false
+    expect(post.passed).to.be.false
 
     const get = await fetch(url.toString(), {
       method: 'get',
       headers: { network: headers.network },
     }).then((r) => r.json())
+    const get = await fetch(url.toString(), {
+      method: 'get',
+      headers: { network: headers.network },
+    }).then((r) => r.json())
 
+    Object.entries(get).forEach(([_, v]) => {
+      expect(v).to.equal('')
+    })
+  })
     Object.entries(get).forEach(([_, v]) => {
       expect(v).to.equal('')
     })
