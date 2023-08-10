@@ -11,10 +11,10 @@ jest.mock('react-router-dom', () => ({
   Link: jest.fn(),
 }))
 
-const renderUserCard = (stateData, id) => {
+const renderUserCard = (stateData, id, network) => {
   return render(
     <State.Provider value={stateData}>
-      <UserCard id={id} />
+      <UserCard id={id} network={network} />
     </State.Provider>
   )
 }
@@ -26,9 +26,6 @@ const defaultStateData = {
   ui: {
     isMobile: false,
   },
-  info: {
-    network: NETWORK.arbitrum,
-  },
 }
 
 beforeAll(() => {
@@ -39,7 +36,7 @@ beforeAll(() => {
 })
 
 test('To test if UnirepCard is exactly rendered', async () => {
-  const { container } = renderUserCard(defaultStateData, 123)
+  const { container } = renderUserCard(defaultStateData, 123, 'arbitrum_goerli')
 
   expect(container.querySelector('.event-card')).not.toBeNull()
 })

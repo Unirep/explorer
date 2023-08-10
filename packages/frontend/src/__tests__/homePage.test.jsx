@@ -9,6 +9,8 @@ import Home from '../pages/Home'
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: jest.fn(),
+  useLocation: jest.fn(),
+  matchRoutes: jest.fn(),
   Link: jest.fn(),
 }))
 
@@ -35,7 +37,6 @@ const defaultStateData = {
   },
   info: {
     UNIREP_ADDRESS: '0x123',
-    network: NETWORK.arbitrum,
   },
   ui: {
     isMobile: false,

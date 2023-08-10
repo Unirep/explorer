@@ -5,7 +5,7 @@ import { NETWORK } from '../contexts/utils'
 import './Menu.css'
 import Dropdown from './Dropdown'
 
-export default observer(({ closeMenu }) => {
+export default observer(({ closeMenu, network, setNetwork }) => {
   const { info } = useContext(state)
 
   return (
@@ -42,9 +42,9 @@ export default observer(({ closeMenu }) => {
         <button>Build</button>
       </a>
       <Dropdown
-        selected={info.network.name}
-        choices={NETWORK}
-        select={(n) => info.setNetwork(n)}
+        selected={network}
+        choices={Object.keys(NETWORK)}
+        select={(n) => setNetwork(n)}
         disabled={window.location.pathname !== '/'}
       />
     </div>
