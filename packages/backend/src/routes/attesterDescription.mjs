@@ -1,8 +1,9 @@
 import { ethers } from 'ethers'
 import fetch from 'node-fetch'
 import catchError from '../helpers/catchError.mjs'
-import { BlockExplorer, getDeployer } from '../helpers/blockExplorer.mjs'
+import { getDeployer } from '../helpers/blockExplorer.mjs'
 import { hashMessage } from '@ethersproject/hash'
+import { NETWORK } from '../config.mjs'
 
 export default ({ app, db, synchronizer }) => {
   const handleSet = async (req, res) => {
@@ -16,8 +17,8 @@ export default ({ app, db, synchronizer }) => {
     const validUrl = await fetch(url).catch(() => false)
 
     if (!validUrl) {
-      res.status(401)
-      passed = false
+      res.status(401).json({ passed: false, error: 'Invalid Url' })
+      return
     }
 
     const hash = hashMessage(
@@ -27,17 +28,18 @@ export default ({ app, db, synchronizer }) => {
       )
     )
 
-    const deployer = await getDeployer(BlockExplorer[network], attesterId)
+    if (NETWORK[network] === undefined) {
+      res.status(401).json({ passed: false, error: 'Network not found' })
+      return
+    }
+    const deployer = await getDeployer(network, attesterId)
     if (
       deployer == '0x' ||
-      !(ethers.utils.recoverAddress(hash, signature).toLowerCase() == deployer)
+      !(ethers.utils.recoverAddress(hash, signature) == deployer)
     ) {
-      res.status(401)
-      passed = false
-    }
-
-    if (!passed) {
-      res.json({ passed })
+      res
+        .status(401)
+        .json({ passed: false, error: 'Deployer and signature not match' })
       return
     }
 

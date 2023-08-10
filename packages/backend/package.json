@@ -30,6 +30,7 @@
     "node-fetch": "^3.3.0"
   },
   "devDependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
     "chai": "^4.3.7"
   }
 }

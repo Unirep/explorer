@@ -59,5 +59,6 @@ export const startServer = async () => {
     db,
     synchronizer,
     attester,
+    unirep,
   }
 }
