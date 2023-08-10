@@ -10,7 +10,7 @@ export const NETWORK = {
   arbitrumGoerli: {
     name: 'arbitrum-goerli',
     provider: new ethers.providers.JsonRpcProvider(
-      `https://arbitrum-goerli.infura.io/${process.env.INFURA_KEY}`
+      `https://arbitrum-goerli.infura.io/v3/${process.env.INFURA_KEY}`
     ),
     explorer: 'https://goerli.arbiscan.io',
     unirepAddress: '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3',

@@ -24,7 +24,7 @@ export default class Info {
     const url = new URL('api/info', SERVER)
     const response = await fetch(url.toString(), {
       method: 'get',
-      headers: { network: this.network },
+      headers: { network: 'arbitrumGoerli' },
     })
     const {
       UNIREP_ADDRESS,
