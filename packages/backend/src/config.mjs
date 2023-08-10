@@ -17,7 +17,6 @@ export const NETWORK = {
   },
   goerli: {
     name: 'goerli',
-
     provider: new ethers.providers.JsonRpcProvider(
       `https://goerli.infura.io/v3/${process.env.INFURA_KEY}`
     ),

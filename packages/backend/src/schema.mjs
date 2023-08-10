@@ -7,6 +7,7 @@ export default [
     primaryKey: 'number',
     rows: [
       ['number', 'Int'],
+      ['network', 'String'],
       {
         name: 'timestamp',
         type: 'Int',

@@ -5,7 +5,7 @@ import { getDeployer } from '../helpers/blockExplorer.mjs'
 import { hashMessage } from '@ethersproject/hash'
 import { NETWORK } from '../config.mjs'
 
-export default ({ app, db, synchronizer }) => {
+export default ({ app, db }) => {
   const handleSet = async (req, res) => {
     const attesterId = req.params.attesterId
     const { icon, url, name, description, nonce, signature, network } =
