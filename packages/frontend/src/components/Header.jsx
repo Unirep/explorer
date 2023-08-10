@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, matchRoutes, useLocation } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import { NETWORK } from '../contexts/utils'
@@ -7,9 +7,11 @@ import './header.css'
 import Menu from './Menu'
 import Dropdown from './Dropdown'
 
-export default observer(() => {
-  const { unirep, ui, info } = useContext(state)
+export default observer(({ network, setNetwork }) => {
+  // network: key string, setNetwork: (n: key string) => void
+  const { unirep, ui } = useContext(state)
   const navigate = useNavigate()
+  const location = useLocation()
   const [searchInput, setSearchInput] = useState('')
   const [isMenuOpened, setIsMenuOpened] = useState(false)
 
@@ -27,7 +29,7 @@ export default observer(() => {
 
   return (
     <div className="header">
-      <Link to="/">
+      <Link to={`/${network ?? ''}`}>
         {ui.isMobile ? (
           <img
             className="logo"
@@ -68,10 +70,10 @@ export default observer(() => {
       <div className="flex">
         {!ui.isMobile && (
           <Dropdown
-            selected={info.network.name}
-            choices={NETWORK}
-            select={(n) => info.setNetwork(n)}
-            disabled={window.location.pathname !== '/'}
+            selected={network ?? 'arbitrum_goerli'}
+            choices={Object.keys(NETWORK)}
+            select={(n) => setNetwork(n)}
+            disabled={matchRoutes([{ path: '/:network?' }], location) === null}
           />
         )}
         {/* TODO: implement light/dark mode */}
@@ -85,7 +87,13 @@ export default observer(() => {
           onClick={() => setIsMenuOpened(true)}
         />
       </div>
-      {isMenuOpened && <Menu closeMenu={() => setIsMenuOpened(false)} />}
+      {isMenuOpened && (
+        <Menu
+          closeMenu={() => setIsMenuOpened(false)}
+          network={network}
+          setNetwork={(n) => setNetwork(n)}
+        />
+      )}
     </div>
   )
 })

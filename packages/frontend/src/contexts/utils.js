@@ -1,7 +1,7 @@
 import { version } from '../config'
 
 export const NETWORK = {
-  arbitrum: {
+  arbitrum_goerli: {
     name: 'arbitrum-goerli',
     provider:
       'https://arb-goerli.g.alchemy.com/v2/fyuRWH9h5L_1HMJKtEJ-grnTusHIpLhz',

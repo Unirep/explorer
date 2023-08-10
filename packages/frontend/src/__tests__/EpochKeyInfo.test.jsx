@@ -15,7 +15,8 @@ const renderEpochKeyInfo = (
   attesterId,
   epoch,
   numAttestations,
-  epochKey
+  epochKey,
+  network
 ) => {
   return render(
     <State.Provider value={stateData}>
@@ -24,6 +25,7 @@ const renderEpochKeyInfo = (
         epoch={epoch}
         numAttestations={numAttestations}
         epochKey={epochKey}
+        network={network}
       />
     </State.Provider>
   )
@@ -37,13 +39,10 @@ const defaultStateData = {
   ui: {
     isMobile: false,
   },
-  info: {
-    network: 'arbitrum-goerli',
-  },
 }
 
 test('To test if EpochKeyInfo is exactly rendered', async () => {
-  renderEpochKeyInfo(defaultStateData, 123, 1, 0, 'e123')
+  renderEpochKeyInfo(defaultStateData, 123, 1, 0, 'e123', 'arbitrum_goerli')
 
   expect(screen.getByText('Attester')).toBeInTheDocument()
 })

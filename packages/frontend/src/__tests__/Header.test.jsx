@@ -8,13 +8,15 @@ import Header from '../components/Header'
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: jest.fn(),
+  useLocation: jest.fn(),
+  matchRoutes: jest.fn(),
   Link: jest.fn(),
 }))
 
-const renderHeader = (stateData) => {
+const renderHeader = (stateData, network, setNetwork) => {
   return render(
     <State.Provider value={stateData}>
-      <Header />
+      <Header network={network} setNetwork={setNetwork} />
     </State.Provider>
   )
 }
@@ -26,13 +28,10 @@ const defaultStateData = {
   ui: {
     isMobile: false,
   },
-  info: {
-    network: 'arbitrum-goerli',
-  },
 }
 
 test('To test if Header is exactly rendered', async () => {
-  renderHeader(defaultStateData)
+  renderHeader(defaultStateData, 'arbitrum_goerli', jest.fn())
 
   expect(screen.getByText('GO')).toBeInTheDocument()
 })
