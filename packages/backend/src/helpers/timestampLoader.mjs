@@ -1,5 +1,5 @@
 import fetch from 'node-fetch'
-import { ETH_PROVIDER_URL, provider } from '../config.mjs'
+import { NETWORK } from '../config.mjs'
 
 export class TimestampLoader {
   constructor(db) {
@@ -14,11 +14,9 @@ export class TimestampLoader {
     for (;;) {
       await new Promise((r) => setTimeout(r, 1000))
       try {
-        if (ETH_PROVIDER_URL.startsWith('http')) {
-          await this.loadTimestampBatch()
-        } else {
-          await this.loadTimestamps()
-        }
+        await this.loadTimestampBatch()
+        // TODO: support websocket
+        // await this.loadTimestamps()
       } catch (err) {
         console.log(err)
         console.log('Timestamp loading error')
@@ -27,38 +25,41 @@ export class TimestampLoader {
   }
 
   async loadTimestampBatch() {
-    const blocks = await this.db.findMany('BlockTimestamp', {
-      where: {
-        timestamp: 0,
-      },
-    })
-    if (blocks.length === 0) return
-    const startId = Math.floor(Math.random() * 10000000000)
-    const requests = blocks.map((b, i) => ({
-      method: 'eth_getBlockByNumber',
-      params: [`0x${b.number.toString(16)}`, false],
-      id: startId + i,
-      jsonrpc: '2.0',
-    }))
-    const data = await fetch(ETH_PROVIDER_URL, {
-      method: 'POST',
-      body: JSON.stringify(requests),
-      headers: { 'content-type': 'application/json' },
-    }).then((r) => r.json())
-    await this.db.transaction((_db) => {
-      for (const { result } of data) {
-        const timestamp = Number(result.timestamp)
-        const number = Number(result.number)
-        _db.update('BlockTimestamp', {
-          where: {
-            number,
-          },
-          update: {
-            timestamp,
-          },
-        })
-      }
-    })
+    for (const network of Object.keys(NETWORK)) {
+      const blocks = await this.db.findMany('BlockTimestamp', {
+        where: {
+          network,
+          timestamp: 0,
+        },
+      })
+      if (blocks.length === 0) return
+      const startId = Math.floor(Math.random() * 10000000000)
+      const requests = blocks.map((b, i) => ({
+        method: 'eth_getBlockByNumber',
+        params: [`0x${b.number.toString(16)}`, false],
+        id: startId + i,
+        jsonrpc: '2.0',
+      }))
+      const data = await fetch(ETH_PROVIDER_URL, {
+        method: 'POST',
+        body: JSON.stringify(requests),
+        headers: { 'content-type': 'application/json' },
+      }).then((r) => r.json())
+      await this.db.transaction((_db) => {
+        for (const { result } of data) {
+          const timestamp = Number(result.timestamp)
+          const number = Number(result.number)
+          _db.update('BlockTimestamp', {
+            where: {
+              number,
+            },
+            update: {
+              timestamp,
+            },
+          })
+        }
+      })
+    }
   }
 
   async loadTimestamps() {
@@ -80,9 +81,10 @@ export class TimestampLoader {
     }
   }
 
-  static async inject(objs, db) {
+  static async inject(network, objs, db) {
     const timestamps = await db.findMany('BlockTimestamp', {
       where: {
+        network: network,
         number: objs.map(({ blockNumber }) => blockNumber),
       },
     })

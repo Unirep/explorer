@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import Header from '../components/Header'
 import Tooltip from '../components/Tooltip'
 import UserEvent from '../components/UserEvent'
@@ -19,7 +18,7 @@ export default observer(() => {
   useEffect(() => {
     const loadData = async () => {
       !unirep.signUpsByUserId.has(userId)
-        ? await unirep.loadSignUpsByUser(userId, NETWORK[network].name)
+        ? await unirep.loadSignUpsByUser(userId, network)
         : null
     }
     loadData()

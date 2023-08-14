@@ -14,10 +14,7 @@ test('To test if UnirepInfo is exactly rendered', async () => {
         EPOCH_TREE_DEPTH: 2,
         EPOCH_KEY_NONCE_COUNT: 4,
       }}
-      networkObj={{
-        name: 'arbitrum-goerli',
-        explorer: 'https://goerli.arbiscan.io',
-      }}
+      network={'arbitrum-goerli'}
     />
   )
 

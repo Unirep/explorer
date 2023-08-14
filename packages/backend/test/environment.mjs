@@ -4,7 +4,6 @@ import path from 'path'
 import fs from 'fs'
 import express from 'express'
 import { SQLiteConnector } from 'anondb/node.js'
-import { Synchronizer } from '@unirep/core'
 import { deployUnirep } from '@unirep/contracts/deploy/index.js'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
@@ -18,24 +17,6 @@ export const startServer = async () => {
     .connect(attester)
     .attesterSignUp(300)
     .then((t) => t.wait())
-  const provider = signer.provider
-  const synchronizer = new Synchronizer({
-    db,
-    provider,
-    unirepAddress: unirep.address,
-  })
-  synchronizer.on('processedEvent', async (event) => {
-    await db.upsert('BlockTimestamp', {
-      where: {
-        number: event.blockNumber,
-      },
-      create: {
-        number: event.blockNumber,
-      },
-      update: {},
-    })
-  })
-  await synchronizer.start()
 
   const app = express()
   const port = process.env.PORT ?? 8000
@@ -51,13 +32,13 @@ export const startServer = async () => {
   const routes = await fs.promises.readdir(routeDir)
   for (const routeFile of routes) {
     const { default: route } = await import(path.join(routeDir, routeFile))
-    route({ app, db, synchronizer })
+    route({ app, db })
   }
 
   return {
     app,
     db,
-    synchronizer,
     attester,
+    unirep,
   }
 }

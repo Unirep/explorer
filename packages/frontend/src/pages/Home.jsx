@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { useParams, useNavigate } from 'react-router-dom'
-import { NETWORK } from '../contexts/utils'
 import state from '../contexts/state'
 import Header from '../components/Header'
 import UnirepInfo from '../components/UnirepInfo'
@@ -16,15 +15,15 @@ export default observer(() => {
   const { info, unirep, ui } = useContext(state)
   const { network: _network } = useParams()
   const navigate = useNavigate()
-  const network = _network ?? 'arbitrum_goerli'
+  const network = _network ?? 'arbitrum-goerli'
 
   useEffect(() => {
     const loadData = async () => {
-      const networkName = NETWORK[network].name
       await Promise.all([
-        unirep.loadStats(networkName),
-        unirep.loadAllAttestations(networkName),
-        unirep.loadAttesterDeployments(networkName),
+        info.load(network),
+        unirep.loadStats(network),
+        unirep.loadAllAttestations(network),
+        unirep.loadAttesterDeployments(network),
       ])
     }
 
@@ -58,7 +57,7 @@ export default observer(() => {
           <div>
             <img src={require('../../public/hero_img.svg')} alt="bird image" />
           </div>
-          <UnirepInfo info={info} networkObj={NETWORK[network]} />
+          <UnirepInfo info={info} network={network} />
         </div>
 
         <div className="right-container">

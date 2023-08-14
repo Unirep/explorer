@@ -15,14 +15,14 @@ export default class Info {
   constructor(state) {
     makeAutoObservable(this)
     this.state = state
-    if (typeof window !== 'undefined') {
-      this.load()
-    }
   }
 
-  async load() {
+  async load(network) {
     const url = new URL('api/info', SERVER)
-    const response = await fetch(url.toString())
+    const response = await fetch(url.toString(), {
+      method: 'get',
+      headers: { network },
+    })
     const {
       UNIREP_ADDRESS,
       ETH_PROVIDER_URL,
@@ -30,6 +30,7 @@ export default class Info {
       EPOCH_TREE_DEPTH,
       EPOCH_KEY_NONCE_COUNT,
     } = await response.json()
+
     this.UNIREP_ADDRESS = UNIREP_ADDRESS
     this.ETH_PROVIDER_URL = ETH_PROVIDER_URL
     this.STATE_TREE_DEPTH = STATE_TREE_DEPTH

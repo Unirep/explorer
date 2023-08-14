@@ -1,6 +1,6 @@
 import catchError from '../helpers/catchError.mjs'
 
-export default ({ app, db, synchronizer }) => {
+export default ({ app, db }) => {
   const handler = async (req, res) => {
     const { data } = await db.findOne('GlobalData', {
       where: {

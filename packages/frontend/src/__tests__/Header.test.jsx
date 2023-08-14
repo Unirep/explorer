@@ -31,7 +31,7 @@ const defaultStateData = {
 }
 
 test('To test if Header is exactly rendered', async () => {
-  renderHeader(defaultStateData, 'arbitrum_goerli', jest.fn())
+  renderHeader(defaultStateData, 'arbitrum-goerli', jest.fn())
 
   expect(screen.getByText('GO')).toBeInTheDocument()
 })

@@ -42,7 +42,7 @@ const defaultStateData = {
 }
 
 test('To test if EpochKeyInfo is exactly rendered', async () => {
-  renderEpochKeyInfo(defaultStateData, 123, 1, 0, 'e123', 'arbitrum_goerli')
+  renderEpochKeyInfo(defaultStateData, 123, 1, 0, 'e123', 'arbitrum-goerli')
 
   expect(screen.getByText('Attester')).toBeInTheDocument()
 })
