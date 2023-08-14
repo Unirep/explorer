@@ -1,9 +1,9 @@
 import catchError from '../helpers/catchError.mjs'
 import { TimestampLoader } from '../helpers/timestampLoader.mjs'
 
-export default ({ app, db, synchronizer }) => {
+export default ({ app, db }) => {
   const handler = async (req, res) => {
-    const { id } = req.params
+    const { id, network } = req.params
     const deployment = await db.findOne('Attester', {
       where: {
         _id: id,
@@ -20,7 +20,11 @@ export default ({ app, db, synchronizer }) => {
       },
     })
     if (attestations.length > 0) {
-      const epochKeyItems = await TimestampLoader.inject(attestations, db)
+      const epochKeyItems = await TimestampLoader.inject(
+        network,
+        attestations,
+        db
+      )
       res.json({ type: 'epochKey', data: epochKeyItems })
       return
     }

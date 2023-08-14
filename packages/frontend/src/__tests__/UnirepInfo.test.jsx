@@ -13,8 +13,8 @@ test('To test if UnirepInfo is exactly rendered', async () => {
         STATE_TREE_DEPTH: 1,
         EPOCH_TREE_DEPTH: 2,
         EPOCH_KEY_NONCE_COUNT: 4,
-        network: NETWORK.arbitrum,
       }}
+      network={'arbitrum-goerli'}
     />
   )
 

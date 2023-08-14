@@ -1,29 +1,23 @@
 import { ethers } from 'ethers'
 import fetch from 'node-fetch'
 import catchError from '../helpers/catchError.mjs'
-import { BlockExplorer, getDeployer } from '../helpers/blockExplorer.mjs'
+import { getDeployer } from '../helpers/blockExplorer.mjs'
 import { hashMessage } from '@ethersproject/hash'
+import { NETWORK } from '../config.mjs'
 
-export default ({ app, db, synchronizer }) => {
+export default ({ app, db }) => {
   const handleSet = async (req, res) => {
     const attesterId = req.params.attesterId
-    const { icon, url, name, description, nonce, signature, network } = req.body
+    const { icon, url, name, description, nonce, signature, network } =
+      req.headers
     const _id = attesterId + network
 
-    let urlPassed = true
-    let sigPassed = true
+    let passed = true
 
-    if (url !== '') {
-      const validUrl = await fetch(`https://${url}`).catch(() => false)
+    const validUrl = await fetch(url).catch(() => false)
 
-      if (!validUrl) {
-        res.status(401)
-        urlPassed = false
-      }
-    }
-
-    if (!urlPassed) {
-      res.json({ urlPassed })
+    if (!validUrl) {
+      res.status(401).json({ passed: false, error: 'Invalid Url' })
       return
     }
 
@@ -34,17 +28,18 @@ export default ({ app, db, synchronizer }) => {
       )
     )
 
-    const deployer = await getDeployer(BlockExplorer[network], attesterId)
+    if (!NETWORK[network]) {
+      res.status(401).json({ passed: false, error: 'Network not found' })
+      return
+    }
+    const deployer = await getDeployer(network, attesterId)
     if (
       deployer == '0x' ||
-      !(ethers.utils.recoverAddress(hash, signature).toLowerCase() == deployer)
+      !(ethers.utils.recoverAddress(hash, signature) == deployer)
     ) {
-      res.status(401)
-      sigPassed = false
-    }
-
-    if (!sigPassed) {
-      res.json({ urlPassed, sigPassed })
+      res
+        .status(401)
+        .json({ passed: false, error: 'Deployer and signature not match' })
       return
     }
 
@@ -81,7 +76,7 @@ export default ({ app, db, synchronizer }) => {
     }
 
     res.status(200)
-    res.json({ urlPassed, sigPassed })
+    res.json({ passed })
   }
 
   const handleGet = async (req, res) => {
@@ -96,7 +91,7 @@ export default ({ app, db, synchronizer }) => {
     })
 
     if (attesterDescription) {
-      const { icon, name, description, url, network } = attesterDescription
+      const { id, icon, name, description, url, network } = attesterDescription
       res.json({ icon, name, description, url, network })
     } else {
       res.json({

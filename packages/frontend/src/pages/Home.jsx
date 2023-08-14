@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
+import { useParams, useNavigate } from 'react-router-dom'
 import state from '../contexts/state'
 import Header from '../components/Header'
 import UnirepInfo from '../components/UnirepInfo'
@@ -12,22 +13,31 @@ import measure from '../utils/measure-text'
 
 export default observer(() => {
   const { info, unirep, ui } = useContext(state)
+  const { network: _network } = useParams()
+  const navigate = useNavigate()
+  const network = _network ?? 'arbitrum-goerli'
 
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
-        unirep.loadStats(info.network.name),
-        unirep.loadAllAttestations(info.network.name),
-        unirep.loadAttesterDeployments(info.network.name),
+        info.load(network),
+        unirep.loadStats(network),
+        unirep.loadAllAttestations(network),
+        unirep.loadAttesterDeployments(network),
       ])
     }
 
     loadData()
-  }, [info.network])
+  }, [_network])
+
+  const setNetwork = (n) => {
+    // n: key of NETWORK
+    navigate(`/${n}`)
+  }
 
   return (
     <div className="content">
-      <Header />
+      <Header network={network} setNetwork={setNetwork} />
       <div className="container">
         <div className="left-container">
           <h1>Explorer</h1>
@@ -47,7 +57,7 @@ export default observer(() => {
           <div>
             <img src={require('../../public/hero_img.svg')} alt="bird image" />
           </div>
-          <UnirepInfo info={info} />
+          <UnirepInfo info={info} network={network} />
         </div>
 
         <div className="right-container">
@@ -69,7 +79,7 @@ export default observer(() => {
               heading="Total Bytes Given"
               value1={unirep.totalBytes ?? 0}
             />
-            <LastDeploymentCard />
+            <LastDeploymentCard network={network} />
             <LastAttestationCard />
           </div>
 
@@ -158,7 +168,7 @@ export default observer(() => {
           </div>
           <div>
             {unirep.attestationIds.map((id) => (
-              <UnirepEvent key={id} id={id} />
+              <UnirepEvent key={id} id={id} network={network} />
             ))}
           </div>
         </div>

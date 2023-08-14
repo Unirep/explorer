@@ -12,22 +12,22 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 
 export default observer(() => {
-  const { id } = useParams()
+  const { id, network } = useParams()
   const userId = BigInt(id).toString()
-  const { unirep, info } = useContext(state)
+  const { unirep } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
       !unirep.signUpsByUserId.has(userId)
-        ? await unirep.loadSignUpsByUser(userId, info.network.name)
+        ? await unirep.loadSignUpsByUser(userId, network)
         : null
     }
     loadData()
-  }, [info.network])
+  }, [])
   const signups = unirep.signUpsByUserId.get(userId)
 
   return (
     <div className="content">
-      <Header />
+      <Header network={network} />
       <div className="container">
         <div className="left-container">
           <h3>User</h3>
@@ -68,7 +68,11 @@ export default observer(() => {
           <div className="scroll">
             {signups
               ? signups.map((signup) => (
-                  <UserEvent key={signup.id} signup={signup} />
+                  <UserEvent
+                    key={signup.id}
+                    signup={signup}
+                    network={network}
+                  />
                 ))
               : null}
             {signups ? null : 'Loading...'}

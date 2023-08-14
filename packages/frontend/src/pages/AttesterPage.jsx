@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
+import { NETWORK } from '../contexts/utils'
 import shortenId from '../utils/shorten-id'
 import Header from '../components/Header'
 import InfoCard from '../components/InfoCard'
@@ -12,9 +13,9 @@ import Footer from '../components/Footer'
 import dayjs from 'dayjs'
 
 export default observer(() => {
-  const { id } = useParams()
+  const { id, network } = useParams()
   const attesterId = BigInt(id).toString(10)
-  const { unirep, attester, ui, info } = useContext(state)
+  const { unirep, attester, ui } = useContext(state)
   const [selectedView, setSelectedView] = useState('Attestations')
 
   useEffect(() => {
@@ -22,16 +23,16 @@ export default observer(() => {
       await Promise.all([
         unirep.loadAttesterDescription(id, info.network.name),
         !unirep.deploymentsById.has(attesterId)
-          ? unirep.loadAttesterDeployments(info.network.name)
+          ? unirep.loadAttesterDeployments(network)
           : null,
-        attester.loadEpochsByAttester(attesterId, info.network.name),
-        attester.loadStats(attesterId, info.network.name),
-        attester.loadSignUpsByAttester(attesterId, info.network.name),
-        attester.loadAttestationsByAttester(attesterId, info.network.name),
+        attester.loadEpochsByAttester(attesterId, network),
+        attester.loadStats(attesterId, network),
+        attester.loadSignUpsByAttester(attesterId, network),
+        attester.loadAttestationsByAttester(attesterId, network),
       ])
     }
     loadData()
-  }, [info.network])
+  }, [])
 
   const stats = attester.statsById[attesterId] ?? {}
   const deployment = unirep.deploymentsById.get(attesterId)
@@ -40,7 +41,7 @@ export default observer(() => {
   const lastEpoch = attester.epochsById.get(epochIds.pop())
   return (
     <div className="content">
-      <Header />
+      <Header network={network} />
       <div className="container">
         <div className="left-container">
           <h3>Attester</h3>
@@ -93,7 +94,7 @@ export default observer(() => {
               <h6>
                 <span>{shortenId(id, ui.isMobile)}</span>
                 <a
-                  href={`${info.network.explorer}/address/${id}`}
+                  href={`${NETWORK[network].explorer}/address/${id}`}
                   target="blank"
                 >
                   <img
@@ -151,7 +152,10 @@ export default observer(() => {
                 </h3>
               </div>
               {deployment ? (
-                <EpochView attesterId={deployment.attesterId} />
+                <EpochView
+                  attesterId={deployment.attesterId}
+                  network={network}
+                />
               ) : null}
               {deployment ? null : 'Loading...'}
             </>
@@ -172,7 +176,7 @@ export default observer(() => {
                   Users
                 </h3>
               </div>
-              <UserView attesterId={attesterId} />
+              <UserView attesterId={attesterId} network={network} />
             </>
           )}
         </div>

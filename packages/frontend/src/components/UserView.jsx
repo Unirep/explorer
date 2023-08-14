@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import UserCard from './UserCard'
 
-export default observer(({ attesterId }) => {
+export default observer(({ attesterId, network }) => {
   const { attester } = useContext(state)
   const signupIds = attester.signUpsByAttesterId.get(attesterId) ?? []
 
@@ -15,7 +15,7 @@ export default observer(({ attesterId }) => {
       </div>
       <div>
         {signupIds.map((id) => (
-          <UserCard key={id} id={id} />
+          <UserCard key={id} id={id} network={network} />
         ))}
       </div>
     </>
