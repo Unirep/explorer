@@ -28,7 +28,7 @@ export default ({ app, db }) => {
       )
     )
 
-    if (NETWORK[network] === undefined) {
+    if (!NETWORK[network]) {
       res.status(401).json({ passed: false, error: 'Network not found' })
       return
     }

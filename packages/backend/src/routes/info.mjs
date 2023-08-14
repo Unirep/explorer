@@ -5,7 +5,7 @@ import catchError from '../helpers/catchError.mjs'
 export default ({ app }) => {
   const handler = async (req, res) => {
     const { network } = req.headers
-    if (NETWORK[network] === undefined) {
+    if (!NETWORK[network]) {
       res.status(401).json({ error: 'Network not supported' })
       return
     }
