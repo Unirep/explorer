@@ -28,7 +28,7 @@ export class TimestampLoader {
     for (const network of Object.keys(NETWORK)) {
       const blocks = await this.db.findMany('BlockTimestamp', {
         where: {
-          network: NETWORK[network].name,
+          network,
           timestamp: 0,
         },
       })

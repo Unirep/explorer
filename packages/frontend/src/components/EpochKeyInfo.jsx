@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import state from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import Tooltip from './Tooltip'
 
 export default observer(
@@ -12,7 +11,7 @@ export default observer(
 
     useEffect(() => {
       const loadData = async () => {
-        await attester.loadEpochsByAttester(attesterId, NETWORK[network].name)
+        await attester.loadEpochsByAttester(attesterId, network)
       }
       loadData()
     }, [])

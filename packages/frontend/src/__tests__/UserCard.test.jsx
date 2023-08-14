@@ -36,7 +36,7 @@ beforeAll(() => {
 })
 
 test('To test if UnirepCard is exactly rendered', async () => {
-  const { container } = renderUserCard(defaultStateData, 123, 'arbitrum_goerli')
+  const { container } = renderUserCard(defaultStateData, 123, 'arbitrum-goerli')
 
   expect(container.querySelector('.event-card')).not.toBeNull()
 })

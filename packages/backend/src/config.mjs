@@ -7,8 +7,7 @@ config()
 export const DB_PATH = process.env.DB_PATH ?? ':memory:'
 
 export const NETWORK = {
-  arbitrumGoerli: {
-    name: 'arbitrum-goerli',
+  'arbitrum-goerli': {
     provider: new ethers.providers.JsonRpcProvider(
       `https://arbitrum-goerli.infura.io/v3/${process.env.INFURA_KEY}`
     ),
@@ -16,7 +15,6 @@ export const NETWORK = {
     unirepAddress: '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3',
   },
   goerli: {
-    name: 'goerli',
     provider: new ethers.providers.JsonRpcProvider(
       `https://goerli.infura.io/v3/${process.env.INFURA_KEY}`
     ),
@@ -24,8 +22,6 @@ export const NETWORK = {
     unirepAddress: '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3',
   },
   mumbai: {
-    name: 'mumbai',
-
     provider: new ethers.providers.JsonRpcProvider(
       `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_KEY}`
     ),
@@ -33,15 +29,13 @@ export const NETWORK = {
     unirepAddress: '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3',
   },
   sepolia: {
-    name: 'sepolia',
     provider: new ethers.providers.JsonRpcProvider(
       `https://sepolia.infura.io/v3/${process.env.INFURA_KEY}`
     ),
     explorer: 'https://sepolia.etherscan.io',
     unirepAddress: '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3',
   },
-  optimismGoerli: {
-    name: 'optimism-goerli',
+  'optimism-goerli': {
     provider: new ethers.providers.JsonRpcProvider(
       `https://optimism-goerli.infura.io/v3/${process.env.INFURA_KEY}`
     ),
@@ -50,7 +44,6 @@ export const NETWORK = {
   },
   // for test
   local: {
-    name: 'local',
     provider: (await hardhatEthers.getSigners())[0].provider,
     unirepAddress: '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3',
   },

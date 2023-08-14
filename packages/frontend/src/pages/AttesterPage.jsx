@@ -15,20 +15,19 @@ import dayjs from 'dayjs'
 export default observer(() => {
   const { id, network } = useParams()
   const attesterId = BigInt(id).toString(10)
-  const { unirep, attester, ui, info } = useContext(state)
+  const { unirep, attester, ui } = useContext(state)
   const [selectedView, setSelectedView] = useState('Attestations')
 
   useEffect(() => {
     const loadData = async () => {
-      const networkName = NETWORK[network].name
       await Promise.all([
         !unirep.deploymentsById.has(attesterId)
-          ? unirep.loadAttesterDeployments(networkName)
+          ? unirep.loadAttesterDeployments(network)
           : null,
-        attester.loadEpochsByAttester(attesterId, networkName),
-        attester.loadStats(attesterId, networkName),
-        attester.loadSignUpsByAttester(attesterId, networkName),
-        attester.loadAttestationsByAttester(attesterId, networkName),
+        attester.loadEpochsByAttester(attesterId, network),
+        attester.loadStats(attesterId, network),
+        attester.loadSignUpsByAttester(attesterId, network),
+        attester.loadAttestationsByAttester(attesterId, network),
       ])
     }
     loadData()

@@ -3,8 +3,9 @@ import { observer } from 'mobx-react-lite'
 import ConfigInfoItem from './ConfigInfoItem'
 import { version } from '../config'
 import './infoCard.css'
+import { NETWORK } from '../contexts/utils'
 
-export default observer(({ info, networkObj }) => {
+export default observer(({ info, network }) => {
   const [circuitExpanded, setCircuitExpanded] = useState(false)
 
   return (
@@ -26,7 +27,7 @@ export default observer(({ info, networkObj }) => {
       <div className="flex">
         <h5>Address</h5>
         <a
-          href={`${networkObj.explorer}/address/${info.UNIREP_ADDRESS}`}
+          href={`${NETWORK[network].explorer}/address/${info.UNIREP_ADDRESS}`}
           target="blank"
         >
           <h6>
@@ -43,7 +44,7 @@ export default observer(({ info, networkObj }) => {
 
       <div className="flex">
         <h5>Network</h5>
-        <h6>{networkObj.name}</h6>
+        <h6>{network}</h6>
       </div>
 
       {circuitExpanded ? (

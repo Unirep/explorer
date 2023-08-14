@@ -15,16 +15,13 @@ export default class Info {
   constructor(state) {
     makeAutoObservable(this)
     this.state = state
-    if (typeof window !== 'undefined') {
-      this.load()
-    }
   }
 
-  async load() {
+  async load(network) {
     const url = new URL('api/info', SERVER)
     const response = await fetch(url.toString(), {
       method: 'get',
-      headers: { network: 'arbitrumGoerli' },
+      headers: { network },
     })
     const {
       UNIREP_ADDRESS,

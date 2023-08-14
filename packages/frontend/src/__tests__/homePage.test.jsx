@@ -36,6 +36,7 @@ const defaultStateData = {
     deploymentsById: new Map(),
   },
   info: {
+    load: jest.fn(),
     UNIREP_ADDRESS: '0x123',
   },
   ui: {

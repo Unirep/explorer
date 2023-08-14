@@ -20,7 +20,7 @@ test('To test if EpochKeyEvent is exactly rendered', async () => {
       change: 1,
       timestamp: 1688393495,
     },
-    'arbitrum_goerli'
+    'arbitrum-goerli'
   )
 
   expect(container.querySelector('.event-card')).not.toBeNull()
