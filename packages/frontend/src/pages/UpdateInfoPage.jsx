@@ -9,14 +9,13 @@ import Footer from '../components/Footer'
 import './updateInfo.css'
 
 export default observer(() => {
-  const { id } = useParams()
-  const attesterId = BigInt(id).toString(10)
-  const { unirep, wallet, info } = useContext(state)
+  const { id, network } = useParams()
+  const { unirep, wallet } = useContext(state)
 
   // load existing attester description to populate form
   useEffect(() => {
     const loadData = async () => {
-      await unirep.loadAttesterDescription(id, info.network.name)
+      await unirep.loadAttesterDescription(id, network)
     }
     loadData()
   }, [])
@@ -66,7 +65,7 @@ export default observer(() => {
                 if (signature) {
                   const response = await unirep.updateAttesterDescription(
                     id,
-                    info.network.name,
+                    network,
                     icon,
                     url,
                     name,
@@ -86,7 +85,7 @@ export default observer(() => {
             {responseMessage === 'info updated!' ? (
               <h5 style={{ textAlign: 'center' }}>
                 Check out your new attester page
-                <Link to={`/attester/${id}`}>
+                <Link to={`/${network}/attester/${id}`}>
                   {' '}
                   <span style={{ textDecoration: 'underline' }}>here</span>
                 </Link>

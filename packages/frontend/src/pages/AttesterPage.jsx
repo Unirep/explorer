@@ -21,7 +21,7 @@ export default observer(() => {
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
-        unirep.loadAttesterDescription(id, info.network.name),
+        unirep.loadAttesterDescription(id, network),
         !unirep.deploymentsById.has(attesterId)
           ? unirep.loadAttesterDeployments(network)
           : null,
@@ -106,7 +106,7 @@ export default observer(() => {
             </div>
           </div>
 
-          <Link to={`/updateInfo/${id}`}>
+          <Link to={`/${network}/updateInfo/${id}`}>
             <button className="update">Update Info</button>
           </Link>
         </div>
