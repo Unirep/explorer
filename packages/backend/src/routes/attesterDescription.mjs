@@ -13,11 +13,12 @@ export default ({ app, db }) => {
 
     let passed = true
 
-    const validUrl = await fetch(`https://${url}`).catch(() => false)
-
-    if (!validUrl) {
-      res.status(401).json({ passed: false, error: 'Invalid Url' })
-      return
+    if (url) {
+      const validUrl = await fetch(`https://${url}`).catch(() => false)
+      if (!validUrl) {
+        res.status(401).json({ passed: false, error: 'Invalid Url' })
+        return
+      }
     }
 
     const hash = hashMessage(

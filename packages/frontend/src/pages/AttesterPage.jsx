@@ -47,7 +47,7 @@ export default observer(() => {
           <h3>Attester</h3>
 
           {attesterDesc ? (
-            <div>
+            <div style={{ marginBottom: '3rem' }}>
               {attesterDesc.icon !== '' ? (
                 <div className="desc-icon">
                   <img

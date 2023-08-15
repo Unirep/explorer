@@ -9,7 +9,7 @@ import { startServer } from './environment.mjs'
 const random = () => Math.floor(Math.random() * 100000)
 
 let attesters
-let headers
+let body
 
 const res = await startServer()
 const attesterF = await ethers.getContractFactory('Attester')
@@ -31,7 +31,7 @@ describe('Attester Description Tests', function () {
   this.timeout(0)
 
   beforeEach(() => {
-    headers = {
+    body = {
       description: 'example description',
       icon: '<svg>...</svg>',
       url: 'developer.unirep.io',
@@ -46,23 +46,23 @@ describe('Attester Description Tests', function () {
       const randomWallet = new ethers.Wallet.createRandom()
       const hash = ethers.utils.solidityKeccak256(
         ['uint256', 'string'],
-        [headers.nonce, headers.description]
+        [body.nonce, body.description]
       )
 
-      headers.signature = await randomWallet.signMessage(hash)
-      headers.attesterId = appAddress
+      body.signature = await randomWallet.signMessage(hash)
+      body.attesterId = appAddress
 
       const url = new URL(`/api/about/${appAddress}`, HTTP_SERVER)
       const post = await fetch(url.toString(), {
         method: 'post',
-        headers: headers,
+        body: body,
       }).then((r) => r.json())
 
       expect(post.passed).to.be.false
 
       const get = await fetch(url.toString(), {
         method: 'get',
-        headers: { network: headers.network },
+        headers: { network: body.network },
       }).then((r) => r.json())
 
       Object.entries(get).forEach(([_, v]) => {
@@ -73,24 +73,24 @@ describe('Attester Description Tests', function () {
     it(`should not update info with invalid url (${type})`, async () => {
       const hash = ethers.utils.solidityKeccak256(
         ['uint256', 'string'],
-        [headers.nonce, headers.description]
+        [body.nonce, body.description]
       )
 
-      headers.url = 'invalid url'
-      headers.signature = await deployer.signMessage(hash)
-      headers.attesterId = appAddress
+      body.url = 'invalid url'
+      body.signature = await deployer.signMessage(hash)
+      body.attesterId = appAddress
 
       const url = new URL(`/api/about/${appAddress}`, HTTP_SERVER)
       const post = await fetch(url.toString(), {
         method: 'post',
-        headers: headers,
+        body: body,
       }).then((r) => r.json())
 
       expect(post.passed).to.be.false
 
       const get = await fetch(url.toString(), {
         method: 'get',
-        headers: { network: headers.network },
+        headers: { network: body.network },
       }).then((r) => r.json())
 
       Object.entries(get).forEach(([_, v]) => {
@@ -101,50 +101,50 @@ describe('Attester Description Tests', function () {
     it(`should successfully update info with correct signature (${type})`, async () => {
       const hash = ethers.utils.solidityKeccak256(
         ['uint256', 'string'],
-        [headers.nonce, headers.description]
+        [body.nonce, body.description]
       )
 
-      headers.signature = await deployer.signMessage(hash)
-      headers.attesterId = appAddress
+      body.signature = await deployer.signMessage(hash)
+      body.attesterId = appAddress
 
       const url = new URL(`/api/about/${appAddress}`, HTTP_SERVER)
       const post = await fetch(url.toString(), {
         method: 'post',
-        headers: headers,
+        body: body,
       }).then((r) => r.json())
 
       expect(post.passed).to.be.true
 
       const get = await fetch(url.toString(), {
         method: 'get',
-        headers: { network: headers.network },
+        headers: { network: body.network },
       }).then((r) => r.json())
 
       Object.entries(get).forEach(([k, v]) => {
-        expect(headers[k]).to.equal(v)
+        expect(body[k]).to.equal(v)
       })
     })
 
     it(`should not update info with invalid network (${type})`, async () => {
       const hash = ethers.utils.solidityKeccak256(
         ['uint256', 'string'],
-        [headers.nonce, headers.description]
+        [body.nonce, body.description]
       )
-      headers.network = 'mainnet'
-      headers.signature = await deployer.signMessage(hash)
-      headers.attesterId = appAddress
+      body.network = 'mainnet'
+      body.signature = await deployer.signMessage(hash)
+      body.attesterId = appAddress
 
       const url = new URL(`/api/about/${appAddress}`, HTTP_SERVER)
       const post = await fetch(url.toString(), {
         method: 'post',
-        headers: headers,
+        body: body,
       }).then((r) => r.json())
 
       expect(post.passed).to.be.false
 
       const get = await fetch(url.toString(), {
         method: 'get',
-        headers: { network: headers.network },
+        headers: { network: body.network },
       }).then((r) => r.json())
 
       Object.entries(get).forEach(([_, v]) => {
