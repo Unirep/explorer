@@ -17,7 +17,12 @@ export default ({ app }) => {
       ETH_PROVIDER_URL: NETWORK[network].provider,
       STATE_TREE_DEPTH: config.stateTreeDepth,
       EPOCH_TREE_DEPTH: config.epochTreeDepth,
+      HISTORY_TREE_DEPTH: config.historyTreeDepth,
       EPOCH_KEY_NONCE_COUNT: config.numEpochKeyNoncePerEpoch,
+      FIELD_COUNT: config.fieldCount,
+      SUM_FIELD_COUNT: config.sumFieldCount,
+      REPL_NONCE_BITS: config.replNonceBits,
+      REPL_FIELD_BITS: config.replFieldBits,
     })
   }
   app.get('/api/info', catchError(handler))

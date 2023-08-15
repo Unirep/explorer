@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 import { request } from './utils'
+import { SERVER } from '../config'
 
 export default class Unirep {
   deploymentIds = []
@@ -13,6 +14,8 @@ export default class Unirep {
   attestationCount = null
   signUpCount = null
   attesterCount = null
+  SUM_FIELD_COUNT = null
+  REPL_NONCE_BITS = null
 
   constructor(state) {
     makeAutoObservable(this)
@@ -155,6 +158,28 @@ export default class Unirep {
     return items.length
   }
 
+  async shiftAttestations(network, attestations) {
+    if (!this.SUM_FIELD_COUNT || !this.REPL_NONCE_BITS) {
+      const url = new URL('api/info', SERVER)
+      const response = await fetch(url.toString(), {
+        method: 'get',
+        headers: { network },
+      })
+      const { SUM_FIELD_COUNT, REPL_NONCE_BITS } = await response.json()
+      this.SUM_FIELD_COUNT = SUM_FIELD_COUNT
+      this.REPL_NONCE_BITS = REPL_NONCE_BITS
+    }
+
+    return attestations.map((a) => {
+      if (this.SUM_FIELD_COUNT && this.REPL_NONCE_BITS) {
+        if (Number(a.fieldIndex) >= Number(this.SUM_FIELD_COUNT)) {
+          a.change = BigInt(a.change) >> BigInt(this.REPL_NONCE_BITS)
+        }
+      }
+      return a
+    })
+  }
+
   async loadAllAttestations(network) {
     // TODO: recursively query
     const query = `{
@@ -171,7 +196,11 @@ export default class Unirep {
       }
     }`
     const item = await request(network, query)
-    this.ingestAttestations(item.data.attestations)
+    const attestations = await this.shiftAttestations(
+      network,
+      item.data.attestations
+    )
+    this.ingestAttestations(attestations)
   }
 
   async ingestAttestations(_attestations) {
@@ -217,8 +246,9 @@ export default class Unirep {
   }`
     const res = await request(network, query)
     const items = res.data.attestations
+    const attestations = await this.shiftAttestations(network, items)
     if (items.length) {
-      this.attestationsByEpochKey.set(items[0].epochKey, items)
+      this.attestationsByEpochKey.set(items[0].epochKey, attestations)
     }
     return items.length
   }
