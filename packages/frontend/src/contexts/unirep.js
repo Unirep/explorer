@@ -1,6 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { request } from './utils'
-import { SERVER } from '../config'
+import { request, shiftAttestations } from './utils'
 
 export default class Unirep {
   deploymentIds = []
@@ -14,8 +13,6 @@ export default class Unirep {
   attestationCount = null
   signUpCount = null
   attesterCount = null
-  SUM_FIELD_COUNT = null
-  REPL_NONCE_BITS = null
 
   constructor(state) {
     makeAutoObservable(this)
@@ -158,29 +155,7 @@ export default class Unirep {
     return items.length
   }
 
-  async shiftAttestations(network, attestations) {
-    if (!this.SUM_FIELD_COUNT || !this.REPL_NONCE_BITS) {
-      const url = new URL('api/info', SERVER)
-      const response = await fetch(url.toString(), {
-        method: 'get',
-        headers: { network },
-      })
-      const { SUM_FIELD_COUNT, REPL_NONCE_BITS } = await response.json()
-      this.SUM_FIELD_COUNT = SUM_FIELD_COUNT
-      this.REPL_NONCE_BITS = REPL_NONCE_BITS
-    }
-
-    return attestations.map((a) => {
-      if (this.SUM_FIELD_COUNT && this.REPL_NONCE_BITS) {
-        if (Number(a.fieldIndex) >= Number(this.SUM_FIELD_COUNT)) {
-          a.change = BigInt(a.change) >> BigInt(this.REPL_NONCE_BITS)
-        }
-      }
-      return a
-    })
-  }
-
-  async loadAllAttestations(network) {
+  async loadAllAttestations(network, SUM_FIELD_COUNT, REPL_NONCE_BITS) {
     // TODO: recursively query
     const query = `{
       attestations (orderBy: blockTimestamp, orderDirection: desc) {
@@ -196,9 +171,10 @@ export default class Unirep {
       }
     }`
     const item = await request(network, query)
-    const attestations = await this.shiftAttestations(
-      network,
-      item.data.attestations
+    const attestations = await shiftAttestations(
+      item.data.attestations,
+      SUM_FIELD_COUNT,
+      REPL_NONCE_BITS
     )
     this.ingestAttestations(attestations)
   }
@@ -223,7 +199,12 @@ export default class Unirep {
     }
   }
 
-  async loadAttestationsByEpochKey(epochKey, network) {
+  async loadAttestationsByEpochKey(
+    epochKey,
+    network,
+    SUM_FIELD_COUNT,
+    REPL_NONCE_BITS
+  ) {
     // TODO: recursively query
     const query = `{
       attestations (
@@ -246,7 +227,11 @@ export default class Unirep {
   }`
     const res = await request(network, query)
     const items = res.data.attestations
-    const attestations = await this.shiftAttestations(network, items)
+    const attestations = await shiftAttestations(
+      items,
+      SUM_FIELD_COUNT,
+      REPL_NONCE_BITS
+    )
     if (items.length) {
       this.attestationsByEpochKey.set(items[0].epochKey, attestations)
     }

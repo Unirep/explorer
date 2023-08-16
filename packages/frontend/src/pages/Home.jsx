@@ -22,9 +22,13 @@ export default observer(() => {
       await Promise.all([
         info.load(network),
         unirep.loadStats(network),
-        unirep.loadAllAttestations(network),
         unirep.loadAttesterDeployments(network),
       ])
+      await unirep.loadAllAttestations(
+        network,
+        info.SUM_FIELD_COUNT,
+        info.REPL_NONCE_BITS
+      )
     }
 
     loadData()
