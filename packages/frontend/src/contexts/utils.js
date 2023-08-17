@@ -31,7 +31,7 @@ export const request = async (network, query) => {
   return res
 }
 
-export const shiftAttestations = async (
+export const shiftAttestations = (
   attestations,
   SUM_FIELD_COUNT,
   REPL_NONCE_BITS
