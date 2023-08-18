@@ -13,7 +13,7 @@ dayjs.extend(relativeTime)
 export default observer(({ id, network }) => {
   const { unirep, ui } = React.useContext(state)
   const attestation = unirep.attestationsById.get(id)
-  const { attesterId, blockTimestamp, transactionHash } = attestation
+  const { attesterId, blockTimestamp, transactionHash, change } = attestation
   const attesterIdHex = `0x${BigInt(attesterId).toString(16).padStart(40, '0')}`
   const epochKeyHex = `0x${BigInt(attestation.epochKey).toString(16)}`
 
@@ -39,8 +39,7 @@ export default observer(({ id, network }) => {
               textOverflow: 'ellipsis',
             }}
           >
-            <b>{attestation.fieldIndex}</b>:
-            {'0x' + BigInt(attestation.change).toString(16)}
+            <b>{attestation.fieldIndex}</b>:{'0x' + BigInt(change).toString(16)}
           </p>
         )}
         {!ui.isMobile && (

@@ -15,7 +15,7 @@ import dayjs from 'dayjs'
 export default observer(() => {
   const { id, network } = useParams()
   const attesterId = BigInt(id).toString(10)
-  const { unirep, attester, ui } = useContext(state)
+  const { unirep, attester, ui, info } = useContext(state)
   const [selectedView, setSelectedView] = useState('Attestations')
 
   useEffect(() => {
@@ -27,8 +27,14 @@ export default observer(() => {
         attester.loadEpochsByAttester(attesterId, network),
         attester.loadStats(attesterId, network),
         attester.loadSignUpsByAttester(attesterId, network),
-        attester.loadAttestationsByAttester(attesterId, network),
       ])
+      if (!info.SUM_FIELD_COUNT) await info.load(network)
+      await attester.loadAttestationsByAttester(
+        attesterId,
+        network,
+        info.SUM_FIELD_COUNT,
+        info.REPL_NONCE_BITS
+      )
     }
     loadData()
   }, [])

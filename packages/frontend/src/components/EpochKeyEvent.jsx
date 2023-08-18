@@ -8,11 +8,11 @@ import './eventCard.css'
 dayjs.extend(relativeTime)
 
 export default observer(({ attestation, network }) => {
-  const { fieldIndex, change, blockTimestamp } = attestation
+  const { fieldIndex, blockTimestamp, change } = attestation
   const [isHover, setIsHover] = useState(false)
 
   const changeString = () => {
-    const tmp = parseInt(BigInt(attestation.change).toString(16), 16).toString()
+    const tmp = parseInt(BigInt(change).toString(16), 16).toString()
     const split = tmp.split('e')
     if (split.length > 1 && split[0].length > 4) {
       split[0] = split[0].slice(0, 4) + 'e'

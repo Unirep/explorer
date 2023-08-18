@@ -32,6 +32,9 @@ const defaultStateData = {
   ui: {
     isMobile: false,
   },
+  info: {
+    load: jest.fn(),
+  },
 }
 
 test('To test if EpochKeyPage is exactly rendered', async () => {
