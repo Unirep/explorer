@@ -55,7 +55,10 @@ describe('Attester Description Tests', function () {
       const url = new URL(`/api/about/${appAddress}`, HTTP_SERVER)
       const post = await fetch(url.toString(), {
         method: 'post',
-        body: body,
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
       }).then((r) => r.json())
 
       expect(post.passed).to.be.false
@@ -83,7 +86,10 @@ describe('Attester Description Tests', function () {
       const url = new URL(`/api/about/${appAddress}`, HTTP_SERVER)
       const post = await fetch(url.toString(), {
         method: 'post',
-        body: body,
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
       }).then((r) => r.json())
 
       expect(post.passed).to.be.false
@@ -110,7 +116,10 @@ describe('Attester Description Tests', function () {
       const url = new URL(`/api/about/${appAddress}`, HTTP_SERVER)
       const post = await fetch(url.toString(), {
         method: 'post',
-        body: body,
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
       }).then((r) => r.json())
 
       expect(post.passed).to.be.true
@@ -137,7 +146,10 @@ describe('Attester Description Tests', function () {
       const url = new URL(`/api/about/${appAddress}`, HTTP_SERVER)
       const post = await fetch(url.toString(), {
         method: 'post',
-        body: body,
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
       }).then((r) => r.json())
 
       expect(post.passed).to.be.false
