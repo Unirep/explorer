@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx'
-import { request } from './utils'
+import { request, shiftAttestations } from './utils'
 
 export default class Attester {
   epochsByAttesterId = new Map()
@@ -108,7 +108,12 @@ export default class Attester {
     }
   }
 
-  async loadAttestationsByAttester(attesterId, network) {
+  async loadAttestationsByAttester(
+    attesterId,
+    network,
+    SUM_FIELD_COUNT,
+    REPL_NONCE_BITS
+  ) {
     // TODO: recursively query
     const query = `{
       attestations (
@@ -128,7 +133,12 @@ export default class Attester {
       }
     }`
     const item = await request(network, query)
-    this.ingestAttestations(item.data.attestations)
+    const attestations = await shiftAttestations(
+      item.data.attestations,
+      SUM_FIELD_COUNT,
+      REPL_NONCE_BITS
+    )
+    this.ingestAttestations(attestations)
   }
 
   async ingestAttestations(_attestations) {

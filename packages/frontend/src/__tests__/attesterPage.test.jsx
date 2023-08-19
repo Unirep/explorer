@@ -41,6 +41,9 @@ const defaultStateData = {
     loadAttesterDescription: jest.fn(),
     loadAttesterDeployments: jest.fn(),
   },
+  info: {
+    load: jest.fn(),
+  },
   ui: {
     isMobile: false,
   },
