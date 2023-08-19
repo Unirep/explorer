@@ -8,17 +8,17 @@ import { NETWORK } from '../config.mjs'
 export default ({ app, db }) => {
   const handleSet = async (req, res) => {
     const attesterId = req.params.attesterId
-    const { icon, url, name, description, nonce, signature, network } =
-      req.headers
+    const { icon, url, name, description, nonce, signature, network } = req.body
     const _id = attesterId + network
 
     let passed = true
 
-    const validUrl = await fetch(url).catch(() => false)
-
-    if (!validUrl) {
-      res.status(401).json({ passed: false, error: 'Invalid Url' })
-      return
+    if (url) {
+      const validUrl = await fetch(`https://${url}`).catch(() => false)
+      if (!validUrl) {
+        res.status(401).json({ passed: false, error: 'Invalid Url' })
+        return
+      }
     }
 
     const hash = hashMessage(
@@ -39,7 +39,7 @@ export default ({ app, db }) => {
     ) {
       res
         .status(401)
-        .json({ passed: false, error: 'Deployer and signature not match' })
+        .json({ passed: false, error: 'Deployer and signature do not match' })
       return
     }
 

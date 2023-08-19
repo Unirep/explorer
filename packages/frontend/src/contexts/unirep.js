@@ -1,5 +1,7 @@
+// import ethers from 'ethers'
 import { makeAutoObservable } from 'mobx'
 import { request, shiftAttestations } from './utils'
+import { SERVER } from '../config'
 
 export default class Unirep {
   deploymentIds = []
@@ -13,6 +15,7 @@ export default class Unirep {
   attestationCount = null
   signUpCount = null
   attesterCount = null
+  descriptionsByAttesterId = new Map()
 
   constructor(state) {
     makeAutoObservable(this)
@@ -273,5 +276,45 @@ export default class Unirep {
     this.attestationCount = data.data.attestations.length
     this.signUpCount = data.data.users.length
     this.attesterCount = data.data.attesters.length
+  }
+
+  async updateAttesterDescription(
+    attesterId,
+    network,
+    icon,
+    url,
+    name,
+    description,
+    signature,
+    nonce
+  ) {
+    const data = await fetch(`${SERVER}/api/about/${attesterId}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        network,
+        icon,
+        url,
+        name,
+        description,
+        signature,
+        nonce,
+      }),
+    }).then((r) => r.json())
+    if (!data.passed) return data.error
+    return 'info updated!'
+  }
+
+  async loadAttesterDescription(attesterId, network) {
+    const info = await fetch(`${SERVER}/api/about/${attesterId}`, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        network: network,
+      },
+    }).then((r) => r.json())
+    this.descriptionsByAttesterId.set(attesterId, info)
   }
 }

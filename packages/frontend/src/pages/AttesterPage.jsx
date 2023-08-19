@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
 import { NETWORK } from '../contexts/utils'
@@ -21,6 +21,7 @@ export default observer(() => {
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
+        unirep.loadAttesterDescription(id, network),
         !unirep.deploymentsById.has(attesterId)
           ? unirep.loadAttesterDeployments(network)
           : null,
@@ -40,8 +41,8 @@ export default observer(() => {
   }, [])
 
   const stats = attester.statsById[attesterId] ?? {}
-
   const deployment = unirep.deploymentsById.get(attesterId)
+  const attesterDesc = unirep.descriptionsByAttesterId.get(id)
   const epochIds = [...(attester.epochsByAttesterId.get(attesterId) || [])]
   const lastEpoch = attester.epochsById.get(epochIds.pop())
   return (
@@ -50,6 +51,37 @@ export default observer(() => {
       <div className="container">
         <div className="left-container">
           <h3>Attester</h3>
+
+          {attesterDesc ? (
+            <div style={{ marginBottom: '3rem' }}>
+              {attesterDesc.icon !== '' ? (
+                <div className="desc-icon">
+                  <img
+                    height={`${ui.isMobile ? '150' : '320'}`}
+                    width={`${ui.isMobile ? '150' : '320'}`}
+                    src={`data:image/svg+xml;utf8,${encodeURIComponent(
+                      attesterDesc.icon
+                    )}`}
+                  />
+                </div>
+              ) : null}
+              {<h1>{attesterDesc.name}</h1> || null}
+              {<div className="description">{attesterDesc.description}</div> ||
+                null}
+              {attesterDesc.url ? (
+                <div className="desc-link">
+                  <a
+                    style={{ color: '#83B5B8' }}
+                    href={`https://${attesterDesc.url}`}
+                    target="blank"
+                  >
+                    https://{attesterDesc.url}
+                  </a>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
           <div className="info-card">
             <h4>Attester Information</h4>
             <div className="flex">
@@ -79,6 +111,10 @@ export default observer(() => {
               </h6>
             </div>
           </div>
+
+          <Link to={`/${network}/updateInfo/${id}`}>
+            <button className="update">Update Info</button>
+          </Link>
         </div>
 
         <div className="right-container">

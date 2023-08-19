@@ -36,7 +36,9 @@ const defaultStateData = {
     loadAttestationsByAttester: jest.fn(),
   },
   unirep: {
+    descriptionsByAttesterId: new Map(),
     deploymentsById: new Map(),
+    loadAttesterDescription: jest.fn(),
     loadAttesterDeployments: jest.fn(),
   },
   info: {

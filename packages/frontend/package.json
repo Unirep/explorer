@@ -38,6 +38,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "dependencies": {
-    "dayjs": "^1.11.7"
+    "dayjs": "^1.11.7",
+    "ethers": "^5.5.0"
   }
 }

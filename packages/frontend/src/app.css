@@ -113,3 +113,28 @@ li {
   color: #9ea3a7;
   cursor: pointer;
 }
+
+.desc-icon {
+  margin: 2rem 0 1rem;
+  display: flex;
+}
+
+.description {
+  font-size: 1.15rem;
+  font-weight: 200;
+  margin: 2rem 0 1rem;
+}
+
+.desc-link {
+  font-size: 1.15rem;
+}
+
+.update {
+  background-color: #d9eff1;
+  font-family: 'Azeret Mono';
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid black;
+  width: 100%;
+  margin-top: 1rem;
+}
