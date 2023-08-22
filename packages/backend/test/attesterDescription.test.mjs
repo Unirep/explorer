@@ -2,8 +2,9 @@ import { ethers } from 'ethers'
 import { HTTP_SERVER } from './server.mjs'
 import { expect } from 'chai'
 import fetch from 'node-fetch'
-
 import { startServer } from './environment.mjs'
+
+import app from '../src/index.mjs' // start server
 
 const random = () => Math.floor(Math.random() * 100000)
 
@@ -23,6 +24,17 @@ attesters = [
 
 describe('Attester Description Tests', function () {
   this.timeout(0)
+
+  before(async () => {
+    const url = new URL(`/api/info`, HTTP_SERVER)
+    const res = await fetch(url.toString(), {
+      method: 'get',
+      headers: {
+        network: 'local',
+      },
+    })
+    expect(res.status).to.equal(200)
+  })
 
   beforeEach(() => {
     body = {
