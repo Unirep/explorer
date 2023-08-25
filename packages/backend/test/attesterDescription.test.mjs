@@ -1,34 +1,40 @@
-import pkg from 'hardhat'
-const { ethers } = pkg
+import { ethers } from 'ethers'
 import { HTTP_SERVER } from './server.mjs'
 import { expect } from 'chai'
 import fetch from 'node-fetch'
-
 import { startServer } from './environment.mjs'
+
+import app from '../src/index.mjs' // start server
 
 const random = () => Math.floor(Math.random() * 100000)
 
 let attesters
 let body
 
-const res = await startServer()
-const attesterF = await ethers.getContractFactory('Attester')
-const attesterC = await attesterF
-  .connect(res.attester)
-  .deploy(res.unirep.address)
-await attesterC.deployed()
+const { attester, attesterC } = await startServer()
 
 attesters = [
   {
     type: 'contract',
-    deployer: res.attester,
+    deployer: attester,
     appAddress: attesterC.address,
   },
-  { type: 'EOA', deployer: res.attester, appAddress: res.attester.address },
+  { type: 'EOA', deployer: attester, appAddress: attester.address },
 ]
 
 describe('Attester Description Tests', function () {
   this.timeout(0)
+
+  before(async () => {
+    const url = new URL(`/api/info`, HTTP_SERVER)
+    const res = await fetch(url.toString(), {
+      method: 'get',
+      headers: {
+        network: 'local',
+      },
+    })
+    expect(res.status).to.equal(200)
+  })
 
   beforeEach(() => {
     body = {

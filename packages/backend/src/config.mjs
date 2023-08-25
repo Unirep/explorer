@@ -1,7 +1,5 @@
 import { config } from 'dotenv'
 import { ethers } from 'ethers'
-import pkg from 'hardhat'
-const { ethers: hardhatEthers } = pkg
 config()
 
 export const DB_PATH = process.env.DB_PATH ?? ':memory:'
@@ -44,7 +42,7 @@ export const NETWORK = {
   },
   // for test
   local: {
-    provider: (await hardhatEthers.getSigners())[0].provider,
+    provider: new ethers.providers.JsonRpcProvider('http://127.0.0.1:8545'),
     unirepAddress: '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3',
   },
 }

@@ -8,7 +8,8 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "webpack",
-    "test": "jest"
+    "test": "jest",
+    "vercel-build": "scripts/vercelBuild.sh && webpack"
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
