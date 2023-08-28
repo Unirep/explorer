@@ -9,7 +9,7 @@ import Dropdown from './Dropdown'
 
 export default observer(({ network, setNetwork }) => {
   // network: key string, setNetwork: (n: key string) => void
-  const { unirep, ui } = useContext(state)
+  const { unirep, ui, info } = useContext(state)
   const navigate = useNavigate()
   const location = useLocation()
   const [searchInput, setSearchInput] = useState('')
@@ -22,8 +22,13 @@ export default observer(({ network, setNetwork }) => {
       return
     }
     const inputAsId = BigInt(searchInput).toString(10)
-    const type = await unirep.searchForId(inputAsId)
-    navigate(`/${type}/${searchInput}`)
+    const type = await unirep.searchForId(
+      inputAsId,
+      network,
+      info.SUM_FIELD_COUNT,
+      info.REPL_NONCE_BITS
+    )
+    navigate(`/${network}/${type}/${searchInput}`)
     setSearchInput('')
   }
 

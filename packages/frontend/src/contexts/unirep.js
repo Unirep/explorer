@@ -26,16 +26,21 @@ export default class Unirep {
   }
 
   //   async load() {}
-  async searchForId(id) {
+  async searchForId(id, network, SUM_FIELD_COUNT, REPL_NONCE_BITS) {
     if (this.signUpsByUserId.get(id)) return 'user'
     else if (this.attestationsByEpochKey.get(id)) return 'epochKey'
     else if (this.deploymentsById.get(id)) return 'attester'
     else {
-      const userCount = await this.loadSignUpsByUser(id)
+      const userCount = await this.loadSignUpsByUser(id, network)
       if (userCount) return 'user'
-      const epkCount = await this.loadAttestationsByEpochKey(id)
+      const epkCount = await this.loadAttestationsByEpochKey(
+        id,
+        network,
+        SUM_FIELD_COUNT,
+        REPL_NONCE_BITS
+      )
       if (epkCount) return 'epochKey'
-      const attesterCount = await this.loadAttesterByID(id)
+      const attesterCount = await this.loadAttesterByID(id, network)
       if (attesterCount) return 'attester'
       return 'unknown'
     }
