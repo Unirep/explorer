@@ -27,9 +27,10 @@ export default class Unirep {
 
   //   async load() {}
   async searchForId(id, network, SUM_FIELD_COUNT, REPL_NONCE_BITS) {
-    if (this.signUpsByUserId.get(id)) return 'user'
-    else if (this.attestationsByEpochKey.get(id)) return 'epochKey'
-    else if (this.deploymentsById.get(id)) return 'attester'
+    if (this.signUpsByUserId.get(`${network}_${id}`)) return 'user'
+    else if (this.attestationsByEpochKey.get(`${network}_${id}`))
+      return 'epochKey'
+    else if (this.deploymentsById.get(`${network}_${id}`)) return 'attester'
     else {
       const userCount = await this.loadSignUpsByUser(id, network)
       if (userCount) return 'user'
@@ -89,16 +90,16 @@ export default class Unirep {
     const data = await request(network, query)
     const items = data.data.attesters
     if (items.length) {
-      this.ingestAttesterDeployments(items)
+      this.ingestAttesterDeployments(items, network)
     }
     return items.length
   }
 
-  async ingestAttesterDeployments(_deployments) {
+  async ingestAttesterDeployments(_deployments, network) {
     const deployments = [_deployments].flat()
     this.deploymentIds = deployments.map((d) => d.attesterId)
     for (const d of deployments) {
-      this.deploymentsById.set(d.attesterId, d)
+      this.deploymentsById.set(`${network}_${d.attesterId}`, d)
     }
   }
 
@@ -158,7 +159,7 @@ export default class Unirep {
     const data = await request(network, query)
     const items = data.data.users
     if (items.length) {
-      this.signUpsByUserId.set(items[0].commitment, items)
+      this.signUpsByUserId.set(`${network}_${items[0].commitment}`, items)
     }
     return items.length
   }
@@ -241,7 +242,10 @@ export default class Unirep {
       REPL_NONCE_BITS
     )
     if (items.length) {
-      this.attestationsByEpochKey.set(items[0].epochKey, attestations)
+      this.attestationsByEpochKey.set(
+        `${network}_${items[0].epochKey}`,
+        attestations
+      )
     }
     return items.length
   }
