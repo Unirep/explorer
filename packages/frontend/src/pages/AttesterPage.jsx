@@ -41,7 +41,7 @@ export default observer(() => {
   }, [])
 
   const stats = attester.statsById[attesterId] ?? {}
-  const deployment = unirep.deploymentsById.get(attesterId)
+  const deployment = unirep.deploymentsById.get(`${network}_${attesterId}`)
   const attesterDesc = unirep.descriptionsByAttesterId.get(id)
   const epochIds = [...(attester.epochsByAttesterId.get(attesterId) || [])]
   const lastEpoch = attester.epochsById.get(epochIds.pop())

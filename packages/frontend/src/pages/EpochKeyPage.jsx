@@ -32,7 +32,9 @@ export default observer(() => {
     }
     loadData()
   }, [])
-  const attestations = unirep.attestationsByEpochKey.get(epochKeyId)
+  const attestations = unirep.attestationsByEpochKey.get(
+    `${network}_${epochKeyId}`
+  )
 
   return (
     <div className="content">
