@@ -103,41 +103,41 @@ export default class Unirep {
     }
   }
 
-  async loadAllSignUps(network) {
-    const query = `
-    {
-      users (
-        orderBy: blockTimestamp
-      ) {
-        id
-        epoch
-        commitment
-        attesterId
-        transactionHash
-      }
-    }
-    `
-    const data = await request(network, query)
-    const items = data.data.users
-    this.ingestSignUps(items)
-  }
+  // async loadAllSignUps(network) {
+  //   const query = `
+  //   {
+  //     users (
+  //       orderBy: blockTimestamp
+  //     ) {
+  //       id
+  //       epoch
+  //       commitment
+  //       attesterId
+  //       transactionHash
+  //     }
+  //   }
+  //   `
+  //   const data = await request(network, query)
+  //   const items = data.data.users
+  //   this.ingestSignUps(items)
+  // }
 
-  async ingestSignUps(signups) {
-    for (const signup of signups) {
-      const userId = signup.commitment
-      const { attesterId } = signup
-      if (this.signUpsByUserId.has(userId)) {
-        // make sure not to insert duplicates
-        const signups = this.signUpsByUserId
-          .get(userId)
-          .filter((s) => s.id !== signup.id)
-          .push(signup)
-        this.signUpsByUserId.set(signups)
-      } else {
-        this.signUpsByUserId.set(userId, [signup])
-      }
-    }
-  }
+  // async ingestSignUps(signups) {
+  //   for (const signup of signups) {
+  //     const userId = signup.commitment
+  //     const { attesterId } = signup
+  //     if (this.signUpsByUserId.has(userId)) {
+  //       // make sure not to insert duplicates
+  //       const signups = this.signUpsByUserId
+  //         .get(userId)
+  //         .filter((s) => s.id !== signup.id)
+  //         .push(signup)
+  //       this.signUpsByUserId.set(signups)
+  //     } else {
+  //       this.signUpsByUserId.set(userId, [signup])
+  //     }
+  //   }
+  // }
 
   async loadSignUpsByUser(userId, network) {
     // TODO: recursively query
@@ -185,10 +185,10 @@ export default class Unirep {
       SUM_FIELD_COUNT,
       REPL_NONCE_BITS
     )
-    this.ingestAttestations(attestations)
+    this.ingestAttestations(attestations, network)
   }
 
-  async ingestAttestations(_attestations) {
+  async ingestAttestations(_attestations, network) {
     // accept an array or a single item
     const attestations = [_attestations].flat()
     // store allAttestations as ids to prevent duplicating data
@@ -196,14 +196,13 @@ export default class Unirep {
     for (const a of attestations) {
       this.attestationsById.set(a.id, a)
       const { epochKey } = a
-      if (this.attestationsByEpochKey.has(epochKey)) {
+      if (this.attestationsByEpochKey.has(`${network}_${epochKey}`)) {
         const attestations = this.attestationsByEpochKey
-          .get(epochKey)
+          .get(`${network}_${epochKey}`)
           .filter((attestation) => attestation.id !== a.id)
           .push(a)
-        this.attestationsByEpochKey.set(attestations)
       } else {
-        this.attestationsByEpochKey.set(epochKey, [a])
+        this.attestationsByEpochKey.set(`${network}_${epochKey}`, [a])
       }
     }
   }
