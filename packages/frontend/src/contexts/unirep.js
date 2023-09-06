@@ -67,7 +67,7 @@ export default class Unirep {
     const data = await request(network, query)
     const items = data.data.attesters
     if (items.length) {
-      this.ingestAttesterDeployments(items)
+      this.ingestAttesterDeployments(items, network)
     }
   }
 

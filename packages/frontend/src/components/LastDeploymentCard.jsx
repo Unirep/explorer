@@ -8,7 +8,7 @@ import shortenId from '../utils/shorten-id'
 export default observer(({ network }) => {
   const { unirep, ui } = React.useContext(state)
   const id = unirep.deploymentIds.slice(-1)[0]
-  const lastDeployment = unirep.deploymentsById.get(id)
+  const lastDeployment = unirep.deploymentsById.get(`${network}_${id}`)
 
   return (
     <div className="info-card">
