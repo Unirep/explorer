@@ -18,7 +18,7 @@ export default function App() {
       <Route path=":network/updateInfo/:id" element={<UpdateInfoPage />} />
       <Route path=":network/user/:id" element={<UserPage />} />
       <Route path=":network/epochKey/:id" element={<EpochKeyPage />} />
-      <Route path="*" element={<NotFound />} />
+      <Route path=":network/*" element={<NotFound />} />
     </Routes>
   )
 }
