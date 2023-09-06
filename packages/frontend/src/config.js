@@ -3,5 +3,4 @@ export const network = 'arbitrum-goerli'
 // arbitrum-goerli, goerli, mumbai, sepolia
 
 // in CI we append a change to this value
-export let SERVER = 'http://127.0.0.1:8000'
-// let SERVER = 'https://api.explorer.unirep.io'
+export const SERVER = process.env.SERVER ?? 'http://127.0.0.1:8000'
