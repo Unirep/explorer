@@ -4,7 +4,14 @@ import { SERVER } from '../config'
 export default class Info {
   VERSION = ''
   RELEASE = ''
-  NETWORKS = {}
+  NETWORKS = {
+    'arbitrum-goerli': {
+      explorer: '',
+      unirepAddress: '',
+      sumFieldCount: 1,
+      replNonceBits: 1,
+    },
+  }
   constructor(state) {
     makeAutoObservable(this)
     this.state = state
@@ -17,6 +24,9 @@ export default class Info {
     })
     const { NETWORKS } = await response.json()
 
-    this.NETWORKS = NETWORKS
+    this.NETWORKS = {
+      ...this.NETWORKS,
+      ...NETWORKS,
+    }
   }
 }
