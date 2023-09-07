@@ -1,18 +1,27 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import fetch from 'whatwg-fetch'
 import UnirepInfo from '../components/UnirepInfo'
-import { NETWORK } from '../contexts/utils'
 
 test('To test if UnirepInfo is exactly rendered', async () => {
   render(
     <UnirepInfo
       info={{
-        UNIREP_ADDRESS: 'this is unirep address',
-        STATE_TREE_DEPTH: 1,
-        EPOCH_TREE_DEPTH: 2,
-        EPOCH_KEY_NONCE_COUNT: 4,
+        NETWORKS: {
+          'arbitrum-goerli': {
+            explorer: 'https://goerli.arbiscan.io',
+            unirepAddress: '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3',
+            network: 'arbitrum-goerli',
+            stateTreeDepth: 17,
+            epochTreeDepth: 17,
+            historyTreeDepth: 17,
+            numEpochKeyNoncePerEpoch: 3,
+            fieldCount: 6,
+            sumFieldCount: 4,
+            replNonceBits: 48,
+            replFieldBits: 205,
+          },
+        },
       }}
       network={'arbitrum-goerli'}
     />

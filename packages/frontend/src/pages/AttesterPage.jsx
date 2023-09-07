@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import shortenId from '../utils/shorten-id'
 import Header from '../components/Header'
 import InfoCard from '../components/InfoCard'
@@ -28,13 +27,13 @@ export default observer(() => {
         attester.loadEpochsByAttester(attesterId, network),
         attester.loadStats(attesterId, network),
         attester.loadSignUpsByAttester(attesterId, network),
+        !info.NETWORKS[network].sumFieldCount ? await info.load() : null,
       ])
-      if (!info.SUM_FIELD_COUNT) await info.load(network)
       await attester.loadAttestationsByAttester(
         attesterId,
         network,
-        info.SUM_FIELD_COUNT,
-        info.REPL_NONCE_BITS
+        info.NETWORKS[network].sumFieldCount,
+        info.NETWORKS[network].replNonceBits
       )
     }
     loadData()
@@ -100,7 +99,7 @@ export default observer(() => {
               <h6>
                 <span>{shortenId(id, ui.isMobile)}</span>
                 <a
-                  href={`${NETWORK[network].explorer}/address/${id}`}
+                  href={`${info.NETWORKS[network].explorer}/address/${id}`}
                   target="blank"
                 >
                   <img

@@ -1,10 +1,8 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import fetch from 'whatwg-fetch'
 import State from '../contexts/state'
 import UserCard from '../components/UserCard'
-import { NETWORK } from '../contexts/utils'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -25,6 +23,13 @@ const defaultStateData = {
   },
   ui: {
     isMobile: false,
+  },
+  info: {
+    NETWORKS: {
+      'arbitrum-goerli': {
+        explorer: 'https://goerli.arbiscan.io',
+      },
+    },
   },
 }
 

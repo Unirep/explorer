@@ -2,14 +2,13 @@ import React, { useContext, useState } from 'react'
 import { Link, useNavigate, matchRoutes, useLocation } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import './header.css'
 import Menu from './Menu'
 import Dropdown from './Dropdown'
 
 export default observer(({ network, setNetwork }) => {
   // network: key string, setNetwork: (n: key string) => void
-  const { unirep, ui } = useContext(state)
+  const { unirep, ui, info } = useContext(state)
   const navigate = useNavigate()
   const location = useLocation()
   const [searchInput, setSearchInput] = useState('')
@@ -71,7 +70,7 @@ export default observer(({ network, setNetwork }) => {
         {!ui.isMobile && (
           <Dropdown
             selected={network ?? 'arbitrum-goerli'}
-            choices={Object.keys(NETWORK)}
+            choices={Object.keys(info.NETWORKS)}
             select={(n) => setNetwork(n)}
             disabled={matchRoutes([{ path: '/:network?' }], location) === null}
           />

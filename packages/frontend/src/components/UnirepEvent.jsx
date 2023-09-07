@@ -2,7 +2,6 @@ import React from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import state from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import shortenId from '../utils/shorten-id'
@@ -11,7 +10,7 @@ import './eventCard.css'
 dayjs.extend(relativeTime)
 
 export default observer(({ id, network }) => {
-  const { unirep, ui } = React.useContext(state)
+  const { unirep, ui, info } = React.useContext(state)
   const attestation = unirep.attestationsById.get(id)
   const { attesterId, blockTimestamp, transactionHash, change } = attestation
   const attesterIdHex = `0x${BigInt(attesterId).toString(16).padStart(40, '0')}`
@@ -49,7 +48,7 @@ export default observer(({ id, network }) => {
         )}
       </div>
       <a
-        href={`${NETWORK[network].explorer}/tx/${transactionHash}`}
+        href={`${info.NETWORKS[network].explorer}/tx/${transactionHash}`}
         target="blank"
       >
         <img src={require('../../public/arrow_up_right.svg')} />

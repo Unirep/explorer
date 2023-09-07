@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import Header from '../components/Header'
 import EpochKeyInfo from '../components/EpochKeyInfo'
 import EpochKeyEvent from '../components/EpochKeyEvent'
@@ -18,15 +17,15 @@ export default observer(() => {
   const { unirep, info } = useContext(state)
   useEffect(() => {
     const loadData = async () => {
-      if (!info.SUM_FIELD_COUNT) {
-        await info.load(network)
+      if (!info.NETWORKS[network].sumFieldCount) {
+        await info.load()
       }
       !unirep.attestationsByEpochKey.has(epochKeyId)
         ? await unirep.loadAttestationsByEpochKey(
             epochKeyId,
             network,
-            info.SUM_FIELD_COUNT,
-            info.REPL_NONCE_BITS
+            info.NETWORKS[network].sumFieldCount,
+            info.NETWORKS[network].replNonceBits
           )
         : null
     }

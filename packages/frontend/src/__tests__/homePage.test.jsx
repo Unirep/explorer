@@ -1,9 +1,7 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import fetch from 'whatwg-fetch'
 import State from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import Home from '../pages/Home'
 
 jest.mock('react-router-dom', () => ({
@@ -37,7 +35,11 @@ const defaultStateData = {
   },
   info: {
     load: jest.fn(),
-    UNIREP_ADDRESS: '0x123',
+    NETWORKS: {
+      'arbitrum-goerli': {
+        unirepAddress: '0x123',
+      },
+    },
   },
   ui: {
     isMobile: false,

@@ -2,12 +2,11 @@ import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link } from 'react-router-dom'
 import state from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import shortenId from '../utils/shorten-id'
 import './eventCard.css'
 
 export default observer(({ id, network }) => {
-  const { attester, ui } = useContext(state)
+  const { attester, ui, info } = useContext(state)
   const signup = attester.signUpsById.get(id)
   const commitmentHex = `0x${BigInt(signup.commitment).toString(16)}`
 
@@ -20,7 +19,7 @@ export default observer(({ id, network }) => {
         <p>{signup.epoch}</p>
       </div>
       <a
-        href={`${NETWORK[network].explorer}/tx/${signup.transactionHash}`}
+        href={`${info.NETWORKS[network].explorer}/tx/${signup.transactionHash}`}
         target="blank"
       >
         <img src={require('../../public/arrow_up_right.svg')} />

@@ -1,8 +1,8 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import fetch from 'whatwg-fetch'
 import UserEvent from '../components/UserEvent'
+import State from '../contexts/state'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
@@ -12,6 +12,17 @@ jest.mock('react-router-dom', () => ({
 const defaultStateData = {
   attester: {
     signUpsById: new Map(),
+  },
+  ui: {
+    isMobile: false,
+  },
+  info: {
+    load: jest.fn(),
+    NETWORKS: {
+      'arbitrum-goerli': {
+        explorer: 'https://goerli.arbiscan.io',
+      },
+    },
   },
 }
 
@@ -24,10 +35,12 @@ beforeAll(() => {
 
 test('To test if UnirepEvent is exactly rendered', async () => {
   const { container } = render(
-    <UserEvent
-      signup={{ attesterId: '123', epoch: 1, timestamp: 1688393495 }}
-      network={'arbitrum-goerli'}
-    />
+    <State.Provider value={defaultStateData}>
+      <UserEvent
+        signup={{ attesterId: '123', epoch: 1, timestamp: 1688393495 }}
+        network={'arbitrum-goerli'}
+      />
+    </State.Provider>
   )
 
   expect(container.querySelector('.event-card')).not.toBeNull()
