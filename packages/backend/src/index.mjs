@@ -2,7 +2,8 @@ import url from 'url'
 import path from 'path'
 import fs from 'fs'
 import express from 'express'
-import { DB_PATH } from './config.mjs'
+import { DB_PATH, NETWORK } from './config.mjs'
+import { getUnirepContract } from '@unirep/contracts'
 import schema from './schema.mjs'
 import { SQLiteConnector } from 'anondb/node.js'
 import { TimestampLoader } from './helpers/timestampLoader.mjs'
@@ -26,6 +27,42 @@ await db.upsert('GlobalData', {
   },
   update: {},
 })
+
+for (const network of Object.keys(NETWORK)) {
+  if (network === 'local') continue
+  const { unirepAddress, provider } = NETWORK[network]
+  const unirep = getUnirepContract(unirepAddress, provider)
+  const {
+    stateTreeDepth,
+    epochTreeDepth,
+    historyTreeDepth,
+    numEpochKeyNoncePerEpoch,
+    fieldCount,
+    sumFieldCount,
+    replNonceBits,
+    // TODO: fix this
+    // replFieldBits,
+  } = await unirep.config()
+  // TODO: fix this
+  const replFieldBits = await unirep.replFieldBits()
+  await db.upsert('NetworkData', {
+    where: {
+      network,
+    },
+    create: {
+      network,
+      stateTreeDepth,
+      epochTreeDepth,
+      historyTreeDepth,
+      numEpochKeyNoncePerEpoch,
+      fieldCount,
+      sumFieldCount,
+      replNonceBits,
+      replFieldBits,
+    },
+    update: {},
+  })
+}
 
 // TODO: run synchronizer
 

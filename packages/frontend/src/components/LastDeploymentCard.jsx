@@ -1,12 +1,11 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import dayjs from 'dayjs'
 import shortenId from '../utils/shorten-id'
 
 export default observer(({ network }) => {
-  const { unirep, ui } = React.useContext(state)
+  const { unirep, ui, info } = React.useContext(state)
   const id = unirep.deploymentIds.slice(-1)[0]
   const lastDeployment = unirep.deploymentsById.get(id)
 
@@ -31,7 +30,7 @@ export default observer(({ network }) => {
               ui.isMobile
             )}
             <a
-              href={`${NETWORK[network].explorer}/address/0x${BigInt(
+              href={`${info.NETWORKS[network].explorer}/address/0x${BigInt(
                 lastDeployment.attesterId
               )
                 .toString(16)

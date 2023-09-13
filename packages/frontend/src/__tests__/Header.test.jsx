@@ -1,7 +1,6 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import fetch from 'whatwg-fetch'
 import State from '../contexts/state'
 import Header from '../components/Header'
 
@@ -27,6 +26,13 @@ const defaultStateData = {
   },
   ui: {
     isMobile: false,
+  },
+  info: {
+    NETWORKS: {
+      'arbitrum-goerli': {
+        explorer: 'https://goerli.arbiscan.io',
+      },
+    },
   },
 }
 

@@ -28,6 +28,21 @@ export default [
     ],
   },
   {
+    name: 'NetworkData',
+    primaryKey: 'network',
+    rows: [
+      ['network', 'String'],
+      ['stateTreeDepth', 'Int'],
+      ['epochTreeDepth', 'Int'],
+      ['historyTreeDepth', 'Int'],
+      ['numEpochKeyNoncePerEpoch', 'Int'],
+      ['fieldCount', 'Int'],
+      ['sumFieldCount', 'Int'],
+      ['replNonceBits', 'Int'],
+      ['replFieldBits', 'Int'],
+    ],
+  },
+  {
     name: 'AttesterData',
     primaryKey: '_id',
     rows: [

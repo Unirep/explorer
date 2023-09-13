@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import { NETWORK } from '../contexts/utils'
 import dayjs from 'dayjs'
+import state from '../contexts/state'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import './eventCard.css'
 
 dayjs.extend(relativeTime)
 
 export default observer(({ attestation, network }) => {
+  const { info } = useContext(state)
   const { fieldIndex, blockTimestamp, change } = attestation
   const [isHover, setIsHover] = useState(false)
 
@@ -41,7 +42,7 @@ export default observer(({ attestation, network }) => {
         </p>
       </div>
       <a
-        href={`${NETWORK[network].explorer}/tx/${attestation.transactionHash}`}
+        href={`${info.NETWORKS[network].explorer}/tx/${attestation.transactionHash}`}
         target="blank"
       >
         <img src={require('../../public/arrow_up_right.svg')} />

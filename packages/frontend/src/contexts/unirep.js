@@ -158,7 +158,7 @@ export default class Unirep {
     return items.length
   }
 
-  async loadAllAttestations(network, SUM_FIELD_COUNT, REPL_NONCE_BITS) {
+  async loadAllAttestations(network, sumFieldCount, replNonceBits) {
     // TODO: recursively query
     const query = `{
       attestations (orderBy: blockTimestamp, orderDirection: desc) {
@@ -176,8 +176,8 @@ export default class Unirep {
     const item = await request(network, query)
     const attestations = await shiftAttestations(
       item.data.attestations,
-      SUM_FIELD_COUNT,
-      REPL_NONCE_BITS
+      sumFieldCount,
+      replNonceBits
     )
     this.ingestAttestations(attestations)
   }
@@ -205,8 +205,8 @@ export default class Unirep {
   async loadAttestationsByEpochKey(
     epochKey,
     network,
-    SUM_FIELD_COUNT,
-    REPL_NONCE_BITS
+    sumFieldCount,
+    replNonceBits
   ) {
     // TODO: recursively query
     const query = `{
@@ -232,8 +232,8 @@ export default class Unirep {
     const items = res.data.attestations
     const attestations = await shiftAttestations(
       items,
-      SUM_FIELD_COUNT,
-      REPL_NONCE_BITS
+      sumFieldCount,
+      replNonceBits
     )
     if (items.length) {
       this.attestationsByEpochKey.set(items[0].epochKey, attestations)
