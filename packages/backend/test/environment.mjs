@@ -17,7 +17,7 @@ hardhat.on('close', (code) => {
 
 export const startServer = async () => {
   for (;;) {
-    await new Promise((r) => setTimeout(r, 500))
+    await new Promise((r) => setTimeout(r, 1000))
     try {
       const provider = new ethers.providers.JsonRpcProvider(providerURL)
       await provider.getNetwork()
