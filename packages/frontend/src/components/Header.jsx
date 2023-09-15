@@ -24,8 +24,8 @@ export default observer(({ network, setNetwork }) => {
     const type = await unirep.searchForId(
       inputAsId,
       network,
-      info.SUM_FIELD_COUNT,
-      info.REPL_NONCE_BITS
+      info.NETWORKS[network].sumFieldCount,
+      info.NETWORKS[network].replNonceBits
     )
     navigate(`/${network}/${type}/${searchInput}`)
     setSearchInput('')
