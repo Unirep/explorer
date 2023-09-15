@@ -111,8 +111,8 @@ export default class Attester {
   async loadAttestationsByAttester(
     attesterId,
     network,
-    SUM_FIELD_COUNT,
-    REPL_NONCE_BITS
+    sumFieldCount,
+    replNonceBits
   ) {
     // TODO: recursively query
     const query = `{
@@ -135,8 +135,8 @@ export default class Attester {
     const item = await request(network, query)
     const attestations = await shiftAttestations(
       item.data.attestations,
-      SUM_FIELD_COUNT,
-      REPL_NONCE_BITS
+      sumFieldCount,
+      replNonceBits
     )
     this.ingestAttestations(attestations)
   }

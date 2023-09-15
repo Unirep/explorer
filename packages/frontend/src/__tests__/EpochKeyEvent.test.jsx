@@ -1,7 +1,7 @@
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import '@testing-library/jest-dom'
-import fetch from 'whatwg-fetch'
+import State from '../contexts/state'
 import EpochKeyEvent from '../components/EpochKeyEvent'
 
 jest.mock('react-router-dom', () => ({
@@ -9,8 +9,22 @@ jest.mock('react-router-dom', () => ({
   Link: jest.fn(),
 }))
 
-const renderEpochKeyEvent = (attestation, network) => {
-  return render(<EpochKeyEvent attestation={attestation} network={network} />)
+const defaultStateData = {
+  info: {
+    NETWORKS: {
+      'arbitrum-goerli': {
+        explorer: 'https://goerli.arbiscan.io',
+      },
+    },
+  },
+}
+
+const renderEpochKeyEvent = (attestation, network, stateData) => {
+  return render(
+    <State.Provider value={stateData}>
+      <EpochKeyEvent attestation={attestation} network={network} />
+    </State.Provider>
+  )
 }
 
 test('To test if EpochKeyEvent is exactly rendered', async () => {
@@ -20,7 +34,8 @@ test('To test if EpochKeyEvent is exactly rendered', async () => {
       change: 1,
       timestamp: 1688393495,
     },
-    'arbitrum-goerli'
+    'arbitrum-goerli',
+    defaultStateData
   )
 
   expect(container.querySelector('.event-card')).not.toBeNull()

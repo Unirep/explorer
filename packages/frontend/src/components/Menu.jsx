@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { observer } from 'mobx-react-lite'
 import state from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import './Menu.css'
 import Dropdown from './Dropdown'
 
@@ -43,7 +42,7 @@ export default observer(({ closeMenu, network, setNetwork }) => {
       </a>
       <Dropdown
         selected={network}
-        choices={Object.keys(NETWORK)}
+        choices={Object.keys(info.NETWORKS)}
         select={(n) => setNetwork(n)}
         disabled={window.location.pathname !== '/'}
       />

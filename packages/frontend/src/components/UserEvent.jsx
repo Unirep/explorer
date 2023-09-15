@@ -4,14 +4,13 @@ import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import state from '../contexts/state'
-import { NETWORK } from '../contexts/utils'
 import shortenId from '../utils/shorten-id'
 import './eventCard.css'
 
 dayjs.extend(relativeTime)
 
 export default observer(({ signup, network }) => {
-  const { ui } = useContext(state)
+  const { info, ui } = useContext(state)
   const attesterIdHex = `0x${BigInt(signup.attesterId).toString(16)}`
 
   return (
@@ -24,7 +23,7 @@ export default observer(({ signup, network }) => {
         <p>{dayjs(+signup.blockTimestamp * 1000).from(dayjs())}</p>
       </div>
       <a
-        href={`${NETWORK[network].explorer}/tx/${signup.transactionHash}`}
+        href={`${info.NETWORKS[network].explorer}/tx/${signup.transactionHash}`}
         target="blank"
       >
         <img src={require('../../public/arrow_up_right.svg')} />

@@ -5,7 +5,6 @@ import state from '../contexts/state'
 import shortenId from '../utils/shorten-id'
 import { version } from '../config'
 import './infoCard.css'
-import { NETWORK } from '../contexts/utils'
 
 export default observer(({ info, network }) => {
   const [circuitExpanded, setCircuitExpanded] = useState(false)
@@ -30,7 +29,7 @@ export default observer(({ info, network }) => {
       <div className="flex">
         <h5>Address</h5>
         <a
-          href={`${NETWORK[network].explorer}/address/${info.UNIREP_ADDRESS}`}
+          href={`${info?.NETWORKS[network]?.explorer}/address/${info?.NETWORKS[network]?.unirepAddress}`}
           target="blank"
         >
           <h6>
@@ -62,17 +61,17 @@ export default observer(({ info, network }) => {
           </div>
           <ConfigInfoItem
             item="State Tree Depth"
-            info={info.STATE_TREE_DEPTH}
+            info={info?.NETWORKS[network].stateTreeDepth}
             text="A state tree stores the updated user state after a user signs up and after a user state transition is performed"
           />
           <ConfigInfoItem
             item="Epoch Tree Depth"
-            info={info.EPOCH_TREE_DEPTH}
+            info={info?.NETWORKS[network].epochTreeDepth}
             text="An epoch tree is used to track the reputation received by epoch keys. Non-repudiability is enforced at the circuit and smart contract level."
           />
           <ConfigInfoItem
             item="Epoch Key Nonce Count"
-            info={info.EPOCH_KEY_NONCE_COUNT}
+            info={info?.NETWORKS[network].numEpochKeyNoncePerEpoch}
             text="The number of unique epoch keys given to each user per epoch."
           />
         </>

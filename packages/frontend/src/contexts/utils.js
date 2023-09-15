@@ -1,20 +1,5 @@
 import { version } from '../config'
 
-export const NETWORK = {
-  'arbitrum-goerli': {
-    explorer: 'https://goerli.arbiscan.io',
-  },
-  goerli: {
-    explorer: 'https://goerli.etherscan.io',
-  },
-  mumbai: {
-    explorer: 'https://mumbai.polygonscan.com',
-  },
-  sepolia: {
-    explorer: 'https://sepolia.etherscan.io',
-  },
-}
-
 export const request = async (network, query) => {
   const url = `https://api.studio.thegraph.com/query/48080/${network}/${version}`
   const res = await fetch(url, {
@@ -33,17 +18,17 @@ export const request = async (network, query) => {
 
 export const shiftAttestations = (
   attestations,
-  SUM_FIELD_COUNT,
-  REPL_NONCE_BITS
+  sumFieldCount,
+  replNonceBits
 ) => {
-  if (!SUM_FIELD_COUNT || !REPL_NONCE_BITS) {
+  if (!sumFieldCount || !replNonceBits) {
     throw new Error('The info is not loaded yet.')
   }
 
   return attestations.map((a) => {
-    if (SUM_FIELD_COUNT && REPL_NONCE_BITS) {
-      if (Number(a.fieldIndex) >= Number(SUM_FIELD_COUNT)) {
-        a.change = BigInt(a.change) >> BigInt(REPL_NONCE_BITS)
+    if (sumFieldCount && replNonceBits) {
+      if (Number(a.fieldIndex) >= Number(sumFieldCount)) {
+        a.change = BigInt(a.change) >> BigInt(replNonceBits)
       }
     }
     return a

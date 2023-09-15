@@ -20,14 +20,14 @@ export default observer(() => {
   useEffect(() => {
     const loadData = async () => {
       await Promise.all([
-        info.load(network),
+        info.load(),
         unirep.loadStats(network),
         unirep.loadAttesterDeployments(network),
       ])
       await unirep.loadAllAttestations(
         network,
-        info.SUM_FIELD_COUNT,
-        info.REPL_NONCE_BITS
+        info.NETWORKS[network].sumFieldCount,
+        info.NETWORKS[network].replNonceBits
       )
     }
 
