@@ -26,6 +26,7 @@ export default class Info {
       method: 'get',
       headers: { network },
     })
+    
     const {
       UNIREP_ADDRESS,
       ETH_PROVIDER_URL,
