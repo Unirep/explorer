@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import ConfigInfoItem from './ConfigInfoItem'
+import state from '../contexts/state'
+import shortenId from '../utils/shorten-id'
 import { version } from '../config'
 import './infoCard.css'
 
 export default observer(({ info, network }) => {
   const [circuitExpanded, setCircuitExpanded] = useState(false)
+  const { ui } = React.useContext(state)
+
   return (
     <div className="info-card">
       <h4 className="card-heading">Protocol Information</h4>
@@ -29,8 +33,7 @@ export default observer(({ info, network }) => {
           target="blank"
         >
           <h6>
-            <span>{info?.NETWORKS[network]?.unirepAddress.slice(0, 7)}</span>...
-            <span>{info?.NETWORKS[network]?.unirepAddress.slice(-5)}</span>
+            <span>{shortenId(info.UNIREP_ADDRESS ?? '', ui.isMobile)}</span>
             <span style={{ margin: '0.2rem' }} />
             <img
               src={require('../../public/arrow_up_right.svg')}

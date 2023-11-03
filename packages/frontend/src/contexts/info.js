@@ -22,6 +22,7 @@ export default class Info {
     const response = await fetch(url.toString(), {
       method: 'get',
     })
+
     const { NETWORKS } = await response.json()
 
     this.NETWORKS = {
