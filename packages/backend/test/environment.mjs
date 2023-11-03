@@ -1,51 +1,44 @@
+import url from 'url'
+import schema from '../src/schema.mjs'
+import path from 'path'
+import fs from 'fs'
+import express from 'express'
+import { SQLiteConnector } from 'anondb/node.js'
 import { deployUnirep } from '@unirep/contracts/deploy/index.js'
-import pkg from 'hardhat'
-const { ethers } = pkg
 
-import { spawn } from 'child_process'
-const providerURL = `http://127.0.0.1:8545`
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
-const hardhat = spawn('npx hardhat node', { shell: true })
-hardhat.stderr.on('data', (data) => {
-  console.error(`hardhat stderr: ${data}`)
-})
-hardhat.on('close', (code) => {
-  console.error(`hardhat exit with code: ${code}`)
-  hardhat.kill(9)
-  process.exit(code)
-})
+const db = await SQLiteConnector.create(schema, ':memory:')
 
 export const startServer = async () => {
-  for (;;) {
-    await new Promise((r) => setTimeout(r, 1000))
-    try {
-      const provider = new ethers.providers.JsonRpcProvider(providerURL)
-      await provider.getNetwork()
-      break
-    } catch (_) {}
-  }
-  const provider = new ethers.providers.JsonRpcProvider(providerURL)
-  const signer = new ethers.Wallet(
-    '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80',
-    provider
-  )
-  const attester = new ethers.Wallet.createRandom().connect(provider)
-  await signer.sendTransaction({
-    to: attester.address,
-    value: ethers.utils.parseEther('1'), // 1 ether
-  })
+  const [signer, attester] = await ethers.getSigners()
   const unirep = await deployUnirep(signer)
   await unirep
     .connect(attester)
     .attesterSignUp(300)
     .then((t) => t.wait())
 
-  const attesterF = await ethers.getContractFactory('Attester')
-  const attesterC = await attesterF.connect(attester).deploy(unirep.address)
-  await attesterC.deployed()
+  const app = express()
+  const port = process.env.PORT ?? 8000
+  app.listen(port, () => console.log(`Listening on port ${port}`))
+  app.use('*', (req, res, next) => {
+    res.set('access-control-allow-origin', '*')
+    res.set('access-control-allow-headers', '*')
+    next()
+  })
+  app.use(express.json())
+
+  const routeDir = path.join(__dirname, '../src/routes')
+  const routes = await fs.promises.readdir(routeDir)
+  for (const routeFile of routes) {
+    const { default: route } = await import(path.join(routeDir, routeFile))
+    route({ app, db })
+  }
 
   return {
+    app,
+    db,
     attester,
-    attesterC,
+    unirep,
   }
 }

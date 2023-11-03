@@ -83,5 +83,3 @@ for (const routeFile of routes) {
   const { default: route } = await import(path.join(routeDir, routeFile))
   route({ app, db })
 }
-
-export default app
