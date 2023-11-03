@@ -33,7 +33,12 @@ export default observer(({ info, network }) => {
           target="blank"
         >
           <h6>
-            <span>{shortenId(info.UNIREP_ADDRESS ?? '', ui.isMobile)}</span>
+            <span>
+              {shortenId(
+                info?.NETWORKS[network]?.unirepAddress ?? '',
+                ui.isMobile
+              )}
+            </span>
             <span style={{ margin: '0.2rem' }} />
             <img
               src={require('../../public/arrow_up_right.svg')}
