@@ -8,6 +8,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn(),
   useLocation: jest.fn(),
   matchRoutes: jest.fn(),
+  useParams: jest.fn().mockReturnValue({ network: 'arbitrum-goerli' }),
   Link: jest.fn(),
 }))
 
@@ -15,6 +16,6 @@ test('To test if NotFoundPage is exactly rendered', async () => {
   render(<NotFound />)
 
   expect(
-    screen.getByText("sorry, can't find that attester or user.")
+    screen.getByText("sorry, can't find that attester, user, or epoch key.")
   ).toBeInTheDocument()
 })

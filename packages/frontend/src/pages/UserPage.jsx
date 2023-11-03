@@ -23,7 +23,7 @@ export default observer(() => {
     }
     loadData()
   }, [])
-  const signups = unirep.signUpsByUserId.get(userId)
+  const signups = unirep.signUpsByUserId.get(`${network}_${userId}`)
 
   return (
     <div className="content">

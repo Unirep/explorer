@@ -26,16 +26,22 @@ export default class Unirep {
   }
 
   //   async load() {}
-  async searchForId(id) {
-    if (this.signUpsByUserId.get(id)) return 'user'
-    else if (this.attestationsByEpochKey.get(id)) return 'epochKey'
-    else if (this.deploymentsById.get(id)) return 'attester'
+  async searchForId(id, network, SUM_FIELD_COUNT, REPL_NONCE_BITS) {
+    if (this.signUpsByUserId.get(`${network}_${id}`)) return 'user'
+    else if (this.attestationsByEpochKey.get(`${network}_${id}`))
+      return 'epochKey'
+    else if (this.deploymentsById.get(`${network}_${id}`)) return 'attester'
     else {
-      const userCount = await this.loadSignUpsByUser(id)
+      const userCount = await this.loadSignUpsByUser(id, network)
       if (userCount) return 'user'
-      const epkCount = await this.loadAttestationsByEpochKey(id)
+      const epkCount = await this.loadAttestationsByEpochKey(
+        id,
+        network,
+        SUM_FIELD_COUNT,
+        REPL_NONCE_BITS
+      )
       if (epkCount) return 'epochKey'
-      const attesterCount = await this.loadAttesterByID(id)
+      const attesterCount = await this.loadAttesterByID(id, network)
       if (attesterCount) return 'attester'
       return 'unknown'
     }
@@ -61,7 +67,7 @@ export default class Unirep {
     const data = await request(network, query)
     const items = data.data.attesters
     if (items.length) {
-      this.ingestAttesterDeployments(items)
+      this.ingestAttesterDeployments(items, network)
     }
   }
 
@@ -84,54 +90,54 @@ export default class Unirep {
     const data = await request(network, query)
     const items = data.data.attesters
     if (items.length) {
-      this.ingestAttesterDeployments(items)
+      this.ingestAttesterDeployments(items, network)
     }
     return items.length
   }
 
-  async ingestAttesterDeployments(_deployments) {
+  async ingestAttesterDeployments(_deployments, network) {
     const deployments = [_deployments].flat()
     this.deploymentIds = deployments.map((d) => d.attesterId)
     for (const d of deployments) {
-      this.deploymentsById.set(d.attesterId, d)
+      this.deploymentsById.set(`${network}_${d.attesterId}`, d)
     }
   }
 
-  async loadAllSignUps(network) {
-    const query = `
-    {
-      users (
-        orderBy: blockTimestamp
-      ) {
-        id
-        epoch
-        commitment
-        attesterId
-        transactionHash
-      }
-    }
-    `
-    const data = await request(network, query)
-    const items = data.data.users
-    this.ingestSignUps(items)
-  }
+  // async loadAllSignUps(network) {
+  //   const query = `
+  //   {
+  //     users (
+  //       orderBy: blockTimestamp
+  //     ) {
+  //       id
+  //       epoch
+  //       commitment
+  //       attesterId
+  //       transactionHash
+  //     }
+  //   }
+  //   `
+  //   const data = await request(network, query)
+  //   const items = data.data.users
+  //   this.ingestSignUps(items)
+  // }
 
-  async ingestSignUps(signups) {
-    for (const signup of signups) {
-      const userId = signup.commitment
-      const { attesterId } = signup
-      if (this.signUpsByUserId.has(userId)) {
-        // make sure not to insert duplicates
-        const signups = this.signUpsByUserId
-          .get(userId)
-          .filter((s) => s.id !== signup.id)
-          .push(signup)
-        this.signUpsByUserId.set(signups)
-      } else {
-        this.signUpsByUserId.set(userId, [signup])
-      }
-    }
-  }
+  // async ingestSignUps(signups) {
+  //   for (const signup of signups) {
+  //     const userId = signup.commitment
+  //     const { attesterId } = signup
+  //     if (this.signUpsByUserId.has(userId)) {
+  //       // make sure not to insert duplicates
+  //       const signups = this.signUpsByUserId
+  //         .get(userId)
+  //         .filter((s) => s.id !== signup.id)
+  //         .push(signup)
+  //       this.signUpsByUserId.set(signups)
+  //     } else {
+  //       this.signUpsByUserId.set(userId, [signup])
+  //     }
+  //   }
+  // }
 
   async loadSignUpsByUser(userId, network) {
     // TODO: recursively query
@@ -153,7 +159,7 @@ export default class Unirep {
     const data = await request(network, query)
     const items = data.data.users
     if (items.length) {
-      this.signUpsByUserId.set(items[0].commitment, items)
+      this.signUpsByUserId.set(`${network}_${items[0].commitment}`, items)
     }
     return items.length
   }
@@ -179,10 +185,10 @@ export default class Unirep {
       sumFieldCount,
       replNonceBits
     )
-    this.ingestAttestations(attestations)
+    this.ingestAttestations(attestations, network)
   }
 
-  async ingestAttestations(_attestations) {
+  async ingestAttestations(_attestations, network) {
     // accept an array or a single item
     const attestations = [_attestations].flat()
     // store allAttestations as ids to prevent duplicating data
@@ -190,14 +196,14 @@ export default class Unirep {
     for (const a of attestations) {
       this.attestationsById.set(a.id, a)
       const { epochKey } = a
-      if (this.attestationsByEpochKey.has(epochKey)) {
+      if (this.attestationsByEpochKey.has(`${network}_${epochKey}`)) {
         const attestations = this.attestationsByEpochKey
-          .get(epochKey)
+          .get(`${network}_${epochKey}`)
           .filter((attestation) => attestation.id !== a.id)
           .push(a)
         this.attestationsByEpochKey.set(attestations)
       } else {
-        this.attestationsByEpochKey.set(epochKey, [a])
+        this.attestationsByEpochKey.set(`${network}_${epochKey}`, [a])
       }
     }
   }
@@ -236,7 +242,10 @@ export default class Unirep {
       replNonceBits
     )
     if (items.length) {
-      this.attestationsByEpochKey.set(items[0].epochKey, attestations)
+      this.attestationsByEpochKey.set(
+        `${network}_${items[0].epochKey}`,
+        attestations
+      )
     }
     return items.length
   }
