@@ -6,9 +6,7 @@ import User from '../pages/UserPage'
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useParams: jest
-    .fn()
-    .mockReturnValue({ id: '0x123', network: 'arbitrum-goerli' }),
+  useParams: jest.fn().mockReturnValue({ id: '0x123', network: 'sepolia' }),
   useNavigate: jest.fn(),
   useLocation: jest.fn(),
   matchRoutes: jest.fn(),
@@ -33,8 +31,8 @@ const defaultStateData = {
   },
   info: {
     NETWORKS: {
-      'arbitrum-goerli': {
-        explorer: 'https://goerli.arbiscan.io',
+      sepolia: {
+        explorer: 'https://sepolia.etherscan.io',
       },
     },
   },

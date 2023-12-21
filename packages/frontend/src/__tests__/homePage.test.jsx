@@ -36,7 +36,7 @@ const defaultStateData = {
   info: {
     load: jest.fn(),
     NETWORKS: {
-      'arbitrum-goerli': {
+      sepolia: {
         unirepAddress: '0x123',
       },
     },

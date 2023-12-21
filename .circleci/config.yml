@@ -69,7 +69,7 @@ jobs:
           command: yarn
       - run:
           name: Lint
-          command: yarn lint --check
+          command: yarn lint:check
 
   frontend-test:
     machine:

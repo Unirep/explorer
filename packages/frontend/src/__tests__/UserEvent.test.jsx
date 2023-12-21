@@ -19,8 +19,8 @@ const defaultStateData = {
   info: {
     load: jest.fn(),
     NETWORKS: {
-      'arbitrum-goerli': {
-        explorer: 'https://goerli.arbiscan.io',
+      sepolia: {
+        explorer: 'https://sepolia.etherscan.io',
       },
     },
   },
@@ -38,7 +38,7 @@ test('To test if UnirepEvent is exactly rendered', async () => {
     <State.Provider value={defaultStateData}>
       <UserEvent
         signup={{ attesterId: '123', epoch: 1, timestamp: 1688393495 }}
-        network={'arbitrum-goerli'}
+        network={'sepolia'}
       />
     </State.Provider>
   )

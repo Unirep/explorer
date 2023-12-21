@@ -8,7 +8,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: jest.fn(),
   useLocation: jest.fn(),
   matchRoutes: jest.fn(),
-  useParams: jest.fn().mockReturnValue({ network: 'arbitrum-goerli' }),
+  useParams: jest.fn().mockReturnValue({ network: 'sepolia' }),
   Link: jest.fn(),
 }))
 
