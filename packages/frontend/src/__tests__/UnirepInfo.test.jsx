@@ -8,7 +8,7 @@ test('To test if UnirepInfo is exactly rendered', async () => {
     <UnirepInfo
       info={{
         NETWORKS: {
-          'sepolia': {
+          sepolia: {
             explorer: 'https://sepolia.etherscan.io',
             unirepAddress: '0x83cB6AF63eAfEc7998cC601eC3f56d064892b386',
             network: 'sepolia',

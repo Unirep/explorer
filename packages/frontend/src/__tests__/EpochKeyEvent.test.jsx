@@ -12,7 +12,7 @@ jest.mock('react-router-dom', () => ({
 const defaultStateData = {
   info: {
     NETWORKS: {
-      'sepolia': {
+      sepolia: {
         explorer: 'https://sepolia.etherscan.io',
       },
     },

@@ -5,7 +5,7 @@ export default class Info {
   VERSION = ''
   RELEASE = ''
   NETWORKS = {
-    'sepolia': {
+    sepolia: {
       explorer: '',
       unirepAddress: '',
       sumFieldCount: 1,

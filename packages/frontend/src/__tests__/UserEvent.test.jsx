@@ -19,7 +19,7 @@ const defaultStateData = {
   info: {
     load: jest.fn(),
     NETWORKS: {
-      'sepolia': {
+      sepolia: {
         explorer: 'https://sepolia.etherscan.io',
       },
     },

@@ -9,7 +9,9 @@
     "install": "lerna bootstrap",
     "backend": "yarn workspace backend",
     "frontend": "yarn workspace frontend",
-    "lint": "prettier ."
+    "lint": "prettier .",
+    "lint:check": "prettier . --check",
+    "lint:fix": "prettier . --write"
   },
   "devDependencies": {
     "lerna": "^5.5.4"

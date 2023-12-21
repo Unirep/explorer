@@ -26,7 +26,7 @@ const defaultStateData = {
   },
   info: {
     NETWORKS: {
-      'sepolia': {
+      sepolia: {
         explorer: 'https://sepolia.etherscan.io',
       },
     },

@@ -26,7 +26,7 @@ const defaultStateData = {
   },
   info: {
     NETWORKS: {
-      'sepolia': {
+      sepolia: {
         explorer: 'https://sepolia.etherscan.io',
       },
     },
@@ -45,11 +45,7 @@ beforeAll(() => {
 })
 
 test('To test if UnirepEvent is exactly rendered', async () => {
-  const { container } = renderUnirepEvent(
-    defaultStateData,
-    123,
-    'sepolia'
-  )
+  const { container } = renderUnirepEvent(defaultStateData, 123, 'sepolia')
 
   expect(container.querySelector('.event-card')).not.toBeNull()
 })

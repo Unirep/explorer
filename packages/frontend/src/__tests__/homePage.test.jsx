@@ -36,7 +36,7 @@ const defaultStateData = {
   info: {
     load: jest.fn(),
     NETWORKS: {
-      'sepolia': {
+      sepolia: {
         unirepAddress: '0x123',
       },
     },
