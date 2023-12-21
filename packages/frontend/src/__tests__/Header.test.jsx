@@ -29,15 +29,15 @@ const defaultStateData = {
   },
   info: {
     NETWORKS: {
-      'arbitrum-goerli': {
-        explorer: 'https://goerli.arbiscan.io',
+      'sepolia': {
+        explorer: 'https://sepolia.etherscan.io',
       },
     },
   },
 }
 
 test('To test if Header is exactly rendered', async () => {
-  renderHeader(defaultStateData, 'arbitrum-goerli', jest.fn())
+  renderHeader(defaultStateData, 'sepolia', jest.fn())
 
   expect(screen.getByText('GO')).toBeInTheDocument()
 })

@@ -26,8 +26,8 @@ const defaultStateData = {
   },
   info: {
     NETWORKS: {
-      'arbitrum-goerli': {
-        explorer: 'https://goerli.arbiscan.io',
+      'sepolia': {
+        explorer: 'https://sepolia.etherscan.io',
       },
     },
   },
@@ -48,7 +48,7 @@ test('To test if UnirepEvent is exactly rendered', async () => {
   const { container } = renderUnirepEvent(
     defaultStateData,
     123,
-    'arbitrum-goerli'
+    'sepolia'
   )
 
   expect(container.querySelector('.event-card')).not.toBeNull()

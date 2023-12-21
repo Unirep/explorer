@@ -8,10 +8,10 @@ test('To test if UnirepInfo is exactly rendered', async () => {
     <UnirepInfo
       info={{
         NETWORKS: {
-          'arbitrum-goerli': {
-            explorer: 'https://goerli.arbiscan.io',
-            unirepAddress: '0x4D137bb44553d55AE6B28B5391c6f537b06C9cc3',
-            network: 'arbitrum-goerli',
+          'sepolia': {
+            explorer: 'https://sepolia.etherscan.io',
+            unirepAddress: '0x83cB6AF63eAfEc7998cC601eC3f56d064892b386',
+            network: 'sepolia',
             stateTreeDepth: 17,
             epochTreeDepth: 17,
             historyTreeDepth: 17,
@@ -23,9 +23,9 @@ test('To test if UnirepInfo is exactly rendered', async () => {
           },
         },
       }}
-      network={'arbitrum-goerli'}
+      network={'sepolia'}
     />
   )
 
-  expect(screen.getByText('arbitrum-goerli')).toBeInTheDocument()
+  expect(screen.getByText('sepolia')).toBeInTheDocument()
 })

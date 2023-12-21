@@ -12,8 +12,8 @@ jest.mock('react-router-dom', () => ({
 const defaultStateData = {
   info: {
     NETWORKS: {
-      'arbitrum-goerli': {
-        explorer: 'https://goerli.arbiscan.io',
+      'sepolia': {
+        explorer: 'https://sepolia.etherscan.io',
       },
     },
   },
@@ -34,7 +34,7 @@ test('To test if EpochKeyEvent is exactly rendered', async () => {
       change: 1,
       timestamp: 1688393495,
     },
-    'arbitrum-goerli',
+    'sepolia',
     defaultStateData
   )
 

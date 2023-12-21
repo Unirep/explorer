@@ -74,7 +74,7 @@ export default observer(({ network, setNetwork }) => {
       <div className="flex">
         {!ui.isMobile && (
           <Dropdown
-            selected={network ?? 'arbitrum-goerli'}
+            selected={network ?? 'sepolia'}
             choices={Object.keys(info.NETWORKS)}
             select={(n) => setNetwork(n)}
             disabled={matchRoutes([{ path: '/:network?' }], location) === null}

@@ -5,7 +5,7 @@ export default class Info {
   VERSION = ''
   RELEASE = ''
   NETWORKS = {
-    'arbitrum-goerli': {
+    'sepolia': {
       explorer: '',
       unirepAddress: '',
       sumFieldCount: 1,

@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.2.0",
-    "@unirep/core": "^2.0.0-beta-4",
+    "@unirep/core": "2.0.0",
     "dotenv": "^16.0.3",
     "ethers": "^5.4.8",
     "express": "^4.18.2",

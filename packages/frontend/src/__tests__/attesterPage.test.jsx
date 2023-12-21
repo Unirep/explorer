@@ -9,7 +9,7 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useParams: jest
     .fn()
-    .mockReturnValue({ id: '0x0', network: 'arbitrum-goerli' }),
+    .mockReturnValue({ id: '0x0', network: 'sepolia' }),
   useNavigate: jest.fn(),
   useLocation: jest.fn(),
   matchRoutes: jest.fn(),
@@ -43,8 +43,8 @@ const defaultStateData = {
   info: {
     load: jest.fn(),
     NETWORKS: {
-      'arbitrum-goerli': {
-        explorer: 'https://goerli.arbiscan.io',
+      'sepolia': {
+        explorer: 'https://sepolia.etherscan.io',
       },
     },
   },

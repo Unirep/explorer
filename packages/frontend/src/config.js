@@ -1,7 +1,6 @@
-export const version = 'v2.0.0-beta-4'
-export const network = 'arbitrum-goerli'
-// arbitrum-goerli, goerli, mumbai, sepolia
+export const version = 'v2.0.0'
+export const network = 'sepolia'
 
 // in CI we append a change to this value
-let SERVER = process.env.SERVER ?? 'https://api.explorer.unirep.io'
+let SERVER = 'http://127.0.0.1:8000'
 export { SERVER }
