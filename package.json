@@ -8,6 +8,7 @@
   "scripts": {
     "install": "lerna bootstrap",
     "backend": "yarn workspace backend",
+    "serverless-backend": "yarn workspace serverless-backend",
     "frontend": "yarn workspace frontend",
     "lint": "prettier .",
     "lint:check": "prettier . --check",
