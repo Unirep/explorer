@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Load environment variables from .env file
-source .env
-
 if [ "$CF_PAGES_BRANCH" = "production" ]; then
     echo "export const version = 'v2.0.0'" > packages/frontend/src/config.js
     echo "export const network = 'sepolia'" >> packages/frontend/src/config.js
