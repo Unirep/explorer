@@ -6,3 +6,6 @@
 
 yarn.lock
 .yarn
+
+**/.next
+**/.vercel

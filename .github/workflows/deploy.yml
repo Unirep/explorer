@@ -1,0 +1,27 @@
+name: Deploy pages
+
+on: [push, pull_request]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js 18.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.x
+                  cache: 'npm'
+            - run: yarn install
+            - name: Build
+              run: |
+                cd packages/serverless-backend
+                npx @cloudflare/next-on-pages@1
+            -  name: Deploy
+               env: 
+                BRANCH_NAME: ${{ github.head_ref || github.ref_name }} 
+                CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+               run: |
+                cd packages/serverless-backend
+                npx wrangler pages deploy .vercel/output/static --branch=$BRANCH_NAME --project-name=unirep-explorer-backend

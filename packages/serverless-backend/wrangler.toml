@@ -1,0 +1,4 @@
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "explorer"
+database_id = "d7ae49af-3b1a-4ee2-b40a-a643cd25816f"
