@@ -46,7 +46,7 @@ jobs:
             rm /home/circleci/.docker/config.json
       - run:
           name: Set frontend config
-          command: echo 'SERVER = "https://serverless-explorer-am1.pages.dev"' >> packages/frontend/src/config.js
+          command: echo 'SERVER = "https://unirep-explorer-backend.pages.dev"' >> packages/frontend/src/config.js
       - run:
           name: Build frontend
           command: yarn frontend build --mode production
