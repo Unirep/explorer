@@ -35,15 +35,15 @@ jobs:
       - run:
           name: Install
           command: yarn
-      - run:
-          name: Build backend image
-          command: docker build . -t jchancehud/unirep-explorer:latest
-      - run:
-          name: Push backend image
-          command: |
-            echo $DOCKER_TOKEN | docker login -u jchancehud --password-stdin
-            docker push jchancehud/unirep-explorer:latest
-            rm /home/circleci/.docker/config.json
+      # - run:
+      #     name: Build backend image
+      #     command: docker build . -t jchancehud/unirep-explorer:latest
+      # - run:
+      #     name: Push backend image
+      #     command: |
+      #       echo $DOCKER_TOKEN | docker login -u jchancehud --password-stdin
+      #       docker push jchancehud/unirep-explorer:latest
+      #       rm /home/circleci/.docker/config.json
       - run:
           name: Set frontend config
           command: echo 'SERVER = "https://unirep-explorer-backend.pages.dev"' >> packages/frontend/src/config.js
