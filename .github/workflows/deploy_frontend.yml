@@ -1,0 +1,28 @@
+name: Deploy frontend
+
+on: [push, pull_request]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Use Node.js 18.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18.x
+                  cache: 'npm'
+            - run: yarn install
+            - name: Set frontend config
+              run: |
+                echo 'SERVER = "https://unirep-explorer-backend-dpf.pages.dev"' >> packages/frontend/src/config.js
+            - name: Build frontend
+              run: |
+                yarn frontend build --mode production
+            -  name: Deploy
+               env: 
+                CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+               run: |
+                cd packages/frontend
+                npx wrangler@2.1 publish
